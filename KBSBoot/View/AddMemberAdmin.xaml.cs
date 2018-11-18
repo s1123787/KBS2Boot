@@ -1,6 +1,4 @@
-﻿using KBSBoot.DAL;
-using KBSBoot.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,25 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using KBSBoot.View;
 
-
-namespace KBSBoot
+namespace KBSBoot.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddMemberAdmin.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddMemberAdmin : UserControl
     {
-        public MainWindow()
+        public AddMemberAdmin()
         {
             InitializeComponent();
-
-        }
-
-        private void addMember_Click(object sender, RoutedEventArgs e)
-        {
-            DataContext = new AddMemberAdminViewModel();
         }
     }
 }
