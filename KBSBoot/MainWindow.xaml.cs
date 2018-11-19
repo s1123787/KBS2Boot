@@ -26,7 +26,7 @@ namespace KBSBoot
         public MainWindow()
         {
             InitializeComponent();
-
+            // test
         }    
     }
 }
