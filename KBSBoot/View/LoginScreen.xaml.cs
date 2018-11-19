@@ -22,6 +22,7 @@ namespace KBSBoot.View
     public partial class LoginScreen : Window
     {
         public event EventHandler OnLogin;
+        public editUserScreen editUserTest;
 
         public LoginScreen()
         {
@@ -35,6 +36,12 @@ namespace KBSBoot.View
             if (textvalue == "nigga")
             {
                 usernametxt.Text = "watermelon";
+            }
+            if (textvalue == "test")
+            {
+                editUserTest = new editUserScreen();
+                editUserTest.Show();
+                this.Close();
             }
         }
 
