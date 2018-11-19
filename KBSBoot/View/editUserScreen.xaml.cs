@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KBSBoot.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,32 +28,22 @@ namespace KBSBoot.View
 
         private List<Member> LoadCollectionData()
         {
-            List<Member> authors = new List<Member>();
-            authors.Add(new Member()
+            List<Member> members = new List<Member>();
+            using (var context = new BootDB())
             {
-                ID = 101,
-                Name = "Peter Reetveter",
-                Niveau = "Professional",
-                DOB = new DateTime(2003, 1, 28),
-                isActive = false
-            });
-            authors.Add(new Member()
-            {
-                ID = 201,
-                Name = "Janus Zwanus",
-                Niveau = "Amateur",
-                DOB = new DateTime(1820, 4, 12),
-                isActive = true
-            });
-            authors.Add(new Member()
-            {
-                ID = 244,
-                Name = "Piemelientje",
-                Niveau = "Kut",
-                DOB = new DateTime(1999, 5, 2),
-                isActive = true
-            });
-            return authors;
+                var test = (from m in context.Members select m);
+
+                foreach (KBSBoot.Model.Member m in test)
+                {
+                    members.Add(new Member()
+                    {
+                        Name = m.memberName,
+                        Niveau = m.memberRowLevelId,
+                        accesNiveau = m.memberAccessLevelId
+                    });
+                }
+                return members;
+            }
         }
 
         private void RowColorButton_Click(object sender, RoutedEventArgs e)
@@ -66,8 +57,8 @@ namespace KBSBoot.View
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public DateTime DOB { get; set; }
-        public string Niveau { get; set; }
+        public int Niveau { get; set; }
         public bool isActive { get; set; }
+        public int accesNiveau { get; set; }
     }
 }
