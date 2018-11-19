@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KBSBoot.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,17 @@ namespace KBSBoot.Model
         public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
         {
             TextFieldInput = e.Name;
+
+            using(var context = new BootDB())
+            {
+                var members = (from m in context.Members
+                              select m).ToList<Member>();
+
+                var test = members.Count;
+
+                
+
+            }
         }
 
 
