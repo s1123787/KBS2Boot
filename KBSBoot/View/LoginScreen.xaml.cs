@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KBSBoot.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,8 @@ namespace KBSBoot.View
     /// </summary>
     public partial class LoginScreen : Window
     {
-        public event EventHandler OnLogin;
+        public delegate void Login(object source, LoginEventArgs e);
+        public event Login OnLogin;
 
         public LoginScreen()
         {
@@ -30,17 +32,21 @@ namespace KBSBoot.View
 
         private void LoginBtn_click(object sender, RoutedEventArgs e)
         {
+            Member m = new Member();
+            OnLogin += m.OnLoginButtonIsPressed;
             var textvalue = usernametxt.Text;
 
-            if (textvalue == "nigga")
-            {
-                usernametxt.Text = "watermelon";
-            }
+            OnLoginButtonPressed(textvalue);
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
         {
             usernametxt.Text = "kan nog niet jonge";
+        }
+
+        protected virtual void OnLoginButtonPressed(string name)
+        {
+            OnLogin?.Invoke(this, new LoginEventArgs(name));
         }
 
     }

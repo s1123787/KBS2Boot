@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Member
+    public class Member
     {
         public int memberId { get; set; }
         public string memberName { get; set; }
         public int memberAccessLevelId { get; set; }
         public int memberRowLevelId { get; set; }
         public DateTime memberSubscribedUntill { get; set; }
+        public string TextFieldInput;
+        
+
+        public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
+        {
+            TextFieldInput = e.Name;
+        }
+
 
     }
 }
