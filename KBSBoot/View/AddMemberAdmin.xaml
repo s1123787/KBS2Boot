@@ -13,16 +13,17 @@
         <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="23" Margin="111,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
         <Label Content="Niveau" HorizontalAlignment="Left" Margin="10,72,10,10" VerticalAlignment="Top"/>
         <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="111,76,0,0" VerticalAlignment="Top" Width="145">
-            <ComboBoxItem IsSelected="True">1</ComboBoxItem>
-            <ComboBoxItem>2</ComboBoxItem>
-            <ComboBoxItem>3</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
+            <ComboBoxItem>Amateur</ComboBoxItem>
+            <ComboBoxItem>Gevorderd</ComboBoxItem>
+            <ComboBoxItem>Professional</ComboBoxItem>
         </ComboBox>
         <Label Content="Rol" HorizontalAlignment="Left" Margin="10,103,10,10" VerticalAlignment="Top"/>
         <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="111,107,0,0" VerticalAlignment="Top" Width="145">
             <ComboBoxItem IsSelected="True">Gast</ComboBoxItem>
             <ComboBoxItem>Lid</ComboBoxItem>
-            <ComboBoxItem>Wedstrijdcommissaris</ComboBoxItem>
             <ComboBoxItem>Materiaalcommissaris</ComboBoxItem>
+            <ComboBoxItem>Wedstrijdcommissaris</ComboBoxItem>
         </ComboBox>
         <Label Content="Lid tot" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="DayBox" HorizontalAlignment="Left" Height="24" Margin="111,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="20"/>

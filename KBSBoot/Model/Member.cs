@@ -14,5 +14,13 @@ namespace KBSBoot.Model
         public int memberRowLevelId { get; set; }
         public DateTime memberSubscribedUntill { get; set; }
 
+        public override string ToString()
+        {
+            return $"ID: {memberId} \n" +
+                   $"Name: {memberName} \n" +
+                   $"Accesslevel: {memberAccessLevelId} \n" +
+                   $"Row level: {memberRowLevelId} \n" +
+                   $"Subscribed until: {memberSubscribedUntill} \n";
+        }
     }
 }
