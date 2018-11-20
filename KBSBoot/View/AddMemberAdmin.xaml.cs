@@ -35,8 +35,8 @@ namespace KBSBoot.View
             //Save textbox content to variables for easy access
             var name = NameBox.Text;
             var userName = UserNameBox.Text;
-            var rowLevel = RowLevelBox.SelectedIndex;
-            var accessLevel = AccesslevelBox.SelectedIndex;
+            var rowLevel = RowLevelBox.SelectedIndex + 1;
+            var accessLevel = AccesslevelBox.SelectedIndex + 1;
             var year = YearBox.Text;
             var month = MonthBox.Text;
             var day = DayBox.Text;
@@ -120,7 +120,7 @@ namespace KBSBoot.View
                               select m;
 
                 if (members.ToList().Count > 0)
-                    throw new Exception("Bestaat al");
+                    throw new Exception("Gebruiker bestaat al");
             }
         }
 
