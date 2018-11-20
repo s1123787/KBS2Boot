@@ -1,7 +1,4 @@
-﻿using KBSBoot.DAL;
-using KBSBoot.Model;
-using KBSBoot.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,26 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
-namespace KBSBoot
+namespace KBSBoot.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RegisterScreen.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class RegisterScreen : UserControl
     {
-        public MainWindow()
+        public RegisterScreen()
         {
             InitializeComponent();
-            Switcher.pageSwitcher = this;
-            Switcher.Switch(new LoginScreen());  //initial page   
-            
         }
-
-        public void Navigate(UserControl nextPage)
-        {
-            this.Content = nextPage;
-        }
-
     }
 }
