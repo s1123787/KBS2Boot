@@ -9,6 +9,7 @@ namespace KBSBoot.Model
     class Member
     {
         public int memberId { get; set; }
+        public string memberUsername { get; set; }
         public string memberName { get; set; }
         public int memberAccessLevelId { get; set; }
         public int memberRowLevelId { get; set; }
@@ -17,10 +18,11 @@ namespace KBSBoot.Model
         public override string ToString()
         {
             return $"ID: {memberId} \n" +
+                   $"Username: {memberUsername}\n" +
                    $"Name: {memberName} \n" +
                    $"Accesslevel: {memberAccessLevelId} \n" +
                    $"Row level: {memberRowLevelId} \n" +
-                   $"Subscribed until: {memberSubscribedUntill} \n";
+                   $"Subscribed until: {memberSubscribedUntill.ToString("dd-MM-yyyy")} \n";
         }
     }
 }

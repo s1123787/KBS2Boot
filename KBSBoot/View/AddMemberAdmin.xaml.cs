@@ -35,8 +35,8 @@ namespace KBSBoot.View
             //Save textbox content to variables for easy access
             var name = NameBox.Text;
             var userName = UserNameBox.Text;
-            var rowLevel = RowLevelBox.SelectedIndex + 1;
-            var accessLevel = AccesslevelBox.SelectedIndex + 1;
+            var rowLevel = RowLevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 4
+            var accessLevel = AccesslevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 5
             var year = YearBox.Text;
             var month = MonthBox.Text;
             var day = DayBox.Text;
@@ -58,6 +58,7 @@ namespace KBSBoot.View
                     //Create new member to add to the DB
                     var member = new Member
                     {
+                        memberUsername = userName,
                         memberName = name,
                         memberRowLevelId = rowLevel,
                         memberAccessLevelId = accessLevel,
@@ -66,18 +67,22 @@ namespace KBSBoot.View
 
                     //Check if the member aleady exists
                     CheckIfMemberExists(member);
+                    //Add new member to database
                     AddMemberToDB(member);
                 }
                 catch (FormatException)
                 {
+                    //Warning message for FormatException
                     MessageBox.Show("Een van de ingevulde waardes is niet geldig", "Ongeldige waarde", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (InvalidDateException ide)
                 {
+                    //Warning message for an invalid date
                     MessageBox.Show(ide.Message, "Datum is niet geldig", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (Exception ex)
                 {
+                    //Error message for any other exception that could occur
                     MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -104,7 +109,7 @@ namespace KBSBoot.View
         //Method used to check if the entered name and user name contain any invalid characters
         private static void CheckForInvalidCharacters(string str)
         {
-            var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
+            var regexItem = new Regex("^[a-zA-Z0-9ÅåǺǻḀḁẚĂăẶặẮắẰằẲẳẴẵȂȃÂâẬậẤấẦầẪẫẨẩẢảǍǎȺⱥȦȧǠǡẠạÄäǞǟÀàȀȁÁáĀāĀ̀ā̀ÃãĄąĄ́ą́Ą̃ą̃ᶏĔĕḜḝȆȇÊêÊ̄ê̄Ê̌ê̌ỀềẾếỂểỄễỆệẺẻḘḙĚěɆɇĖėĖ́ė́Ė̃ė̃ẸẹËëÈèÈ̩è̩ȄȅÉéÉ̩é̩ĒēḔḕḖḗẼẽḚḛĘęĘ́ę́Ę̃ę̃ȨȩE̩e̩ᶒØøǾǿÖöȪȫÓóÒòÔôỐốỒồỔổỖỗỘộǑǒŐőŎŏȎȏȮȯȰȱỌọƟɵƠơỚớỜờỠỡỢợỞởỎỏŌōṒṓṐṑÕõȬȭṌṍṎṏǪǫȌȍO̩o̩Ó̩ó̩Ò̩ò̩ǬǭŬŭɄʉᵾᶶỤụÜüǛǜǗǘǙǚǕǖṲṳÚúÙùÛûṶṷǓǔȖȗŰűŬŭƯưỨứỪừỬửỰựỮỮỦủŪūŪ̀ū̀Ū́ū́ṺṻŪ̃ū̃ŨũṸṹṴṵᶙŲųŲ́ų́Ų̃ų̃ȔȕŮůỊịĬĭÎîǏǐƗɨÏïḮḯÍíÌìȈȉĮįĮ́Į̃ĪīĪ̀ī̀ᶖỈỉȊȋĨĩḬḭᶤ ]*$");
 
             if (!regexItem.IsMatch(str))
                 throw new FormatException();
@@ -116,7 +121,7 @@ namespace KBSBoot.View
             using (var context = new BootDB())
             {
                 var members = from m in context.Members
-                              where m.memberName == member.memberName
+                              where m.memberUsername == member.memberUsername
                               select m;
 
                 if (members.ToList().Count > 0)
