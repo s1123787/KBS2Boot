@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="editUserScreen" Height="450" Width="800">
     <Grid>
-        <DataGrid Height="250" Width="772" HorizontalAlignment="Left" Margin="12,160,0,0"  IsReadOnly="False"
-          Name="ledenLijst" VerticalAlignment="Top" RowHeight="30" ColumnWidth="100" 
-                  ColumnHeaderHeight="100" HeadersVisibility="Column"
+        <DataGrid MinHeight="200" Height="Auto" MinWidth="400" Width="Auto" HorizontalAlignment="Center" Margin="196,122,197.6,0"  IsReadOnly="False"
+          Name="ledenLijst" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*" 
+                  ColumnHeaderHeight="50" HeadersVisibility="Column"
                   Background="LightGray" RowBackground="LightYellow" 
                   AlternatingRowBackground="LightBlue"
                   BorderBrush="Gray" BorderThickness="5" AutoGenerateColumns="True">
         </DataGrid>
-        <Button Content="Select Row" Height="23" HorizontalAlignment="Left" Margin="12,121,0,0"
-                Name="RowColorButton" VerticalAlignment="Top" Width="116" Click="SaveChages_Click" />
+        <Button Content="Save changes" Height="23" HorizontalAlignment="Left" Margin="350,10,0,0"
+                Name="SaveButton" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click" />
     </Grid>
 </Window>

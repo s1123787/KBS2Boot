@@ -34,7 +34,6 @@ namespace KBSBoot.View
             using (var context = new BootDB())
             {
                 var tableData = (from m in context.Members select m);
-                tableData.Load();
 
                 foreach (KBSBoot.Model.Member m in tableData)
                 {
@@ -53,22 +52,51 @@ namespace KBSBoot.View
         }
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            Member member = (Member)ledenLijst.SelectedItem;
-            using (var context = new BootDB())
+            try
             {
-                // Finds corresponding ID to selected member
-                var origin = context.Members.Find(member.ID);
-                if(origin != null)
+                Member member = (Member)ledenLijst.SelectedItem;
+                using (var context = new BootDB())
                 {
-                    //Update database with changes made to the table
-                    origin.memberName = member.Name;
-                    origin.memberRowLevelId = member.Niveau;
-                    origin.memberAccessLevelId = member.accesNiveau;
-                    origin.memberSubscribedUntill = member.subscription;
-                    context.SaveChanges();
+                    // Finds corresponding ID to selected member
+                    var origin = context.Members.Find(member.ID);
+                    if (origin != null)
+                    {
+                        if(member.Niveau < 0)
+                        {
+                            MessageBox.Show("Niveau kan niet minder dan 0 zijn!");
+                            member.Niveau = origin.memberRowLevelId;
+                            ledenLijst.Items.Refresh();
+                            return;
+                        }
+                        if(member.accesNiveau < 0)
+                        {
+                            MessageBox.Show("Access Level kan niet minder dan 0 zijn!");
+                            member.accesNiveau = origin.memberAccessLevelId;
+                            ledenLijst.Items.Refresh();
+                            return;
+                        }
+                        if(member.subscription < DateTime.Now)
+                        {
+                            MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!");
+                            member.subscription = origin.memberSubscribedUntill;
+                            ledenLijst.Items.Refresh();
+                            return;
+                        }
+                        //Update database with changes made to the table
+                        origin.memberName = member.Name;
+                        origin.memberRowLevelId = member.Niveau;
+                        origin.memberAccessLevelId = member.accesNiveau;
+                        origin.memberSubscribedUntill = member.subscription;
+                        context.SaveChanges();
+                    }
                 }
+                MessageBox.Show("Changes saved for user: " + member.Name);
             }
-            MessageBox.Show("Changes saved for user: " + member.Name);
+            catch (InvalidCastException invCast)
+            {
+                //Throws message when ID-less selection is made.
+                MessageBox.Show("Geselecteerde lid bestaat niet.");
+            }
         }
     }
 
