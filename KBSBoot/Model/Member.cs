@@ -32,8 +32,6 @@ namespace KBSBoot.Model
 
                 var test = members.Count;
 
-                
-
             }
         }
 
@@ -42,29 +40,36 @@ namespace KBSBoot.Model
             string NameInput = e.Name;
             string UsernameInput = e.Username;
 
-            //check if name has special characters
-            if (!NameHasSpecialChars(NameInput))
+            //check all textboxes are filled
+            if (!string.IsNullOrWhiteSpace(NameInput) && !string.IsNullOrWhiteSpace(UsernameInput))
             {
 
-                //if username doesn't exists and a correct username is filled in, add user to database
-                if (CheckUsername(UsernameInput))
+                //check if name has special characters
+                if (!NameHasSpecialChars(NameInput))
                 {
 
-                    using (var context = new BootDB())
+                    //if username doesn't exists and a correct username is filled in, add user to database
+                    if (CheckUsername(UsernameInput))
                     {
-                        var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1, };
-                        context.Members.Add(member);
-                        context.SaveChanges();
+                        using (var context = new BootDB())
+                        {
+                            var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1, };
+                            context.Members.Add(member);
+                            context.SaveChanges();
+                        }
+                        MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Switcher.Switch(new LoginScreen());
                     }
-                    MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Switcher.Switch(new LoginScreen());
+                }//if name has special chars, error message
+                else
+                {
+                    MessageBox.Show("De naam kan alleen bestaan uit letters!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-            }
+            } //messagebox if a field is empty
             else
             {
-                MessageBox.Show("De naam kan alleen bestaan uit letters", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vul beide velden in!", "Leeg veld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
         }
 
         public bool CheckUsername(string Username)
@@ -110,7 +115,8 @@ namespace KBSBoot.Model
             }
         }
 
-        //check for special characters 
+        #region SpecialCharChecks
+        //check for special characters, digits are allowed
         public static bool HasSpecialChars(string stString)
         {
             if (stString.Any(ch => !Char.IsLetterOrDigit(ch)))
@@ -123,6 +129,7 @@ namespace KBSBoot.Model
             }
         }
 
+        //check if name has spacial chars
         public static bool NameHasSpecialChars(string stString)
         {
             string s = stString.Replace(" ", string.Empty);
@@ -135,6 +142,7 @@ namespace KBSBoot.Model
                 return false;
             }
         }
+        #endregion
 
 
     }
