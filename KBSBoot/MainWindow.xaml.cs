@@ -30,7 +30,7 @@ namespace KBSBoot
             Switcher.pageSwitcher = this;
             Switcher.Switch(new LoginScreen());  //initial page   
             
-        }//hoi
+        }
 
         public void Navigate(UserControl nextPage)
         {

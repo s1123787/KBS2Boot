@@ -23,6 +23,8 @@ namespace KBSBoot.View
     {
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
+        public delegate void Register(object source, RegisterEventArgs e);
+        public event Register OnRegister;
 
         public LoginScreen()
         {
@@ -40,9 +42,7 @@ namespace KBSBoot.View
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
         {
-            RegisterScreen register = new RegisterScreen();
-            Switcher.Switch(register);
-            //main.frame.Content = new RegisterScreen();
+            Switcher.Switch(new RegisterScreen());
         }
 
         protected virtual void OnLoginButtonPressed(string name)

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="White">
-        <Button Name="OKbtn" Content="OK" FontSize="20" HorizontalAlignment="Left" Margin="296,310,0,0" VerticalAlignment="Top" Width="210" Height="42"/>
+        <Button Name="OKbtn" Content="OK" FontSize="20" HorizontalAlignment="Left" Margin="296,310,0,0" VerticalAlignment="Top" Width="210" Height="42" Click="OKbtn_Click"/>
         <Label Content="Volledige naam:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="116,119,0,0"/>
         <Label Content="Gebruikersnaam:" FontSize="20" HorizontalAlignment="Left" Margin="116,189,0,0" VerticalAlignment="Top"/>
         <TextBox Name="Name" HorizontalAlignment="Left" Height="37" Margin="323,119,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="288"/>
