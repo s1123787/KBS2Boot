@@ -29,6 +29,7 @@ namespace KBSBoot.View
             InitializeComponent();
             Member member = new Member();
             OnRegister += member.OnRegisterOKButtonIsPressed;
+            Name.Focus();
 
         }
 
