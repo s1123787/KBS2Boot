@@ -1,5 +1,6 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.Model;
+using KBSBoot.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,15 @@ namespace KBSBoot
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
+        {            
             InitializeComponent();
-            
-        }    
+            Switcher.pageSwitcher = this;
+            Switcher.Switch(new LoginScreen());  //initial page   
+        }
+
+        public void Navigate(UserControl nextPage)
+        {
+            this.Content = nextPage;
+        }       
     }
 }
