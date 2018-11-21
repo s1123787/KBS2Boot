@@ -23,11 +23,9 @@ namespace KBSBoot.View
     {
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
-        public delegate void Register(object source, RegisterEventArgs e);
-        public event Register OnRegister;
 
         public LoginScreen()
-        {
+        { 
             InitializeComponent();
         }
 

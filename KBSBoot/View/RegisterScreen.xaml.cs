@@ -27,12 +27,13 @@ namespace KBSBoot.View
         public RegisterScreen()
         {
             InitializeComponent();
+            Member member = new Member();
+            OnRegister += member.OnRegisterOKButtonIsPressed;
+
         }
 
         private void OKbtn_Click(object sender, RoutedEventArgs e)
         {
-            Member member = new Member();
-            OnRegister += member.OnRegisterOKButtonIsPressed;
 
             var NameText = Name.Text;
             var UsernameText = Username.Text;
