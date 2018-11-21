@@ -88,26 +88,26 @@ namespace KBSBoot.View
             }
             else
             {
-                MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
         //Method to check if a date exists
-        private static void CheckForInvalidDate(int year, int month, int day)
+        public static void CheckForInvalidDate(int year, int month, int day)
         {
             if (year < 1 || month > 12 || month < 1 || day > DateTime.DaysInMonth(year, month) || day < 1)
                 throw new InvalidDateException("Datum bestaat niet.");
         }
 
         //Method to check if date is before the date of today
-        private static void CheckIfDateIsBeforeToday(DateTime date)
+        public static void CheckIfDateIsBeforeToday(DateTime date)
         {
             if (date < DateTime.Now)
                 throw new InvalidDateException("Datum is voor de datum van vandaag.");
         }
 
         //Method used to check if the entered name and user name contain any invalid characters
-        private static void CheckForInvalidCharacters(string str)
+        public static void CheckForInvalidCharacters(string str)
         {
             var regexItem = new Regex("^[a-zA-Z0-9ÅåǺǻḀḁẚĂăẶặẮắẰằẲẳẴẵȂȃÂâẬậẤấẦầẪẫẨẩẢảǍǎȺⱥȦȧǠǡẠạÄäǞǟÀàȀȁÁáĀāĀ̀ā̀ÃãĄąĄ́ą́Ą̃ą̃ᶏĔĕḜḝȆȇÊêÊ̄ê̄Ê̌ê̌ỀềẾếỂểỄễỆệẺẻḘḙĚěɆɇĖėĖ́ė́Ė̃ė̃ẸẹËëÈèÈ̩è̩ȄȅÉéÉ̩é̩ĒēḔḕḖḗẼẽḚḛĘęĘ́ę́Ę̃ę̃ȨȩE̩e̩ᶒØøǾǿÖöȪȫÓóÒòÔôỐốỒồỔổỖỗỘộǑǒŐőŎŏȎȏȮȯȰȱỌọƟɵƠơỚớỜờỠỡỢợỞởỎỏŌōṒṓṐṑÕõȬȭṌṍṎṏǪǫȌȍO̩o̩Ó̩ó̩Ò̩ò̩ǬǭŬŭɄʉᵾᶶỤụÜüǛǜǗǘǙǚǕǖṲṳÚúÙùÛûṶṷǓǔȖȗŰűŬŭƯưỨứỪừỬửỰựỮỮỦủŪūŪ̀ū̀Ū́ū́ṺṻŪ̃ū̃ŨũṸṹṴṵᶙŲųŲ́ų́Ų̃ų̃ȔȕŮůỊịĬĭÎîǏǐƗɨÏïḮḯÍíÌìȈȉĮįĮ́Į̃ĪīĪ̀ī̀ᶖỈỉȊȋĨĩḬḭᶤ ]*$");
 
@@ -116,7 +116,7 @@ namespace KBSBoot.View
         }
 
         //Method to check if user already exists
-        private static void CheckIfMemberExists(Member member)
+        public static void CheckIfMemberExists(Member member)
         {
             using (var context = new BootDB())
             {
@@ -130,7 +130,7 @@ namespace KBSBoot.View
         }
 
         //Method to add member to the database
-        private static void AddMemberToDB(Member member)
+        public static void AddMemberToDB(Member member)
         {
             using (var context = new BootDB())
             {

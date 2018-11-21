@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Member
+    public class Member
     {
         public int memberId { get; set; }
         public string memberUsername { get; set; }
