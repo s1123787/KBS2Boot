@@ -24,6 +24,7 @@ namespace KBSBoot
     /// </summary>
     public partial class MainWindow : Window
     {
+        public UserControl content;
         public MainWindow()
         {            
             InitializeComponent();

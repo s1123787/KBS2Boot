@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="View\HomePageAdministrator.xaml.cs">
       <DependentUpon>HomePageAdministrator.xaml</DependentUpon>

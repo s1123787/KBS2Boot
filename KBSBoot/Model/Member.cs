@@ -18,12 +18,17 @@ namespace KBSBoot.Model
         public int memberRowLevelId { get; set; }
         public DateTime memberSubscribedUntill { get; set; }
         public string InputUserName;
-
+        public int SortUser;
+        public delegate void NewHomePage(object source, HomePageEventArgs e);
+        public event NewHomePage OnNewHomePage;
+        public bool Correct;
 
         public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
         {
             InputUserName = e.Name;
             LoginScreen Source = (LoginScreen)source;
+
+            OnNewHomePage += Source.OnNewHomePage;
             using (var context = new BootDB())
             {
                 //all usernames of members who are active in database in a list
@@ -42,27 +47,21 @@ namespace KBSBoot.Model
                     var FullNameCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberName).ToList<string>();
                     var FullName = FullNameCollection[0];
                     //homepage is made and switch to so user can do something with the app
-                    if (AccessLevel == 4) //administrator
-                    {                        
-                        Switcher.Switch(new HomePageAdministrator(FullName));
-                    }
-                    else if (AccessLevel == 1) //normal memeber
-                    {
-                        Switcher.Switch(new HomePageMember(FullName));
-                    } else if (AccessLevel == 3) //material commissioner
-                    {
-                        Switcher.Switch(new HomePageMaterialCommissioner(FullName));
-                    } else if (AccessLevel == 2) //match commissioner
-                    {
-                        Switcher.Switch(new HomePageMatchCommissioner(FullName));
-                    }
+                    OnNewHomePageMade(AccessLevel, FullName);
+                    SortUser = AccessLevel;
                 }
                 else //username doesn't exist
                 {
                     //show message on window that username doesn't exist
                     Source.UpdateLabel("Geen geldige gebruikersnaam");
+                    Correct = false;
                 }
             }
         }
+        
+        protected virtual void OnNewHomePageMade(int type, string FullName)
+        {
+            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName));
+        } 
     }
 }

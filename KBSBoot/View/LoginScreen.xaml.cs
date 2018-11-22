@@ -54,5 +54,22 @@ namespace KBSBoot.View
             ErrorLabel.Content = content;
         }
 
+        public void OnNewHomePage(object source, HomePageEventArgs e) 
+        {
+            if (e.TypeMember == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(e.FullName));
+            } else if (e.TypeMember == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(e.FullName));
+            } else if(e.TypeMember == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(e.FullName));
+            } else if (e.TypeMember == 1)
+            {
+                Switcher.Switch(new HomePageMember(e.FullName));
+            }
+        }
+
     }
 }
