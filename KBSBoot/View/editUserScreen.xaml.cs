@@ -14,18 +14,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Configuration;
+using KBSBoot.Model;
 
 namespace KBSBoot.View
 {
     /// <summary>
     /// Interaction logic for editUserScreen.xaml
     /// </summary>
-    public partial class editUserScreen : Window
+    public partial class EditUserScreen : Window
     {
-        public editUserScreen()
+        public EditUserScreen()
         {
             InitializeComponent();
-            ledenLijst.ItemsSource = LoadCollectionData();
+            memberList.ItemsSource = LoadCollectionData();
         }
 
         private List<Member> LoadCollectionData()
@@ -35,16 +36,16 @@ namespace KBSBoot.View
             {
                 var tableData = (from m in context.Members select m);
 
-                foreach (KBSBoot.Model.Member m in tableData)
+                foreach (Member m in tableData)
                 {
                     // Adds table columns with items from database
                     members.Add(new Member()
                     {
-                        ID = m.memberId,
-                        Name = m.memberName,
-                        Niveau = m.memberRowLevelId,
-                        AccesNiveau = m.memberAccessLevelId,
-                        Subscription = m.memberSubscribedUntill
+                        memberId = m.memberId,
+                        memberName = m.memberName,
+                        memberRowLevelId = m.memberRowLevelId,
+                        memberAccessLevelId = m.memberAccessLevelId,
+                        memberSubscribedUntill = m.memberSubscribedUntill
                     });
                 }
                 return members;
@@ -54,58 +55,77 @@ namespace KBSBoot.View
         {
             try
             {
-                Member member = (Member)ledenLijst.SelectedItem;
+                Member member = (Member)memberList.SelectedItem;
                 using (var context = new BootDB())
                 {
                     // Finds corresponding ID to selected member
-                    var origin = context.Members.Find(member.ID);
+                    var origin = context.Members.Find(member.memberId);
                     if (origin != null)
                     {
-                        if(member.Niveau < 0)
+                        bool Check;
+                        Check = CheckIfLessThanZero(member.memberRowLevelId);
+                        if(Check)
                         {
                             MessageBox.Show("Niveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.Niveau = origin.memberRowLevelId;
-                            ledenLijst.Items.Refresh();
+                            member.memberRowLevelId = origin.memberRowLevelId;
+                            memberList.Items.Refresh();
                             return;
                         }
-                        if(member.AccesNiveau < 0)
+                        Check = CheckIfLessThanZero(member.memberAccessLevelId);
+                        if(Check)
                         {
-                            MessageBox.Show("Access Level kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.AccesNiveau = origin.memberAccessLevelId;
-                            ledenLijst.Items.Refresh();
+                            MessageBox.Show("Toegangsniveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            member.memberAccessLevelId = origin.memberAccessLevelId;
+                            memberList.Items.Refresh();
                             return;
                         }
-                        if(member.Subscription < DateTime.Now)
+                        Check = DateCheckBeforeToday(member.memberSubscribedUntill);
+                        if (Check)
                         {
                             MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.Subscription = origin.memberSubscribedUntill;
-                            ledenLijst.Items.Refresh();
+                            member.memberSubscribedUntill = origin.memberSubscribedUntill;
+                            memberList.Items.Refresh();
                             return;
                         }
                         //Update database with changes made to the table
-                        origin.memberName = member.Name;
-                        origin.memberRowLevelId = member.Niveau;
-                        origin.memberAccessLevelId = member.AccesNiveau;
-                        origin.memberSubscribedUntill = member.Subscription;
+                        origin.memberName = member.memberName;
+                        origin.memberRowLevelId = member.memberRowLevelId;
+                        origin.memberAccessLevelId = member.memberAccessLevelId;
+                        origin.memberSubscribedUntill = member.memberSubscribedUntill;
                         context.SaveChanges();
                     }
                 }
-                MessageBox.Show("Wijzigingen voor " + member.Name + " opgeslagen.", "Wijzigingen opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Wijzigingen voor " + member.memberName + " opgeslagen.", "Wijzigingen opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch (InvalidCastException invCast)
+            catch (InvalidCastException)
             {
                 //Throws message when ID-less selection is made.
-                MessageBox.Show("Geselecteerde lid bestaat niet.");
+                MessageBox.Show("Geselecteerde lid bestaat niet.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    }
-
-    public class Member
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public int Niveau { get; set; }
-        public int AccesNiveau { get; set; }
-        public DateTime Subscription { get; set; }
+        private void memberList_Loaded(object sender, RoutedEventArgs e)
+        {
+            memberList.Columns[0].IsReadOnly = true;
+        }
+        public bool DateCheckBeforeToday(DateTime date)
+        {
+            if(date < DateTime.Now)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+        public bool CheckIfLessThanZero(int i)
+        {
+            if (i < 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
     }
 }
