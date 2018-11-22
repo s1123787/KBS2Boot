@@ -139,21 +139,5 @@ namespace KBSBoot.View
                 MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-
-        //For test purposes only, will be deleted once done programming
-        private void PrintMembers_Click(object sender, RoutedEventArgs e)
-        {
-            using (var context = new BootDB())
-            {
-                var members = from m in context.Members
-                              select m;
-                Console.WriteLine("+----------------------------------------------------------+");
-                foreach (var mem in members)
-                {
-                    Console.WriteLine(mem);
-                }
-                Console.WriteLine("+----------------------------------------------------------+");
-            }
-        }
     }
 }
