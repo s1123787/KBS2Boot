@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class InvalidDateException : Exception
+    public class InvalidDateException : Exception
     {
         public InvalidDateException() : base() { }
         public InvalidDateException(string message) : base(message) { }
