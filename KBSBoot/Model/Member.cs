@@ -23,7 +23,7 @@ namespace KBSBoot.Model
         public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
         {
             InputUserName = e.Name;
-            
+            LoginScreen Source = (LoginScreen)source;
             using (var context = new BootDB())
             {
                 //all usernames of members who are active in database in a list
@@ -39,22 +39,28 @@ namespace KBSBoot.Model
                     var AccessDiscription = AccessDiscriptionCollection[0];
                     var idCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberId).ToList<int>();
                     var id = idCollection[0];
+                    var FullNameCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberName).ToList<string>();
+                    var FullName = FullNameCollection[0];
                     //homepage is made and switch to so user can do something with the app
-                    HomePage hp = new HomePage(InputUserName, id, AccessLevel, AccessDiscription);
-                    Switcher.Switch(hp);
-                }
-                else
-                {
-                    //show a message box
-                    MessageBoxResult result = MessageBox.Show("Je kan niet inloggen!",
-                                          "Confirmation",
-                                          MessageBoxButton.OK,
-                                          MessageBoxImage.Question);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        //applicatie afsluiten
-                        Application.Current.Shutdown();
+                    if (AccessLevel == 4) //administrator
+                    {                        
+                        Switcher.Switch(new HomePageAdministrator(FullName));
                     }
+                    else if (AccessLevel == 1) //normal memeber
+                    {
+                        Switcher.Switch(new HomePageMember(FullName));
+                    } else if (AccessLevel == 3) //material commissioner
+                    {
+                        Switcher.Switch(new HomePageMaterialCommissioner(FullName));
+                    } else if (AccessLevel == 2) //match commissioner
+                    {
+                        Switcher.Switch(new HomePageMatchCommissioner(FullName));
+                    }
+                }
+                else //username doesn't exist
+                {
+                    //show message on window that username doesn't exist
+                    Source.UpdateLabel("Geen geldige gebruikersnaam");
                 }
             }
         }

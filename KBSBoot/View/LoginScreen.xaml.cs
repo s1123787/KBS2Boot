@@ -25,7 +25,7 @@ namespace KBSBoot.View
         public event Login OnLogin;
 
         public LoginScreen()
-        {
+        {           
             InitializeComponent();
         }
 
@@ -47,6 +47,11 @@ namespace KBSBoot.View
         protected virtual void OnLoginButtonPressed(string name)
         {
             OnLogin?.Invoke(this, new LoginEventArgs(name));
+        }
+
+        public void UpdateLabel(string content)
+        {
+            ErrorLabel.Content = content;
         }
 
     }
