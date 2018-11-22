@@ -43,8 +43,8 @@ namespace KBSBoot.View
                         ID = m.memberId,
                         Name = m.memberName,
                         Niveau = m.memberRowLevelId,
-                        accesNiveau = m.memberAccessLevelId,
-                        subscription = m.memberSubscribedUntill
+                        AccesNiveau = m.memberAccessLevelId,
+                        Subscription = m.memberSubscribedUntill
                     });
                 }
                 return members;
@@ -63,34 +63,34 @@ namespace KBSBoot.View
                     {
                         if(member.Niveau < 0)
                         {
-                            MessageBox.Show("Niveau kan niet minder dan 0 zijn!");
+                            MessageBox.Show("Niveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             member.Niveau = origin.memberRowLevelId;
                             ledenLijst.Items.Refresh();
                             return;
                         }
-                        if(member.accesNiveau < 0)
+                        if(member.AccesNiveau < 0)
                         {
-                            MessageBox.Show("Access Level kan niet minder dan 0 zijn!");
-                            member.accesNiveau = origin.memberAccessLevelId;
+                            MessageBox.Show("Access Level kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            member.AccesNiveau = origin.memberAccessLevelId;
                             ledenLijst.Items.Refresh();
                             return;
                         }
-                        if(member.subscription < DateTime.Now)
+                        if(member.Subscription < DateTime.Now)
                         {
-                            MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!");
-                            member.subscription = origin.memberSubscribedUntill;
+                            MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            member.Subscription = origin.memberSubscribedUntill;
                             ledenLijst.Items.Refresh();
                             return;
                         }
                         //Update database with changes made to the table
                         origin.memberName = member.Name;
                         origin.memberRowLevelId = member.Niveau;
-                        origin.memberAccessLevelId = member.accesNiveau;
-                        origin.memberSubscribedUntill = member.subscription;
+                        origin.memberAccessLevelId = member.AccesNiveau;
+                        origin.memberSubscribedUntill = member.Subscription;
                         context.SaveChanges();
                     }
                 }
-                MessageBox.Show("Changes saved for user: " + member.Name);
+                MessageBox.Show("Wijzigingen voor " + member.Name + " opgeslagen.", "Wijzigingen opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (InvalidCastException invCast)
             {
@@ -105,7 +105,7 @@ namespace KBSBoot.View
         public int ID { get; set; }
         public string Name { get; set; }
         public int Niveau { get; set; }
-        public int accesNiveau { get; set; }
-        public DateTime subscription { get; set; }
+        public int AccesNiveau { get; set; }
+        public DateTime Subscription { get; set; }
     }
 }
