@@ -23,6 +23,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
                 AddMemberAdmin.CheckForInvalidDate(year, month, day);
                 result = true;
             }
@@ -47,6 +48,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
                 AddMemberAdmin.CheckForInvalidDate(year, month, day);
                 result = true;
             }
@@ -69,6 +71,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
                 AddMemberAdmin.CheckIfDateIsBeforeToday(date);
                 result = true;
             }
@@ -91,6 +94,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
                 AddMemberAdmin.CheckIfDateIsBeforeToday(date);
                 result = true;
             }
@@ -113,6 +117,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckForInvalidCharacters has a void return type and throws a FormatException when the the string contains invalid characters
                 AddMemberAdmin.CheckForInvalidCharacters(str);
                 result = true;
             }
@@ -135,6 +140,7 @@ namespace KBSBootUnitTests
             //Act
             try
             {
+                //The method CheckForInvalidCharacters has a void return type and throws a FormatException when the the string contains invalid characters
                 AddMemberAdmin.CheckForInvalidCharacters(str);
                 result = true;
             }
@@ -161,6 +167,7 @@ namespace KBSBootUnitTests
             };
             var result = false;
             //Act
+            //Method is placed inside a try block, so if it cant connect the result is set to false
             try
             {
                 AddMemberAdmin.AddMemberToDB(member);
@@ -170,6 +177,7 @@ namespace KBSBootUnitTests
                 result = false;
             }
             
+            //Check if the member is actually in the database
             using (var context = new BootDB())
             {
                 var members = from m in context.Members
@@ -180,6 +188,7 @@ namespace KBSBootUnitTests
                     result = true;
             }
             
+            //Remove test member form database
             using (var context = new BootDB())
             {
                 context.Members.Attach(member);
@@ -211,12 +220,14 @@ namespace KBSBootUnitTests
                 memberAccessLevelId = 2,
                 memberSubscribedUntill = DateTime.Now.AddYears(1)
             };
-            AddMemberAdmin.AddMemberToDB(member1);
             var result = false;
             
             //Act
+            AddMemberAdmin.AddMemberToDB(member1);
+            
             try
             {
+                //The method CheckIfMemberExists has a void return type and throws an Exception when the the member is already in the database
                 AddMemberAdmin.CheckIfMemberExists(member2);
                 result = true;
             }
@@ -225,6 +236,7 @@ namespace KBSBootUnitTests
                 result = false;
             }
             
+            //Remove test member form database
             using (var context = new BootDB())
             {
                 context.Members.Attach(member1);
@@ -248,12 +260,14 @@ namespace KBSBootUnitTests
                 memberAccessLevelId = 1,
                 memberSubscribedUntill = DateTime.Now.AddYears(1)
             };
-            AddMemberAdmin.AddMemberToDB(member);
             var result = false;
             
             //Act
+            AddMemberAdmin.AddMemberToDB(member);
+            
             try
             {
+                //The method CheckIfMemberExists has a void return type and throws an Exception when the the member is already in the database
                 AddMemberAdmin.CheckIfMemberExists(member);
                 result = true;
             }
@@ -262,6 +276,7 @@ namespace KBSBootUnitTests
                 result = false;
             }
             
+            //Remove test member form database
             using (var context = new BootDB())
             {
                 context.Members.Attach(member);
