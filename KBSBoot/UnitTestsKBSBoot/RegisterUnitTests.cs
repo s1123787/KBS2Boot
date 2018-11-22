@@ -6,7 +6,7 @@ using KBSBoot.Model;
 namespace UnitTestsKBSBoot
 {
     [TestFixture]
-    public class UnitTest1
+    public class RegisterUnitTests
     {
         [Test]
         public void HasSpecialChars_CheckUsernameOnSpecialChars_ReturnTrue()
@@ -130,7 +130,33 @@ namespace UnitTestsKBSBoot
             Assert.IsTrue(return2);
         }
 
-        
+        [Test]
+        public void CheckUsername_CheckIfUsernameExits_ReturnFalse()
+        {
+            //Arrange
+            Member m = new Member();
+            m.AddNewUserToDB("youri dekker", "youridekker");
+
+            //Act
+            bool result1 = m.CheckUsername("youridekker");
+
+            //Assert
+            Assert.IsFalse(result1);
+        }
+
+        [Test]
+        public void AddNewUserToDB_AddNewUserToDataBase_ReturnTrue()
+        {
+            //Arrange
+            Member m = new Member();
+            string name = "unit test";
+            string username = "unittest";
+            //Act
+            m.AddNewUserToDB(name, username);
+
+            //Assert
+            Assert.IsTrue(m.UsernameExists(username));
+        }
 
     }
 }

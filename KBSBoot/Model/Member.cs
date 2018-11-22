@@ -50,12 +50,8 @@ namespace KBSBoot.Model
                     //if username doesn't exists and a correct username is filled in, add user to database
                     if (CheckUsername(UsernameInput))
                     {
-                        using (var context = new BootDB())
-                        {
-                            var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1, };
-                            context.Members.Add(member);
-                            context.SaveChanges();
-                        }
+                        AddNewUserToDB(NameInput, UsernameInput);
+
                         MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
                         Switcher.Switch(new LoginScreen());
                     }
@@ -68,6 +64,16 @@ namespace KBSBoot.Model
             else
             {
                 MessageBox.Show("Vul beide velden in!", "Leeg veld", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        public void AddNewUserToDB(string NameInput, string UsernameInput)
+        {
+            using (var context = new BootDB())
+            {
+                var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1, };
+                context.Members.Add(member);
+                context.SaveChanges();
             }
         }
 
