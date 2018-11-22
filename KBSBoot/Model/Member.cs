@@ -22,7 +22,7 @@ namespace KBSBoot.Model
                    $"Name: {memberName} \n" +
                    $"Accesslevel: {memberAccessLevelId} \n" +
                    $"Row level: {memberRowLevelId} \n" +
-                   $"Subscribed until: {memberSubscribedUntill.ToString("dd-MM-yyyy")} \n";
+                   $"Subscribed until: {memberSubscribedUntill:dd-MM-yyyy} \n";
         }
     }
 }
