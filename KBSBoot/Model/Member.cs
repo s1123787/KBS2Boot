@@ -18,7 +18,6 @@ namespace KBSBoot.Model
         public int memberRowLevelId { get; set; }
         public DateTime? memberSubscribedUntill { get; set; }
         public string TextFieldInput;
-        public bool UsernameUsed = false;
         
 
         public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
@@ -84,13 +83,13 @@ namespace KBSBoot.Model
                 } //if it has special characters 
                 else
                 {
-                    MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters en cijfers!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             } // if username already exists 
             else
             {
-                MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik!", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
         }
