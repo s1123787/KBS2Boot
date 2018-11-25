@@ -91,23 +91,23 @@ namespace KBSBoot.Model
 
         public bool CheckUsername(string Username)
         {
-            //check if username already exists
-            if (!UsernameExists(Username))
+            //check if it only has letters                
+            if (!HasSpecialChars(Username))
             {
-                //check if it only has letters
-                if (!HasSpecialChars(Username))
+                //check if username already exists
+                if (!UsernameExists(Username))
                 {
                     return true;
                 } //if it has special characters 
                 else
                 {
-                    MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters en cijfers!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik!", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             } // if username already exists 
             else
             {
-                MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik!", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters en cijfers!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
         }
