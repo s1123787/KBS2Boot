@@ -9,7 +9,7 @@
     <Grid x:Name="AdminGrid">
         <Label x:Name="FullNameLabel" Content="Welkom &lt;naam&gt;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="220" FontSize="20"/>
         <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
-        <Button Margin="10,70,329,162">
+        <Button x:Name="Users" Margin="10,70,329,162" Click="Users_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="users.png" Stretch="Uniform" Height="61" Width="93"/>
                 <TextBlock Text="Beheren gebruikers" FontSize="20" Height="32"/>

@@ -41,7 +41,7 @@ namespace KBSBoot.View
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
         {
-            
+            Switcher.Switch(new RegisterScreen());
         }
 
         protected virtual void OnLoginButtonPressed(string name)
@@ -51,7 +51,7 @@ namespace KBSBoot.View
 
         public void UpdateLabel(string content)
         {
-            ErrorLabel.Content = content;
+            //ErrorLabel.Content = content;
         }
 
         public void OnNewHomePage(object source, HomePageEventArgs e) 

@@ -67,7 +67,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
+    <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="View\AddMemberAdmin.xaml.cs">
+      <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditUserScreen.xaml.cs">
+      <DependentUpon>EditUserScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomePageAdministrator.xaml.cs">
       <DependentUpon>HomePageAdministrator.xaml</DependentUpon>
     </Compile>
@@ -83,6 +91,9 @@
     <Compile Include="View\HomePageMaterialCommissioner.xaml.cs">
       <DependentUpon>HomePageMaterialCommissioner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\RegisterScreen.xaml.cs">
+      <DependentUpon>RegisterScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Switcher.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +108,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddMemberAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditUserScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomePageAdministrator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +133,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\HomePageMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegisterScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

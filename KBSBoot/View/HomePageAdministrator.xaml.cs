@@ -36,5 +36,10 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new LoginScreen());
         }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new EditUserScreen(FullName));
+        }
     }
 }
