@@ -11,9 +11,8 @@
         <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
         <Button x:Name="Users" Margin="10,70,329,162" Click="Users_Click">
             <StackPanel Orientation="Vertical">
-                <Image Source="users.png" Stretch="Uniform" Height="61" Width="93"/>
+                <Image Source="../Resources/users.png" Stretch="Uniform" Height="61" Width="93"/>
                 <TextBlock Text="Beheren gebruikers" FontSize="20" Height="32"/>
-
             </StackPanel>
         </Button>
         <Label x:Name="AccessLevelLabel" Content="Adminstator" HorizontalAlignment="Left" Margin="230,18,0,0" VerticalAlignment="Top" Width="118"/>

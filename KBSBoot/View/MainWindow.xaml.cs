@@ -30,7 +30,7 @@ namespace KBSBoot
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             Switcher.pageSwitcher = this;
-            Switcher.Switch(new LoginScreen());  //initial page   
+            Switcher.Switch(new LoginScreen());  //initial page              
         }
 
         public void Navigate(UserControl nextPage)

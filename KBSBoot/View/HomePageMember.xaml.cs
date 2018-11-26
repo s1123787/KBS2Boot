@@ -36,6 +36,11 @@ namespace KBSBoot.View
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
+        }       
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new boatOverviewScreen(FullName));
         }
     }
 }
