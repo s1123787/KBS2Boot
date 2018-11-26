@@ -24,7 +24,7 @@ namespace KBSBoot.View
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
 
-        public LoginScreen()
+        public LoginScreen()       
         {           
             InitializeComponent();
         }
@@ -41,7 +41,7 @@ namespace KBSBoot.View
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
         {
-            
+            Switcher.Switch(new RegisterScreen());
         }
 
         protected virtual void OnLoginButtonPressed(string name)

@@ -68,6 +68,12 @@
     </ApplicationDefinition>
     <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
+    <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="View\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegisterScreen.xaml.cs">
+      <DependentUpon>RegisterScreen.xaml</DependentUpon>
     <Compile Include="View\HomePageAdministrator.xaml.cs">
       <DependentUpon>HomePageAdministrator.xaml</DependentUpon>
     </Compile>
@@ -114,6 +120,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\HomePageMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegisterScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
