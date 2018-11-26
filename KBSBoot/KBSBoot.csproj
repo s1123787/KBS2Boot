@@ -66,6 +66,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\InvalidDateException.cs" />
+    <Compile Include="View\AddMemberAdmin.xaml.cs">
+      <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddMemberAdminViewModel.cs" />
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
     </Compile>
@@ -106,6 +111,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddMemberAdmin.xaml">
     <Page Include="View\EditUserScreen.xaml">
     <Page Include="View\HomePageAdministrator.xaml">
       <SubType>Designer</SubType>
@@ -164,6 +170,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="View\users.png" />
   </ItemGroup>
