@@ -23,9 +23,12 @@ namespace KBSBoot.View
     /// </summary>
     public partial class AddMemberAdmin : UserControl
     {
+        public string FullName;
+
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin()
+        public AddMemberAdmin(string FullName)
         {
+            this.FullName = FullName;
             InitializeComponent();
         }
 
@@ -130,14 +133,20 @@ namespace KBSBoot.View
         }
 
         //Method to add member to the database
-        public static void AddMemberToDB(Member member)
+        public void AddMemberToDB(Member member)
         {
             using (var context = new BootDB())
             {
                 context.Members.Add(member);
                 context.SaveChanges();
                 MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                Switcher.Switch(new EditUserScreen(FullName));
             }
+        }
+
+        private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new EditUserScreen(FullName));
         }
     }
 }

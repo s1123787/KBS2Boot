@@ -46,6 +46,7 @@ namespace KBSBoot.View
                     members.Add(new Member()
                     {
                         memberId = m.memberId,
+                        memberUsername = m.memberUsername,
                         memberName = m.memberName,
                         memberRowLevelId = m.memberRowLevelId,
                         memberAccessLevelId = m.memberAccessLevelId,
@@ -92,7 +93,8 @@ namespace KBSBoot.View
                             return;
                         }
                         //Update database with changes made to the table
-                        origin.memberName = member.memberName;
+                        origin.memberUsername = member.memberUsername;
+                        origin.memberName = member.memberName;                        
                         origin.memberRowLevelId = member.memberRowLevelId;
                         origin.memberAccessLevelId = member.memberAccessLevelId;
                         origin.memberSubscribedUntill = member.memberSubscribedUntill;
@@ -141,7 +143,7 @@ namespace KBSBoot.View
 
         private void AddMember_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddMemberAdmin());
+            Switcher.Switch(new AddMemberAdmin(FullName));
         }
     }
 }
