@@ -21,6 +21,9 @@ namespace KBSBoot.View
     /// </summary>
     public partial class LoginScreen : UserControl
     {
+        //public event EventHandler OnLogin;
+        public EditUserScreen editUserTest;
+
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
 
@@ -34,9 +37,7 @@ namespace KBSBoot.View
             Member m = new Member();
             OnLogin += m.OnLoginButtonIsPressed;
             var textvalue = usernametxt.Text;
-
             OnLoginButtonPressed(textvalue);
-            
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)

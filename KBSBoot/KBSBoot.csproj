@@ -66,6 +66,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\EditUserScreen.xaml.cs">
+      <DependentUpon>EditUserScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
@@ -103,6 +106,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\EditUserScreen.xaml">
     <Page Include="View\HomePageAdministrator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
