@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Boat
+    public class Boat
     {
         [Key]
         public int boatId { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Accesslevel
+    public class Accesslevel
     {
         public int accessLevelId { get; set; }
         public string description { get; set; }

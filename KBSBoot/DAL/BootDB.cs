@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.DAL
 {
-    class BootDB : DbContext
+    public class BootDB : DbContext
     {
         public BootDB() : base("BootDB") { }
         public virtual DbSet<Member> Members { get; set; }
