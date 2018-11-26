@@ -1,5 +1,6 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.Model;
+using KBSBoot.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using KBSBoot.View;
 
 
 namespace KBSBoot
@@ -24,15 +24,18 @@ namespace KBSBoot
     /// </summary>
     public partial class MainWindow : Window
     {
+        public UserControl content;
         public MainWindow()
-        {
+        {            
             InitializeComponent();
-
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Switcher.pageSwitcher = this;
+            Switcher.Switch(new LoginScreen());  //initial page     
         }
 
-        private void addMember_Click(object sender, RoutedEventArgs e)
+        public void Navigate(UserControl nextPage)
         {
-            DataContext = new AddMemberAdminViewModel();
-        }
+            this.Content = nextPage;
+        }              
     }
 }

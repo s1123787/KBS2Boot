@@ -6,23 +6,8 @@
         xmlns:local="clr-namespace:KBSBoot" 
         xmlns:view="clr-namespace:KBSBoot.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Window.Resources>
-        <DataTemplate x:Name="addMemdberAdminViewTemplate" DataType="{x:Type view:AddMemberAdminViewModel}">
-            <view:AddMemberAdmin DataContext="{Binding}"></view:AddMemberAdmin>
-        </DataTemplate>
-    </Window.Resources>
-
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="42"/>
-            <RowDefinition Height="277*"/>
-        </Grid.RowDefinitions>
-
-        <DockPanel Grid.Row="0">
-            <Button x:Name="addMember" Content="Lid toevoegen" HorizontalAlignment="Right" Margin="10,10,10,10" VerticalAlignment="Top" Width="92" Click="addMember_Click" Height="20"/>
-        </DockPanel>
-
-        <ContentControl Grid.Row="1" Content="{Binding}"/>
+        <Frame x:Name="Main" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
