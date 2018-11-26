@@ -24,8 +24,8 @@ namespace KBSBoot.View
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
 
-        public LoginScreen()
-        { 
+        public LoginScreen()       
+        {           
             InitializeComponent();
         }
 
@@ -36,6 +36,7 @@ namespace KBSBoot.View
             var textvalue = usernametxt.Text;
 
             OnLoginButtonPressed(textvalue);
+            
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
@@ -46,6 +47,28 @@ namespace KBSBoot.View
         protected virtual void OnLoginButtonPressed(string name)
         {
             OnLogin?.Invoke(this, new LoginEventArgs(name));
+        }
+
+        public void UpdateLabel(string content)
+        {
+            ErrorLabel.Content = content;
+        }
+
+        public void OnNewHomePage(object source, HomePageEventArgs e) 
+        {
+            if (e.TypeMember == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(e.FullName));
+            } else if (e.TypeMember == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(e.FullName));
+            } else if(e.TypeMember == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(e.FullName));
+            } else if (e.TypeMember == 1)
+            {
+                Switcher.Switch(new HomePageMember(e.FullName));
+            }
         }
 
     }

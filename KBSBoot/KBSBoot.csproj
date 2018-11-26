@@ -46,6 +46,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
     <Compile Include="View\LoginScreen.xaml.cs">
@@ -71,6 +74,20 @@
     </Compile>
     <Compile Include="View\RegisterScreen.xaml.cs">
       <DependentUpon>RegisterScreen.xaml</DependentUpon>
+    <Compile Include="View\HomePageAdministrator.xaml.cs">
+      <DependentUpon>HomePageAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMatchCommissioner.xaml.cs">
+      <DependentUpon>HomePageMatchCommissioner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMember.xaml.cs">
+      <DependentUpon>HomePageMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMaterialCommissioner.xaml.cs">
+      <DependentUpon>HomePageMaterialCommissioner.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Switcher.cs" />
     <Page Include="MainWindow.xaml">
@@ -86,7 +103,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\HomePageAdministrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageMatchCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageMember.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HomePageMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +160,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
