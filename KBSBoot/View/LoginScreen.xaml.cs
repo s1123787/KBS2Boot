@@ -1,5 +1,4 @@
-﻿using KBSBoot.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KBSBoot.Model;
 
 namespace KBSBoot.View
 {
-
-
     /// <summary>
     /// Interaction logic for LoginScreen.xaml
     /// </summary>
-    public partial class LoginScreen : Window
+    public partial class LoginScreen : UserControl
     {
         public delegate void Login(object source, LoginEventArgs e);
         public event Login OnLogin;
 
         public LoginScreen()
-        {
+        {           
             InitializeComponent();
         }
 
@@ -37,16 +36,39 @@ namespace KBSBoot.View
             var textvalue = usernametxt.Text;
 
             OnLoginButtonPressed(textvalue);
+            
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
         {
-            usernametxt.Text = "kan nog niet jonge";
+            
         }
 
         protected virtual void OnLoginButtonPressed(string name)
         {
             OnLogin?.Invoke(this, new LoginEventArgs(name));
+        }
+
+        public void UpdateLabel(string content)
+        {
+            ErrorLabel.Content = content;
+        }
+
+        public void OnNewHomePage(object source, HomePageEventArgs e) 
+        {
+            if (e.TypeMember == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(e.FullName));
+            } else if (e.TypeMember == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(e.FullName));
+            } else if(e.TypeMember == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(e.FullName));
+            } else if (e.TypeMember == 1)
+            {
+                Switcher.Switch(new HomePageMember(e.FullName));
+            }
         }
 
     }
