@@ -100,7 +100,6 @@ namespace KBSBoot.View
                                 memberList.Items.Refresh();
                                 return;
                             }
-                            string currentmember = member.memberUsername;
                             foreach(Member value in context.Members)
                             {
                                 if(member.memberUsername == value.memberUsername)
