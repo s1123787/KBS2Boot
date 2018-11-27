@@ -30,6 +30,7 @@ namespace KBSBoot.View
         {
             this.FullName = FullName;
             InitializeComponent();
+            DatePicker.DisplayDateStart = DateTime.Today;
         }
 
         //Method to excecute when AddUser button is clicked
@@ -40,19 +41,21 @@ namespace KBSBoot.View
             var userName = UserNameBox.Text;
             var rowLevel = RowLevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 4
             var accessLevel = AccesslevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 5
-            var year = YearBox.Text;
-            var month = MonthBox.Text;
-            var day = DayBox.Text;
 
             //Check for empty fields, if a field is left empty show an error dialog
-            if (name != "" && userName != "" && year != "" && month != "" && day != "")
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(userName))
             {
                 try
                 {
-                    //Check if the entered date is valid
-                    CheckForInvalidDate(int.Parse(year), int.Parse(month), int.Parse(day));
-                    var memberUntil = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
-                    CheckIfDateIsBeforeToday(memberUntil);
+                    var memberUntil = new DateTime?();
+                    try
+                    {
+                        memberUntil = DatePicker.SelectedDate.Value;
+                    }
+                    catch (InvalidOperationException IOE)
+                    {
+                        throw new InvalidDateException("Selecteer een datum");
+                    }
 
                     //CHeck for invalid characters in the strings
                     CheckForInvalidCharacters(name);
