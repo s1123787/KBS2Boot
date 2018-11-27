@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Rowlevel
+    public class Rowlevel
     {
         public int rowLevelId { get; set; }
         public string description { get; set; }

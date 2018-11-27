@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>KBSBoot.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -46,6 +46,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,7 +66,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Model\Boat.cs" />
+    <Compile Include="Model\BoatTypes.cs" />
+    <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\InvalidDateException.cs" />
+    <Compile Include="Model\LoginEventArgs.cs" />
+    <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="View\AddMemberAdmin.xaml.cs">
+      <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\boatOverviewScreen.xaml.cs">
+      <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditUserScreen.xaml.cs">
+      <DependentUpon>EditUserScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageAdministrator.xaml.cs">
+      <DependentUpon>HomePageAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMatchCommissioner.xaml.cs">
+      <DependentUpon>HomePageMatchCommissioner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMember.xaml.cs">
+      <DependentUpon>HomePageMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HomePageMaterialCommissioner.xaml.cs">
+      <DependentUpon>HomePageMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegisterScreen.xaml.cs">
+      <DependentUpon>RegisterScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Switcher.cs" />
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -73,10 +109,46 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DAL\BootDB.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddMemberAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\boatOverviewScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditUserScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageAdministrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageMatchCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HomePageMember.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoginScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HomePageMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegisterScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Accesslevel.cs" />
@@ -111,7 +183,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\" />
+    <Resource Include="Resources\users.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Boat-512.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

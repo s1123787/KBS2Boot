@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.DAL
 {
-    class BootDB : DbContext
+    public class BootDB : DbContext
     {
         public BootDB() : base("BootDB") { }
-        public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Rowlevel> Rowlevel { get; set; }
         public virtual DbSet<Accesslevel> Accesslevel { get; set; }
+
+        public virtual DbSet<Boat> Boats { get; set; }
+        public virtual DbSet<BoatTypes> BoatTypes { get; set; }
     }
 }
