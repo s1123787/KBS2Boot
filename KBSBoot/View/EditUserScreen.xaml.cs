@@ -135,10 +135,6 @@ namespace KBSBoot.View
                 //Throws message when button is clicked without selecting a row.
                 MessageBox.Show("Er is geen lid geselecteerd!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (InvalidOperationException)
-            {
-                //Added exception in case of
-            }
         }
         private void memberList_Loaded(object sender, RoutedEventArgs e)
         {
