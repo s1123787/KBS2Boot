@@ -100,14 +100,18 @@ namespace KBSBoot.View
                                 memberList.Items.Refresh();
                                 return;
                             }
+                            string currentmember = member.memberUsername;
                             foreach(Member value in context.Members)
                             {
                                 if(member.memberUsername == value.memberUsername)
                                 {
-                                    MessageBox.Show("Kan niet al een bestaande gebruikersnaam invoeren!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    member.memberUsername = origin.memberUsername;
-                                    memberList.Items.Refresh();
-                                    return;
+                                    if (origin.memberUsername != member.memberUsername)
+                                    {
+                                        MessageBox.Show("Kan niet al een bestaande gebruikersnaam invoeren!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        member.memberUsername = origin.memberUsername;
+                                        memberList.Items.Refresh();
+                                        return;
+                                    }
                                 }
                             }
                             //Update database with changes made to the table
@@ -132,9 +136,14 @@ namespace KBSBoot.View
                 //Throws message when button is clicked without selecting a row.
                 MessageBox.Show("Er is geen lid geselecteerd!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (InvalidOperationException)
+            {
+                //Added exception in case of
+            }
         }
         private void memberList_Loaded(object sender, RoutedEventArgs e)
         {
+            //Makes the ID-column uneditable.
             memberList.Columns[0].IsReadOnly = true;
         }
         public bool DateCheckBeforeToday(DateTime? date)
