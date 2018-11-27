@@ -19,9 +19,7 @@ using System.Windows.Controls;
 
 namespace KBSBoot.View
 {
-    /// <summary>
     /// Interaction logic for editUserScreen.xaml
-    /// </summary>
     public partial class EditUserScreen : UserControl
     {
         public string FullName;
@@ -67,50 +65,80 @@ namespace KBSBoot.View
                     var origin = context.Members.Find(member.memberId);
                     if (origin != null)
                     {
-                        bool Check;
-                        Check = CheckIfLessThanZero(member.memberRowLevelId);
-                        if (Check)
+                        if (member.memberName == "" || member.memberUsername == "")
                         {
-                            MessageBox.Show("Niveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.memberRowLevelId = origin.memberRowLevelId;
+                            MessageBox.Show("Een lege waarde kan niet opgegeven worden!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            member.memberName = origin.memberName;
+                            member.memberUsername = origin.memberUsername;
                             memberList.Items.Refresh();
                             return;
                         }
-                        Check = CheckIfLessThanZero(member.memberAccessLevelId);
-                        if (Check)
+                        else
                         {
-                            MessageBox.Show("Toegangsniveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.memberAccessLevelId = origin.memberAccessLevelId;
-                            memberList.Items.Refresh();
-                            return;
+                            bool Check;
+                            Check = CheckIfLessThanZero(member.memberRowLevelId);
+                            if (Check)
+                            {
+                                MessageBox.Show("Niveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                member.memberRowLevelId = origin.memberRowLevelId;
+                                memberList.Items.Refresh();
+                                return;
+                            }
+                            Check = CheckIfLessThanZero(member.memberAccessLevelId);
+                            if (Check)
+                            {
+                                MessageBox.Show("Toegangsniveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                member.memberAccessLevelId = origin.memberAccessLevelId;
+                                memberList.Items.Refresh();
+                                return;
+                            }
+                            Check = DateCheckBeforeToday(member.memberSubscribedUntill);
+                            if (Check)
+                            {
+                                MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                member.memberSubscribedUntill = origin.memberSubscribedUntill;
+                                memberList.Items.Refresh();
+                                return;
+                            }
+                            foreach(Member value in context.Members)
+                            {
+                                if(member.memberUsername == value.memberUsername)
+                                {
+                                    if (origin.memberUsername != member.memberUsername)
+                                    {
+                                        MessageBox.Show("Kan niet al een bestaande gebruikersnaam invoeren!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        member.memberUsername = origin.memberUsername;
+                                        memberList.Items.Refresh();
+                                        return;
+                                    }
+                                }
+                            }
+                            //Update database with changes made to the table
+                            origin.memberUsername = member.memberUsername;
+                            origin.memberName = member.memberName;
+                            origin.memberRowLevelId = member.memberRowLevelId;
+                            origin.memberAccessLevelId = member.memberAccessLevelId;
+                            origin.memberSubscribedUntill = member.memberSubscribedUntill;
+                            context.SaveChanges();
+                            MessageBox.Show("Wijzigingen voor " + member.memberName + " opgeslagen.", "Wijzigingen opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
-                        Check = DateCheckBeforeToday(member.memberSubscribedUntill);
-                        if (Check)
-                        {
-                            MessageBox.Show("Einde lidmaatschap kan niet geplaatst worden voor de huidige datum!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            member.memberSubscribedUntill = origin.memberSubscribedUntill;
-                            memberList.Items.Refresh();
-                            return;
-                        }
-                        //Update database with changes made to the table
-                        origin.memberUsername = member.memberUsername;
-                        origin.memberName = member.memberName;                        
-                        origin.memberRowLevelId = member.memberRowLevelId;
-                        origin.memberAccessLevelId = member.memberAccessLevelId;
-                        origin.memberSubscribedUntill = member.memberSubscribedUntill;
-                        context.SaveChanges();
                     }
                 }
-                MessageBox.Show("Wijzigingen voor " + member.memberName + " opgeslagen.", "Wijzigingen opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (InvalidCastException)
             {
                 //Throws message when ID-less selection is made.
                 MessageBox.Show("Geselecteerde lid bestaat niet.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (NullReferenceException)
+            {
+                //Throws message when button is clicked without selecting a row.
+                MessageBox.Show("Er is geen lid geselecteerd!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void memberList_Loaded(object sender, RoutedEventArgs e)
         {
+            //Makes the ID-column uneditable.
             memberList.Columns[0].IsReadOnly = true;
         }
         public bool DateCheckBeforeToday(DateTime? date)
