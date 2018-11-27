@@ -7,16 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid MinHeight="200" Height="Auto" MinWidth="400" Width="Auto" HorizontalAlignment="Center" Margin="196,122,197.6,0"  IsReadOnly="False"
+        <DataGrid MinHeight="200" Height="289" MinWidth="600" Width="682" HorizontalAlignment="Left" Margin="55,74,0,0"  IsReadOnly="False"
           Name="memberList" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*" Loaded="memberList_Loaded"
                   ColumnHeaderHeight="50" HeadersVisibility="Column"
-                  Background="LightGray" RowBackground="LightYellow" 
-                  AlternatingRowBackground="LightBlue"
-                  BorderBrush="Gray" BorderThickness="5" AutoGenerateColumns="True">
+                  Background="LightGray" RowBackground="White" 
+                  AlternatingRowBackground="LightGray"
+                  BorderBrush="LightGray" BorderThickness="1" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Lid ID" Binding="{Binding memberId}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Gebruikersnaam" Binding="{Binding memberUsername}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Lid naam" Binding="{Binding memberName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Toegangsniveau" Binding="{Binding memberAccessLevelId}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Roeiniveau" Binding="{Binding memberRowLevelId}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Betaald t/m" Binding="{Binding memberSubscribedUntill}"></DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Save changes" Height="23" HorizontalAlignment="Left" Margin="350,10,0,0"
+        <Button Content="Wijzigen opslaan" Height="23" HorizontalAlignment="Left" Margin="637,379,0,0"
                 Name="SaveButton" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click" />
-        <Button x:Name="BackToHomePage" Content="Terug naar hoofdscherm" HorizontalAlignment="Left" Margin="320,53,0,0" VerticalAlignment="Top" Width="148" Click="BackToHomePage_Click"/>
-        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="350,96,0,0" VerticalAlignment="Top" Width="86" Click="AddMember_Click"/>
+        <Button x:Name="BackToHomePage" Content="Terug" HorizontalAlignment="Left" Margin="55,27,0,0" VerticalAlignment="Top" Width="50" Click="BackToHomePage_Click"/>
+        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="651,27,0,0" VerticalAlignment="Top" Width="86" Click="AddMember_Click"/>
     </Grid>
 </UserControl>
