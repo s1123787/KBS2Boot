@@ -15,6 +15,13 @@
                 <TextBlock Text="Beheren gebruikers" FontSize="20" Height="32"/>
             </StackPanel>
         </Button>
+        <Button x:Name="OverviewBoats" Margin="316,70,23,162" Click="OverviewBoats_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="61" Width="93"/>
+                <TextBlock Text="Overzicht boten" FontSize="20" Height="32"/>
+
+            </StackPanel>
+        </Button>
         <Label x:Name="AccessLevelLabel" Content="Adminstator" HorizontalAlignment="Left" Margin="230,18,0,0" VerticalAlignment="Top" Width="118"/>
     </Grid>
 </UserControl>
