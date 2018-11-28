@@ -29,7 +29,7 @@ namespace KBSBoot.View
             InitializeComponent();
             Member member = new Member();
             OnRegister += member.OnRegisterOKButtonIsPressed;
-            Name.Focus();
+            //Name.Focus();
         }
 
         private void OKbtn_Click(object sender, RoutedEventArgs e)
@@ -44,6 +44,21 @@ namespace KBSBoot.View
         protected virtual void OnRegisterOKButtonIsPressed(string name, string username)
         {
             OnRegister?.Invoke(this, new RegisterEventArgs(name, username));
+        }
+
+        private void BackToLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
+
+        private void Clicked(object sender, MouseButtonEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
+
+        private void Click(object sender, MouseButtonEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
         }
     }
 }

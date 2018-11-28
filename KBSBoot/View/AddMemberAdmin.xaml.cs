@@ -151,5 +151,15 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new EditUserScreen(FullName));
         }
+
+        private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
     }
 }

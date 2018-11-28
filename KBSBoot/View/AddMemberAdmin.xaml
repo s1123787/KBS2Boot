@@ -4,30 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <Label Content="Naam" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="23" Margin="111,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="145"/>
-        <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="23" Margin="111,69,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
-        <Label Content="Niveau" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="111,101,0,0" VerticalAlignment="Top" Width="145">
+             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="787">
+    <Grid>
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToEditUserScreen_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button Content="Administrator" IsEnabled="False" />
+                        <Separator/>
+                        <Button Content="Goodbye" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lid toevoegen</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <Label Content="Naam" HorizontalAlignment="Left" Margin="80,130,0,10" VerticalAlignment="Top" Height="50" Width="100" FontSize="30"/>
+        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="50" Margin="350,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="36"/>
+        <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="80,200,0,0" VerticalAlignment="Top" FontSize="30" Width="230" Height="50"/>
+        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="50" Margin="350,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="30"/>
+        <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,270,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="RowLevelBox_SelectionChanged" FontSize="30" Height="60">
             <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
             <ComboBoxItem>Amateur</ComboBoxItem>
             <ComboBoxItem>Gevorderd</ComboBoxItem>
             <ComboBoxItem>Professional</ComboBoxItem>
         </ComboBox>
-        <Label Content="Rol" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="111,132,0,0" VerticalAlignment="Top" Width="145">
+        <Label Content="Rol" HorizontalAlignment="Left" Margin="80,340,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60">
             <ComboBoxItem IsSelected="True">Lid</ComboBoxItem>
             <ComboBoxItem>Wedstrijdcommissaris</ComboBoxItem>
             <ComboBoxItem>Materiaalcommissaris</ComboBoxItem>
             <ComboBoxItem>Administrator</ComboBoxItem>
         </ComboBox>
-        <Label Content="Lid tot" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Width="75" Click="AddUser_Click"/>
-        <Button x:Name="BackToEditUserScreen" Content="Terug" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="BackToEditUserScreen_Click"/>
-        <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="111,161,0,0" VerticalAlignment="Top" Width="145"/>
+        <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,408,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="350,500,0,0" VerticalAlignment="Top" Width="200" Click="AddUser_Click" FontSize="30" Height="50"/>
+        <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60"/>
     </Grid>
 </UserControl>

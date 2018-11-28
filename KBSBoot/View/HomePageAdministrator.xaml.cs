@@ -29,7 +29,7 @@ namespace KBSBoot.View
 
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
-            FullNameLabel.Content = $"Welkom {FullName}";
+            FullNameLabel.Text = $"Welkom {FullName}";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -45,6 +45,11 @@ namespace KBSBoot.View
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new boatOverviewScreen(FullName));
+        }
+
+        private void Clicked(object sender, MouseButtonEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
         }
     }
 }
