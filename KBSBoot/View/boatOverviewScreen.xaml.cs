@@ -31,6 +31,11 @@ namespace KBSBoot.View
 
         }
 
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
+
         private List<Boat> LoadCollectionData()
         {
             List<Boat> boats = new List<Boat>();
