@@ -41,7 +41,7 @@
                 <Separator/>
                 <Label  Content="Gebruikersnaam" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                 <TextBox Name="usernametxt" Padding="5,5,5,5" Background="#a2aee8" Template="{StaticResource TextBoxBaseControlTemplate}" Width="200"/>
-                <Button x:Name="LoginBtn" Height="20" Width="90" Margin="0 10 0 0" Content="Inloggen" Click="LoginBtn_click"  />
+                <Button x:Name="LoginBtn" Height="20" Width="90" Margin="0 10 0 0" Content="Inloggen" IsDefault="True" Click="LoginBtn_click"  />
                 <Label Content="Nog geen account?" Foreground="White" HorizontalAlignment="Center"/>
                 <Button x:Name="RegisterBtn" Height="20" Width="90" Content="Registreren" Click="RegisterBtn_click"/>
             </StackPanel>

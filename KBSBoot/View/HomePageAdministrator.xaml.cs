@@ -41,5 +41,10 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new EditUserScreen(FullName));
         }
+
+        private void OverviewBoats_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new boatOverviewScreen(FullName));
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace KBSBoot.Model
                 else //username doesn't exist
                 {
                     //show message on window that username doesn't exist
-                    MessageBox.Show("Gebruikersnaam is niet correct", "Onjuiste gebruikersnaam", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Inloggen is niet mogelijk", "Inloggen niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Information);
                     Correct = false;
                 }
             }
