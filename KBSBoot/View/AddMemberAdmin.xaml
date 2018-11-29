@@ -15,9 +15,12 @@
                 </Button>
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
-                        <Button Content="Administrator" IsEnabled="False" />
+                        <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" Loaded="DidLoaded"/>
                         <Separator/>
-                        <Button Content="Goodbye" Click="LogoutButton_Click"/>
+                        <Button Click="BackToHomePage">
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" Margin="0,5,0,0" />
+                        </Button>
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lid toevoegen</TextBlock>

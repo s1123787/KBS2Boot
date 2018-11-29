@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KBSBoot.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="768">
+             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="768" Loaded="DidLoaded">
     <Grid>
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -15,8 +15,11 @@
                 </Button>
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
-                        <Button Content="Administrator" IsEnabled="False" />
+                        <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
                         <Separator/>
+                        <Button Click="BackToHomePage_Click">
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" Margin="0,5,0,0" />
+                        </Button>
                         <Button Content="Goodbye" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
