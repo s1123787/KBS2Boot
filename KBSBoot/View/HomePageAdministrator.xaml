@@ -11,7 +11,7 @@
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86">
-                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54" MouseUp="Clicked"/>
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
                 </Button>
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
@@ -23,10 +23,10 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Welkom ...</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Button x:Name="Users" Margin="119,219,705,344.286" Click="Users_Click" Height="199" Style="{DynamicResource MaterialDesignRaisedButton}" Width="200">
-            <StackPanel Orientation="Vertical">
-                <Image Source="../Resources/users.png" Stretch="Uniform" Height="61" Width="93"/>
-                <TextBlock Text="Beheren gebruikers" FontSize="20" Height="32"/>
+        <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+            <StackPanel Orientation="Vertical" Width="326" Height="260">
+                <Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
+                <TextBlock Text="Beheren gebruikers" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
             </StackPanel>
         </Button>
     </Grid>

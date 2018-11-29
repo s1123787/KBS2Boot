@@ -15,7 +15,7 @@
                 </Button>
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
-                        <Button Content="Administrator" IsEnabled="False" />
+                        <Button Content="Lid" IsEnabled="False" />
                         <Separator/>
                         <Button Content="Goodbye" Click="LogoutButton_Click"/>
                     </StackPanel>
@@ -23,10 +23,10 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Welkom ...</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Button x:Name="Users" Margin="119,219,705,344.286" Click="Users_Click" Height="199" Style="{DynamicResource MaterialDesignRaisedButton}" Width="200">
-            <StackPanel Orientation="Vertical">
-                <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="61" Width="93"/>
-                <TextBlock Text="Bekijken boten" FontSize="20" Height="32"/>
+        <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+            <StackPanel Orientation="Vertical" Width="269" Height="235">
+                <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
+                <TextBlock Text="Bekijken boten" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
             </StackPanel>
         </Button>
     </Grid>

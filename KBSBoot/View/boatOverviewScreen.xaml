@@ -20,7 +20,7 @@
                         <Button Content="Goodbye" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lid toevoegen</TextBlock>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten bekijken</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
         <DataGrid MinHeight="200" Height="408" MinWidth="600" Width="791" HorizontalAlignment="Center" Margin="124,185,109,175"  IsReadOnly="True"
