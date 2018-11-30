@@ -17,5 +17,7 @@ namespace KBSBoot.DAL
 
         public virtual DbSet<Boat> Boats { get; set; }
         public virtual DbSet<BoatTypes> BoatTypes { get; set; }
+        public virtual DbSet<BoatImages> BoatImages { get; set; }
+        public virtual DbSet<BoatDamage> BoatDamages { get; set; }
     }
 }

@@ -177,5 +177,41 @@ namespace KBSBoot.View
             }
 
         }
+        private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Opens and closes the filter popup
+            if (FilterPopup.IsOpen == false)
+            {
+                FilterPopup.IsOpen = true;
+            }
+            else
+            {
+                FilterPopup.IsOpen = false;
+            }
+        }
+
+        private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ah niffo, werkt toch niet man.");
+        }
+
+        private void ResetSelection_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Deze ook niet.");
+            Bootplekken.IsEnabled = true;
+            StuurCheck.IsEnabled = true;
+            Bootnamen.IsEnabled = true;
+        }
+
+        private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Bootplekken.IsEnabled = false;
+            StuurCheck.IsEnabled = false;
+        }
+
+        private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Bootnamen.IsEnabled = false;
+        }
     }
 }

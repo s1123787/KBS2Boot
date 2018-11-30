@@ -60,5 +60,15 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel));
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new ReportDamage(FullName, 1, AccessLevel));
+        }
     }
 }

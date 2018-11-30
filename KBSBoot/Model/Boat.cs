@@ -13,9 +13,11 @@ namespace KBSBoot.Model
         public int boatId { get; set; }
         public int boatTypeId { get; set; }
 
-       
-        public int boatOutOfService { get; set; }
+        public string boatName { get; set; }
 
+
+        public int boatOutOfService { get; set; }
+        public string boatYoutubeUrl { get; set; }
 
     }
 }
