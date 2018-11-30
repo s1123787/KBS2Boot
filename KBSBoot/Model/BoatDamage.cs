@@ -12,6 +12,7 @@ namespace KBSBoot.Model
     {
         public int boatDamageId { get; set; }
         public int boatId { get; set; }
+        public int memberId { get; set; }
         public int boatDamageLevel { get; set; }
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }

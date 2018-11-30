@@ -23,14 +23,16 @@ namespace KBSBoot.View
     public partial class ReportDamage : UserControl
     {
         public string FullName;
-        public int boatId;
+        public int MemberId;
         public int AccessLevel;
+        public int boatId;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int AccessLevel, int boatId)
+        public ReportDamage(string FullName, int MemberId, int AccessLevel, int boatId)
         {
-            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
+            this.AccessLevel = AccessLevel;
             this.boatId = boatId;
             InitializeComponent();
         }
@@ -51,7 +53,8 @@ namespace KBSBoot.View
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
-                        boatId = this.boatId,
+                        boatId = boatId,
+                        memberId = MemberId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
                         boatDamageReason = reason
@@ -59,7 +62,7 @@ namespace KBSBoot.View
 
                     //Add report to database
                     BoatDamage.AddReportToDB(boatDamage);
-                    Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
                 }
                 catch (Exception exception)
                 {
@@ -98,11 +101,11 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
     }
 }

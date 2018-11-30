@@ -24,12 +24,14 @@ namespace KBSBoot.View
     public partial class EditUserScreen : UserControl
     {
         public string FullName;
+        public int MemberId;
         public int AccessLevel;
 
-        public EditUserScreen(string FullName, int AccessLevel)
+        public EditUserScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = this.MemberId;
             InitializeComponent();
             memberList.ItemsSource = LoadCollectionData();
         }
@@ -181,12 +183,12 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
         }
 
         private void AddMember_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel));
+            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

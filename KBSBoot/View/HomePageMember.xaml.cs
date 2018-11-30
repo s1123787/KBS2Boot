@@ -21,12 +21,14 @@ namespace KBSBoot.View
     public partial class HomePageMember : UserControl
     {
         public string FullName;
+        public int MemberId;
         public int AccessLevel;
 
-        public HomePageMember(string FullName, int AccessLevel)
+        public HomePageMember(string FullName, int MemberId, int AccessLevel)
         {
-            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
+            this.AccessLevel = AccessLevel;
             InitializeComponent();
         }
 
@@ -58,17 +60,17 @@ namespace KBSBoot.View
 
         private void Users_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel));
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, MemberId));
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new ReportDamage(FullName, 1, AccessLevel));
+            Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, 1));
         }
     }
 }

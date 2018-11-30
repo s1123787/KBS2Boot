@@ -24,13 +24,15 @@ namespace KBSBoot.View
     public partial class AddMemberAdmin : UserControl
     {
         public string FullName;
+        public int MemberId;
         public int AccessLevel;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName, int AccessLevel)
+        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
@@ -77,7 +79,7 @@ namespace KBSBoot.View
                     Member.CheckIfMemberExists(member);
                     //Add new member to database
                     Member.AddMemberToDB(member);
-                    Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+                    Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
                 }
                 catch (FormatException)
                 {
@@ -117,7 +119,7 @@ namespace KBSBoot.View
 
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
         }
 
         private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -132,7 +134,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

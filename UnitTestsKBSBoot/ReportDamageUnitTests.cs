@@ -17,6 +17,7 @@ namespace UnitTestsKBSBoot
             var report = new BoatDamage
             {
                 boatId = 1,
+                memberId = 1,
                 boatDamageLevel = 2,
                 boatDamageLocation = "Voor",
                 boatDamageReason = "Sawwy"
