@@ -4,11 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="768" Loaded="DidLoaded">
     <Grid>
-        <DataGrid MinHeight="200" Height="289" MinWidth="600" Width="682" HorizontalAlignment="Left" Margin="55,74,0,0"  IsReadOnly="True"
-          Name="boatList" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*"
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToHomePage_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
+                        <Separator/>
+                        <Button Click="BackToHomePage_Click">
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" />
+                        </Button>
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten bekijken</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <!-- <DataGrid MinHeight="200" Height="191" MinWidth="600" Width="791" HorizontalAlignment="Center" Margin="124,402,109,175"  IsReadOnly="True"
+          Name="boatList" VerticalAlignment="Center" RowHeight="40" ColumnWidth="*"
                   ColumnHeaderHeight="50" HeadersVisibility="Column"
                   Background="LightGray" RowBackground="White" 
                   AlternatingRowBackground="LightGray"
@@ -20,7 +39,7 @@
                 <DataGridTextColumn Header="Stuur" Binding="{Binding boatSteerString}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Aantal plekken" Binding="{Binding boatAmountSpaces}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Buiten gebruik?" Binding="{Binding boatOutOfServiceString}"></DataGridTextColumn>
-                <!--<DataGridTemplateColumn>
+                <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Width="auto" Click="ViewBoat">Bekijk boot</Button>
@@ -47,9 +66,43 @@
                             <Button Width="auto" Click="MaintenanceBoat">Onderhoud</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn> -->
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="BackToHomePage" Content="Terug" HorizontalAlignment="Left" Margin="55,26,0,0" VerticalAlignment="Top" Width="75" Click="BackToHomePage_Click" Height="20"/>
+                </DataGridTemplateColumn>
+        </DataGrid.Columns>
+        </DataGrid> -->
+        <ScrollViewer HorizontalAlignment="Left" Height="400" Margin="100,200,100,100" VerticalAlignment="Top" Width="791">
+            <StackPanel x:Name="MainStackPanel">
+                
+            </StackPanel>
+        </ScrollViewer>
+        <Button x:Name="MenuFilterButton" Content="Filter" Width="75" Height="20" Margin="712,131,0,0" Click="MenuFilterButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
+        <Popup x:Name="FilterPopup" Width="200" Height="150" IsOpen="False" PlacementTarget="{Binding ElementName=MenuFilterButton}" Placement="Left" VerticalAlignment="Top">
+            <Canvas Background="White">
+                <Button x:Name="SelectionFilteren" Content="Filteren" Width="54" Canvas.Left="31" Canvas.Top="121" Click="SelectionFilteren_Click"/>
+                <Button x:Name="ResetSelection" Content="Reset" Width="50" Canvas.Left="121" Canvas.Top="121" Click="ResetSelection_Click"/>
+                <Label Content="Boot naam" Canvas.Left="100" Canvas.Top="10" Width="88" HorizontalContentAlignment="Center"></Label>
+                <ComboBox x:Name="Bootnamen" Canvas.Left="30" Canvas.Top="13" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding boatTypeName}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Content="Aantal plekken" Canvas.Left="101" Canvas.Top="40" Width="89" HorizontalContentAlignment="Center"></Label>
+                <ComboBox x:Name="Bootplekken" Canvas.Left="31" Canvas.Top="43" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding boatAmountSpaces}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Content="Stuur" Canvas.Left="101" Canvas.Top="71" Width="89" HorizontalContentAlignment="Center"></Label>
+                <CheckBox x:Name="StuurCheck" Canvas.Left="48" Canvas.Top="82"></CheckBox>
+            </Canvas>
+        </Popup>
+
     </Grid>
 </UserControl>

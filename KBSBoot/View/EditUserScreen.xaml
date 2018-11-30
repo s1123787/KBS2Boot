@@ -4,9 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="768" Loaded="DidLoaded">
     <Grid>
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToHomePage_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
+                        <Separator/>
+                        <Button Click="BackToHomePage_Click">
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" Margin="0,5,0,0" />
+                        </Button>
+                        <Button Content="Goodbye" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wijzigen van leden</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>        
         <DataGrid MinHeight="200" Height="289" MinWidth="600" Width="682" HorizontalAlignment="Left" Margin="55,74,0,0"  IsReadOnly="False"
           Name="memberList" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*" Loaded="memberList_Loaded" CanUserDeleteRows="False"
                   ColumnHeaderHeight="50" HeadersVisibility="Column"
@@ -22,9 +41,8 @@
                 <DataGridTextColumn Header="Betaald t/m" Binding="{Binding memberSubscribedUntill}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Wijzigen opslaan" Height="23" HorizontalAlignment="Left" Margin="637,379,0,0"
-                Name="SaveButton" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click" />
-        <Button x:Name="BackToHomePage" Content="Terug" HorizontalAlignment="Left" Margin="55,27,0,0" VerticalAlignment="Top" Width="50" Click="BackToHomePage_Click"/>
-        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="651,27,0,0" VerticalAlignment="Top" Width="86" Click="AddMember_Click"/>
+        <Button Content="Wijzigen opslaan" Height="57" HorizontalAlignment="Left" Margin="741,653,0,0"
+                Name="SaveButton" VerticalAlignment="Top" Width="188" Click="SaveChanges_Click" />
+        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="741,130,0,0" VerticalAlignment="Top" Width="188" Click="AddMember_Click" Height="51"/>
     </Grid>
 </UserControl>
