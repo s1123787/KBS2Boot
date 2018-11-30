@@ -25,9 +25,9 @@
                 </materialDesign:PopupBox>
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wijzigen van leden</TextBlock>
             </DockPanel>
-        </materialDesign:ColorZone>
-        <DataGrid MinHeight="200" Height="425" MinWidth="600" Width="831" HorizontalAlignment="Center" Margin="98,209,95,134"  IsReadOnly="False"
-          Name="memberList" VerticalAlignment="Center" RowHeight="40" ColumnWidth="*" Loaded="memberList_Loaded"
+        </materialDesign:ColorZone>        
+        <DataGrid MinHeight="200" Height="289" MinWidth="600" Width="682" HorizontalAlignment="Left" Margin="55,74,0,0"  IsReadOnly="False"
+          Name="memberList" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*" Loaded="memberList_Loaded" CanUserDeleteRows="False"
                   ColumnHeaderHeight="50" HeadersVisibility="Column"
                   Background="LightGray" RowBackground="White" 
                   AlternatingRowBackground="LightGray"

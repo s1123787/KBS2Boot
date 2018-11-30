@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Configuration;
 using KBSBoot.Model;
 using System.Windows.Controls;
+using System.ComponentModel;
 
 namespace KBSBoot.View
 {
@@ -119,6 +120,13 @@ namespace KBSBoot.View
                                         return;
                                     }
                                 }
+                            }
+                            //Checks if user is currrently editing a cell stops saving values to database if true.
+                            IEditableCollectionView itemsView = memberList.Items;
+                            if(itemsView.IsAddingNew || itemsView.IsEditingItem)
+                            {
+                                MessageBox.Show("Kan geen wijzigingen versturen tijdens het wijzigen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
                             }
                             //Update database with changes made to the table
                             origin.memberUsername = member.memberUsername;
