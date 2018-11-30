@@ -22,6 +22,7 @@ namespace KBSBoot.View
     public partial class boatOverviewScreen : UserControl
     {
         public string FullName;
+        private bool FilterActive = false;
 
         public boatOverviewScreen(string FullName)
         {
@@ -53,17 +54,17 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    // Adds table columns with items from database
-                    boats.Add(new Boat()
-                    {
-                        boatId = b.boatId,
-                        boatTypeId = b.boatTypeId,
-                        boatTypeName = b.boatTypeName,
-                        boatTypeDescription = b.boatTypeDescription,
-                        boatSteerString = (b.boatSteer == 0) ? "nee" : "ja",
-                        boatAmountSpaces = b.boatAmountSpaces,
-                        boatOutOfServiceString = (b.boatOutOfService == 0) ? "nee" : "ja"
-                    });
+                        // Adds table columns with items from database
+                        boats.Add(new Boat()
+                        {
+                            boatId = b.boatId,
+                            boatTypeId = b.boatTypeId,
+                            boatTypeName = b.boatTypeName,
+                            boatTypeDescription = b.boatTypeDescription,
+                            boatSteerString = (b.boatSteer == 0) ? "nee" : "ja",
+                            boatAmountSpaces = b.boatAmountSpaces,
+                            boatOutOfServiceString = (b.boatOutOfService == 0) ? "nee" : "ja"
+                        });
                 }
                 return boats;
             }
@@ -166,26 +167,38 @@ namespace KBSBoot.View
 
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
+            FilterActive = true;
             MessageBox.Show("ah niffo, werkt toch niet man.");
         }
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
         {
+            FilterActive = false;
             MessageBox.Show("Deze ook niet.");
+            //Resets the filteroptions
             Bootplekken.IsEnabled = true;
             StuurCheck.IsEnabled = true;
             Bootnamen.IsEnabled = true;
+            Bootnamen.SelectedItem = null;
+            Bootplekken.SelectedItem = null;
+            StuurCheck.IsChecked = false;
         }
 
         private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bootplekken.IsEnabled = false;
-            StuurCheck.IsEnabled = false;
+            if (Bootnamen.SelectedItem != null)
+            {
+                Bootplekken.IsEnabled = false;
+                StuurCheck.IsEnabled = false;
+            }
         }
 
         private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bootnamen.IsEnabled = false;
+            if (Bootplekken.SelectedItem != null)
+            {
+                Bootnamen.IsEnabled = false;
+            }
         }
     }
 }
