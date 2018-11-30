@@ -21,8 +21,11 @@ namespace KBSBoot.View
     public partial class HomePageMatchCommissioner : UserControl
     {
         public string FullName;
-        public HomePageMatchCommissioner(string FullName)
+        public int AccessLevel;
+
+        public HomePageMatchCommissioner(string FullName, int AccessLevel)
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
         }

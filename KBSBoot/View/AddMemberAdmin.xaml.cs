@@ -24,10 +24,12 @@ namespace KBSBoot.View
     public partial class AddMemberAdmin : UserControl
     {
         public string FullName;
+        public int AccessLevel;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName)
+        public AddMemberAdmin(string FullName, int AccessLevel)
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
@@ -143,13 +145,45 @@ namespace KBSBoot.View
                 context.Members.Add(member);
                 context.SaveChanges();
                 MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new EditUserScreen(FullName));
+                Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
             }
         }
 
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+        }
+
+        private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
+
+        private void BackToHomePage(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+        }
+
+        private void DidLoaded(object sender, RoutedEventArgs e)
+        {
+            if(AccessLevel == 1)
+            {
+                AccessLevelButton.Content = "Lid";
+            } else if (AccessLevel == 2)
+            {
+                AccessLevelButton.Content = "Wedstrijdcommissaris";
+            } else if (AccessLevel == 3)
+            {
+                AccessLevelButton.Content = "Materiaalcommissaris";
+            } else if (AccessLevel == 4)
+            {
+                AccessLevelButton.Content = "Administrator";
+            }
         }
     }
 }

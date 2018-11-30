@@ -4,17 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Loaded="ViewDidLoaded" Width="525" Height="350" Foreground="White">
-    <Grid x:Name="AdminGrid">
-        <Label x:Name="FullNameLabel" Content="Welkom &lt;naam&gt;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="220" FontSize="20"/>
-        <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
-        <Button x:Name="Users" Margin="10,70,329,162" Click="Users_Click">
-            <StackPanel Orientation="Vertical">
-                <Image Source="../Resources/users.png" Stretch="Uniform" Height="61" Width="93"/>
-                <TextBlock Text="Beheren gebruikers" FontSize="20" Height="32"/>
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="ViewDidLoaded" Width="1024" Height="762" Foreground="White">
+    <Grid x:Name="AdminGrid" Height="768">
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel Margin="100,0,0,0">
+                
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
+                        <Separator/>
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Welkom ...</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+            <StackPanel Orientation="Vertical" Width="326" Height="260">
+                <Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
+                <TextBlock Text="Beheren gebruikers" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
             </StackPanel>
         </Button>
-        <Label x:Name="AccessLevelLabel" Content="Adminstator" HorizontalAlignment="Left" Margin="230,18,0,0" VerticalAlignment="Top" Width="118"/>
     </Grid>
 </UserControl>

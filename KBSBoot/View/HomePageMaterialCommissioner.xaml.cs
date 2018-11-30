@@ -21,8 +21,11 @@ namespace KBSBoot.View
     public partial class HomePageMaterialCommissioner : UserControl
     {
         public string FullName;
-        public HomePageMaterialCommissioner(string FullName)
+        public int AccessLevel;
+
+        public HomePageMaterialCommissioner(string FullName, int AccessLevel)
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
         }

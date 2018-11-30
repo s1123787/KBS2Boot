@@ -22,15 +22,20 @@ namespace KBSBoot.View
     public partial class boatOverviewScreen : UserControl
     {
         public string FullName;
-        private bool FilterActive = false;
+        public int AccessLevel;
 
-        public boatOverviewScreen(string FullName)
+        public boatOverviewScreen(string FullName, int AccessLevel)
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
-            boatList.ItemsSource = LoadCollectionData();
-            Bootnamen.ItemsSource = LoadBoatNameSelection();
-            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
+            //boatList.ItemsSource = LoadCollectionData();
+
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
         }
 
         private List<Boat> LoadCollectionData()
@@ -54,41 +59,7 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                        // Adds table columns with items from database
-                        boats.Add(new Boat()
-                        {
-                            boatId = b.boatId,
-                            boatTypeId = b.boatTypeId,
-                            boatTypeName = b.boatTypeName,
-                            boatTypeDescription = b.boatTypeDescription,
-                            boatSteerString = (b.boatSteer == 0) ? "nee" : "ja",
-                            boatAmountSpaces = b.boatAmountSpaces,
-                            boatOutOfServiceString = (b.boatOutOfService == 0) ? "nee" : "ja"
-                        });
-                }
-                return boats;
-            }
-        }
-        private List<Boat> LoadBoatNameSelection()
-        {
-            List<Boat> boatnames = new List<Boat>();
-            using (var context = new BootDB())
-            {
-                var tableData = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 select new
-                                 {
-                                     boatTypeName = bt.boatTypeName
-                                 });
-                
-                foreach(var b in tableData)
-                {
-                    boatnames.Add(new Boat()
-                    {
-                        //Adds boatnames to list
-                        boatTypeName = b.boatTypeName
-                    });
+                                        
                 }
             }
             List<Boat> DistinctBoatNames = new List<Boat>();
@@ -150,7 +121,121 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+        }
+
+        private void DidLoaded(object sender, RoutedEventArgs e)
+        {
+            if (AccessLevel == 1)
+            {
+                AccessLevelButton.Content = "Lid";
+            }
+            else if (AccessLevel == 2)
+            {
+                AccessLevelButton.Content = "Wedstrijdcommissaris";
+            }
+            else if (AccessLevel == 3)
+            {
+                AccessLevelButton.Content = "Materiaalcommissaris";
+            }
+            else if (AccessLevel == 4)
+            {
+                AccessLevelButton.Content = "Administrator";
+            }
+            using (var context = new BootDB())
+            {
+                var tableData = (from b in context.Boats
+                                 join bt in context.BoatTypes
+                                 on b.boatTypeId equals bt.boatTypeId
+                                 select new
+                                 {
+                                     boatId = b.boatId,
+                                     boatTypeId = bt.boatTypeId,
+                                     boatTypeName = bt.boatTypeName,
+                                     boatTypeDescription = bt.boatTypeDescription,
+                                     boatOutOfService = b.boatOutOfService,
+                                     boatSteer = bt.boatSteer,
+                                     boatAmountSpaces = bt.boatAmountSpaces
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    #region
+                    StackPanel sp = new StackPanel();
+                    sp.Orientation = Orientation.Horizontal;
+                    sp.Height = 100;
+                    sp.HorizontalAlignment = HorizontalAlignment.Left;
+                    Image image = new Image();
+                    image.Margin = new Thickness(15, 16, 20, 16.714);
+                    BitmapImage bitmapImage = new BitmapImage();
+
+                    bitmapImage.BeginInit();
+                    bitmapImage.UriSource = new Uri("pack://application:,,,/Resources/users.png");
+
+                    bitmapImage.DecodePixelWidth = 500;
+                    bitmapImage.EndInit();
+
+                    image.Source = bitmapImage;
+                    sp.Children.Add(image);
+                    Label l1 = new Label();
+                    l1.Content = b.boatTypeName;
+                    l1.FontSize = 24;
+                    l1.Width = 200;
+                    l1.Margin = new Thickness(100, 30, 0, 25);
+                    sp.Children.Add(l1);
+                    Label l = new Label();
+                    l.Content = b.boatTypeName;
+                    l.FontSize = 24;
+                    l.Width = 200;
+                    l.Margin = new Thickness(0, 30, 0, 25);
+                    sp.Children.Add(l);
+                    Button button = new Button();
+                    button.Content = "meer informatie";
+                    button.Width = 170;
+                    button.Margin = new Thickness(0, 5, 0, 0);
+                    sp.Children.Add(button);
+                    MainStackPanel.Children.Add(sp);
+                    #endregion
+                }
+
+            }
+
+        }
+        private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Opens and closes the filter popup
+            if (FilterPopup.IsOpen == false)
+            {
+                FilterPopup.IsOpen = true;
+            }
+            else
+            {
+                FilterPopup.IsOpen = false;
+            }
+        }
+
+        private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ah niffo, werkt toch niet man.");
+        }
+
+        private void ResetSelection_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Deze ook niet.");
+            Bootplekken.IsEnabled = true;
+            StuurCheck.IsEnabled = true;
+            Bootnamen.IsEnabled = true;
+        }
+
+        private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Bootplekken.IsEnabled = false;
+            StuurCheck.IsEnabled = false;
+        }
+
+        private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Bootnamen.IsEnabled = false;
         }
 
         private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
