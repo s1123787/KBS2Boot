@@ -4,9 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
     <Grid>
-            
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToHomePage_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
+                        <Separator/>
+                        <Button Click="BackToHomePage_Click">
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" />
+                        </Button>
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Mijn reserveringen</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <Button Content="Meld schade" HorizontalAlignment="Left" Margin="854,169,0,0" VerticalAlignment="Top" Width="130"/>
+
+        <ScrollViewer HorizontalAlignment="Left" Height="500" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
+            <ListView ItemsSource="{Binding Items1}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Reserveringsnummer" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Boat_name}" Header="Boot naam" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Boat_type}" Header="Boot type" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Datum" />
+                        <GridViewColumn DisplayMemberBinding="{Binding StartTime}" Header="Begin tijd"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding EndTime}" Header="Eind tijd" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>

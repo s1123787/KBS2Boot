@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KBSBoot.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="768" Loaded="ViewDidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768" Loaded="ViewDidLoaded">
     <Grid x:Name="MemberGrid">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -21,10 +21,16 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Margin="108,0,0,0">Welkom ...</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+        <Button x:Name="Users" Margin="74,107,550,361" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
                 <TextBlock Text="Bekijken boten" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Reservations" Margin="74,426,550,42" Click="MyReservations_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+            <StackPanel Orientation="Vertical" Width="269" Height="235">
+                <Image Source="../Resources/reservation.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
+                <TextBlock Text="Mijn reserveringen" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
             </StackPanel>
         </Button>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="632,214,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>

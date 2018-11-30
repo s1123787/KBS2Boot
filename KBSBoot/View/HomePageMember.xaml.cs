@@ -70,5 +70,10 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new ReportDamage(FullName, 1, AccessLevel));
         }
+
+        private void MyReservations_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new ReservationsScreen(FullName, AccessLevel));
+        }
     }
 }
