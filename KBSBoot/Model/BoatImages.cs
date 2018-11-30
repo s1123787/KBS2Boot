@@ -13,6 +13,6 @@ namespace KBSBoot.Model
         public int boatImageId { get; set; }
 
         public int boatId { get; set; }
-        public Byte[] boatImageBlob { get; set; }
+        public string boatImageBlob { get; set; }
     }
 }
