@@ -27,7 +27,7 @@ namespace KBSBoot.View
         public int AccessLevel;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel)
+        public ReportDamage(string FullName, int AccessLevel, int boatId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
@@ -58,7 +58,8 @@ namespace KBSBoot.View
                     };
 
                     //Add report to database
-                    AddReportToDB(boatDamage);
+                    BoatDamage.AddReportToDB(boatDamage);
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel));
                 }
                 catch (Exception exception)
                 {
@@ -70,23 +71,6 @@ namespace KBSBoot.View
             {
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        //Method to add report to the database
-        public void AddReportToDB(BoatDamage report)
-        {
-            using (var context = new BootDB())
-            {
-                context.BoatDamages.Add(report);
-                context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel));
-            }
-        }
-
-        public void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
