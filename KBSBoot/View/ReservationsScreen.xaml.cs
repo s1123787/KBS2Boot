@@ -1,4 +1,5 @@
 ﻿using KBSBoot.DAL;
+using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,31 +24,34 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
-        public ReservationsScreen(string FullName, int AccessLevel)
+        public ReservationsScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
+            this.MemberId = MemberId;
             InitializeComponent();
+            Reservation r = new Reservation(MemberId);
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
-                Switcher.Switch(new HomePageMember(FullName,AccessLevel));
+                Switcher.Switch(new HomePageMember(FullName,AccessLevel, MemberId));
             }
             else if (AccessLevel == 2)
             {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName,AccessLevel));
+                Switcher.Switch(new HomePageMatchCommissioner(FullName,AccessLevel, MemberId));
             }
             else if (AccessLevel == 3)
             {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName,AccessLevel));
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName,AccessLevel, MemberId));
             }
             else if (AccessLevel == 4)
             {
-                Switcher.Switch(new HomePageAdministrator(FullName,AccessLevel));
+                Switcher.Switch(new HomePageAdministrator(FullName,AccessLevel, MemberId));
             }
         }
 

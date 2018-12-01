@@ -6,18 +6,13 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    class Reservation
+    public class ReservationEventArgs
     {
         public int MemberId { get; set; }
 
-        public Reservation(int MemberId)
+        public ReservationEventArgs(int MemberId)
         {
             this.MemberId = MemberId;
         }
-        public void LoadReservationsList(int MemberId)
-        {
-
-        }
-       
     }
 }

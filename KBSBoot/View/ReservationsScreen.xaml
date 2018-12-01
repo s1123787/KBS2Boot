@@ -29,7 +29,7 @@
         <Button Content="Meld schade" HorizontalAlignment="Left" Margin="854,169,0,0" VerticalAlignment="Top" Width="130"/>
 
         <ScrollViewer HorizontalAlignment="Left" Height="500" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding Items1}">
+            <ListView ItemsSource="{Binding ReservationsList}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Reserveringsnummer" />

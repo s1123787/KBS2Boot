@@ -25,13 +25,15 @@ namespace KBSBoot.View
         public string FullName;
         public int boatId;
         public int AccessLevel;
+        public int MemberId;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel)
+        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.boatId = boatId;
+            this.MemberId = MemberId;
             InitializeComponent();
         }
 
@@ -80,13 +82,13 @@ namespace KBSBoot.View
                 context.BoatDamages.Add(report);
                 context.SaveChanges();
                 MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
             }
         }
 
         public void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
@@ -114,11 +116,11 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
     }
 }

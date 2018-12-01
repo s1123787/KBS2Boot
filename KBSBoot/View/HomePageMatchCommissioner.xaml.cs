@@ -22,11 +22,13 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
-        public HomePageMatchCommissioner(string FullName, int AccessLevel)
+        public HomePageMatchCommissioner(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
         }
 
