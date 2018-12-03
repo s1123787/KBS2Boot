@@ -33,6 +33,8 @@ namespace KBSBoot.View
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
+        private int videoWidth = 500;
+        private int videoHeight = 320;
 
         public BoatDetail(string FullName, int AccessLevel)
         {
@@ -211,10 +213,10 @@ namespace KBSBoot.View
                 WebBrowser webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
-                    Height = 320,
-                    Width = 600,
+                    Height = videoHeight,
+                    Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(120, 360, 0, 0)
+                    Margin = new Thickness(20, 360, 0, 0)
                 };
 
                 webBrowser.NavigateToString(page);
@@ -226,7 +228,7 @@ namespace KBSBoot.View
         //Generate Iframe for inside Webbrowser control
         private string GetYouTubeScript(string id)
         {
-            string scr = @"<iframe width='600' height='350' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=HD720&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
+            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=HD720&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
             return scr;
         }
 
