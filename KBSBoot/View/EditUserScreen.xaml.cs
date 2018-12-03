@@ -93,9 +93,9 @@ namespace KBSBoot.View
                                 return;
                             }
                             Check = CheckIfLessThanZero(member.memberAccessLevelId);
-                            if (Check || member.memberAccessLevelId > 4)
+                            if (Check)
                             {
-                                MessageBox.Show("Toegangsniveau kan niet minder dan 0 of meer dan 4 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Toegangsniveau kan niet minder dan 0 zijn!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                 member.memberAccessLevelId = origin.memberAccessLevelId;
                                 memberList.Items.Refresh();
                                 return;
@@ -125,7 +125,7 @@ namespace KBSBoot.View
                             IEditableCollectionView itemsView = memberList.Items;
                             if(itemsView.IsAddingNew || itemsView.IsEditingItem)
                             {
-                                MessageBox.Show("Kan geen gegevens versturen tijdens het wijzigen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("Kan geen wijzigingen versturen tijdens het wijzigen!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return;
                             }
                             //Update database with changes made to the table

@@ -21,15 +21,21 @@ namespace KBSBoot.View
     /// </summary>
     public partial class boatOverviewScreen : UserControl
     {
+        public delegate void LoadScreenAgain(object sender, RoutedEventArgs e);
+        public event LoadScreenAgain OnLoadScreenAgain;
         public string FullName;
         public int AccessLevel;
+        private bool FilterEnabled = false;
+        private string bootnaam;
+        private int bootplek;
 
         public boatOverviewScreen(string FullName, int AccessLevel)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
-            //boatList.ItemsSource = LoadCollectionData();
+            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
+            Bootnamen.ItemsSource = LoadBoatNamesSelection();
 
         }
 
@@ -37,10 +43,9 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new LoginScreen());
         }
-
-        private List<Boat> LoadCollectionData()
+        private List<BoatTypes> LoadBoatNamesSelection()
         {
-            List<Boat> boats = new List<Boat>();
+            List<BoatTypes> boatnames = new List<BoatTypes>();
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -48,27 +53,24 @@ namespace KBSBoot.View
                                  on b.boatTypeId equals bt.boatTypeId
                                  select new
                                  {
-                                     boatId = b.boatId,
-                                     boatTypeId = bt.boatTypeId,
-                                     boatTypeName = bt.boatTypeName,
-                                     boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
-                                     boatSteer = bt.boatSteer,
-                                     boatAmountSpaces = bt.boatAmountSpaces
+                                     boatNames = bt.boatTypeName
                                  });
 
                 foreach (var b in tableData)
                 {
-                                        
+                    boatnames.Add(new BoatTypes()
+                    {
+                        boatTypeName = b.boatNames
+                    });
                 }
             }
-            List<Boat> DistinctBoatNames = new List<Boat>();
-            DistinctBoatNames = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
-            return DistinctBoatNames;
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+            DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+            return DistinctBoatSeats;
         }
-        private List<Boat> LoadBoatSeatsSelection()
+        private List<BoatTypes> LoadBoatSeatsSelection()
         {
-            List<Boat> boatseats = new List<Boat>();
+            List<BoatTypes> boatseats = new List<BoatTypes>();
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -81,13 +83,13 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    boatseats.Add(new Boat()
+                    boatseats.Add(new BoatTypes()
                     {
                         boatAmountSpaces = b.boatAmountSpaces
                     });
                 }
             }
-            List<Boat> DistinctBoatSeats = new List<Boat>();
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
             DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
             return DistinctBoatSeats;
         }
@@ -157,9 +159,43 @@ namespace KBSBoot.View
                                      boatSteer = bt.boatSteer,
                                      boatAmountSpaces = bt.boatAmountSpaces
                                  });
-
+                MainStackPanel.Children.Clear();
                 foreach (var b in tableData)
                 {
+                    //Filters selection based on chosen options
+                    if (FilterEnabled)
+                    {
+                        if (Bootnamen.SelectedItem != null)
+                        {
+                            if(b.boatTypeName != bootnaam)
+                            {
+                                continue;
+                            }
+                        }
+                        if(Bootplekken.SelectedItem != null){
+                            if(b.boatAmountSpaces != bootplek)
+                            {
+                                continue;
+                            }
+                        }
+                        if (StuurCheck.IsEnabled)
+                        {
+                            bool stuurcheck = StuurCheck.IsChecked.HasValue ? StuurCheck.IsChecked.Value : false;
+                            if (stuurcheck)
+                            {
+                                if(b.boatSteer == 0)
+                                {
+                                    continue;
+                                }
+                            } else
+                            {
+                                if(b.boatSteer == 1)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
                     #region
                     StackPanel sp = new StackPanel();
                     sp.Orientation = Orientation.Horizontal;
@@ -197,69 +233,20 @@ namespace KBSBoot.View
                     MainStackPanel.Children.Add(sp);
                     #endregion
                 }
-
-            }
-
-        }
-        private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Opens and closes the filter popup
-            if (FilterPopup.IsOpen == false)
-            {
-                FilterPopup.IsOpen = true;
-            }
-            else
-            {
-                FilterPopup.IsOpen = false;
             }
         }
-
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ah niffo, werkt toch niet man.");
+            FilterEnabled = true;
+            OnLoadScreenAgain += DidLoaded;
+            onViewLoadedAgain();
         }
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Deze ook niet.");
-            Bootplekken.IsEnabled = true;
-            StuurCheck.IsEnabled = true;
-            Bootnamen.IsEnabled = true;
-        }
-
-        private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Bootplekken.IsEnabled = false;
-            StuurCheck.IsEnabled = false;
-        }
-
-        private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Bootnamen.IsEnabled = false;
-        }
-
-        private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Opens and closes the filter popup
-            if (FilterPopup.IsOpen == false)
-            {
-                FilterPopup.IsOpen = true;
-            } else
-            {
-                FilterPopup.IsOpen = false;
-            }
-        }
-
-        private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
-        {
-            FilterActive = true;
-            MessageBox.Show("ah niffo, werkt toch niet man.");
-        }
-
-        private void ResetSelection_Click(object sender, RoutedEventArgs e)
-        {
-            FilterActive = false;
-            MessageBox.Show("Deze ook niet.");
+            FilterEnabled = false;
+            OnLoadScreenAgain += DidLoaded;
+            onViewLoadedAgain();
             //Resets the filteroptions
             Bootplekken.IsEnabled = true;
             StuurCheck.IsEnabled = true;
@@ -273,6 +260,37 @@ namespace KBSBoot.View
         {
             if (Bootnamen.SelectedItem != null)
             {
+                int index = Bootnamen.SelectedIndex;
+                switch (index)
+                {
+                    case 0:
+                        bootnaam = "1x";
+                        break;
+                    case 1:
+                        bootnaam = "2";
+                        break;
+                    case 2:
+                        bootnaam = "2x";
+                        break;
+                    case 3:
+                        bootnaam = "2x+";
+                        break;
+                    case 4:
+                        bootnaam = "4x";
+                        break;
+                    case 5:
+                        bootnaam = "4x+";
+                        break;
+                    case 6:
+                        bootnaam = "4";
+                        break;
+                    case 7:
+                        bootnaam = "4+";
+                        break;
+                    case 8:
+                        bootnaam = "8+";
+                        break;
+                }
                 Bootplekken.IsEnabled = false;
                 StuurCheck.IsEnabled = false;
             }
@@ -282,8 +300,35 @@ namespace KBSBoot.View
         {
             if (Bootplekken.SelectedItem != null)
             {
+                int index = Bootplekken.SelectedIndex;
+                switch (index)
+                {
+                    case 0:
+                        bootplek = 1;
+                        break;
+                    case 1:
+                        bootplek = 2;
+                        break;
+                    case 2:
+                        bootplek = 3;
+                        break;
+                    case 3:
+                        bootplek = 4;
+                        break;
+                    case 4:
+                        bootplek = 5;
+                        break;
+                    case 5:
+                        bootplek = 9;
+                        break;
+                }
                 Bootnamen.IsEnabled = false;
             }
+        }
+
+        public void onViewLoadedAgain()
+        {
+            OnLoadScreenAgain?.Invoke(this, new RoutedEventArgs());
         }
     }
 }
