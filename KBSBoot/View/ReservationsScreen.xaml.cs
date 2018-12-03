@@ -120,7 +120,6 @@ namespace KBSBoot.View
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
                 }
             }
-
             //add list with reservation to the grid
             ReservationList.ItemsSource = reservations;
         }

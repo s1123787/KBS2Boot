@@ -116,7 +116,7 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {

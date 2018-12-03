@@ -38,6 +38,5 @@
         <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="165" Margin="118,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326"/>
         <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="369,524,0,0" VerticalAlignment="Top" Width="75" Click="ReportDamageButton_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="477,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="164" Width="373"><Run Text="Lichte schade:"/><Run Text="&#x9;&#x9;"/><Run Text="krasjes en deukjes."/><LineBreak/><Run Text="Schade :             "/><Run Text="&#x9;&#x9;"/><Run Text="scheuren of deuken."/><LineBreak/><Run Text="Onherstelbare schade:"/><Run Text="&#x9;"/><Run Text="schade die niet is te repareren"/><Run Text=" "/><Run Text="of schade"/><Run Text=" &#x9;&#x9;&#x9;"/><Run Text="die meer kost dan dat"/><Run Text=" "/><Run Text="de boot waard is."/><LineBreak/><Run/></TextBlock>
-        <Button x:Name="BackButton" Content="Terug" HorizontalAlignment="Left" Margin="118,116,0,0" VerticalAlignment="Top" Width="75" Click="BackButton_Click"/>
     </Grid>
 </UserControl>
