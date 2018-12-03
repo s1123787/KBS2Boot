@@ -26,7 +26,6 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Mijn reserveringen</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Button Content="Meld schade" HorizontalAlignment="Left" Margin="854,169,0,0" VerticalAlignment="Top" Width="130"/>
 
         <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
             <ListView ItemsSource="{Binding ReservationList}" Name="ReservationList" FontSize="16">
@@ -38,6 +37,13 @@
                         <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding beginTime}" Header="Begin tijd" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding endTime}" Header="Eind tijd" Width="auto"/>
+                        <GridViewColumn Header="Edit" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Meld Schade" Click="ReportDemage_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

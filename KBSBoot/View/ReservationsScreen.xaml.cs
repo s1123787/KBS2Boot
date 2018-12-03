@@ -25,6 +25,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
+        public int i = 1;
 
         public ReservationsScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -34,6 +35,7 @@ namespace KBSBoot.View
             InitializeComponent();
         }
 
+        //Home button --> check accesslevel for which homepage to open
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
@@ -54,13 +56,16 @@ namespace KBSBoot.View
             }
         }
 
+        //logout
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
         }
 
+        //when the page is loaded 
         private void DidLoaded(object sender, RoutedEventArgs e)
         {
+            //check acceslevel 
             if (AccessLevel == 1)
             {
                 AccessLevelButton.Content = "Lid";
@@ -78,15 +83,18 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
+            //Load list with reservations for the logged in user
             LoadReservations();
         }
 
         private void LoadReservations()
         {
+            List<Reservations> reservations = new List<Reservations>();
+
             using (var context = new BootDB())
             {
-                List<Reservations> reservations = new List<Reservations>();
-
+                //tables used: Reservation - Reservation_Boats - Boats - BoatTypes
+                //selected reservationId, BoatName, BoatTypeDiscription, date, beginTime, endTime 
                 var data = (from r in context.Reservations
                             join rb in context.Reservation_Boats
                             on r.reservationId equals rb.reservationId
@@ -104,16 +112,26 @@ namespace KBSBoot.View
                                 beginTime = r.beginTime,
                                 endTime = r.endTime
                             });
-
+                
+                //add all reservations to reservation list
                 foreach (var d in data)
                 {
-                    //string date = d.date.ToString("dd/MM/yyyy");
                     string resdate = d.date.ToString("d");
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
                 }
-
-                ReservationList.ItemsSource = reservations;
             }
+
+            //add list with reservation to the grid
+            ReservationList.ItemsSource = reservations;
         }
+
+        //get boatId from the report demage button
+        private void ReportDemage_Click(object sender, RoutedEventArgs e)
+        {
+            Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
+            Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+        }
+
+
     }
 }
