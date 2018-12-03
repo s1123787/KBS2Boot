@@ -70,7 +70,7 @@ namespace KBSBoot.View
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, 1));
+            Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, 1, 1));
         }
     }
 }

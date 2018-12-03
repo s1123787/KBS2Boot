@@ -25,15 +25,17 @@ namespace KBSBoot.View
         public string FullName;
         public int MemberId;
         public int AccessLevel;
-        public int boatId;
+        public int ReservationId;
+        public int BoatId;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int MemberId, int AccessLevel, int boatId)
+        public ReportDamage(string FullName, int MemberId, int AccessLevel, int ReservationId, int BoatId)
         {
             this.FullName = FullName;
             this.MemberId = MemberId;
             this.AccessLevel = AccessLevel;
-            this.boatId = boatId;
+            this.ReservationId = ReservationId;
+            this.BoatId = BoatId;
             InitializeComponent();
         }
 
@@ -53,7 +55,8 @@ namespace KBSBoot.View
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
-                        boatId = boatId,
+                        reservationId = ReservationId,
+                        boatId = BoatId,
                         memberId = MemberId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,

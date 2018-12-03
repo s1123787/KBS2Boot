@@ -11,6 +11,7 @@ namespace KBSBoot.Model
     public class BoatDamage
     {
         public int boatDamageId { get; set; }
+        public int reservationId { get; set; }
         public int boatId { get; set; }
         public int memberId { get; set; }
         public int boatDamageLevel { get; set; }
