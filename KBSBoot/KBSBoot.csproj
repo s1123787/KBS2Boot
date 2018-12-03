@@ -81,7 +81,8 @@
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\ReservationEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
-    <Compile Include="Model\Reservation.cs" />
+    <Compile Include="Model\Reservations.cs" />
+    <Compile Include="Model\Reservation_Boats.cs" />
     <Compile Include="Resources\InternetExplorerBrowserEmulation.cs" />
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>

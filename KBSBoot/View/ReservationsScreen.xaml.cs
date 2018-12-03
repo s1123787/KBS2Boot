@@ -32,7 +32,6 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
             InitializeComponent();
-            Reservation r = new Reservation(MemberId);
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -77,6 +76,43 @@ namespace KBSBoot.View
             else if (AccessLevel == 4)
             {
                 AccessLevelButton.Content = "Administrator";
+            }
+
+            LoadReservations();
+        }
+
+        private void LoadReservations()
+        {
+            using (var context = new BootDB())
+            {
+                List<Reservations> reservations = new List<Reservations>();
+
+                var data = (from r in context.Reservations
+                            join rb in context.Reservation_Boats
+                            on r.reservationId equals rb.reservationId
+                            join b in context.Boats
+                            on rb.boatId equals b.boatId
+                            join bt in context.BoatTypes
+                            on b.boatTypeId equals bt.boatTypeId
+                            where r.memberId == MemberId
+                            select new
+                            {
+                                reservationId = r.reservationId,
+                                boatName = b.boatName,
+                                boatType = bt.boatTypeDescription,
+                                date = r.date,
+                                beginTime = r.beginTime,
+                                endTime = r.endTime
+                            });
+
+                foreach (var d in data)
+                {
+                    //string date = d.date.ToString("dd/MM/yyyy");
+                    string resdate = d.date.ToString("d");
+                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                }
+
+                ReservationList.ItemsSource = reservations;
             }
         }
     }

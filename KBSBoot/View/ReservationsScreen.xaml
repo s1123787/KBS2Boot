@@ -28,16 +28,16 @@
         </materialDesign:ColorZone>
         <Button Content="Meld schade" HorizontalAlignment="Left" Margin="854,169,0,0" VerticalAlignment="Top" Width="130"/>
 
-        <ScrollViewer HorizontalAlignment="Left" Height="500" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding ReservationsList}">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
+            <ListView ItemsSource="{Binding ReservationList}" Name="ReservationList" FontSize="16">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Reserveringsnummer" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Boat_name}" Header="Boot naam" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Boat_type}" Header="Boot type" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Datum" />
-                        <GridViewColumn DisplayMemberBinding="{Binding StartTime}" Header="Begin tijd"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding EndTime}" Header="Eind tijd" />
+                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnummer" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding beginTime}" Header="Begin tijd" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding endTime}" Header="Eind tijd" Width="auto"/>
                     </GridView>
                 </ListView.View>
             </ListView>
