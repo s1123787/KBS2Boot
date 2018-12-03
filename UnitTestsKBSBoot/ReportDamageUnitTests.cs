@@ -16,6 +16,7 @@ namespace UnitTestsKBSBoot
             //Arrange
             var report = new BoatDamage
             {
+                reservationId = 3,
                 boatId = 1,
                 memberId = 1,
                 boatDamageLevel = 2,
@@ -38,7 +39,7 @@ namespace UnitTestsKBSBoot
             using (var context = new BootDB())
             {
                 var Damages = from d in context.BoatDamages
-                              where d.boatId == report.boatId && d.boatDamageLevel == report.boatDamageLevel && d.boatDamageLocation == report.boatDamageLocation && d.boatDamageReason == report.boatDamageReason
+                              where d.reservationId == report.reservationId && d.boatId == report.boatId && d.boatDamageLevel == report.boatDamageLevel && d.boatDamageLocation == report.boatDamageLocation && d.boatDamageReason == report.boatDamageReason
                               select d;
 
                 if (Damages.ToList().Count > 0)
