@@ -69,11 +69,33 @@
                 </DataGridTemplateColumn>
         </DataGrid.Columns>
         </DataGrid> -->
-        <ScrollViewer HorizontalAlignment="Left" Height="400" Margin="100,200,100,100" VerticalAlignment="Top" Width="791">
-            <StackPanel x:Name="MainStackPanel">
-                
-            </StackPanel>
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944">
+            <ListView ItemsSource="{Binding ReservationList}" Name="BoatList" FontSize="16">
+                <ListView.View>
+                    <GridView>
+                        <!--<GridViewColumn DisplayMemberBinding="{Binding boatId}" Header="Bootnummer" Width="auto"/>-->
+                        <GridViewColumn Header="Foto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <!--<Label Content="{Binding boatPhotoBlob}"/>-->
+                                    <Image Width="100" Height="100" Source="{Binding boatBitmap}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="auto"/>
+                        <GridViewColumn Header="Acties">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Bekijken" Click="ViewBoat_Click" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </ScrollViewer>
+
         <Button x:Name="MenuFilterButton" Content="Filter" Width="75" Height="20" Margin="712,131,0,0" Click="MenuFilterButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"></Button>
         <Popup x:Name="FilterPopup" Width="200" Height="150" IsOpen="False" PlacementTarget="{Binding ElementName=MenuFilterButton}" Placement="Left" VerticalAlignment="Top">
             <Canvas Background="White">

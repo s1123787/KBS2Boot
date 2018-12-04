@@ -2,6 +2,8 @@
 using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,7 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
-            //boatList.ItemsSource = LoadCollectionData();
+            BoatList.ItemsSource = LoadCollectionData();
 
         }
 
@@ -38,6 +40,7 @@ namespace KBSBoot.View
             Switcher.Switch(new LoginScreen());
         }
 
+        
         private List<Boat> LoadCollectionData()
         {
             List<Boat> boats = new List<Boat>();
@@ -49,6 +52,7 @@ namespace KBSBoot.View
                                  select new
                                  {
                                      boatId = b.boatId,
+                                     boatName = b.boatName,
                                      boatTypeId = bt.boatTypeId,
                                      boatTypeName = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
@@ -59,7 +63,13 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                                        
+                    Boat boat = new Boat(b.boatTypeName, b.boatId)
+                    {
+                        boatId = b.boatId,
+                        boatName = b.boatName
+                    };
+
+                    boats.Add(boat);
                 }
 
 
@@ -68,10 +78,10 @@ namespace KBSBoot.View
         }
 
         // View boat details
-        private void ViewBoat(object sender, RoutedEventArgs e)
+        private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
-
-
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
         }
 
         // Take boat in maintenance
@@ -136,7 +146,7 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    #region
+                    /*#region
                     StackPanel sp = new StackPanel();
                     sp.Orientation = Orientation.Horizontal;
                     sp.Height = 100;
@@ -170,8 +180,9 @@ namespace KBSBoot.View
                     button.Width = 170;
                     button.Margin = new Thickness(0, 5, 0, 0);
                     sp.Children.Add(button);
+
                     MainStackPanel.Children.Add(sp);
-                    #endregion
+                    #endregion*/
                 }
 
             }
@@ -215,3 +226,4 @@ namespace KBSBoot.View
         }
     }
 }
+

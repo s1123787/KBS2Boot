@@ -26,6 +26,7 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BoatDetail : UserControl
     {
+        private int BoatID;
         public string FullName;
         public int AccessLevel;
         private Boat boatData;
@@ -36,13 +37,13 @@ namespace KBSBoot.View
         private int videoWidth = 500;
         private int videoHeight = 320;
 
-        public BoatDetail(string FullName, int AccessLevel)
+        public BoatDetail(string FullName, int AccessLevel, int BoatID)
         {
             this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
+            this.BoatID = BoatID;
             InitializeComponent();
 
-            //Update Webbrowser IE version to latests
+            //Update Webbrowser IE version to latest for emulation
             if (!InternetExplorerBrowserEmulation.IsBrowserEmulationSet())
             {
                 InternetExplorerBrowserEmulation.SetBrowserEmulationVersion();
@@ -52,7 +53,7 @@ namespace KBSBoot.View
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
             //Load Boat data from database
-            LoadBoatData(1);
+            LoadBoatData(this.BoatID);
 
             boatViewName.Content = $"{boatData.boatName}";
             boatViewDescription.Content = $"{boatType.boatTypeDescription}";
@@ -63,7 +64,8 @@ namespace KBSBoot.View
             //Load Youtube video
             DisplayVideo(boatData.boatYoutubeUrl);
 
-            DisplayPhoto(1);
+            //Load Boat Photo
+            DisplayPhoto(this.BoatID);
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -107,7 +109,7 @@ namespace KBSBoot.View
                     };
 
                     // Loop through record and add to new Boat
-                    boatData = new Boat()
+                    boatData = new Boat(b.boatTypeName, b.boatId)
                     {
                         boatId = b.boatId,
                         boatTypeId = b.boatTypeId,
@@ -257,7 +259,7 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
         }
         
     }
