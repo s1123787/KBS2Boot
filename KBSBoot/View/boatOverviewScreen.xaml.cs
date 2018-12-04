@@ -32,8 +32,16 @@ namespace KBSBoot.View
             this.FullName = FullName;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
-
+            
         }
+
+        private void ListViewScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -44,6 +52,8 @@ namespace KBSBoot.View
         private List<Boat> LoadCollectionData()
         {
             List<Boat> boats = new List<Boat>();
+
+            // Retrieve Boat data from database
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -63,9 +73,9 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    Boat boat = new Boat(b.boatTypeName, b.boatId)
+                    // Add boat to boats list
+                    Boat boat = new Boat(b.boatId, b.boatTypeName)
                     {
-                        boatId = b.boatId,
                         boatName = b.boatName
                     };
 
@@ -80,7 +90,10 @@ namespace KBSBoot.View
         // View boat details
         private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
+            // Get current boat from click row
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            // Switch screen to detailpage on click
             Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
         }
 
@@ -128,65 +141,7 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            using (var context = new BootDB())
-            {
-                var tableData = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 select new
-                                 {
-                                     boatId = b.boatId,
-                                     boatTypeId = bt.boatTypeId,
-                                     boatTypeName = bt.boatTypeName,
-                                     boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
-                                     boatSteer = bt.boatSteer,
-                                     boatAmountSpaces = bt.boatAmountSpaces
-                                 });
-
-                foreach (var b in tableData)
-                {
-                    /*#region
-                    StackPanel sp = new StackPanel();
-                    sp.Orientation = Orientation.Horizontal;
-                    sp.Height = 100;
-                    sp.HorizontalAlignment = HorizontalAlignment.Left;
-                    Image image = new Image();
-                    image.Margin = new Thickness(15, 16, 20, 16.714);
-                    BitmapImage bitmapImage = new BitmapImage();
-
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = new Uri("pack://application:,,,/Resources/users.png");
-
-                    bitmapImage.DecodePixelWidth = 500;
-                    bitmapImage.EndInit();
-
-                    image.Source = bitmapImage;
-                    sp.Children.Add(image);
-                    Label l1 = new Label();
-                    l1.Content = b.boatTypeName;
-                    l1.FontSize = 24;
-                    l1.Width = 200;
-                    l1.Margin = new Thickness(100, 30, 0, 25);
-                    sp.Children.Add(l1);
-                    Label l = new Label();
-                    l.Content = b.boatTypeName;
-                    l.FontSize = 24;
-                    l.Width = 200;
-                    l.Margin = new Thickness(0, 30, 0, 25);
-                    sp.Children.Add(l);
-                    Button button = new Button();
-                    button.Content = "meer informatie";
-                    button.Width = 170;
-                    button.Margin = new Thickness(0, 5, 0, 0);
-                    sp.Children.Add(button);
-
-                    MainStackPanel.Children.Add(sp);
-                    #endregion*/
-                }
-
-            }
-
+            
         }
         private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
         {

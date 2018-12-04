@@ -26,65 +26,27 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten bekijken</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <!-- <DataGrid MinHeight="200" Height="191" MinWidth="600" Width="791" HorizontalAlignment="Center" Margin="124,402,109,175"  IsReadOnly="True"
-          Name="boatList" VerticalAlignment="Center" RowHeight="40" ColumnWidth="*"
-                  ColumnHeaderHeight="50" HeadersVisibility="Column"
-                  Background="LightGray" RowBackground="White" 
-                  AlternatingRowBackground="LightGray"
-                  BorderBrush="LightGray" BorderThickness="1" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Boot ID" Binding="{Binding boatId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Boot Naam" Binding="{Binding boatTypeName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Omschrijving" Binding="{Binding boatTypeDescription}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Stuur" Binding="{Binding boatSteerString}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Aantal plekken" Binding="{Binding boatAmountSpaces}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Buiten gebruik?" Binding="{Binding boatOutOfServiceString}"></DataGridTextColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Width="auto" Click="ViewBoat">Bekijk boot</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Width="auto" Click="DamageBoat">Schade</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Width="auto" Click="OrderBoat">Reserveren</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Width="auto" Click="MaintenanceBoat">Onderhoud</Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-        </DataGrid.Columns>
-        </DataGrid> -->
         <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding ReservationList}" Name="BoatList" FontSize="16">
+            <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderBrush" Value="LightGray" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <!--<GridViewColumn DisplayMemberBinding="{Binding boatId}" Header="Bootnummer" Width="auto"/>-->
-                        <GridViewColumn Header="Foto">
+                        <GridViewColumn Width="130" Header="Foto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <!--<Label Content="{Binding boatPhotoBlob}"/>-->
-                                    <Image Width="100" Height="100" Source="{Binding boatBitmap}" />
+                                    <Image Width="100" Name="image2" Source="{Binding Path=ImageSource}" HorizontalAlignment="Left" Height="100" VerticalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="auto"/>
-                        <GridViewColumn Header="Acties">
+                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="280"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="250"/>
+                        <GridViewColumn Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Bekijken" Click="ViewBoat_Click" />

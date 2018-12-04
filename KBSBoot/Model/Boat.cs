@@ -12,7 +12,6 @@ namespace KBSBoot.Model
 {
     public class Boat
     {
-        private string returnImageBlob;
 
         [Key]
         public int boatId { get; set; }
@@ -20,35 +19,52 @@ namespace KBSBoot.Model
 
         public string boatName { get; set; }
         public string boatTypeName { get; set; }
-        public string boatPhotoBlob { get; set; }
-
-        public BitmapImage boatBitmap;
-
         public int boatOutOfService { get; set; }
         public string boatYoutubeUrl { get; set; }
         
-        public Boat(string boatTypeName, int boatId)
+        public BitmapImage boatPhotoBitmap;
+        private string returnImageBlob;
+
+        public Boat(int boatId, string boatTypeName)
         {
+            string boatPhotoBlob;
+            this.boatId = boatId;
             this.boatTypeName = boatTypeName;
 
-            //Load image blob
-            //this.boatPhotoBlob = LoadBoatImageBlob(boatId);
-            this.boatPhotoBlob = LoadBoatImageBlob(boatId);
-            Console.WriteLine(boatId+" = "+ boatPhotoBlob);
+            //Load image blob from boat
+            boatPhotoBlob = LoadBoatImageBlob();
+            Console.WriteLine(this.boatId+" = "+ boatPhotoBlob);
+
+            //Convert BLOB to Bitmap Image
+            this.boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
+
             
-            this.boatBitmap = ConvertBlobToBitmap();
-            //if (blob != null)
-            //this.boatPhoto = BoatImage(blob);
         }
 
-        private string LoadBoatImageBlob(int boatID)
+        public object ImageSource
+        {
+            get
+            {
+                string boatPhotoBlob = LoadBoatImageBlob();
+                byte[] ib = Convert.FromBase64String(boatPhotoBlob);
+                //Convert it to BitmapImage
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = new MemoryStream(ib);
+                image.EndInit();
+                //Return the image
+                return image;
+            }
+        }
+
+        private string LoadBoatImageBlob()
         {
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
                                  join bi in context.BoatImages
                                  on b.boatId equals bi.boatId
-                                 where b.boatId == boatID
+                                 where b.boatId == this.boatId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -64,13 +80,12 @@ namespace KBSBoot.Model
             }
         }
 
-        public BitmapImage ConvertBlobToBitmap()
+        public BitmapImage ConvertBlobToBitmap(string blob)
         {
-            string blob = this.boatPhotoBlob;
             BitmapImage bitmapimg = new BitmapImage();
             if (blob != null) {
                 byte[] binaryData = Convert.FromBase64String(blob);
-
+                Console.WriteLine(binaryData);
                 bitmapimg.BeginInit();
                 bitmapimg.StreamSource = new MemoryStream(binaryData);
                 bitmapimg.EndInit();
