@@ -27,7 +27,7 @@
             </DockPanel>
         </materialDesign:ColorZone>
 
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="600" Height="auto" Margin="40,100,0,0" VerticalAlignment="Top" Width="944">
             <ListView ItemsSource="{Binding ReservationList}" Name="ReservationList" FontSize="16" HorizontalAlignment="Center">
                 <ListView.View>
                     <GridView>

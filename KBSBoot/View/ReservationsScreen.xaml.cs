@@ -25,7 +25,6 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
-        public int i = 1;
 
         public ReservationsScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -103,6 +102,7 @@ namespace KBSBoot.View
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
                             where r.memberId == MemberId
+                            orderby r.date descending
                             select new
                             {
                                 reservationId = r.reservationId,
@@ -128,7 +128,24 @@ namespace KBSBoot.View
         private void ReportDemage_Click(object sender, RoutedEventArgs e)
         {
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+
+            //check if report demage should be possible
+            if (Convert.ToDateTime(reservation.resdate) <= DateTime.Now)
+            {
+                if (reservation.beginTime <= DateTime.Now.TimeOfDay)
+                {
+                    Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+                }
+                else
+                {
+                    MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                }
+            }
+            else
+            {
+                MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
 
