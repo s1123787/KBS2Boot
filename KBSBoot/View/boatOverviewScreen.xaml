@@ -32,8 +32,8 @@
         </ScrollViewer>
         <StackPanel Margin="34,200,-34,-200">
             <Canvas Background="White">
-                <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="10" Canvas.Top="205" Click="SelectionFilteren_Click"/>
-                <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="10" Canvas.Top="257" Click="ResetSelection_Click"/>
+                <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="10" Canvas.Top="160" Click="SelectionFilteren_Click"/>
+                <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="10" Canvas.Top="203" Click="ResetSelection_Click"/>
                 <Label Content="Boot naam" Canvas.Left="10" Canvas.Top="14" Width="79" HorizontalContentAlignment="Center"></Label>
                 <ComboBox x:Name="Bootnamen" Canvas.Left="24" Canvas.Top="53" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
                     <ComboBox.ItemTemplate>
@@ -54,8 +54,6 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Label Content="Stuur" Canvas.Left="10" Canvas.Top="139" Width="79" HorizontalContentAlignment="Center"></Label>
-                <CheckBox x:Name="StuurCheck" Canvas.Left="42" Canvas.Top="170"></CheckBox>
             </Canvas>
         </StackPanel>
     </Grid>

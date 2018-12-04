@@ -177,23 +177,6 @@ namespace KBSBoot.View
                                 continue;
                             }
                         }
-                        if (StuurCheck.IsEnabled)
-                        {
-                            bool stuurcheck = StuurCheck.IsChecked.HasValue ? StuurCheck.IsChecked.Value : false;
-                            if (stuurcheck)
-                            {
-                                if(b.boatSteer == 0)
-                                {
-                                    continue;
-                                }
-                            } else
-                            {
-                                if(b.boatSteer == 1)
-                                {
-                                    continue;
-                                }
-                            }
-                        }
                     }
                     #region
                     StackPanel sp = new StackPanel();
@@ -250,11 +233,9 @@ namespace KBSBoot.View
             onViewLoadedAgain();
             //Resets the filteroptions
             Bootplekken.IsEnabled = true;
-            StuurCheck.IsEnabled = true;
             Bootnamen.IsEnabled = true;
             Bootnamen.SelectedItem = null;
             Bootplekken.SelectedItem = null;
-            StuurCheck.IsChecked = false;
         }
 
         private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -263,7 +244,6 @@ namespace KBSBoot.View
             {
                 bootnaam = Bootnamen.SelectedItem.ToString();
                 Bootplekken.IsEnabled = false;
-                StuurCheck.IsEnabled = false;
             }
         }
         private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
