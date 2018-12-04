@@ -75,6 +75,7 @@
     <Compile Include="Model\Boat.cs" />
     <Compile Include="Model\BoatDamage.cs" />
     <Compile Include="Model\BoatImages.cs" />
+    <Compile Include="Model\BoatInfoEventArgs.cs" />
     <Compile Include="Model\BoatTypes.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
