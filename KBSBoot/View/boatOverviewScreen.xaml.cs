@@ -35,13 +35,6 @@ namespace KBSBoot.View
             
         }
 
-        private void ListViewScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
-        {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
-        }
-
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -96,27 +89,7 @@ namespace KBSBoot.View
             // Switch screen to detailpage on click
             Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
         }
-
-        // Take boat in maintenance
-        private void MaintenanceBoat(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-        // Make a reservation for a boat
-        private void OrderBoat(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-        // Report a damaged boat
-        private void DamageBoat(object sender, RoutedEventArgs e)
-        {
-
-
-        }
+        
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
