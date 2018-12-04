@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Width="525" Height="350" Loaded="ViewDidLoaded">
     <Grid x:Name="MatchCommissionerGrid">
-        <Label x:Name="FullNameLabel" Content="Welkom &lt;naam&gt;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="220" FontSize="20"/>
-        <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
-        <Label x:Name="AccessLevelLabel" Content="Wedstrijcommissaris" HorizontalAlignment="Left" Margin="198,19,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="FullNameLabel" Content="Welkom &lt;naam&gt;" HorizontalAlignment="Left" Margin="10,126,0,0" VerticalAlignment="Top" Height="35" Width="220" FontSize="20"/>
+        <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,126,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
+        <Label x:Name="AccessLevelLabel" Content="Wedstrijcommissaris" HorizontalAlignment="Left" Margin="203,126,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

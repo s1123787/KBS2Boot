@@ -21,15 +21,34 @@ namespace KBSBoot.View
     public partial class HomePageAdministrator : UserControl
     {
         public string FullName;
-        public HomePageAdministrator(string FullName)
+        public int AccessLevel;
+
+        public HomePageAdministrator(string FullName, int AccessLevel)
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
         }
 
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
-            FullNameLabel.Content = $"Welkom {FullName}";
+            FullNameLabel.Text = $"Welkom {FullName}";
+            if (AccessLevel == 1)
+            {
+                AccessLevelButton.Content = "Lid";
+            }
+            else if (AccessLevel == 2)
+            {
+                AccessLevelButton.Content = "Wedstrijdcommissaris";
+            }
+            else if (AccessLevel == 3)
+            {
+                AccessLevelButton.Content = "Materiaalcommissaris";
+            }
+            else if (AccessLevel == 4)
+            {
+                AccessLevelButton.Content = "Administrator";
+            }
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -39,12 +58,17 @@ namespace KBSBoot.View
 
         private void Users_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
         }
 
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new boatOverviewScreen(FullName));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+        }
+
+        private void Clicked(object sender, MouseButtonEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
         }
     }
 }
