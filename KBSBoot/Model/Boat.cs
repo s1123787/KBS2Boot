@@ -33,7 +33,7 @@ namespace KBSBoot.Model
 
             //Load image blob from boat
             boatPhotoBlob = LoadBoatImageBlob();
-            Console.WriteLine(this.boatId+" = "+ boatPhotoBlob);
+            Console.WriteLine(this.boatId+" = "+ boatPhotoBlob);    
 
             //Convert BLOB to Bitmap Image
             this.boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
