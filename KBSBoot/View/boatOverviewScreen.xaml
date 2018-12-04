@@ -45,9 +45,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="280"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="230"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="180"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatAmountOfSpaces}" Header="Aantal personen" Width="150"/>
+                        <!-- Temporary code, need inside damage page -->
+                        <GridViewColumn Width="150" Header="In onderhoud">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding IsSelected}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
