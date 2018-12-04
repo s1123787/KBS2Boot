@@ -145,54 +145,57 @@ namespace KBSBoot.View
             }
 
 
-            if(boatImageData.boatImageBlob != null)
+            if(boatImageData != null)
             {
-                //Convert Base64 encoded string to Bitmap Image
-                byte[] binaryData = Convert.FromBase64String(boatImageData.boatImageBlob);
-                BitmapImage bitmapimg = new BitmapImage();
-                bitmapimg.BeginInit();
-                bitmapimg.StreamSource = new MemoryStream(binaryData);
-                bitmapimg.EndInit();
-
-                //Create new image
-                Image boatPhoto = new Image()
+                if (boatImageData.boatImageBlob != "" && boatImageData.boatImageBlob != null)
                 {
-                    Width = 200,
-                    Height = 200,
+                    //Convert Base64 encoded string to Bitmap Image
+                    byte[] binaryData = Convert.FromBase64String(boatImageData.boatImageBlob);
+                    BitmapImage bitmapimg = new BitmapImage();
+                    bitmapimg.BeginInit();
+                    bitmapimg.StreamSource = new MemoryStream(binaryData);
+                    bitmapimg.EndInit();
 
-                };
-                boatPhoto.Source = bitmapimg;
+                    //Create new image
+                    Image boatPhoto = new Image()
+                    {
+                        Width = 200,
+                        Height = 200,
 
-                BrushConverter bc = new BrushConverter();
-                Brush brushAppBlue = (Brush)bc.ConvertFrom("#FF2196F3");
-                brushAppBlue.Freeze();
+                    };
+                    boatPhoto.Source = bitmapimg;
 
-                //Create new border
-                Border border1 = new Border()
+                    BrushConverter bc = new BrushConverter();
+                    Brush brushAppBlue = (Brush)bc.ConvertFrom("#FF2196F3");
+                    brushAppBlue.Freeze();
+
+                    //Create new border
+                    Border border1 = new Border()
+                    {
+                        Width = 200,
+                        Height = 200,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        Margin = new Thickness(270, 120, 0, 0),
+                        BorderBrush = brushAppBlue,
+                        BorderThickness = new Thickness(1)
+                    };
+
+                    //Append Image to Border
+                    border1.Child = boatPhoto;
+
+                    //Add border with Image to view
+                    ViewGrid.Children.Add(border1);
+                }
+                else //Image Blob is null
                 {
-                    Width = 200,
-                    Height = 200,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(270, 120, 0, 0),
-                    BorderBrush = brushAppBlue,
-                    BorderThickness = new Thickness(1)
-                };
-
-                //Append Image to Border
-                border1.Child = boatPhoto;
-
-                //Add border with Image to view
-                ViewGrid.Children.Add(border1);
-            }
-            else //Image Blob is null
-            {
-                //Reset label margins
-                nameWrap.Margin = new Thickness(270, 113, 0, 610);
-                descrWrap.Margin = new Thickness(270, 153, 0, 580);
-                typeWrap.Margin = new Thickness(270, 193, 0, 545);
-                steerWrap.Margin = new Thickness(270, 223, 0, 511);
-                niveauWrap.Margin = new Thickness(270, 253, 0, 476);
+                    //Reset label margins
+                    nameWrap.Margin = new Thickness(270, 113, 0, 610);
+                    descrWrap.Margin = new Thickness(270, 153, 0, 580);
+                    typeWrap.Margin = new Thickness(270, 193, 0, 545);
+                    steerWrap.Margin = new Thickness(270, 223, 0, 511);
+                    niveauWrap.Margin = new Thickness(270, 253, 0, 476);
+                }
             }
         }
 
@@ -200,7 +203,7 @@ namespace KBSBoot.View
         public void DisplayVideo(string url)
         {
             //Check if a boat has a Youtube Video Url, then show WebBrowser
-            if (boatData.boatYoutubeUrl != null)
+            if (boatData.boatYoutubeUrl != null && boatData.boatYoutubeUrl != "")
             {
                 Match m = YouTubeURLIDRegex.Match(url);
                 String id = m.Groups["v"].Value;
@@ -230,7 +233,7 @@ namespace KBSBoot.View
         //Generate Iframe for inside Webbrowser control
         private string GetYouTubeScript(string id)
         {
-            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=HD720&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
+            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
             return scr;
         }
 

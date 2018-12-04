@@ -30,7 +30,11 @@ namespace KBSBoot.Model
         
         [NotMapped]
         public bool IsSelected { get; set; }
-        
+
+        [NotMapped]
+        public int boatAmountOfSpaces { get; set; }
+
+
         public Boat()
         {
             string boatPhotoBlob;
@@ -49,7 +53,7 @@ namespace KBSBoot.Model
             get
             {
                 string boatPhotoBlob = LoadBoatImageBlob();
-                if(boatPhotoBlob != null) { 
+                if(boatPhotoBlob != null && boatPhotoBlob != "") { 
                     byte[] ib = Convert.FromBase64String(boatPhotoBlob);
                     //Convert it to BitmapImage
                     BitmapImage image = new BitmapImage();

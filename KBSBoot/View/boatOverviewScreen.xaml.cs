@@ -70,6 +70,8 @@ namespace KBSBoot.View
                     Boat boat = new Boat()
                     {
                         boatId = b.boatId,
+                        boatTypeName = b.boatTypeName,
+                        boatAmountOfSpaces = b.boatAmountSpaces,
                         boatName = b.boatName,
                         IsSelected = (b.boatOutOfService == 1)? true : false
                     };
@@ -81,8 +83,7 @@ namespace KBSBoot.View
                 return boats;
             }
         }
-        
-        
+
         // View boat details
         private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
