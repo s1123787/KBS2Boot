@@ -262,37 +262,6 @@ namespace KBSBoot.View
             if (Bootnamen.SelectedItem != null)
             {
                 bootnaam = Bootnamen.SelectedItem.ToString();
-                //int index = Bootnamen.SelectedIndex;
-                //switch (index)
-                //{
-                //    case 0:
-                //        bootnaam = "1x";
-                //        break;
-                //    case 1:
-                //        bootnaam = "2";
-                //        break;
-                //    case 2:
-                //        bootnaam = "2x";
-                //        break;
-                //    case 3:
-                //        bootnaam = "2x+";
-                //        break;
-                //    case 4:
-                //        bootnaam = "4x";
-                //        break;
-                //    case 5:
-                //        bootnaam = "4x+";
-                //        break;
-                //    case 6:
-                //        bootnaam = "4";
-                //        break;
-                //    case 7:
-                //        bootnaam = "4+";
-                //        break;
-                //    case 8:
-                //        bootnaam = "8+";
-                //        break;
-                //}
                 Bootplekken.IsEnabled = false;
                 StuurCheck.IsEnabled = false;
             }
@@ -303,28 +272,6 @@ namespace KBSBoot.View
             {
                 //Assigns value to chosen option
                 bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
-                //int index = Bootplekken.SelectedIndex;
-                //switch (index)
-                //{
-                //    case 0:
-                //        bootplek = 1;
-                //        break;
-                //    case 1:
-                //        bootplek = 2;
-                //        break;
-                //    case 2:
-                //        bootplek = 3;
-                //        break;
-                //    case 3:
-                //        bootplek = 4;
-                //        break;
-                //    case 4:
-                //        bootplek = 5;
-                //        break;
-                //    case 5:
-                //        bootplek = 9;
-                //        break;
-                //}
                 Bootnamen.IsEnabled = false;
             }
         }
