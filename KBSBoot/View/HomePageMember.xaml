@@ -10,7 +10,6 @@
     <Grid x:Name="MemberGrid">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
-                
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
