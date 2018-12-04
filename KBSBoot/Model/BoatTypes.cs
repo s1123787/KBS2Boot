@@ -26,9 +26,12 @@ namespace KBSBoot.Model
             if(boatAmountSpaces != 0)
             {
                 return boatAmountSpaces.ToString();
-            } else
+            } else if (boatTypeName != null)
             {
                 return boatTypeName;
+            } else
+            {
+                return base.ToString();
             }
         }
     }

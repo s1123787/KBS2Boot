@@ -236,6 +236,7 @@ namespace KBSBoot.View
         }
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
+            //Reload the screen
             FilterEnabled = true;
             OnLoadScreenAgain += DidLoaded;
             onViewLoadedAgain();
@@ -243,6 +244,7 @@ namespace KBSBoot.View
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
         {
+            //Reload the screen
             FilterEnabled = false;
             OnLoadScreenAgain += DidLoaded;
             onViewLoadedAgain();
@@ -299,6 +301,7 @@ namespace KBSBoot.View
         {
             if (Bootplekken.SelectedItem != null)
             {
+                //Assigns value to chosen option
                 bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
                 //int index = Bootplekken.SelectedIndex;
                 //switch (index)
