@@ -33,6 +33,7 @@
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="BorderBrush" Value="LightGray" />
                         <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        <Setter Property="Focusable" Value="false"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
