@@ -102,7 +102,7 @@ namespace KBSBoot.View
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
                             where r.memberId == MemberId
-                            orderby r.date descending
+                            orderby r.date descending, r.beginTime descending
                             select new
                             {
                                 reservationId = r.reservationId,
