@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,7 +33,6 @@ namespace KBSBoot.View
             this.FullName = FullName;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
-            
         }
 
 
@@ -67,9 +67,11 @@ namespace KBSBoot.View
                 foreach (var b in tableData)
                 {
                     // Add boat to boats list
-                    Boat boat = new Boat(b.boatId, b.boatTypeName)
+                    Boat boat = new Boat()
                     {
-                        boatName = b.boatName
+                        boatId = b.boatId,
+                        boatName = b.boatName,
+                        IsSelected = (b.boatOutOfService == 1)? true : false
                     };
 
                     boats.Add(boat);
@@ -79,7 +81,8 @@ namespace KBSBoot.View
                 return boats;
             }
         }
-
+        
+        
         // View boat details
         private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {

@@ -109,8 +109,9 @@ namespace KBSBoot.View
                     };
 
                     // Loop through record and add to new Boat
-                    boatData = new Boat(b.boatId, b.boatTypeName)
+                    boatData = new Boat()
                     {
+                        boatId = b.boatId,
                         boatTypeId = b.boatTypeId,
                         boatName = b.boatName,
                         boatYoutubeUrl = b.boatYoutubeUrl

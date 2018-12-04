@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,22 +19,24 @@ namespace KBSBoot.Model
         public int boatTypeId { get; set; }
 
         public string boatName { get; set; }
-        public string boatTypeName { get; set; }
         public int boatOutOfService { get; set; }
         public string boatYoutubeUrl { get; set; }
-        
+
         public BitmapImage boatPhotoBitmap;
         private string returnImageBlob;
-
-        public Boat(int boatId, string boatTypeName)
+        
+        [NotMapped]
+        public string boatTypeName { get; set; }
+        
+        [NotMapped]
+        public bool IsSelected { get; set; }
+        
+        public Boat()
         {
             string boatPhotoBlob;
-            this.boatId = boatId;
-            this.boatTypeName = boatTypeName;
-
+            
             //Load image blob from boat
             boatPhotoBlob = LoadBoatImageBlob();
-            Console.WriteLine(this.boatId+" = "+ boatPhotoBlob);    
 
             //Convert BLOB to Bitmap Image
             this.boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
@@ -46,14 +49,19 @@ namespace KBSBoot.Model
             get
             {
                 string boatPhotoBlob = LoadBoatImageBlob();
-                byte[] ib = Convert.FromBase64String(boatPhotoBlob);
-                //Convert it to BitmapImage
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = new MemoryStream(ib);
-                image.EndInit();
-                //Return the image
-                return image;
+                if(boatPhotoBlob != null) { 
+                    byte[] ib = Convert.FromBase64String(boatPhotoBlob);
+                    //Convert it to BitmapImage
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = new MemoryStream(ib);
+                    image.EndInit();
+                    //Return the image
+                    return image;
+                } else
+                {
+                    return false;
+                }
             }
         }
 
@@ -85,7 +93,6 @@ namespace KBSBoot.Model
             BitmapImage bitmapimg = new BitmapImage();
             if (blob != null) {
                 byte[] binaryData = Convert.FromBase64String(blob);
-                Console.WriteLine(binaryData);
                 bitmapimg.BeginInit();
                 bitmapimg.StreamSource = new MemoryStream(binaryData);
                 bitmapimg.EndInit();
