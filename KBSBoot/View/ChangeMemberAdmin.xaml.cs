@@ -85,7 +85,7 @@ namespace KBSBoot.View
                                 }
                             }
                         }
-                        //Update database with changes made to the table
+                        //Update database with selected changes
                         origin.memberUsername = userName;
                         origin.memberName = name;
                         origin.memberRowLevelId = rowLevel;
@@ -188,6 +188,7 @@ namespace KBSBoot.View
                                      memberAccessLevelId = m.memberAccessLevelId,
                                      memberSubscribedUntill = m.memberSubscribedUntill
                                  });
+                //Sets default values for boxes
                 foreach(var m in tableData)
                 {
                     NameBox.Text = m.memberName;
