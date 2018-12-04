@@ -38,7 +38,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
-                    <GridView>
+                    <GridView AllowsColumnReorder="False">
                         <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnummer" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
