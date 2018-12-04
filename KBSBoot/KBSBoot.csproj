@@ -90,6 +90,9 @@
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ChangeMemberAdmin.xaml.cs">
+      <DependentUpon>ChangeMemberAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,10 @@
     </Compile>
     <Compile Include="View\Switcher.cs" />
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChangeMemberAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
