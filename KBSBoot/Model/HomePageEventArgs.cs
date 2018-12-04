@@ -10,11 +10,13 @@ namespace KBSBoot.Model
     {
         public int TypeMember { get; set; }
         public string FullName { get; set; }
+        public int MemberId { get; set; }
 
-        public HomePageEventArgs(int TypeMember, string FullName)
+        public HomePageEventArgs(int TypeMember, string FullName, int MemberId)
         {
             this.TypeMember = TypeMember;
             this.FullName = FullName;
+            this.MemberId = MemberId;
         }
 
     }

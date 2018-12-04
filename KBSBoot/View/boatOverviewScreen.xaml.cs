@@ -26,11 +26,13 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
-        public boatOverviewScreen(string FullName, int AccessLevel)
+        public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
         }
@@ -97,7 +99,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

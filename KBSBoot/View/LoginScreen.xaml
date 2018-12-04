@@ -6,8 +6,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:kbsboot="clr-namespace:KBSBoot"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="760">
-    <Grid FocusManager.FocusedElement="{Binding ElementName=usernametxt}">
+             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768">
+    
+   <Grid FocusManager.FocusedElement="{Binding ElementName=usernametxt}">
         <materialDesign:ColorZone Mode="PrimaryMid" Padding="16">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16 0 0 0" FontSize="36">

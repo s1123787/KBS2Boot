@@ -29,6 +29,7 @@ namespace KBSBoot.View
         private int BoatID;
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
         private Boat boatData;
         private BoatTypes boatType;
         private BoatImages boatImageData;
@@ -37,9 +38,11 @@ namespace KBSBoot.View
         private int videoWidth = 500;
         private int videoHeight = 320;
 
-        public BoatDetail(string FullName, int AccessLevel, int BoatID)
+        public BoatDetail(string FullName, int AccessLevel, BoatId int MemberId)
         {
             this.FullName = FullName;
+            this.AccessLevel = AccessLevel;
+            this.MemberId = MemberId;
             this.BoatID = BoatID;
             InitializeComponent();
 
@@ -70,7 +73,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void LoadBoatData(int boatID)
@@ -262,7 +265,7 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
         
     }
