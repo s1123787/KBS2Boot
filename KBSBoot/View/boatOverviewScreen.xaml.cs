@@ -24,8 +24,6 @@ namespace KBSBoot.View
     /// </summary>
     public partial class boatOverviewScreen : UserControl
     {
-        public delegate void LoadScreenAgain(object sender, RoutedEventArgs e);
-        public event LoadScreenAgain OnLoadScreenAgain;
         public string FullName;
         public int AccessLevel;
         private bool FilterEnabled = false;
@@ -37,7 +35,7 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             InitializeComponent();
-            //BoatList.ItemsSource = LoadCollectionData();
+            BoatList.ItemsSource = LoadCollectionData();
 
             Bootplekken.ItemsSource = LoadBoatSeatsSelection();
             Bootnamen.ItemsSource = LoadBoatNamesSelection();
@@ -90,11 +88,27 @@ namespace KBSBoot.View
                         boatName = b.boatName,
                         IsSelected = (b.boatOutOfService == 1)? true : false
                     };
-
+                    //Filters selection based on chosen options
+                    if (FilterEnabled)
+                    {
+                        if (Bootnamen.SelectedItem != null)
+                        {
+                            bootnaam = Bootnamen.SelectedItem.ToString();
+                            if (b.boatTypeName != bootnaam)
+                            {
+                                continue;
+                            }
+                        }
+                        if (Bootplekken.SelectedItem != null)
+                        {
+                            if (b.boatAmountSpaces != bootplek)
+                            {
+                                continue;
+                            }
+                        }
+                    }
                     boats.Add(boat);
                 }
-
-
                 return boats;
             }
         }
@@ -184,24 +198,20 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-
-            Console.WriteLine("Reload content");
         }
 
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
             //Reload the screen
             FilterEnabled = true;
-            OnLoadScreenAgain += DidLoaded;
-            onViewLoadedAgain();
+            BoatList.ItemsSource = LoadCollectionData();
         }
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
         {
             //Reload the screen
             FilterEnabled = false;
-            OnLoadScreenAgain += DidLoaded;
-            onViewLoadedAgain();
+            BoatList.ItemsSource = LoadCollectionData();
             //Resets the filteroptions
             Bootplekken.IsEnabled = true;
             Bootnamen.IsEnabled = true;
@@ -213,7 +223,7 @@ namespace KBSBoot.View
         {
             if (Bootnamen.SelectedItem != null)
             {
-                bootnaam = Bootnamen.SelectedItem.ToString();
+                
                 Bootplekken.IsEnabled = false;
             }
         }
@@ -225,10 +235,6 @@ namespace KBSBoot.View
                 bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
                 Bootnamen.IsEnabled = false;
             }
-        }
-        public void onViewLoadedAgain()
-        {
-            OnLoadScreenAgain?.Invoke(this, new RoutedEventArgs());
         }
     }
 }
