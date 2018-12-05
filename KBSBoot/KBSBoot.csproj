@@ -80,6 +80,8 @@
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="Model\Reservations.cs" />
+    <Compile Include="Model\Reservation_Boats.cs" />
     <Compile Include="Resources\InternetExplorerBrowserEmulation.cs" />
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
@@ -119,6 +121,9 @@
     </Compile>
     <Compile Include="View\ReportDamage.xaml.cs">
       <DependentUpon>ReportDamage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReservationsScreen.xaml.cs">
+      <DependentUpon>ReservationsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Switcher.cs" />
     <Page Include="View\BoatDetail.xaml">
@@ -180,6 +185,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ReservationsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Accesslevel.cs" />
@@ -216,7 +225,9 @@
   <ItemGroup>
     <Resource Include="Resources\users.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\reservation.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Boat-512.png" />
   </ItemGroup>

@@ -26,23 +26,30 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BoatDetail : UserControl
     {
+        private int BoatID;
         public string FullName;
         public int MemberId;
         public int AccessLevel;
+        public int MemberId;
         private Boat boatData;
         private BoatTypes boatType;
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
+        private int videoWidth = 500;
+        private int videoHeight = 320;
 
-        public BoatDetail(string FullName, int AccessLevel, int MemberId)
+        public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
+
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
+            this.BoatID = BoatId;
+
             InitializeComponent();
 
-            //Update Webbrowser IE version to latests
+            //Update Webbrowser IE version to latest for emulation
             if (!InternetExplorerBrowserEmulation.IsBrowserEmulationSet())
             {
                 InternetExplorerBrowserEmulation.SetBrowserEmulationVersion();
@@ -52,18 +59,19 @@ namespace KBSBoot.View
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
             //Load Boat data from database
-            LoadBoatData(1);
+            LoadBoatData(this.BoatID);
 
             boatViewName.Content = $"{boatData.boatName}";
             boatViewDescription.Content = $"{boatType.boatTypeDescription}";
-            boatViewType.Content = $"{boatType.boatTypeName}";
+            boatViewType.Content = $"type: {boatType.boatTypeName}";
             boatViewSteer.Content = $"{boatType.boatSteerString}";
-            boatViewNiveau.Content = $"{boatType.boatRowLevel}";
-
+            boatViewNiveau.Content = $"niveau: {boatType.boatRowLevel}";
+            
             //Load Youtube video
             DisplayVideo(boatData.boatYoutubeUrl);
 
-            DisplayPhoto(1);
+            //Load Boat Photo
+            DisplayPhoto(this.BoatID);
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -100,7 +108,7 @@ namespace KBSBoot.View
                     {
                         boatTypeName = b.boatTypeName,
                         boatTypeDescription = b.boatTypeDescription,
-                        boatSteerString = (b.boatSteer == 0) ? "nee" : "ja",
+                        boatSteerString = (b.boatSteer == 0) ? "zonder stuur" : "met stuur",
                         boatAmountSpaces = b.boatAmountSpaces,
                         boatOutOfServiceString = (b.boatOutOfService == 0) ? "nee" : "ja",
                         boatRowLevel = b.boatRowLevel
@@ -120,6 +128,7 @@ namespace KBSBoot.View
 
         public void DisplayPhoto(int boatID)
         {
+            //Retrieve image blob from database
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -141,32 +150,66 @@ namespace KBSBoot.View
                 }
             }
 
-            //if(boatImageData.boatImageBlob != null)
-            //{
-            Border border1 = new Border()
+
+            if(boatImageData != null)
             {
-                Width = 150,
-                Height = 150,
-            };
+                if (boatImageData.boatImageBlob != "" && boatImageData.boatImageBlob != null)
+                {
+                    //Convert Base64 encoded string to Bitmap Image
+                    byte[] binaryData = Convert.FromBase64String(boatImageData.boatImageBlob);
+                    BitmapImage bitmapimg = new BitmapImage();
+                    bitmapimg.BeginInit();
+                    bitmapimg.StreamSource = new MemoryStream(binaryData);
+                    bitmapimg.EndInit();
 
+                    //Create new image
+                    Image boatPhoto = new Image()
+                    {
+                        Width = 200,
+                        Height = 200,
 
-            Image boatPhoto = new Image()
-            {
-                Width = 150,
-                Height = 150,
+                    };
+                    boatPhoto.Source = bitmapimg;
 
-            };
+                    BrushConverter bc = new BrushConverter();
+                    Brush brushAppBlue = (Brush)bc.ConvertFrom("#FF2196F3");
+                    brushAppBlue.Freeze();
 
+                    //Create new border
+                    Border border1 = new Border()
+                    {
+                        Width = 200,
+                        Height = 200,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        Margin = new Thickness(270, 120, 0, 0),
+                        BorderBrush = brushAppBlue,
+                        BorderThickness = new Thickness(1)
+                    };
 
-            ViewGrid.Children.Add(border1);
-            //}
+                    //Append Image to Border
+                    border1.Child = boatPhoto;
+
+                    //Add border with Image to view
+                    ViewGrid.Children.Add(border1);
+                }
+                else //Image Blob is null
+                {
+                    //Reset label margins
+                    nameWrap.Margin = new Thickness(270, 113, 0, 610);
+                    descrWrap.Margin = new Thickness(270, 153, 0, 580);
+                    typeWrap.Margin = new Thickness(270, 193, 0, 545);
+                    steerWrap.Margin = new Thickness(270, 223, 0, 511);
+                    niveauWrap.Margin = new Thickness(270, 253, 0, 476);
+                }
+            }
         }
 
         // Function to generate html for inside webbrowser control
         public void DisplayVideo(string url)
         {
             //Check if a boat has a Youtube Video Url, then show WebBrowser
-            if (boatData.boatYoutubeUrl != null)
+            if (boatData.boatYoutubeUrl != null && boatData.boatYoutubeUrl != "")
             {
                 Match m = YouTubeURLIDRegex.Match(url);
                 String id = m.Groups["v"].Value;
@@ -181,10 +224,10 @@ namespace KBSBoot.View
                 WebBrowser webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
-                    Height = 214,
-                    Width = 504,
+                    Height = videoHeight,
+                    Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new System.Windows.Thickness(138, 214, 0, 0)
+                    Margin = new Thickness(20, 360, 0, 0)
                 };
 
                 webBrowser.NavigateToString(page);
@@ -196,7 +239,7 @@ namespace KBSBoot.View
         //Generate Iframe for inside Webbrowser control
         private string GetYouTubeScript(string id)
         {
-            string scr = @"<iframe width='504' height='214' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=HD720&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
+            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
             return scr;
         }
 
@@ -228,30 +271,5 @@ namespace KBSBoot.View
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
         
-    }
-
-    public class StringLengthVisiblityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value == null || value.ToString().Length == 0)
-            {
-                return Visibility.Collapsed;
-            }
-            else
-            {
-                return Visibility.Visible;
-            }
-        }
-
-        object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

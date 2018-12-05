@@ -23,12 +23,14 @@ namespace KBSBoot.View
         public string FullName;
         public int MemberId;
         public int AccessLevel;
+        public int MemberId;
 
         public HomePageAdministrator(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
-            this.MemberId = this.MemberId;
+            this.MemberId = MemberId;
+
             InitializeComponent();
         }
 

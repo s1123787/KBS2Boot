@@ -7,7 +7,8 @@
              xmlns:kbsboot="clr-namespace:KBSBoot"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768">
-    <Grid>
+    
+   <Grid>
         <materialDesign:ColorZone Mode="PrimaryMid" Padding="16">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16 0 0 0" FontSize="36">
@@ -17,7 +18,7 @@
         </materialDesign:ColorZone>
         <Label x:Name="label" Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="205,191,0,0" VerticalAlignment="Top" FontSize="30" Width="255"/>
         <TextBox x:Name="usernametxt" materialDesign:HintAssist.Hint="Gebruikersnaam" HorizontalAlignment="Left" Height="64" Margin="214,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="611" FontSize="24"/>
-        <Button x:Name="LoginButton" Content="Inloggen" HorizontalAlignment="Left" Margin="205,391,0,0" VerticalAlignment="Top" Width="161" Height="50" FontSize="28" Click="LoginBtn_click"/>
+        <Button x:Name="LoginButton" Content="Inloggen" HorizontalAlignment="Left" Margin="205,391,0,0" VerticalAlignment="Top" Width="161" Height="50" FontSize="28" Click="LoginBtn_click" IsDefault="True"/>
         <Button x:Name="RegisterButton" Content="Registreren" HorizontalAlignment="Left" Margin="623,391,0,0" VerticalAlignment="Top" Width="202" Height="50" FontSize="28" Click="RegisterBtn_click"/>
     </Grid>
 </UserControl>

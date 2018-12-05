@@ -223,9 +223,10 @@ namespace KBSBoot.Model
         #endregion
 
 
-        protected virtual void OnNewHomePageMade(int type, string FullName, int MemberId)
+        protected virtual void OnNewHomePageMade(int type, string FullName, int memberId)
         {
-            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, MemberId));
+            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, memberId));
+
         } 
     }
 }

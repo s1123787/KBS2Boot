@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
-    public class BoatImages
+    public class Reservation_Boats
     {
         [Key]
-        public int boatImageId { get; set; }
-
+        public int reservationId { get; set; }
         public int boatId { get; set; }
-        public string boatImageBlob { get; set; }
     }
 }

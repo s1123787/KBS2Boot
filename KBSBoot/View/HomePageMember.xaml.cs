@@ -23,8 +23,10 @@ namespace KBSBoot.View
         public string FullName;
         public int MemberId;
         public int AccessLevel;
+        public int MemberId;
 
-        public HomePageMember(string FullName, int MemberId, int AccessLevel)
+        public HomePageMember(string FullName, int AccessLevel, int MemberId)
+
         {
             this.FullName = FullName;
             this.MemberId = MemberId;
@@ -63,14 +65,9 @@ namespace KBSBoot.View
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void MyReservations_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, MemberId));
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, 1, 1));
+            Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
     }
 }
