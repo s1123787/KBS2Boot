@@ -117,20 +117,20 @@ namespace KBSBoot.View
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        private void DeleteUser_Click(object sender, RoutedEventArgs e)
+        private void RemoveUser_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Weet u zeker dat u dit lid wilt verwijderen?", "Waarschuwing", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if(MessageBox.Show("Weet u zeker dat u dit lid inactief wilt maken?", "Waarschuwing", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 using (var context = new BootDB())
                 {
-                    var deleteUser = from m in context.Members
+                    var removeUser = from m in context.Members
                                      where m.memberId == MemberID   
                                      select m;
-                    foreach(var member in deleteUser)
+                    foreach(var member in removeUser)
                     {
-                        context.Members.Remove(member);
+                        member.memberSubscribedUntill = null;
                     }
-                    MessageBox.Show("Gebruiker is succesvol verwijderd.", "Gebruiker verwijderd", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Gebruiker is succesvol inactief gemaakt", "Gebruiker inactief gemaakt", MessageBoxButton.OK, MessageBoxImage.Information);
                     context.SaveChanges();
                     Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
                 }

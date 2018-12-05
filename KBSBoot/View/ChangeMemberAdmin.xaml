@@ -45,8 +45,8 @@
             <ComboBoxItem>Administrator</ComboBoxItem>
         </ComboBox>
         <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,408,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <Button x:Name="ChangeUser" Content="Wijzig" HorizontalAlignment="Left" Margin="279,500,0,0" VerticalAlignment="Top" Width="200" Click="ChangeUser_Click" FontSize="30" Height="50"/>
-        <Button x:Name="DeleteUser" Content="Verwijder lid" HorizontalAlignment="Left" Margin="621,500,0,0" VerticalAlignment="Top" Width="200" Click="DeleteUser_Click" FontSize="30" Height="50"/>
+        <Button x:Name="ChangeUser" Content="Wijzig" HorizontalAlignment="Left" Margin="279,500,0,0" VerticalAlignment="Top" Width="230" Click="ChangeUser_Click" FontSize="30" Height="50"/>
+        <Button x:Name="RemoveUser" Content="Inactief maken" HorizontalAlignment="Left" Margin="621,500,0,0" VerticalAlignment="Top" Width="230" Click="RemoveUser_Click" FontSize="30" Height="50"/>
         <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60"/>
     </Grid>
 </UserControl>
