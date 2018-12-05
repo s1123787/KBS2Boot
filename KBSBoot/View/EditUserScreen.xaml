@@ -37,9 +37,9 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Lid Id" Width="100"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Lid gebruikersnaam" Width="150"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Lid naam" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="140"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="140"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberSubscribedUntill}" Header="Abonnement" Width="135"/>

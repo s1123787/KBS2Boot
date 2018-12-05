@@ -179,7 +179,7 @@ namespace KBSBoot.View
                         }
                     }
                     //Checks if boat is out of service
-                    if(b.boatOutOfService == 2)
+                    if(b.boatOutOfService == 1)
                     {
                         continue;
                     }
