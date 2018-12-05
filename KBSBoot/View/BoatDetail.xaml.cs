@@ -38,14 +38,22 @@ namespace KBSBoot.View
         private int videoWidth = 500;
         private int videoHeight = 320;
 
+<<<<<<< HEAD
         public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
 
+=======
+        public BoatDetail(string FullName, int AccessLevel, BoatId int MemberId)
+>>>>>>> parent of f55f090... fixed a couple little bugs
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
+<<<<<<< HEAD
             this.BoatID = BoatId;
 
+=======
+            this.BoatID = BoatID;
+>>>>>>> parent of f55f090... fixed a couple little bugs
             InitializeComponent();
 
             //Update Webbrowser IE version to latest for emulation
