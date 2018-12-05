@@ -13,6 +13,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int BoatId;
+        public int memberId;
         
         public DamageDetailsScreen(string fullName, int accesslevel, int boatId)
         {
@@ -100,7 +101,7 @@ namespace KBSBoot.View
         
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
     }
 }

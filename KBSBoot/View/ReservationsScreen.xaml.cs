@@ -25,6 +25,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
+        public int BoatId;
 
         public ReservationsScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -107,6 +108,7 @@ namespace KBSBoot.View
                             {
                                 reservationId = r.reservationId,
                                 boatName = b.boatName,
+                                boatId = b.boatId,
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
                                 beginTime = r.beginTime,
@@ -118,6 +120,7 @@ namespace KBSBoot.View
                 {
                     string resdate = d.date.ToString("d");
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                    BoatId = d.boatId;
                 }
             }
             //add list with reservation to the grid
@@ -132,13 +135,13 @@ namespace KBSBoot.View
             //check if report demage should be possible
             if (Convert.ToDateTime(reservation.resdate) < DateTime.Now.Date)
             {
-                Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+                Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, reservation.reservationId, BoatId));
             }
             else if(Convert.ToDateTime(reservation.resdate) == DateTime.Now.Date)
             {
                 if (reservation.beginTime <= DateTime.Now.TimeOfDay)
                 {
-                    Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+                    Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, reservation.reservationId, BoatId));
                 }
                 else
                 {
