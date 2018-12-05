@@ -30,7 +30,6 @@ namespace KBSBoot.View
         public string FullName;
         public int MemberId;
         public int AccessLevel;
-        public int MemberId;
         private Boat boatData;
         private BoatTypes boatType;
         private BoatImages boatImageData;

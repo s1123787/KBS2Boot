@@ -22,11 +22,13 @@ namespace KBSBoot.View
     { 
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
-        public DamageReportsScreen(string fullName, int accesslevel)
+        public DamageReportsScreen(string fullName, int accesslevel, int memberId)
         {
             FullName = fullName;
             AccessLevel = accesslevel;
+            MemberId = memberId;
             InitializeComponent();
         }
         
@@ -101,12 +103,12 @@ namespace KBSBoot.View
         
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
         
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
         
         // View boat details
@@ -116,7 +118,7 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new DamageDetailsScreen(FullName, AccessLevel, boat.boatId));
+            Switcher.Switch(new DamageDetailsScreen(FullName, AccessLevel, boat.boatId, MemberId));
         }
     }
 }
