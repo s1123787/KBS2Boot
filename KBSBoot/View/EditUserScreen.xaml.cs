@@ -52,7 +52,7 @@ namespace KBSBoot.View
                     members.Add(new Member()
                     {
                         memberId = m.memberId,
-                        memberUsername = m.memberUsername,
+                        memberUsername = m.memberUsername,  
                         memberName = m.memberName,
                         memberRowLevelId = m.memberRowLevelId,
                         memberAccessLevelId = m.memberAccessLevelId,
