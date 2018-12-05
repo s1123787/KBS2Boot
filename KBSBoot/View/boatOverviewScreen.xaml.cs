@@ -178,6 +178,11 @@ namespace KBSBoot.View
                             }
                         }
                     }
+                    //Checks if boat is out of service
+                    if(b.boatOutOfService == 2)
+                    {
+                        continue;
+                    }
                     #region
                     StackPanel sp = new StackPanel();
                     sp.Orientation = Orientation.Horizontal;

@@ -124,7 +124,7 @@ namespace KBSBoot.View
                 using (var context = new BootDB())
                 {
                     var deleteUser = from m in context.Members
-                                     where m.memberId == MemberID
+                                     where m.memberId == MemberID   
                                      select m;
                     foreach(var member in deleteUser)
                     {
