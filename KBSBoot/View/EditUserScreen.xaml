@@ -42,7 +42,13 @@
                         <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="140"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="140"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberSubscribedUntill}" Header="Abonnement" Width="135"/>
+                        <GridViewColumn Header="Abonnement" Width="135">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding memberSubscribedUntill, StringFormat=dd/MM/yyyy}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Width="175">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
