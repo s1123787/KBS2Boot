@@ -22,8 +22,8 @@
             </DockPanel>
         </materialDesign:ColorZone>
         <Button x:Name="Damage" Margin="50,120,525,345" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400" Click="Damage_Click">
-            <StackPanel Orientation="Vertical" Width="326" Height="260">
-                <!--<Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>-->
+            <StackPanel Orientation="Vertical" Width="269" Height="235">
+                <Image Source="../Resources/Boat-Damage.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock Text="Beheren schade" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
             </StackPanel>
         </Button>
