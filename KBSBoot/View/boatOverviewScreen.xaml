@@ -37,7 +37,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
-                    <GridView>
+                    <GridView AllowsColumnReorder="False">
                         <GridViewColumn Width="130" Header="Foto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

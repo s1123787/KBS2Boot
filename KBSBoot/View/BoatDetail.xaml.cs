@@ -38,12 +38,12 @@ namespace KBSBoot.View
         private int videoWidth = 500;
         private int videoHeight = 320;
 
-        public BoatDetail(string FullName, int AccessLevel, BoatId int MemberId)
+        public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
-            this.BoatID = BoatID;
+            this.BoatID = BoatId;
             InitializeComponent();
 
             //Update Webbrowser IE version to latest for emulation
