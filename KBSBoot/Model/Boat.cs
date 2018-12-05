@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
+
 namespace KBSBoot.Model
 {
     public class Boat
@@ -33,6 +34,13 @@ namespace KBSBoot.Model
 
         [NotMapped]
         public int boatAmountOfSpaces { get; set; }
+        
+      [NotMapped]
+        public int boatDamageReportAmount { get; set; }
+        [NotMapped]
+        public string boatTypeDescription { get; set; }
+        [NotMapped]
+        public bool boatInService { get; set; }
 
 
         public Boat()
@@ -103,5 +111,7 @@ namespace KBSBoot.Model
             }
             return bitmapimg;
         }
+
+        
     }
 }

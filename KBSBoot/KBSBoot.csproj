@@ -92,6 +92,12 @@
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DamageDetailsScreen.xaml.cs">
+      <DependentUpon>DamageDetailsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DamageReportsScreen.xaml.cs">
+      <DependentUpon>DamageReportsScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
     </Compile>
@@ -124,6 +130,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DamageDetailsScreen.xaml" />
+    <Page Include="View\DamageReportsScreen.xaml" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
