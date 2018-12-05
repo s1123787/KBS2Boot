@@ -58,7 +58,7 @@ namespace KBSBoot.View
 
         private void Damage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new DamageReportsScreen());
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel));
         }
     }
 }

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="KBSBoot.View.DamageDetailsScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
+    <Grid Background="White">
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80"> 
+            <DockPanel> 
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="PreviousPage_Click"> 
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/> 
+                </Button> 
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86"> 
+                    <StackPanel> 
+                        <Button x:Name="AccessLevelButton" Content="Materiaalcommisaris" IsEnabled="False" /> 
+                        <Separator/> 
+                        <Button Click="BackToHomePage_Click"> 
+                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" /> 
+                        </Button> 
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/> 
+                    </StackPanel> 
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Schade details</TextBlock> 
+            </DockPanel> 
+        </materialDesign:ColorZone>
+        <Label Content="Boot naam:" HorizontalAlignment="Left" Margin="21,97,0,0" VerticalAlignment="Top"/>
+        <Label Content="Beschrijving:" HorizontalAlignment="Left" Margin="21,128,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="nameLabel" Content="" HorizontalAlignment="Left" Margin="116,97,0,0" VerticalAlignment="Top" Width="auto"/>
+        <Label x:Name="descriptionLabel" Content="" HorizontalAlignment="Left" Margin="116,128,0,0" VerticalAlignment="Top" Width="auto"/>
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="21,176,0,0" VerticalAlignment="Top" Width="944">
+            <ListView ItemsSource="{Binding ReportList}" Name="ReportList" FontSize="16" HorizontalAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLevelText}" Header="Ernstigheid van de schade" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLocation}" Header="Locatie van de schade" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageReason}" Header="Oorzaak van de schade" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageReportDate}" Header="Meld datum" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageReporter}" Header="Gemeld door" Width="auto"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -44,7 +44,7 @@
                         <GridViewColumn Header="" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="👁" Click="Test_Click"/>
+                                    <Button Content="👁" Click="ViewBoat_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

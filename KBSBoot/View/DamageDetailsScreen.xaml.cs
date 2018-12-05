@@ -1,77 +1,71 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.DAL;
 using KBSBoot.Model;
 
 namespace KBSBoot.View
 {
-    public partial class DamageReportsScreen : UserControl
-    { 
+    public partial class DamageDetailsScreen : UserControl
+    {
         public string FullName;
         public int AccessLevel;
-
-        public DamageReportsScreen(string fullName, int accesslevel)
+        public int BoatId;
+        
+        public DamageDetailsScreen(string fullName, int accesslevel, int boatId)
         {
             FullName = fullName;
             AccessLevel = accesslevel;
+            BoatId = boatId;
             InitializeComponent();
         }
         
-        private void Test_Click(object sender, RoutedEventArgs e)
+        //Method to load a list of damage reports
+        private void LoadDamageReports()
         {
-        }
-        
-        //Method to load a list of all boats with damage
-        private void LoadBoatsWithDamage()
-        {
-            List<Boat> boats = new List<Boat>();
+            List<BoatDamage> reports = new List<BoatDamage>();
 
             using (var context = new BootDB())
             {
                 //tables used: Boats - BoatDamages
                 //selected boat Id, boat name, boat type description, amount of damage reports, boat in service or not
-                var data = from b in context.Boats
-                    where (from bd in context.BoatDamages select bd.boatId).Contains(b.boatId)
+                var data = from bd in context.BoatDamages
+                    join b in context.Boats 
+                    on bd.boatId equals b.boatId
+                    where bd.boatId == BoatId
                     select new
                     {
-                        boatId = b.boatId,
                         boatName = b.boatName,
                         boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
-                        boatDamageReportAmount = (from bd2 in context.BoatDamages where bd2.boatId == b.boatId select bd2).Count(),
-                        boatOutOfService = b.boatOutOfService
+                        boatDamageLevel = bd.boatDamageLevel,
+                        boatDamageLocation = bd.boatDamageLocation,
+                        boatDamageReason = bd.boatDamageReason,
+                        boatDamageReportDate = "Test",
+                        boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
                     };
                 
                 //add all boats with damage reports to list
                 foreach (var d in data)
                 {
-                    boats.Add(new Boat
+                    reports.Add(new BoatDamage
                     {
-                        boatId = d.boatId,
-                        boatName = d.boatName,
-                        boatTypeDescription = d.boatDesc,
-                        boatDamageReportAmount = d.boatDamageReportAmount,
-                        boatOutOfService = d.boatOutOfService,
-                        boatInService = d.boatOutOfService == 1
+                        boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
+                        boatDamageLocation = d.boatDamageLocation,
+                        boatDamageReason = d.boatDamageReason,
+                        boatDamageReportDate = d.boatDamageReportDate.ToString(),
+                        boatDamageReporter = d.boatDamageReporter.ToString()
                     });
+                    
+                    nameLabel.Content = d.boatName;
+                    descriptionLabel.Content = d.boatDesc;
                 }
             }
             //add list with boats to the grid
-            BoatList.ItemsSource = boats;
+            ReportList.ItemsSource = reports;
         }
-
+        
         private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
@@ -90,8 +84,8 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            //Load list of boats that have damage
-            LoadBoatsWithDamage();
+            
+            LoadDamageReports();
         }
         
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -101,22 +95,12 @@ namespace KBSBoot.View
         
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel));
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel));
         }
         
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel));
-        }
-        
-        // View boat details
-        private void ViewBoat_Click(object sender, RoutedEventArgs e)
-        {
-            // Get current boat from click row
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-
-            // Switch screen to detailpage on click
-            Switcher.Switch(new DamageDetailsScreen(FullName, AccessLevel, boat.boatId));
         }
     }
 }

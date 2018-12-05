@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +21,11 @@ namespace KBSBoot.Model
         public int boatOutOfService { get; set; }
         public string boatYoutubeUrl { get; set; }
 
+        [NotMapped]
         public int boatDamageReportAmount { get; set; }
+        [NotMapped]
         public string boatTypeDescription { get; set; }
+        [NotMapped]
         public bool boatInService { get; set; }
     }
 }

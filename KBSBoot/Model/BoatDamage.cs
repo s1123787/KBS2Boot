@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,20 @@ namespace KBSBoot.Model
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
         
+        [NotMapped] public string boatDamageReportDate { get; set; }
+        [NotMapped] public string boatDamageReporter { get; set; }
+        [NotMapped] public string boatDamageLevelText { get; set; }
+
+        public static string DamageLevelToString(int input)
+        {
+            if (input == 1)
+                return "Lichte schade";
+            if (input == 2)
+                return "Schade";
+            else
+                return "Onherstelbare schade";
+        }
+
         //Method to add report to the database
         public static void AddReportToDB(BoatDamage report)
         {
