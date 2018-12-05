@@ -30,10 +30,6 @@ namespace KBSBoot.View
             InitializeComponent();
         }
         
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-        }
-        
         //Method to load a list of all boats with damage
         private void LoadBoatsWithDamage()
         {
