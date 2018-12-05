@@ -94,19 +94,6 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            using (var context = new BootDB())
-            {
-                var tableData = (from m in context.Members
-                                 select new
-                                 {
-                                     memberId = m.memberId,
-                                     memberUsername = m.memberUsername,
-                                     memberName = m.memberName,
-                                     memberRowLevelId = m.memberRowLevelId,
-                                     memberAccessLevelId = m.memberAccessLevelId,
-                                     memberSubscribedUntill = m.memberSubscribedUntill
-                                 });
-            }
         }
     }
 }
