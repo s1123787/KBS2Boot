@@ -23,8 +23,8 @@
                          <Button Content="Uitloggen" Click="LogoutButton_Click"/> 
                      </StackPanel> 
                  </materialDesign:PopupBox>
-                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten met schade meldingen</TextBlock> 
-             </DockPanel> 
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Boten met schademeldingen"/>
+            </DockPanel> 
          </materialDesign:ColorZone> 
 
         <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
