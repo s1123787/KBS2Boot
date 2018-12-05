@@ -25,6 +25,7 @@ namespace KBSBoot.View
     public partial class boatOverviewScreen : UserControl
     {
         public string FullName;
+        public int MemberId;
         public int AccessLevel;
         public int MemberId;
 

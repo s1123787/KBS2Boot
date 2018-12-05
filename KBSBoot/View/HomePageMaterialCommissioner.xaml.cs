@@ -34,12 +34,33 @@ namespace KBSBoot.View
 
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
-            FullNameLabel.Content = $"Welkom {FullName}";
+            FullNameLabel.Text = $"Welkom {FullName}";
+            if (AccessLevel == 1)
+            {
+                AccessLevelButton.Content = "Lid";
+            }
+            else if (AccessLevel == 2)
+            {
+                AccessLevelButton.Content = "Wedstrijdcommissaris";
+            }
+            else if (AccessLevel == 3)
+            {
+                AccessLevelButton.Content = "Materiaalcommissaris";
+            }
+            else if (AccessLevel == 4)
+            {
+                AccessLevelButton.Content = "Administrator";
+            }
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
+        }
+
+        private void Damage_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel));
         }
     }
 }
