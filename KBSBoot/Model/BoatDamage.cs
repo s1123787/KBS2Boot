@@ -19,10 +19,12 @@ namespace KBSBoot.Model
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
         
+        //Properties for DamageDetailsScreen
         [NotMapped] public string boatDamageReportDate { get; set; }
         [NotMapped] public string boatDamageReporter { get; set; }
         [NotMapped] public string boatDamageLevelText { get; set; }
 
+        //Method to convert damage level int to a string that can be used in DamageDetailsScreen
         public static string DamageLevelToString(int input)
         {
             if (input == 1)

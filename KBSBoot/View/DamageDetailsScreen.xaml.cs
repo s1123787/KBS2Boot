@@ -31,8 +31,8 @@ namespace KBSBoot.View
 
             using (var context = new BootDB())
             {
-                //tables used: Boats - BoatDamages
-                //selected boat Id, boat name, boat type description, amount of damage reports, boat in service or not
+                //tables used: Boats- BoatsTypes - BoatDamages - Reservations- Members
+                //selected boat name, boat type description, damage level, damage location, reason the boat is damaged, date teh report was made, who reported the damage
                 var data = from bd in context.BoatDamages
                     join b in context.Boats 
                     on bd.boatId equals b.boatId
@@ -48,7 +48,7 @@ namespace KBSBoot.View
                         boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
                     };
                 
-                //add all boats with damage reports to list
+                //add all reports to list
                 foreach (var d in data)
                 {
                     reports.Add(new BoatDamage
@@ -64,7 +64,7 @@ namespace KBSBoot.View
                     descriptionLabel.Content = d.boatDesc;
                 }
             }
-            //add list with boats to the grid
+            //add list with reports to the grid
             ReportList.ItemsSource = reports;
         }
         
@@ -86,7 +86,7 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            
+            //Load damage reports
             LoadDamageReports();
         }
         

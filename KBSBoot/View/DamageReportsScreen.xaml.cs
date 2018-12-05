@@ -32,10 +32,6 @@ namespace KBSBoot.View
             InitializeComponent();
         }
         
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-        }
-        
         //Method to load a list of all boats with damage
         private void LoadBoatsWithDamage()
         {
@@ -43,7 +39,7 @@ namespace KBSBoot.View
 
             using (var context = new BootDB())
             {
-                //tables used: Boats - BoatDamages
+                //tables used: Boats - BoatDamages - BoatTypes
                 //selected boat Id, boat name, boat type description, amount of damage reports, boat in service or not
                 var data = from b in context.Boats
                     where (from bd in context.BoatDamages select bd.boatId).Contains(b.boatId)

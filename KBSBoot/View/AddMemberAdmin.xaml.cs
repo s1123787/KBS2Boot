@@ -37,7 +37,7 @@ namespace KBSBoot.View
             DatePicker.DisplayDateStart = DateTime.Today;
         }
 
-        //Method to excecute when AddUser button is clicked
+        //Method to execute when AddUser button is clicked
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
             //Save textbox content to variables for easy access
@@ -62,8 +62,8 @@ namespace KBSBoot.View
                     }
 
                     //CHeck for invalid characters in the strings
-                    Member.CheckForInvalidCharacters(name);
-                    Member.CheckForInvalidCharacters(userName);
+                    Member.NameHasSpecialChars(name);
+                    Member.HasSpecialChars(userName);
 
                     //Create new member to add to the DB
                     var member = new Member
