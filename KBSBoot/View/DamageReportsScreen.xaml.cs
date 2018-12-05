@@ -66,7 +66,8 @@ namespace KBSBoot.View
                         boatTypeDescription = d.boatDesc,
                         boatDamageReportAmount = d.boatDamageReportAmount,
                         boatOutOfService = d.boatOutOfService,
-                        boatInService = d.boatOutOfService == 1
+                        boatInService = d.boatOutOfService == 1,
+                        IsSelected = (d.boatOutOfService == 1) ? true : false
                     });
                 }
             }
@@ -119,6 +120,46 @@ namespace KBSBoot.View
 
             // Switch screen to detailpage on click
             Switcher.Switch(new DamageDetailsScreen(FullName, AccessLevel, boat.boatId, MemberId));
+        }
+
+        //OutOfService checkbox actions, takes into maintenance
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            using (var context = new BootDB())
+            {
+                var currentBoat = (from b in context.Boats
+                                   where b.boatId == boat.boatId
+                                   select b).SingleOrDefault();
+
+                currentBoat.boatOutOfService = 1;
+
+                context.SaveChanges();
+
+                MessageBox.Show(boat.boatName + " is in onderhoud geplaatst.", "Boot in onderhoud", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        //Unchecked takes boat out of maintenance
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            using (var context = new BootDB())
+            {
+                var currentBoat = (from b in context.Boats
+                                   where b.boatId == boat.boatId
+                                   select b).SingleOrDefault();
+
+                currentBoat.boatOutOfService = 0;
+
+                context.SaveChanges();
+
+                MessageBox.Show(boat.boatName + " is uit onderhoud genomen en weer te reserveren.", "Boot weer beschikbaar", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
