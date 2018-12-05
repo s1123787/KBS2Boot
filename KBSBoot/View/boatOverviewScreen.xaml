@@ -26,7 +26,7 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten bekijken</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <ScrollViewer HorizontalAlignment="Left" Height="400" Margin="164,200,0,0" VerticalAlignment="Top" Width="791">
+        <ScrollViewer HorizontalAlignment="Left" Height="400" Margin="164,200,0,0" VerticalAlignment="Top" Width="791" >
             <StackPanel x:Name="MainStackPanel">
             </StackPanel>
         </ScrollViewer>

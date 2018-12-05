@@ -76,6 +76,12 @@ namespace KBSBoot.View
             Member member = ((FrameworkElement)sender).DataContext as Member;
             Switcher.Switch(new ChangeMemberAdmin(FullName, AccessLevel, member.memberId));
         }
+        private void MemberList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
         private void DidLoaded(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
