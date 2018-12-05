@@ -24,8 +24,8 @@ namespace KBSBoot.View
     public partial class AddMemberAdmin : UserControl
     {
         public string FullName;
-        public int MemberId;
         public int AccessLevel;
+        public int MemberId;
 
         //Constructor for AddMemberAdmin class
         public AddMemberAdmin(string FullName, int AccessLevel, int MemberId)
@@ -62,8 +62,8 @@ namespace KBSBoot.View
                     }
 
                     //CHeck for invalid characters in the strings
-                    Member.CheckForInvalidCharacters(name);
-                    Member.CheckForInvalidCharacters(userName);
+                    CheckForInvalidCharacters(name);
+                    CheckForInvalidCharacters(userName);
 
                     //Create new member to add to the DB
                     var member = new Member
@@ -76,10 +76,9 @@ namespace KBSBoot.View
                     };
 
                     //Check if the member aleady exists
-                    Member.CheckIfMemberExists(member);
+                    CheckIfMemberExists(member);
                     //Add new member to database
-                    Member.AddMemberToDB(member);
-                    Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+                    AddMemberToDB(member);
                 }
                 catch (FormatException)
                 {
@@ -101,6 +100,20 @@ namespace KBSBoot.View
             {
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        //Method to check if a date exists
+        public static void CheckForInvalidDate(int year, int month, int day)
+        {
+            if (year < 1 || month > 12 || month < 1 || day > DateTime.DaysInMonth(year, month) || day < 1)
+                throw new InvalidDateException("Datum bestaat niet.");
+        }
+
+        //Method to check if date is before the date of today
+        public static void CheckIfDateIsBeforeToday(DateTime date)
+        {
+            if (date < DateTime.Now)
+                throw new InvalidDateException("Datum is voor de datum van vandaag.");
         }
 
         //Method used to check if the entered name and user name contain any invalid characters

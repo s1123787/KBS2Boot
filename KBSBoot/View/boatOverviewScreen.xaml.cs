@@ -25,8 +25,8 @@ namespace KBSBoot.View
     public partial class boatOverviewScreen : UserControl
     {
         public string FullName;
-        public int MemberId;
         public int AccessLevel;
+        public int MemberId;
 
         public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -93,10 +93,9 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
         }
         
-
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));

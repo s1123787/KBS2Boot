@@ -4,28 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="762" Loaded="ViewDidLoaded">
+             d:DesignHeight="450" d:DesignWidth="800" Width="525" Height="350" Loaded="ViewDidLoaded">
     <Grid x:Name="MaterialCommissionerGrid">
-        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
-            <DockPanel Margin="100,0,0,0">
-
-                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
-                    <StackPanel>
-                        <Button x:Name="AccessLevelButton" Content="Materiaalcommissaris" IsEnabled="False" />
-                        <Separator/>
-                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
-                    </StackPanel>
-                </materialDesign:PopupBox>
-                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Welkom ...</TextBlock>
-            </DockPanel>
-        </materialDesign:ColorZone>
-        <Button x:Name="Damage" Margin="50,120,525,345" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400" Click="Damage_Click">
-            <StackPanel Orientation="Vertical" Width="326" Height="260">
-                <!--<Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>-->
-                <TextBlock Text="Beheren schade" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
-            </StackPanel>
-        </Button>
+        <Label x:Name="FullNameLabel" Content="Welkom &lt;naam&gt;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="220" FontSize="20"/>
+        <Button x:Name="LogoutButton" Content="Uitloggen" HorizontalAlignment="Left" Margin="378,10,0,0" VerticalAlignment="Top" Width="124" Height="35" FontSize="20" Click="LogoutButton_Click"/>
+        <Label x:Name="AccessLevelLabel" Content="Materiaalcommissaris" HorizontalAlignment="Left" Margin="198,19,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

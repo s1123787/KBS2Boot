@@ -26,17 +26,17 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Margin="0">Schade melden</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Label Content="Type schade:" HorizontalAlignment="Left" Margin="118,117,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="DamageLevel" HorizontalAlignment="Left" Margin="118,149,0,0" VerticalAlignment="Top" Width="150">
+        <Label Content="Type schade:" HorizontalAlignment="Left" Margin="118,155,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="DamageLevel" HorizontalAlignment="Left" Margin="118,186,0,0" VerticalAlignment="Top" Width="150">
             <ComboBoxItem IsSelected="True">Lichte schade</ComboBoxItem>
             <ComboBoxItem>Schade</ComboBoxItem>
             <ComboBoxItem>Onherstelbare schade</ComboBoxItem>
         </ComboBox>
-        <Label Content="Waar zit de schade:" HorizontalAlignment="Left" Margin="118,187,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="22" Margin="118,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326"/>
-        <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,255,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="117" Margin="118,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326"/>
-        <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="331,431,0,0" VerticalAlignment="Top" Width="113" Click="ReportDamageButton_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="614,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="164" Width="373"><Run Text="Lichte schade:"/><Run Text="&#x9;&#x9;"/><Run Text="krasjes en deukjes."/><LineBreak/><Run Text="Schade :             "/><Run Text="&#x9;&#x9;"/><Run Text="scheuren of deuken."/><LineBreak/><Run Text="Onherstelbare schade:"/><Run Text="&#x9;"/><Run Text="schade die niet is te repareren"/><Run Text=" "/><Run Text="of schade"/><Run Text=" &#x9;&#x9;&#x9;"/><Run Text="die meer kost dan dat"/><Run Text=" "/><Run Text="de boot waard is."/><LineBreak/><Run/></TextBlock>
+        <Label Content="Waar zit de schade:" HorizontalAlignment="Left" Margin="118,224,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="22" Margin="118,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326"/>
+        <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,293,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="165" Margin="118,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326"/>
+        <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="369,524,0,0" VerticalAlignment="Top" Width="75" Click="ReportDamageButton_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="477,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="164" Width="373"><Run Text="Lichte schade:"/><Run Text="&#x9;&#x9;"/><Run Text="krasjes en deukjes."/><LineBreak/><Run Text="Schade :             "/><Run Text="&#x9;&#x9;"/><Run Text="scheuren of deuken."/><LineBreak/><Run Text="Onherstelbare schade:"/><Run Text="&#x9;"/><Run Text="schade die niet is te repareren"/><Run Text=" "/><Run Text="of schade"/><Run Text=" &#x9;&#x9;&#x9;"/><Run Text="die meer kost dan dat"/><Run Text=" "/><Run Text="de boot waard is."/><LineBreak/><Run/></TextBlock>
     </Grid>
 </UserControl>
