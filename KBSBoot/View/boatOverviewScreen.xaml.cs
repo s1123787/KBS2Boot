@@ -29,11 +29,14 @@ namespace KBSBoot.View
         private bool FilterEnabled = false;
         private string bootnaam;
         private int bootplek;
+        public int MemberId;
 
-        public boatOverviewScreen(string FullName, int AccessLevel)
+
+        public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
 
@@ -171,13 +174,12 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
         }
         
-
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

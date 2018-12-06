@@ -22,11 +22,13 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
-        public HomePageAdministrator(string FullName, int AccessLevel)
+        public HomePageAdministrator(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
         }
 
@@ -58,7 +60,7 @@ namespace KBSBoot.View
 
         private void Users_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
         }
 
         private void AddBoat_Click(object sender, RoutedEventArgs e)
@@ -68,7 +70,7 @@ namespace KBSBoot.View
 
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
         private void Clicked(object sender, MouseButtonEventArgs e)

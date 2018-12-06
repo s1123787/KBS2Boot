@@ -25,12 +25,14 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName, int AccessLevel)
+        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
@@ -145,13 +147,13 @@ namespace KBSBoot.View
                 context.Members.Add(member);
                 context.SaveChanges();
                 MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+                Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
             }
         }
 
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
         }
 
         private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -166,7 +168,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
