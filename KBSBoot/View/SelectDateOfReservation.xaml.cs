@@ -107,6 +107,8 @@ namespace KBSBoot.View
             beginTime.Clear();
             endTime.Clear();
 
+            ReservationButton.Visibility = Visibility.Visible;
+
             mainStackPanel.Children.Clear();
 
             StackPanel sp1 = new StackPanel();
@@ -124,7 +126,7 @@ namespace KBSBoot.View
 
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
-            InformationSun.Content = $" de zon is op van {test1.TimeOfDay} tot {test2.TimeOfDay}";
+            InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
