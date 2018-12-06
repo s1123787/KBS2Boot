@@ -142,7 +142,7 @@ namespace KBSBoot.View
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
