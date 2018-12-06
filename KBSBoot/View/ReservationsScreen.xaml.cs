@@ -25,7 +25,6 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
-        public int BoatId;
 
         public ReservationsScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -40,19 +39,19 @@ namespace KBSBoot.View
         {
             if (AccessLevel == 1)
             {
-                Switcher.Switch(new HomePageMember(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 2)
             {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 3)
             {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 4)
             {
-                Switcher.Switch(new HomePageAdministrator(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
             }
         }
 
@@ -108,19 +107,17 @@ namespace KBSBoot.View
                             {
                                 reservationId = r.reservationId,
                                 boatName = b.boatName,
-                                boatId = b.boatId,
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime
                             });
-                
+
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
                     string resdate = d.date.ToString("d");
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
-                    BoatId = d.boatId;
                 }
             }
             //add list with reservation to the grid
@@ -141,7 +138,7 @@ namespace KBSBoot.View
             {
                 if (reservation.beginTime <= DateTime.Now.TimeOfDay)
                 {
-                    Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, reservation.reservationId));
+                    Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
                 }
                 else
                 {
@@ -153,6 +150,6 @@ namespace KBSBoot.View
                 MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        
+
     }
 }
