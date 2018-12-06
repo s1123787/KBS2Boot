@@ -42,55 +42,75 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new LoginScreen());
         }
+        //Creates a list of distinct boat names for the combobox
         private List<BoatTypes> LoadBoatNamesSelection()
         {
-            List<BoatTypes> boatnames = new List<BoatTypes>();
-            using (var context = new BootDB())
+            try
             {
-                var tableData = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 select new
-                                 {
-                                     boatNames = bt.boatTypeName
-                                 });
-
-                foreach (var b in tableData)
+                List<BoatTypes> boatnames = new List<BoatTypes>();
+                using (var context = new BootDB())
                 {
-                    boatnames.Add(new BoatTypes()
+                    var tableData = (from b in context.Boats
+                                     join bt in context.BoatTypes
+                                     on b.boatTypeId equals bt.boatTypeId
+                                     select new
+                                     {
+                                         boatNames = bt.boatTypeName
+                                     });
+
+                    foreach (var b in tableData)
                     {
-                        boatTypeName = b.boatNames
-                    });
+                        boatnames.Add(new BoatTypes()
+                        {
+                            boatTypeName = b.boatNames
+                        });
+                    }
                 }
+                List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+                DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+                return DistinctBoatSeats;
             }
-            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
-            DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
-            return DistinctBoatSeats;
+            catch (Exception ex)
+            {
+                //Error message for any exception that could occur
+                MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
+        //Creates a list of distinct boat seats for the combobox
         private List<BoatTypes> LoadBoatSeatsSelection()
         {
-            List<BoatTypes> boatseats = new List<BoatTypes>();
-            using (var context = new BootDB())
+            try
             {
-                var tableData = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 select new
-                                 {
-                                     boatAmountSpaces = bt.boatAmountSpaces
-                                 });
-
-                foreach (var b in tableData)
+                List<BoatTypes> boatseats = new List<BoatTypes>();
+                using (var context = new BootDB())
                 {
-                    boatseats.Add(new BoatTypes()
+                    var tableData = (from b in context.Boats
+                                     join bt in context.BoatTypes
+                                     on b.boatTypeId equals bt.boatTypeId
+                                     select new
+                                     {
+                                         boatAmountSpaces = bt.boatAmountSpaces
+                                     });
+
+                    foreach (var b in tableData)
                     {
-                        boatAmountSpaces = b.boatAmountSpaces
-                    });
+                        boatseats.Add(new BoatTypes()
+                        {
+                            boatAmountSpaces = b.boatAmountSpaces
+                        });
+                    }
                 }
+                List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+                DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
+                return DistinctBoatSeats;
             }
-            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
-            DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
-            return DistinctBoatSeats;
+            catch (Exception ex)
+            {
+                //Error message for any exception that could occur
+                MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
         }
         // View boat details
         private void ViewBoat(object sender, RoutedEventArgs e)
@@ -143,6 +163,7 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
+            //Try/catch van maken voor connectie
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats

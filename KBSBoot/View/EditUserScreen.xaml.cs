@@ -42,24 +42,34 @@ namespace KBSBoot.View
         private List<Member> LoadCollectionData()
         {
             List<Member> members = new List<Member>();
-            using (var context = new BootDB())
+            //Try/catch van maken voor connectie
+            try
             {
-                var tableData = (from m in context.Members select m);
-
-                foreach (Member m in tableData)
+                using (var context = new BootDB())
                 {
-                    // Adds table columns with items from database
-                    members.Add(new Member()
+                    var tableData = (from m in context.Members select m);
+
+                    foreach (Member m in tableData)
                     {
-                        memberId = m.memberId,
-                        memberUsername = m.memberUsername,  
-                        memberName = m.memberName,
-                        memberRowLevelId = m.memberRowLevelId,
-                        memberAccessLevelId = m.memberAccessLevelId,
-                        memberSubscribedUntill = m.memberSubscribedUntill
-                    });
+                        // Adds table columns with items from database
+                        members.Add(new Member()
+                        {
+                            memberId = m.memberId,
+                            memberUsername = m.memberUsername,
+                            memberName = m.memberName,
+                            memberRowLevelId = m.memberRowLevelId,
+                            memberAccessLevelId = m.memberAccessLevelId,
+                            memberSubscribedUntill = m.memberSubscribedUntill
+                        });
+                    }
+                    return members;
                 }
-                return members;
+            }
+            catch (Exception ex)
+            {
+                //Error message for any exception that could occur
+                MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
             }
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)

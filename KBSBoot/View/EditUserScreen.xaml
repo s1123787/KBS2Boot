@@ -40,9 +40,9 @@
                         <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="140"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="140"/>
-                        <GridViewColumn Header="Abonnement" Width="135">
+                        <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="150"/>
+                        <GridViewColumn Header="Abonnement" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding memberSubscribedUntill, StringFormat=dd/MM/yyyy}"/>
@@ -52,7 +52,7 @@
                         <GridViewColumn Width="175">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Wijzigen" Click="ChangeMember_Click"/>
+                                    <Button Content="✎" Click="ChangeMember_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

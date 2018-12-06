@@ -54,11 +54,11 @@ namespace KBSBoot.View
             //Check for empty fields, if a field is left empty show an error dialog
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(userName))
             {
-                using (var context = new BootDB())
-                {
-                    var origin = context.Members.Find(MemberID);
-                    try
+                try
                     {
+                    using (var context = new BootDB())
+                    {
+                        var origin = context.Members.Find(MemberID);
                         var memberUntil = new DateTime?();
                         try
                         {
@@ -69,9 +69,9 @@ namespace KBSBoot.View
                             throw new InvalidDateException("Selecteer een datum");
                         }
 
-                        //CHeck for invalid characters in the strings
-                        CheckForInvalidCharacters(name);
-                        CheckForInvalidCharacters(userName);
+                        //Check for invalid characters in the strings
+                        Member.CheckForInvalidCharacters(name);
+                        Member.CheckForInvalidCharacters(userName);
 
                         //Check if the member aleady exists
                         foreach (Member value in context.Members)
@@ -95,21 +95,21 @@ namespace KBSBoot.View
                         MessageBox.Show("Gebruiker is succesvol gewijzigd.", "Gebruiker gewijzigd", MessageBoxButton.OK, MessageBoxImage.Information);
                         Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
                     }
-                    catch (FormatException)
-                    {
-                        //Warning message for FormatException
-                        MessageBox.Show("Een van de ingevulde waardes is niet geldig", "Ongeldige waarde", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                    catch (InvalidDateException ide)
-                    {
-                        //Warning message for an invalid date
-                        MessageBox.Show(ide.Message, "Datum is niet geldig", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                    catch (Exception ex)
-                    {
-                        //Error message for any other exception that could occur
-                        MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                }
+                catch (FormatException)
+                {
+                    //Warning message for FormatException
+                    MessageBox.Show("Een van de ingevulde waardes is niet geldig", "Ongeldige waarde", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (InvalidDateException ide)
+                {
+                    //Warning message for an invalid date
+                    MessageBox.Show(ide.Message, "Datum is niet geldig", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (Exception ex)
+                {
+                    //Error message for any other exception that could occur
+                    MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -136,28 +136,6 @@ namespace KBSBoot.View
                 }
             }
         }
-        //Method to check if a date exists
-        public static void CheckForInvalidDate(int year, int month, int day)
-        {
-            if (year < 1 || month > 12 || month < 1 || day > DateTime.DaysInMonth(year, month) || day < 1)
-                throw new InvalidDateException("Datum bestaat niet.");
-        }
-
-        //Method to check if date is before the date of today
-        public static void CheckIfDateIsBeforeToday(DateTime date)
-        {
-            if (date < DateTime.Now)
-                throw new InvalidDateException("Datum is voor de datum van vandaag.");
-        }
-
-        //Method used to check if the entered name and user name contain any invalid characters
-        public static void CheckForInvalidCharacters(string str)
-        {
-            var regexItem = new Regex("^[a-zA-Z0-9ÅåǺǻḀḁẚĂăẶặẮắẰằẲẳẴẵȂȃÂâẬậẤấẦầẪẫẨẩẢảǍǎȺⱥȦȧǠǡẠạÄäǞǟÀàȀȁÁáĀāĀ̀ā̀ÃãĄąĄ́ą́Ą̃ą̃ᶏĔĕḜḝȆȇÊêÊ̄ê̄Ê̌ê̌ỀềẾếỂểỄễỆệẺẻḘḙĚěɆɇĖėĖ́ė́Ė̃ė̃ẸẹËëÈèÈ̩è̩ȄȅÉéÉ̩é̩ĒēḔḕḖḗẼẽḚḛĘęĘ́ę́Ę̃ę̃ȨȩE̩e̩ᶒØøǾǿÖöȪȫÓóÒòÔôỐốỒồỔổỖỗỘộǑǒŐőŎŏȎȏȮȯȰȱỌọƟɵƠơỚớỜờỠỡỢợỞởỎỏŌōṒṓṐṑÕõȬȭṌṍṎṏǪǫȌȍO̩o̩Ó̩ó̩Ò̩ò̩ǬǭŬŭɄʉᵾᶶỤụÜüǛǜǗǘǙǚǕǖṲṳÚúÙùÛûṶṷǓǔȖȗŰűŬŭƯưỨứỪừỬửỰựỮỮỦủŪūŪ̀ū̀Ū́ū́ṺṻŪ̃ū̃ŨũṸṹṴṵᶙŲųŲ́ų́Ų̃ų̃ȔȕŮůỊịĬĭÎîǏǐƗɨÏïḮḯÍíÌìȈȉĮįĮ́Į̃ĪīĪ̀ī̀ᶖỈỉȊȋĨĩḬḭᶤ ]*$");
-
-            if (!regexItem.IsMatch(str))
-                throw new FormatException();
-        }
         private void DidLoaded(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
@@ -176,55 +154,63 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            using (var context = new BootDB())
+            try
             {
-                var tableData = (from m in context.Members
-                                 where m.memberId == MemberID
-                                 select new
-                                 {
-                                     memberUsername = m.memberUsername,
-                                     memberName = m.memberName,
-                                     memberRowLevelId = m.memberRowLevelId,
-                                     memberAccessLevelId = m.memberAccessLevelId,
-                                     memberSubscribedUntill = m.memberSubscribedUntill
-                                 });
-                //Sets default values for boxes
-                foreach(var m in tableData)
+                using (var context = new BootDB())
                 {
-                    NameBox.Text = m.memberName;
-                    UserNameBox.Text = m.memberUsername;
-                    switch (m.memberRowLevelId)
+                    var tableData = (from m in context.Members
+                                     where m.memberId == MemberID
+                                     select new
+                                     {
+                                         memberUsername = m.memberUsername,
+                                         memberName = m.memberName,
+                                         memberRowLevelId = m.memberRowLevelId,
+                                         memberAccessLevelId = m.memberAccessLevelId,
+                                         memberSubscribedUntill = m.memberSubscribedUntill
+                                     });
+                    //Sets default values for boxes
+                    foreach (var m in tableData)
                     {
-                        case 1:
-                            RowLevelBox.SelectedIndex = 0;
-                            break;
-                        case 2:
-                            RowLevelBox.SelectedIndex = 1;
-                            break;
-                        case 3:
-                            RowLevelBox.SelectedIndex = 2;
-                            break;
-                        case 4:
-                            RowLevelBox.SelectedIndex = 3;
-                            break;
+                        NameBox.Text = m.memberName;
+                        UserNameBox.Text = m.memberUsername;
+                        switch (m.memberRowLevelId)
+                        {
+                            case 1:
+                                RowLevelBox.SelectedIndex = 0;
+                                break;
+                            case 2:
+                                RowLevelBox.SelectedIndex = 1;
+                                break;
+                            case 3:
+                                RowLevelBox.SelectedIndex = 2;
+                                break;
+                            case 4:
+                                RowLevelBox.SelectedIndex = 3;
+                                break;
+                        }
+                        switch (m.memberAccessLevelId)
+                        {
+                            case 1:
+                                AccesslevelBox.SelectedIndex = 0;
+                                break;
+                            case 2:
+                                AccesslevelBox.SelectedIndex = 1;
+                                break;
+                            case 3:
+                                AccesslevelBox.SelectedIndex = 2;
+                                break;
+                            case 4:
+                                AccesslevelBox.SelectedIndex = 3;
+                                break;
+                        }
+                        DatePicker.SelectedDate = m.memberSubscribedUntill;
                     }
-                    switch (m.memberAccessLevelId)
-                    {
-                        case 1:
-                            AccesslevelBox.SelectedIndex = 0;
-                            break;
-                        case 2:
-                            AccesslevelBox.SelectedIndex = 1;
-                            break;
-                        case 3:
-                            AccesslevelBox.SelectedIndex = 2;
-                            break;
-                        case 4:
-                            AccesslevelBox.SelectedIndex = 3;
-                            break;
-                    }
-                    DatePicker.SelectedDate = m.memberSubscribedUntill;
                 }
+            }
+            catch (Exception ex)
+            {
+                //Error message for any exception that could occur
+                MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
