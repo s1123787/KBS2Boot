@@ -59,15 +59,11 @@ namespace KBSBoot.View
                     using (var context = new BootDB())
                     {
                         var origin = context.Members.Find(MemberID);
-                        var memberUntil = new DateTime?();
-                        try
-                        {
-                            memberUntil = DatePicker.SelectedDate.Value;
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            throw new InvalidDateException("Selecteer een datum");
-                        }
+                        var mU = new DateTime?();
+                        mU = DatePicker.SelectedDate;
+
+                        //If DatePicker hasn't got a value, value null
+                        var memberUntil = (mU != null) ? mU : null;                        
 
                         //Check for invalid characters in the strings
                         Member.CheckForInvalidCharacters(name);
