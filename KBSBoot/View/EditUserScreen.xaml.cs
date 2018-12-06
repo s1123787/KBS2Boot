@@ -42,7 +42,6 @@ namespace KBSBoot.View
         private List<Member> LoadCollectionData()
         {
             List<Member> members = new List<Member>();
-            //Try/catch van maken voor connectie
             try
             {
                 using (var context = new BootDB())

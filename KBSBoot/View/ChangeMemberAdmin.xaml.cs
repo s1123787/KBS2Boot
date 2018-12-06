@@ -117,6 +117,27 @@ namespace KBSBoot.View
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+        private void ActivityToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            if (DatePicker.SelectedDate == null)
+            {
+                DatePicker.SelectedDate = DateTime.Today;
+            }
+        }
+        private void ActivityToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DatePicker.SelectedDate = null;
+        }
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(DatePicker.SelectedDate == null)
+            {
+                ActivityToggle.IsChecked = false;
+            } else
+            {
+                ActivityToggle.IsChecked = true;
+            }
+        }
         private void RemoveUser_Click(object sender, RoutedEventArgs e)
         {
             if(MessageBox.Show("Weet u zeker dat u dit lid inactief wilt maken?", "Waarschuwing", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -204,6 +225,13 @@ namespace KBSBoot.View
                                 break;
                         }
                         DatePicker.SelectedDate = m.memberSubscribedUntill;
+                        if(m.memberSubscribedUntill == null)
+                        {
+                            ActivityToggle.IsChecked = false;
+                        } else
+                        {
+                            ActivityToggle.IsChecked = true;
+                        }
                     }
                 }
             }
