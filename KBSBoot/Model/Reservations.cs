@@ -49,7 +49,7 @@ namespace KBSBoot.Model
             List<DateTime> dates = new List<DateTime>();
             using (var context = new BootDB())
             {
-
+                //getting all the dates for the selected boat
                 var data = (from b in context.Boats
                             join rb in context.Reservation_Boats
                             on b.boatId equals rb.boatId
@@ -64,8 +64,10 @@ namespace KBSBoot.Model
                 int count = 0;
                 foreach (var d in data)
                 {
+                    //valid is automatically false
                     valid = false;
                     dates.Add(d.date);
+                    //getting all the begin and endtimes of the reservation of the date
                     var data2 = (from b in context.Boats
                                  join rb in context.Reservation_Boats
                                  on b.boatId equals rb.boatId
@@ -80,30 +82,37 @@ namespace KBSBoot.Model
                                  }).ToList();
                     for (int i = 0; i < data2.Count(); i++)
                     {
+                        // check if it is the first begintime
                         if (i == 0 && valid == false)
                         {
                             var BTime = data2[i].beginTime;
+                            //getting the sun information
                             var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
                             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
                             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
                             sunUp = test1.TimeOfDay;
                             sunDown = test1.TimeOfDay;
+                            //check if the difference between the time the sun is coming up and the first begin time is more then an hour
                             if (BTime - sunUp >= new TimeSpan(1, 0, 0))
                             {
                                 valid = true;
                             }
                         }
+                        //check if it not the last endtime of the reservations
                         if (i < data2.Count() - 1 && valid == false)
-                        {
+                        {                            
                             var ETime = data2[i].endTime;
                             var BTime = data2[i + 1].beginTime;
+                            //check if the difference between the endtime and begintime of another reservation is more then an hour
                             if (BTime - ETime >= new TimeSpan(1, 0, 0))
                             {
                                 valid = true;
                             }
                         }
+                        //check if it is the last end time of the reservations
                         else if (valid == false && i == data2.Count())
                         {
+                            //getting all the neccessary information
                             var Etime = data2[i].endTime;
                             var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
 
@@ -111,12 +120,14 @@ namespace KBSBoot.Model
                             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
                             sunUp = test1.TimeOfDay;
                             sunDown = test1.TimeOfDay;
+                            //check if difference between sun is going down and last end time is more then an hour
                             if (sunDown - Etime >= new TimeSpan(1, 0, 0))
                             {
                                 valid = true;
                             }
                         }
                     }
+                    //check if valid is still false
                     if (valid == false)
                     {
                         dates.Add(d.date);
@@ -159,21 +170,15 @@ namespace KBSBoot.Model
                         }
                         //check if endtime is between the begin and endtime of another reservation
                         else if (selectedEndTime > beginTimes[i] && selectedEndTime < endTimes[i])
-                        {
-                            //check if there are more then one begintimes so there are more reservations that day
-                            /*if (beginTime.Count > 1)
-                            {
-                                if(selectedEndTime > beginTime[i+1] && selectedEndTime < endTime[i+1])
-                                {
-                                    ErrorLabel.Content = "Eindtijd is in een volgende reservering";
-                                }
-                            } */
+                        {                            
                             return false;
                         }
+                        //check if there are any begintimes between the selected begin and endtime
                         if (beginTimes[i] > selectedBeginTime && beginTimes[i] < selectedEndTime)
                         {
                             return false;
                         }
+                        //check if there are any endtimes between the selected begin and endtime
                         else if (endTimes[i] > selectedEndTime && endTimes[i] < selectedEndTime)
                         {
                             return false;
