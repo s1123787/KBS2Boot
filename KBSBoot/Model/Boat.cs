@@ -1,4 +1,5 @@
 ﻿using KBSBoot.DAL;
+using KBSBoot.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace KBSBoot.Model
@@ -102,6 +104,102 @@ namespace KBSBoot.Model
                 bitmapimg.EndInit();
             }
             return bitmapimg;
+        }
+
+        public static void OnAddBoatIsPressed(Object source, AddBoatEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(e.boatName) && e.boatType != null)
+            {
+                try
+                {
+                    InputValidation.CheckForInvalidCharacters(e.boatName);
+                    InputValidation.IsYoutubeUrl(e.boatYoutubeUrl);
+                    var boat = new Boat
+                    {
+                        boatName = e.boatName,
+                        boatTypeId = e.boatTypeId,
+                        boatOutOfService = 0,
+                        boatYoutubeUrl = (e.boatYoutubeUrl == "")? null : e.boatYoutubeUrl
+                    };
+
+                    var SelectedImageString = BoatImages.ImageToBase64(e.BoatImage, System.Drawing.Imaging.ImageFormat.Png);
+                    String SelectedImageInput = SelectedImageString;
+
+                    var boatImage = new BoatImages
+                    {
+                        boatImageBlob = SelectedImageInput,
+                    };
+
+                    //Check if a boat with this name already exists
+                    Boat.CheckIfBoatExists(boat);
+                    //Add the boat to the database
+                    Boat.AddBoatToDB(boat);
+                    BoatImages.AddImageToDB(boatImage);
+                }
+                catch (FormatException)
+                {
+                    //Warning message for FormatException
+                    MessageBox.Show("De ingevulde boot naam is niet geldig\n(let op: speciale tekens zijn niet toegestaan)", "Ongeldige waarde", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (InvalidYoutubeUrlException)
+                {
+                    //Warning message for InvalidYoutubeUrlException
+                    MessageBox.Show("Vul een geldige YouTube URL in", "Ongeldige URL", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (FileTooLargeException)
+                {
+                    MessageBox.Show("De geselecteerde afbeelding is te groot. (Max. 512kb)", "Bestand te groot", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                catch (Exception ex)
+                {
+                    //Error message for any other exception that could occur
+                    MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        //Method that inserts the boat into the database
+        public static void AddBoatToDB(Boat boat)
+        {
+            using (var context = new BootDB())
+            {
+                context.Boats.Add(boat);
+                context.SaveChanges();
+
+                MessageBox.Show("Boot is succesvol toegevoegd.", "Boot toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                Switcher.Switch(new AddBoatMaterialCommissioner());
+            }
+        }
+
+        //Method to check if a boat with the same name already exists in the database
+        public static void CheckIfBoatExists(Boat boat)
+        {
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.Boats
+                            where b.boatName == boat.boatName
+                            select b;
+                if (boats.ToList().Count > 0)
+                    throw new Exception("Er bestaat al een boot met deze naam");
+            }
+        }
+
+        //Method that finds out what to put into the "boatTypeId" field in the database based on the selected type
+        public static int AssignSelectedType(string selectedType)
+        {
+            var SelectedBoatTypeId = 0;
+            using (var context = new BootDB())
+            {
+                SelectedBoatTypeId = (from i in context.BoatTypes
+                                      where i.boatTypeName == selectedType
+                                      select i.boatTypeId).FirstOrDefault();
+
+            }
+            return SelectedBoatTypeId;
         }
     }
 }

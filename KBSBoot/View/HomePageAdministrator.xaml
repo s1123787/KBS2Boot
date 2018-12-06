@@ -24,7 +24,13 @@
         <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
             <StackPanel Orientation="Vertical" Width="326" Height="260">
                 <Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
-                <TextBlock Text="Beheren gebruikers" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
+                <TextBlock Text="Beheren gebruikers" FontSize="36" Height="72" Margin="10,30,0,0"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="AddBoat" Margin="543,121,81,347" Click="AddBoat_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
+            <StackPanel Orientation="Vertical" Width="326" Height="260">
+                <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
+                <TextBlock Text="Boot toevoegen" FontSize="36" Height="72" Margin="30,30,0,0"/>
             </StackPanel>
         </Button>
     </Grid>

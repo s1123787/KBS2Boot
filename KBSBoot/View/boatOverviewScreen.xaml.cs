@@ -236,6 +236,11 @@ namespace KBSBoot.View
                 Bootnamen.IsEnabled = false;
             }
         }
+
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new AddBoatMaterialCommissioner());
+        }
     }
 }
 
