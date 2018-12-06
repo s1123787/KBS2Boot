@@ -90,7 +90,15 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
             //Load list of boats that have damage
-            LoadBoatsWithDamage();
+            try
+            {
+                LoadBoatsWithDamage();
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -124,17 +132,25 @@ namespace KBSBoot.View
             // Get current boat from click row
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
-            using (var context = new BootDB())
+            try
             {
-                var currentBoat = (from b in context.Boats
-                                   where b.boatId == boat.boatId
-                                   select b).SingleOrDefault();
+                using (var context = new BootDB())
+                {
+                    var currentBoat = (from b in context.Boats
+                                       where b.boatId == boat.boatId
+                                       select b).SingleOrDefault();
 
-                currentBoat.boatOutOfService = 1;
+                    currentBoat.boatOutOfService = 1;
 
-                context.SaveChanges();
+                    context.SaveChanges();
 
-                MessageBox.Show(boat.boatName + " is in onderhoud geplaatst.", "Boot in onderhoud", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(boat.boatName + " is in onderhoud geplaatst.", "Boot in onderhoud", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -144,17 +160,26 @@ namespace KBSBoot.View
             // Get current boat from click row
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
-            using (var context = new BootDB())
+            try
             {
-                var currentBoat = (from b in context.Boats
-                                   where b.boatId == boat.boatId
-                                   select b).SingleOrDefault();
+                using (var context = new BootDB())
+                {
+                    var currentBoat = (from b in context.Boats
+                        where b.boatId == boat.boatId
+                        select b).SingleOrDefault();
 
-                currentBoat.boatOutOfService = 0;
+                    currentBoat.boatOutOfService = 0;
 
-                context.SaveChanges();
+                    context.SaveChanges();
 
-                MessageBox.Show(boat.boatName + " is uit onderhoud genomen en weer te reserveren.", "Boot weer beschikbaar", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(boat.boatName + " is uit onderhoud genomen en weer te reserveren.",
+                        "Boot weer beschikbaar", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

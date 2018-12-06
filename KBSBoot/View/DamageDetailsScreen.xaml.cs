@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.RightsManagement;
@@ -86,8 +87,17 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
+            
             //Load damage reports
-            LoadDamageReports();
+            try
+            {
+                LoadDamageReports();
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
