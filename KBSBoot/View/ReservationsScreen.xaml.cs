@@ -150,7 +150,6 @@ namespace KBSBoot.View
                 MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
-
+        
     }
 }
