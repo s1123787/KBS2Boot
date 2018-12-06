@@ -177,7 +177,7 @@ namespace KBSBoot.View
             selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
             selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
             //check if endtime is after begin time
-            var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime);
+            var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
             if (!check)
             {
                 ErrorLabel.Content = "deze tijden zijn niet beschikbaar";

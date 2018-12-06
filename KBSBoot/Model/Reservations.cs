@@ -19,8 +19,8 @@ namespace KBSBoot.Model
         public string boatName;
         public string boatType;
         public string resdate { get; set; }
-        public bool geldig = false;
-        public List<DateTime> datum = new List<DateTime>();
+        public bool valid = false;
+        public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
         public List<TimeSpan> endTimes = new List<TimeSpan>(); // the end times of the reservations of the selected date
         public TimeSpan sunUp;
@@ -64,8 +64,8 @@ namespace KBSBoot.Model
                 int count = 0;
                 foreach (var d in data)
                 {
-                    geldig = false;
-                    datum.Add(d.date);
+                    valid = false;
+                    dates.Add(d.date);
                     var data2 = (from b in context.Boats
                                  join rb in context.Reservation_Boats
                                  on b.boatId equals rb.boatId
@@ -80,7 +80,7 @@ namespace KBSBoot.Model
                                  }).ToList();
                     for (int i = 0; i < data2.Count(); i++)
                     {
-                        if (i == 0 && geldig == false)
+                        if (i == 0 && valid == false)
                         {
                             var BTime = data2[i].beginTime;
                             var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
@@ -90,19 +90,19 @@ namespace KBSBoot.Model
                             sunDown = test1.TimeOfDay;
                             if (BTime - sunUp >= new TimeSpan(1, 0, 0))
                             {
-                                geldig = true;
+                                valid = true;
                             }
                         }
-                        if (i < data2.Count() - 1 && geldig == false)
+                        if (i < data2.Count() - 1 && valid == false)
                         {
                             var ETime = data2[i].endTime;
                             var BTime = data2[i + 1].beginTime;
                             if (BTime - ETime >= new TimeSpan(1, 0, 0))
                             {
-                                geldig = true;
+                                valid = true;
                             }
                         }
-                        else if (geldig == false && i == data2.Count())
+                        else if (valid == false && i == data2.Count())
                         {
                             var Etime = data2[i].endTime;
                             var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
@@ -113,11 +113,11 @@ namespace KBSBoot.Model
                             sunDown = test1.TimeOfDay;
                             if (sunDown - Etime >= new TimeSpan(1, 0, 0))
                             {
-                                geldig = true;
+                                valid = true;
                             }
                         }
                     }
-                    if (geldig == false)
+                    if (valid == false)
                     {
                         dates.Add(d.date);
                     }
@@ -127,8 +127,10 @@ namespace KBSBoot.Model
         }
 
 
-        public bool CheckTime(TimeSpan beginTime, TimeSpan endTime, List<TimeSpan> BeginTimes, List<TimeSpan> EndTimes)
+        public bool CheckTime(TimeSpan beginTime, TimeSpan endTime, List<TimeSpan> BeginTimes, List<TimeSpan> EndTimes, TimeSpan SunUp, TimeSpan SunDown)
         {
+            this.sunUp = SunUp;
+            this.sunDown = SunDown;
             selectedBeginTime = beginTime;
             selectedEndTime = endTime;
             beginTimes = BeginTimes;
@@ -176,12 +178,12 @@ namespace KBSBoot.Model
                         {
                             return false;
                         }
-                    }
-                    //check if selected begin time or end time is in daylight
-                    if (selectedBeginTime <= sunUp || selectedEndTime >= sunDown)
-                    {
-                        return false;
-                    }
+                    }                    
+                }
+                //check if selected begin time or end time is in daylight
+                if (selectedBeginTime <= sunUp || selectedEndTime >= sunDown)
+                {
+                    return false;
                 }
                 return true;
             }
