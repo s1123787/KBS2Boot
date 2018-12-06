@@ -21,7 +21,6 @@ namespace KBSBoot.View
     public partial class HomePageAdministrator : UserControl
     {
         public string FullName;
-        public int MemberId;
         public int AccessLevel;
 
         public HomePageAdministrator(string FullName, int AccessLevel, int MemberId)
@@ -29,7 +28,6 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.MemberId = MemberId;
-
             InitializeComponent();
         }
 
@@ -62,6 +60,11 @@ namespace KBSBoot.View
         private void Users_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+        }
+
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new AddBoatMaterialCommissioner());
         }
 
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)

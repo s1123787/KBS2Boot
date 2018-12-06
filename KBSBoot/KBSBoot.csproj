@@ -72,17 +72,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AddBoatEventArgs.cs" />
     <Compile Include="Model\Boat.cs" />
     <Compile Include="Model\BoatDamage.cs" />
     <Compile Include="Model\BoatImages.cs" />
     <Compile Include="Model\BoatTypes.cs" />
+    <Compile Include="Model\FileTooLargeException.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
+    <Compile Include="Model\InvalidYoutubeUrlException.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
     <Compile Include="Model\Reservations.cs" />
     <Compile Include="Model\Reservation_Boats.cs" />
     <Compile Include="Resources\InternetExplorerBrowserEmulation.cs" />
+    <Compile Include="View\AddBoatMaterialCommissioner.xaml.cs">
+      <DependentUpon>AddBoatMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
     </Compile>
@@ -91,12 +98,6 @@
     </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DamageDetailsScreen.xaml.cs">
-      <DependentUpon>DamageDetailsScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DamageReportsScreen.xaml.cs">
-      <DependentUpon>DamageReportsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
@@ -126,12 +127,14 @@
       <DependentUpon>ReservationsScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Switcher.cs" />
+    <Page Include="View\AddBoatMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BoatDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DamageDetailsScreen.xaml" />
-    <Page Include="View\DamageReportsScreen.xaml" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

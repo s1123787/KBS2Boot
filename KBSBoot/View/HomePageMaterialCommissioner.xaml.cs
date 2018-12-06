@@ -34,23 +34,7 @@ namespace KBSBoot.View
 
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
-            FullNameLabel.Text = $"Welkom {FullName}";
-            if (AccessLevel == 1)
-            {
-                AccessLevelButton.Content = "Lid";
-            }
-            else if (AccessLevel == 2)
-            {
-                AccessLevelButton.Content = "Wedstrijdcommissaris";
-            }
-            else if (AccessLevel == 3)
-            {
-                AccessLevelButton.Content = "Materiaalcommissaris";
-            }
-            else if (AccessLevel == 4)
-            {
-                AccessLevelButton.Content = "Administrator";
-            }
+            FullNameLabel.Content = $"Welkom {FullName}";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

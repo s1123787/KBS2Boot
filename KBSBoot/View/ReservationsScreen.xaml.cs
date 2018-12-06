@@ -133,7 +133,11 @@ namespace KBSBoot.View
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
 
             //check if report demage should be possible
-            if (Convert.ToDateTime(reservation.resdate) <= DateTime.Now)
+            if (Convert.ToDateTime(reservation.resdate) < DateTime.Now.Date)
+            {
+                Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+            }
+            else if (Convert.ToDateTime(reservation.resdate) == DateTime.Now.Date)
             {
                 if (reservation.beginTime <= DateTime.Now.TimeOfDay)
                 {
@@ -142,7 +146,6 @@ namespace KBSBoot.View
                 else
                 {
                     MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
-
                 }
             }
             else

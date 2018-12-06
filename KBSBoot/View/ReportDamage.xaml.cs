@@ -23,19 +23,19 @@ namespace KBSBoot.View
     public partial class ReportDamage : UserControl
     {
         public string FullName;
-        public int MemberId;
+        public int boatId;
         public int AccessLevel;
         public int ReservationId;
         public int BoatId;
-
+        public int MemberId;
+        
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int MemberId, int AccessLevel, int ReservationId, int BoatId)
+        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
         {
-            this.FullName = FullName;
-            this.MemberId = MemberId;
             this.AccessLevel = AccessLevel;
-            this.ReservationId = ReservationId;
-            this.BoatId = BoatId;
+            this.FullName = FullName;
+            this.boatId = boatId;
+            this.MemberId = MemberId;
             InitializeComponent();
         }
 
@@ -55,17 +55,14 @@ namespace KBSBoot.View
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
-                        reservationId = ReservationId,
-                        boatId = BoatId,
-                        memberId = MemberId,
+                        boatId = this.boatId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
                         boatDamageReason = reason
                     };
 
                     //Add report to database
-                    BoatDamage.AddReportToDB(boatDamage);
-                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                    AddReportToDB(boatDamage);
                 }
                 catch (Exception exception)
                 {
@@ -77,6 +74,23 @@ namespace KBSBoot.View
             {
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        //Method to add report to the database
+        public void AddReportToDB(BoatDamage report)
+        {
+            using (var context = new BootDB())
+            {
+                context.BoatDamages.Add(report);
+                context.SaveChanges();
+                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+        }
+
+        public void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

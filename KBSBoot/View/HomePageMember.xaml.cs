@@ -21,15 +21,13 @@ namespace KBSBoot.View
     public partial class HomePageMember : UserControl
     {
         public string FullName;
-        public int MemberId;
         public int AccessLevel;
 
         public HomePageMember(string FullName, int AccessLevel, int MemberId)
-
         {
+            this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.MemberId = MemberId;
-            this.AccessLevel = AccessLevel;
             InitializeComponent();
         }
 

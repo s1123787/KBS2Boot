@@ -28,7 +28,6 @@ namespace KBSBoot.View
     {
         private int BoatID;
         public string FullName;
-        public int MemberId;
         public int AccessLevel;
         private Boat boatData;
         private BoatTypes boatType;
@@ -39,13 +38,11 @@ namespace KBSBoot.View
         private int videoHeight = 320;
 
         public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
-
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
             this.BoatID = BoatId;
-
             InitializeComponent();
 
             //Update Webbrowser IE version to latest for emulation
