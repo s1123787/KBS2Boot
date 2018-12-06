@@ -29,7 +29,6 @@ namespace KBSBoot.View
         private int BoatID;
         public string FullName;
         public int AccessLevel;
-        public int MemberId;
         private Boat boatData;
         private BoatTypes boatType;
         private BoatImages boatImageData;
@@ -265,7 +264,7 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
         
     }

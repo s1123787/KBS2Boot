@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.RightsManagement;
@@ -13,13 +14,14 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int BoatId;
-        public int memberId;
+        public int MemberId;
         
-        public DamageDetailsScreen(string fullName, int accesslevel, int boatId)
+        public DamageDetailsScreen(string fullName, int accesslevel, int boatId, int memberId)
         {
             FullName = fullName;
             AccessLevel = accesslevel;
             BoatId = boatId;
+            MemberId = memberId;
             InitializeComponent();
         }
         
@@ -30,8 +32,8 @@ namespace KBSBoot.View
 
             using (var context = new BootDB())
             {
-                //tables used: Boats - BoatDamages
-                //selected boat Id, boat name, boat type description, amount of damage reports, boat in service or not
+                //tables used: Boats- BoatsTypes - BoatDamages - Reservations- Members
+                //selected boat name, boat type description, damage level, damage location, reason the boat is damaged, date teh report was made, who reported the damage
                 var data = from bd in context.BoatDamages
                     join b in context.Boats 
                     on bd.boatId equals b.boatId
@@ -43,11 +45,11 @@ namespace KBSBoot.View
                         boatDamageLevel = bd.boatDamageLevel,
                         boatDamageLocation = bd.boatDamageLocation,
                         boatDamageReason = bd.boatDamageReason,
-                        boatDamageReportDate = "Test",
+                        boatDamageReportDate = (from r in context.Reservations where r.reservationId == bd.reservationId select r.date).FirstOrDefault(),
                         boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
                     };
                 
-                //add all boats with damage reports to list
+                //add all reports to list
                 foreach (var d in data)
                 {
                     reports.Add(new BoatDamage
@@ -55,7 +57,7 @@ namespace KBSBoot.View
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
-                        boatDamageReportDate = d.boatDamageReportDate.ToString(),
+                        boatDamageReportDate = d.boatDamageReportDate.ToString("dd-MM-yyyy"),
                         boatDamageReporter = d.boatDamageReporter.ToString()
                     });
                     
@@ -63,7 +65,7 @@ namespace KBSBoot.View
                     descriptionLabel.Content = d.boatDesc;
                 }
             }
-            //add list with boats to the grid
+            //add list with reports to the grid
             ReportList.ItemsSource = reports;
         }
         
@@ -86,7 +88,16 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
             
-            LoadDamageReports();
+            //Load damage reports
+            try
+            {
+                LoadDamageReports();
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -96,7 +107,7 @@ namespace KBSBoot.View
         
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel));
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
         }
         
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
