@@ -63,6 +63,11 @@ namespace KBSBoot.View
             Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
         }
 
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new AddBoatMaterialCommissioner());
+        }
+
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));

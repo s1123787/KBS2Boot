@@ -191,6 +191,6 @@ namespace KBSBoot.Model
         protected virtual void OnNewHomePageMade(int type, string FullName, int memberId)
         {
             OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, memberId));
-        } 
+        }
     }
 }
