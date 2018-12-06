@@ -77,7 +77,25 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            LoadBoats();
+
+            using(var context = new BootDB())
+            {
+                var data = (from r in context.Reservations
+                            where r.date > DateTime.Now && r.memberId == MemberId
+                            select r.reservationId).ToList();
+                if (data.Count >= 2)
+                {
+                    ScrollViewer.Visibility = Visibility.Hidden;
+                    Label l = new Label();
+                    l.Content = "gij hef te veule reserveringen!";
+                    l.FontSize = 30;
+                    l.Margin = new Thickness(200, 300, 0, 0);
+                    GridMakingReservation.Children.Add(l);
+                } else
+                {
+                    LoadBoats();
+                }
+            }
         }
 
         public void LoadBoats()
