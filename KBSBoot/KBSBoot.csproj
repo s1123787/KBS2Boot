@@ -49,10 +49,17 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,15 +85,19 @@
     <Compile Include="Model\BoatImages.cs" />
     <Compile Include="Model\BoatTypes.cs" />
     <Compile Include="Model\FileTooLargeException.cs" />
+    <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
     <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\InvalidYoutubeUrlException.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="Model\ReservationEventArgs.cs" />
     <Compile Include="Model\Reservations.cs" />
     <Compile Include="Model\Reservation_Boats.cs" />
     <Compile Include="Resources\InternetExplorerBrowserEmulation.cs" />
+    <Compile Include="Resources\ObjectResults.cs" />
+    <Compile Include="Resources\SunInfo.cs" />
     <Compile Include="View\AddBoatMaterialCommissioner.xaml.cs">
       <DependentUpon>AddBoatMaterialCommissioner.xaml</DependentUpon>
     </Compile>
@@ -117,6 +128,9 @@
     <Compile Include="View\HomePageMaterialCommissioner.xaml.cs">
       <DependentUpon>HomePageMaterialCommissioner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MakingReservationSelectBoat.xaml.cs">
+      <DependentUpon>MakingReservationSelectBoat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RegisterScreen.xaml.cs">
       <DependentUpon>RegisterScreen.xaml</DependentUpon>
     </Compile>
@@ -125,6 +139,9 @@
     </Compile>
     <Compile Include="View\ReservationsScreen.xaml.cs">
       <DependentUpon>ReservationsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectDateOfReservation.xaml.cs">
+      <DependentUpon>SelectDateOfReservation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Switcher.cs" />
     <Page Include="View\AddBoatMaterialCommissioner.xaml">
@@ -180,6 +197,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MakingReservationSelectBoat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\RegisterScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ReservationsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectDateOfReservation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
