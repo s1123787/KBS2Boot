@@ -25,6 +25,7 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
 
         //Constructor for AddMemberAdmin class
         public AddMemberAdmin(string FullName, int AccessLevel, int MemberId)

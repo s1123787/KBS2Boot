@@ -1,8 +1,11 @@
-﻿using System;
+﻿using KBSBoot.DAL;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace KBSBoot.Model
 {
@@ -13,6 +16,12 @@ namespace KBSBoot.Model
         public int boatDamageLevel { get; set; }
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
+
+        [NotMapped]
+        public int reservationId { get; set; }
+
+        [NotMapped]
+        public int memberId { get; set; }
       
         //Properties for DamageDetailsScreen
         [NotMapped] public string boatDamageReportDate { get; set; }

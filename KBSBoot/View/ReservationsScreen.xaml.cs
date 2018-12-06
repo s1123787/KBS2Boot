@@ -141,7 +141,7 @@ namespace KBSBoot.View
             {
                 if (reservation.beginTime <= DateTime.Now.TimeOfDay)
                 {
-                    Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, reservation.reservationId, BoatId));
+                    Switcher.Switch(new ReportDamage(FullName, MemberId, AccessLevel, reservation.reservationId));
                 }
                 else
                 {
