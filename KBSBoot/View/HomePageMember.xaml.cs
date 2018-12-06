@@ -22,7 +22,6 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
-        public int MemberId;
 
         public HomePageMember(string FullName, int AccessLevel, int MemberId)
         {

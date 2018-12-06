@@ -25,8 +25,10 @@ namespace KBSBoot.View
         public string FullName;
         public int boatId;
         public int AccessLevel;
+        public int ReservationId;
+        public int BoatId;
         public int MemberId;
-
+        
         //Constructor for ReportDamage class
         public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
         {

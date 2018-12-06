@@ -41,5 +41,10 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new LoginScreen());
         }
+
+        private void Damage_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
+        }
     }
 }
