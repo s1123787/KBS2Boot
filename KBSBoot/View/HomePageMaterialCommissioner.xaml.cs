@@ -66,12 +66,12 @@ namespace KBSBoot.View
 
         private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new AddBoatMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
 
         private void PlaceReservation_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new MakingReservationSelectBoat(FullName, AccessLevel, MemberId));
         }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)

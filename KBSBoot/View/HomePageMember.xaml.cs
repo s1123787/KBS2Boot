@@ -65,7 +65,7 @@ namespace KBSBoot.View
 
         private void PlaceReservation_Click(object sender, RoutedEventArgs e)
         {
-
+            Switcher.Switch(new MakingReservationSelectBoat(FullName, AccessLevel, MemberId));
         }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)

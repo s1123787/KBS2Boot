@@ -29,10 +29,11 @@ namespace KBSBoot.View
         public int AccessLevel;
         private int MemberId;
 
-        public AddBoatMaterialCommissioner(string FullName, int AccessLevel)
+        public AddBoatMaterialCommissioner(string FullName, int AccessLevel, int MemberId)
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
+            this.MemberId = MemberId;
             InitializeComponent();
             BoatTypeBox.IsEnabled = false;
             OnAddBoat += Boat.OnAddBoatIsPressed;
@@ -43,7 +44,7 @@ namespace KBSBoot.View
         protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid)
         {
             OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid));
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
         //Pulls all boattype information needed for filling the comboboxes from the database

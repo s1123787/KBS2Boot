@@ -167,7 +167,7 @@ namespace KBSBoot.View
 
                         context.SaveChanges();
                     }
-                    Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+                    Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
                 }
                 catch (FormatException)
                 {
@@ -234,7 +234,7 @@ namespace KBSBoot.View
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
