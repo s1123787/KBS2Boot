@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,9 @@ namespace KBSBoot.Model
         public int boatRowLevel { get; set; }
         public int boatAmountSpaces { get; set; }
 
-
+        [NotMapped]
         public string boatOutOfServiceString { get; set; }
+        [NotMapped]
         public string boatSteerString { get; set; }
         public override string ToString()
         {
@@ -30,6 +32,7 @@ namespace KBSBoot.Model
             {
                 return boatTypeName;
             } else
+
             {
                 return base.ToString();
             }

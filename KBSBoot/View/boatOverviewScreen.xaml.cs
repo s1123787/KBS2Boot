@@ -2,7 +2,10 @@
 using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,15 +31,21 @@ namespace KBSBoot.View
         private bool FilterEnabled = false;
         private string bootnaam;
         private int bootplek;
+        public int MemberId;
 
-        public boatOverviewScreen(string FullName, int AccessLevel)
+
+        public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
+
+            BoatList.ItemsSource = LoadCollectionData();
             Bootplekken.ItemsSource = LoadBoatSeatsSelection();
             Bootnamen.ItemsSource = LoadBoatNamesSelection();
         }
+
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
@@ -112,37 +121,85 @@ namespace KBSBoot.View
                 return null;
             }
         }
+        
+
+        private List<BoatTypes> LoadBoatNamesSelection()
+
+        {
+            List<BoatTypes> boatnames = new List<BoatTypes>();
+            using (var context = new BootDB())
+            {
+                var tableData = (from b in context.Boats
+                                 join bt in context.BoatTypes
+                                 on b.boatTypeId equals bt.boatTypeId
+                                 select new
+                                 {
+                                     boatNames = bt.boatTypeName
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    boatnames.Add(new BoatTypes()
+                    {
+                        boatTypeName = b.boatNames
+                    });
+                }
+            }
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+            DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+            return DistinctBoatSeats;
+        }
+        private List<BoatTypes> LoadBoatSeatsSelection()
+        {
+            List<BoatTypes> boatseats = new List<BoatTypes>();
+            using (var context = new BootDB())
+            {
+                var tableData = (from b in context.Boats
+                                 join bt in context.BoatTypes
+                                 on b.boatTypeId equals bt.boatTypeId
+                                 select new
+                                 {
+                                     boatAmountSpaces = bt.boatAmountSpaces
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    boatseats.Add(new BoatTypes()
+                    {
+                        boatAmountSpaces = b.boatAmountSpaces
+                    });
+                }
+            }
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+            DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
+            return DistinctBoatSeats;
+        }
+
         // View boat details
-        private void ViewBoat(object sender, RoutedEventArgs e)
+        private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
-
+            // Switch screen to detailpage on click
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
         }
 
-        // Take boat in maintenance
-        private void MaintenanceBoat(object sender, RoutedEventArgs e)
+        //Go to reservation screen
+        private void Reservation_Click(object sender, RoutedEventArgs e)
         {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
-
+            // Switch screen to reservation page on click
+            //SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
+            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
         }
 
-        // Make a reservation for a boat
-        private void OrderBoat(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-        // Report a damaged boat
-        private void DamageBoat(object sender, RoutedEventArgs e)
-        {
-
-
-        }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
@@ -251,6 +308,7 @@ namespace KBSBoot.View
                 //Error message for any exception that could occur
                 MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
@@ -258,6 +316,7 @@ namespace KBSBoot.View
             FilterEnabled = true;
             OnLoadScreenAgain += DidLoaded;
             onViewLoadedAgain();
+            BoatList.ItemsSource = LoadCollectionData();
         }
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
@@ -266,6 +325,8 @@ namespace KBSBoot.View
             FilterEnabled = false;
             OnLoadScreenAgain += DidLoaded;
             onViewLoadedAgain();
+            BoatList.ItemsSource = LoadCollectionData();
+
             //Resets the filteroptions
             Bootplekken.IsEnabled = true;
             Bootnamen.IsEnabled = true;
@@ -278,6 +339,7 @@ namespace KBSBoot.View
             if (Bootnamen.SelectedItem != null)
             {
                 bootnaam = Bootnamen.SelectedItem.ToString();
+
                 Bootplekken.IsEnabled = false;
             }
         }
@@ -294,5 +356,12 @@ namespace KBSBoot.View
         {
             OnLoadScreenAgain?.Invoke(this, new RoutedEventArgs());
         }
+
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new AddBoatMaterialCommissioner());
+
+        }
     }
 }
+
