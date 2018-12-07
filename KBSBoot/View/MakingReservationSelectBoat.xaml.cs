@@ -172,16 +172,17 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
+            //check if there are 2 (or more) reservation on the name
             using(var context = new BootDB())
             {
                 var data = (from r in context.Reservations
                             where r.date > DateTime.Now && r.memberId == MemberId
                             select r.reservationId).ToList();
-                if (data.Count >= 2)
+                if (data.Count >= 2) //when it is not possible to make a reservation
                 {
                     ScrollViewer.Visibility = Visibility.Hidden;
                     FilterStackPanel.Visibility = Visibility.Hidden;                    
-                } else
+                } else //when it is possible to make a reservation
                 {
                     label1.Visibility = Visibility.Hidden;
                     label2.Visibility = Visibility.Hidden;
@@ -193,6 +194,7 @@ namespace KBSBoot.View
 
         private void Hl_Click(object sender, RoutedEventArgs e)
         {
+            //when "klik hier" is pressed
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
         
@@ -202,17 +204,19 @@ namespace KBSBoot.View
             {
                 List<Boat> boats = new List<Boat>();
                 List<BoatTypes> boatTypes = new List<BoatTypes>();
-
+                //getting rowlevel id
                 RowLevelId = int.Parse((from b in context.Members
                                                 where b.memberId == MemberId
                                                 select b.memberRowLevelId).First().ToString());
-
+                //getting rowlevel name
                 RowLevelName = (from b in context.Rowlevel
                                 where b.rowLevelId == RowLevelId
                                 select b.description).First().ToString();
 
+                //show row level name on the screen
                 RowLevelNameLabel.Content = $"Roeiniveau: {RowLevelName}"; 
 
+                //this is needed to prevent crashes
                 var data = (from b in context.Boats
                         join bt in context.BoatTypes
                         on b.boatTypeId equals bt.boatTypeId
@@ -230,7 +234,7 @@ namespace KBSBoot.View
                             boatSteer = bt.boatSteer,
                         });
 
-                if (RowLevelId == 2)
+                if (RowLevelId == 2) //when row level is amateur
                 {
                     data = (from b in context.Boats
                                  join bt in context.BoatTypes
@@ -248,7 +252,7 @@ namespace KBSBoot.View
                                      boatAmountSpaces = bt.boatAmountSpaces,
                                      boatSteer = bt.boatSteer,
                                  });                    
-                } else if (RowLevelId == 3)
+                } else if (RowLevelId == 3) //when rowlevel is gevorderd
                 {
                     data = (from b in context.Boats
                             join bt in context.BoatTypes
@@ -266,7 +270,7 @@ namespace KBSBoot.View
                                 boatAmountSpaces = bt.boatAmountSpaces,
                                 boatSteer = bt.boatSteer,
                             });
-                } else if (RowLevelId == 4)
+                } else if (RowLevelId == 4) //when row level is professional
                 {
                     data = (from b in context.Boats
                             join bt in context.BoatTypes
@@ -306,8 +310,10 @@ namespace KBSBoot.View
                         }
                     }
 
+                    //to show a yes or no on the screen
                     string steer = (d.boatSteer == 0) ? "nee" : "ja";
 
+                    //add data to the table
                     boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatOutOfService = 1, boatYoutubeUrl = null });
                 }
                 BoatList.ItemsSource = boats;
@@ -316,6 +322,7 @@ namespace KBSBoot.View
 
         private void ReservationButtonIsPressed(object sender, RoutedEventArgs e)
         {
+            //to make it possible to make a reservation for the selected boat
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeDescription, AccessLevel, FullName, MemberId));
         }
