@@ -163,84 +163,93 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            //Try/catch van maken voor connectie
-            using (var context = new BootDB())
+            //Adding boats from database to screen
+            try
             {
-                var tableData = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 select new
-                                 {
-                                     boatId = b.boatId,
-                                     boatTypeId = bt.boatTypeId,
-                                     boatTypeName = bt.boatTypeName,
-                                     boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
-                                     boatSteer = bt.boatSteer,
-                                     boatAmountSpaces = bt.boatAmountSpaces
-                                 });
-                MainStackPanel.Children.Clear();
-                foreach (var b in tableData)
+                using (var context = new BootDB())
                 {
-                    //Filters selection based on chosen options
-                    if (FilterEnabled)
+                    var tableData = (from b in context.Boats
+                                     join bt in context.BoatTypes
+                                     on b.boatTypeId equals bt.boatTypeId
+                                     select new
+                                     {
+                                         boatId = b.boatId,
+                                         boatTypeId = bt.boatTypeId,
+                                         boatTypeName = bt.boatTypeName,
+                                         boatTypeDescription = bt.boatTypeDescription,
+                                         boatOutOfService = b.boatOutOfService,
+                                         boatSteer = bt.boatSteer,
+                                         boatAmountSpaces = bt.boatAmountSpaces
+                                     });
+                    MainStackPanel.Children.Clear();
+                    foreach (var b in tableData)
                     {
-                        if (Bootnamen.SelectedItem != null)
+                        //Filters selection based on chosen options
+                        if (FilterEnabled)
                         {
-                            if(b.boatTypeName != bootnaam)
+                            if (Bootnamen.SelectedItem != null)
                             {
-                                continue;
+                                if (b.boatTypeName != bootnaam)
+                                {
+                                    continue;
+                                }
+                            }
+                            if (Bootplekken.SelectedItem != null)
+                            {
+                                if (b.boatAmountSpaces != bootplek)
+                                {
+                                    continue;
+                                }
                             }
                         }
-                        if(Bootplekken.SelectedItem != null){
-                            if(b.boatAmountSpaces != bootplek)
-                            {
-                                continue;
-                            }
+                        //Checks if boat is out of service
+                        if (b.boatOutOfService == 1)
+                        {
+                            continue;
                         }
+                        #region
+                        StackPanel sp = new StackPanel();
+                        sp.Orientation = Orientation.Horizontal;
+                        sp.Height = 100;
+                        sp.HorizontalAlignment = HorizontalAlignment.Left;
+                        Image image = new Image();
+                        image.Margin = new Thickness(15, 16, 20, 16.714);
+                        BitmapImage bitmapImage = new BitmapImage();
+
+                        bitmapImage.BeginInit();
+                        bitmapImage.UriSource = new Uri("pack://application:,,,/Resources/users.png");
+
+                        bitmapImage.DecodePixelWidth = 500;
+                        bitmapImage.EndInit();
+
+                        image.Source = bitmapImage;
+                        sp.Children.Add(image);
+                        Label l1 = new Label();
+                        l1.Content = b.boatTypeName;
+                        l1.FontSize = 24;
+                        l1.Width = 200;
+                        l1.Margin = new Thickness(100, 30, 0, 25);
+                        sp.Children.Add(l1);
+                        Label l = new Label();
+                        l.Content = b.boatTypeName;
+                        l.FontSize = 24;
+                        l.Width = 200;
+                        l.Margin = new Thickness(0, 30, 0, 25);
+                        sp.Children.Add(l);
+                        Button button = new Button();
+                        button.Content = "meer informatie";
+                        button.Width = 170;
+                        button.Margin = new Thickness(0, 5, 0, 0);
+                        sp.Children.Add(button);
+                        MainStackPanel.Children.Add(sp);
+                        #endregion
                     }
-                    //Checks if boat is out of service
-                    if(b.boatOutOfService == 1)
-                    {
-                        continue;
-                    }
-                    #region
-                    StackPanel sp = new StackPanel();
-                    sp.Orientation = Orientation.Horizontal;
-                    sp.Height = 100;
-                    sp.HorizontalAlignment = HorizontalAlignment.Left;
-                    Image image = new Image();
-                    image.Margin = new Thickness(15, 16, 20, 16.714);
-                    BitmapImage bitmapImage = new BitmapImage();
-
-                    bitmapImage.BeginInit();
-                    bitmapImage.UriSource = new Uri("pack://application:,,,/Resources/users.png");
-
-                    bitmapImage.DecodePixelWidth = 500;
-                    bitmapImage.EndInit();
-
-                    image.Source = bitmapImage;
-                    sp.Children.Add(image);
-                    Label l1 = new Label();
-                    l1.Content = b.boatTypeName;
-                    l1.FontSize = 24;
-                    l1.Width = 200;
-                    l1.Margin = new Thickness(100, 30, 0, 25);
-                    sp.Children.Add(l1);
-                    Label l = new Label();
-                    l.Content = b.boatTypeName;
-                    l.FontSize = 24;
-                    l.Width = 200;
-                    l.Margin = new Thickness(0, 30, 0, 25);
-                    sp.Children.Add(l);
-                    Button button = new Button();
-                    button.Content = "meer informatie";
-                    button.Width = 170;
-                    button.Margin = new Thickness(0, 5, 0, 0);
-                    sp.Children.Add(button);
-                    MainStackPanel.Children.Add(sp);
-                    #endregion
                 }
+            }
+            catch (Exception ex)
+            {
+                //Error message for any exception that could occur
+                MessageBox.Show(ex.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)

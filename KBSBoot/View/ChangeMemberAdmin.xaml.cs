@@ -115,6 +115,7 @@ namespace KBSBoot.View
         }
         private void ActivityToggle_Checked(object sender, RoutedEventArgs e)
         {
+            //Sets datefield to today if toggle is checked
             if (DatePicker.SelectedDate == null)
             {
                 DatePicker.SelectedDate = DateTime.Today;
@@ -122,35 +123,18 @@ namespace KBSBoot.View
         }
         private void ActivityToggle_Unchecked(object sender, RoutedEventArgs e)
         {
+            //Sets datefield to null if toggle is unchecked
             DatePicker.SelectedDate = null;
         }
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Sets toggle to either checked or unchecked based on if the Datefield is emptied or filled
             if(DatePicker.SelectedDate == null)
             {
                 ActivityToggle.IsChecked = false;
             } else
             {
                 ActivityToggle.IsChecked = true;
-            }
-        }
-        private void RemoveUser_Click(object sender, RoutedEventArgs e)
-        {
-            if(MessageBox.Show("Weet u zeker dat u dit lid inactief wilt maken?", "Waarschuwing", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                using (var context = new BootDB())
-                {
-                    var removeUser = from m in context.Members
-                                     where m.memberId == MemberID   
-                                     select m;
-                    foreach(var member in removeUser)
-                    {
-                        member.memberSubscribedUntill = null;
-                    }
-                    MessageBox.Show("Gebruiker is succesvol inactief gemaakt", "Gebruiker inactief gemaakt", MessageBoxButton.OK, MessageBoxImage.Information);
-                    context.SaveChanges();
-                    Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
-                }
             }
         }
         private void DidLoaded(object sender, RoutedEventArgs e)

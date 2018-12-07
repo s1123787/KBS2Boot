@@ -85,6 +85,7 @@ namespace KBSBoot.View
             Member member = ((FrameworkElement)sender).DataContext as Member;
             Switcher.Switch(new ChangeMemberAdmin(FullName, AccessLevel, member.memberId));
         }
+        //Allows for scrolling in the Memberlist
         private void MemberList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scroll = (ScrollViewer)sender;
