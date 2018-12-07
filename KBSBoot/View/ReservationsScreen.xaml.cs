@@ -189,7 +189,9 @@ namespace KBSBoot.View
         {
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
             var result = MessageBox.Show($"Weet u zeker dat u de reservering van {reservation.resdate} om {reservation.beginTimeString} uur tot {reservation.endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
-            if(result == MessageBoxResult.Yes)
+
+            //check messagebox result
+            if (result == MessageBoxResult.Yes)
             {
                 reservation.DeleteReservation(reservation.reservationId);
                 Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));

@@ -45,7 +45,7 @@ namespace KBSBoot.Model
 
         public void DeleteReservation(int reservationId)
         {
-            List<Reservations> list = new List<Reservations>();
+            //delete row in reservations table
             using (var context = new BootDB())
             {
                 var data = (from r in context.Reservations
@@ -59,6 +59,7 @@ namespace KBSBoot.Model
                     context.Reservations.Remove(res1);
                 }
 
+                //delete row in Reservations_Boats table 
                 var data2 = (from rb in context.Reservation_Boats
                              where rb.reservationId == reservationId
                              select new { rb.reservationId, rb.boatId });
