@@ -21,7 +21,9 @@ namespace KBSBoot.Model
         public string boatType;
         [NotMapped]
         public string resdate { get; set; }
+        [NotMapped]
         public string beginTimeString { get; set; }
+        [NotMapped]
         public string endTimeString { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
@@ -47,11 +49,15 @@ namespace KBSBoot.Model
             this.reservationId = reservationId;
             this.boatName = boatName;
             this.boatType = boatType;
-            //this.resdate = resdate;
+            this.resdate = resdate;
             this.beginTime = beginTime;
             this.endTime = endTime;
             this.beginTimeString = beginTime.ToString(@"hh\:mm");
             this.endTimeString = endTime.ToString(@"hh\:mm");
+        }
+
+        public Reservations()
+        {
         }
 
         public void DeleteReservation(int reservationId)

@@ -23,5 +23,9 @@ namespace KBSBoot.Model
             this.reservationId = reservationId;
             this.boatId = boatId;
         }
+
+        public Reservation_Boats()
+        {
+        }
     }
 }
