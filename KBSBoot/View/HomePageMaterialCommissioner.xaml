@@ -33,7 +33,7 @@
         <Button x:Name="Boats" Grid.Row="1" Grid.Column="0" Margin="12,12,12,12" Click="Boats_Click" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source="../Resources/Boat-512.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
-                <TextBlock Text="Bekijken boten" FontSize="30" Height="72" TextAlignment="Center"/>
+                <TextBlock Text="Bekijk boten" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
         <Button x:Name="Damage" Grid.Row="1" Grid.Column="1" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="Damage_Click">
