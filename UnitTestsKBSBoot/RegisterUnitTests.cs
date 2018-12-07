@@ -78,6 +78,7 @@ namespace UnitTestsKBSBoot
             //Assert
             Assert.IsTrue(return1);
         }
+
         [Test]
         public void NameHasSpecialChars_CheckNameOnSpecialChars_ReturnFalse()
         {
