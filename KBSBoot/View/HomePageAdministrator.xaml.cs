@@ -63,7 +63,7 @@ namespace KBSBoot.View
 
         private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddBoatMaterialCommissioner());
+            Switcher.Switch(new AddBoatMaterialCommissioner(FullName, AccessLevel));
         }
 
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)
