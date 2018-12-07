@@ -26,29 +26,58 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Mijn reserveringen</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="600" Height="auto" Margin="40,100,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding ReservationList}" Name="ReservationList" FontSize="16" HorizontalAlignment="Center">
+        <ListView Name="ReservationList" FontSize="16" HorizontalAlignment="Center" MaxHeight="600" Height="auto" Margin="0,148,0,0" VerticalAlignment="Top" Width="850">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="BorderBrush" Value="LightGray" />
+                    <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    <Setter Property="Focusable" Value="false"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                    <GridViewColumn Header="Annuleren" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Annuleren" Click="Cancel_Click" Width="auto"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto">
+            <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Center" Width="850">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="BorderBrush" Value="LightGray" />
                         <Setter Property="BorderThickness" Value="0,0,0,1" />
                         <Setter Property="Focusable" Value="false"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     </Style>
                 </ListView.ItemContainerStyle>
+
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
-                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnummer" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
                         <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding beginTime}" Header="Begin tijd" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding endTime}" Header="Eind tijd" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
                         <GridViewColumn Header="Meld schade" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Meld Schade" Click="ReportDemage_Click"/>
+                                    <Button Content="Meld Schade" HorizontalAlignment="Right" Click="ReportDemage_Click" Width="auto"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -56,6 +85,8 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+        <Label Name="historyLabel" Content="Verlopen reserveringen" FontSize="22" HorizontalAlignment="Left" Margin="78,280,0,0" VerticalAlignment="Top"/>
+        <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" Margin="78,100,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </UserControl>

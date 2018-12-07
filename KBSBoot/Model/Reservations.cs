@@ -18,7 +18,17 @@ namespace KBSBoot.Model
         public string boatName { get; set; }
         public string boatType { get; set; }
         public string resdate { get; set; }
+        public string beginTimeString { get; set; }
+        public string endTimeString { get; set; }
 
+        public Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
+        {
+            this.reservationId = reservationId;
+            this.memberId = memberId;
+            this.date = date;
+            this.beginTime = beginTime;
+            this.endTime = endTime;
+        }
 
         public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime)
         {
@@ -28,6 +38,8 @@ namespace KBSBoot.Model
             this.resdate = resdate;
             this.beginTime = beginTime;
             this.endTime = endTime;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
         }
     }
 }

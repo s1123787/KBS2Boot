@@ -36,7 +36,7 @@ namespace KBSBoot.View
             var textvalue = usernametxt.Text;
 
             OnLoginButtonPressed(textvalue);
-            
+            OnLogin -= m.OnLoginButtonIsPressed;
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
@@ -47,11 +47,6 @@ namespace KBSBoot.View
         protected virtual void OnLoginButtonPressed(string name)
         {
             OnLogin?.Invoke(this, new LoginEventArgs(name));
-        }
-
-        public void UpdateLabel(string content)
-        {
-            //ErrorLabel.Content = content;
         }
 
         public void OnNewHomePage(object source, HomePageEventArgs e) 
@@ -69,11 +64,6 @@ namespace KBSBoot.View
             {
                 Switcher.Switch(new HomePageMember(e.FullName, e.TypeMember, e.MemberId));
             }
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
