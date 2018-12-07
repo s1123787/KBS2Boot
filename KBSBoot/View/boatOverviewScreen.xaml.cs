@@ -29,11 +29,14 @@ namespace KBSBoot.View
         private bool FilterEnabled = false;
         private string bootnaam;
         private int bootplek;
+        public int MemberId;
 
-        public boatOverviewScreen(string FullName, int AccessLevel)
+
+        public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
 
@@ -171,8 +174,20 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId));
+            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
         }
+
+        //Go to reservation screen
+        private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            // Switch screen to reservation page on click
+            //SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
+            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+        }
+
 
         private void EditBoat_Click(object sender, RoutedEventArgs e)
         {
@@ -184,7 +199,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel));
+            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

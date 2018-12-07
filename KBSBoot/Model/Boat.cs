@@ -29,13 +29,25 @@ namespace KBSBoot.Model
         
         [NotMapped]
         public string boatTypeName { get; set; }
-        
+
+        [NotMapped]
+        public string boatTypeDescription { get; set; }
+
+        [NotMapped]
+        public int boatAmountSpaces { get; set; }
+
+        [NotMapped]
+        public string boatSteer { get; set; }
+
         [NotMapped]
         public bool IsSelected { get; set; }
 
         [NotMapped]
         public int boatAmountOfSpaces { get; set; }
-
+        
+        //Properties used for DamageReportsScreen
+        [NotMapped] public int boatDamageReportAmount { get; set; }
+        [NotMapped] public bool boatInService { get; set; }
 
         public Boat()
         {
@@ -47,7 +59,15 @@ namespace KBSBoot.Model
             //Convert BLOB to Bitmap Image
             this.boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
 
-            
+
+        }
+
+        public Boat(string TypeName, string TypeDescription, int AmountSpaces, string Steer)
+        {
+            this.boatTypeName = TypeName;
+            this.boatTypeDescription = TypeDescription;
+            this.boatAmountSpaces = AmountSpaces;
+            this.boatSteer = Steer;
         }
 
         public object ImageSource
