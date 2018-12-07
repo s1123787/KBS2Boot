@@ -26,7 +26,11 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        private bool FilterEnabled = false;
+        private string bootnaam;
+        private int bootplek;
         public int MemberId;
+
 
         public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
         {
@@ -35,6 +39,9 @@ namespace KBSBoot.View
             this.MemberId = MemberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
+
+            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
+            Bootnamen.ItemsSource = LoadBoatNamesSelection();
         }
 
 
@@ -43,7 +50,14 @@ namespace KBSBoot.View
             Switcher.Switch(new LoginScreen());
         }
 
-        
+        //Enable scrolling on ListView
+        private void MemberList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
+
         private List<Boat> LoadCollectionData()
         {
             List<Boat> boats = new List<Boat>();
@@ -77,13 +91,80 @@ namespace KBSBoot.View
                         boatName = b.boatName,
                         IsSelected = (b.boatOutOfService == 1)? true : false
                     };
-
+                    //Filters selection based on chosen options
+                    if (FilterEnabled)
+                    {
+                        if (Bootnamen.SelectedItem != null)
+                        {
+                            bootnaam = Bootnamen.SelectedItem.ToString();
+                            if (b.boatTypeName != bootnaam)
+                            {
+                                continue;
+                            }
+                        }
+                        if (Bootplekken.SelectedItem != null)
+                        {
+                            if (b.boatAmountSpaces != bootplek)
+                            {
+                                continue;
+                            }
+                        }
+                    }
                     boats.Add(boat);
                 }
-
-
                 return boats;
             }
+        }
+
+        private List<BoatTypes> LoadBoatNamesSelection()
+        {
+            List<BoatTypes> boatnames = new List<BoatTypes>();
+            using (var context = new BootDB())
+            {
+                var tableData = (from b in context.Boats
+                                 join bt in context.BoatTypes
+                                 on b.boatTypeId equals bt.boatTypeId
+                                 select new
+                                 {
+                                     boatNames = bt.boatTypeName
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    boatnames.Add(new BoatTypes()
+                    {
+                        boatTypeName = b.boatNames
+                    });
+                }
+            }
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+            DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+            return DistinctBoatSeats;
+        }
+        private List<BoatTypes> LoadBoatSeatsSelection()
+        {
+            List<BoatTypes> boatseats = new List<BoatTypes>();
+            using (var context = new BootDB())
+            {
+                var tableData = (from b in context.Boats
+                                 join bt in context.BoatTypes
+                                 on b.boatTypeId equals bt.boatTypeId
+                                 select new
+                                 {
+                                     boatAmountSpaces = bt.boatAmountSpaces
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    boatseats.Add(new BoatTypes()
+                    {
+                        boatAmountSpaces = b.boatAmountSpaces
+                    });
+                }
+            }
+            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+            DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
+            return DistinctBoatSeats;
         }
 
         // View boat details
@@ -95,7 +176,19 @@ namespace KBSBoot.View
             // Switch screen to detailpage on click
             Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
         }
-        
+
+        //Go to reservation screen
+        private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            // Switch screen to reservation page on click
+            //SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
+            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+        }
+
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
@@ -119,43 +212,48 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-            
-        }
-        private void MenuFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Opens and closes the filter popup
-            if (FilterPopup.IsOpen == false)
-            {
-                FilterPopup.IsOpen = true;
-            }
-            else
-            {
-                FilterPopup.IsOpen = false;
-            }
         }
 
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ah niffo, werkt toch niet man.");
+            //Reload the screen
+            FilterEnabled = true;
+            BoatList.ItemsSource = LoadCollectionData();
         }
 
         private void ResetSelection_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Deze ook niet.");
+            //Reload the screen
+            FilterEnabled = false;
+            BoatList.ItemsSource = LoadCollectionData();
+            //Resets the filteroptions
             Bootplekken.IsEnabled = true;
-            StuurCheck.IsEnabled = true;
             Bootnamen.IsEnabled = true;
+            Bootnamen.SelectedItem = null;
+            Bootplekken.SelectedItem = null;
         }
 
         private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bootplekken.IsEnabled = false;
-            StuurCheck.IsEnabled = false;
+            if (Bootnamen.SelectedItem != null)
+            {
+                
+                Bootplekken.IsEnabled = false;
+            }
         }
-
         private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bootnamen.IsEnabled = false;
+            if (Bootplekken.SelectedItem != null)
+            {
+                //Assigns value to chosen option
+                bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
+                Bootnamen.IsEnabled = false;
+            }
+        }
+
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new AddBoatMaterialCommissioner());
         }
     }
 }
