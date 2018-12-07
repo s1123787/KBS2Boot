@@ -53,19 +53,19 @@ namespace KBSBoot.View
             }
         }
 
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new LoginScreen());
+        }
+
         private void Users_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
         }
 
-        private void AddUser_Click(object sender, RoutedEventArgs e)
+        private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId));
-        }
-
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Switch(new AddBoatMaterialCommissioner());
         }
 
         private void OverviewBoats_Click(object sender, RoutedEventArgs e)

@@ -276,17 +276,5 @@
   <ItemGroup>
     <Resource Include="Resources\Boat-Damage.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Boat-Plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\placereservation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\adduser.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\multipleboats.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
