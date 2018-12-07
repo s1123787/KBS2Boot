@@ -47,7 +47,7 @@ namespace KBSBoot.Model
                     var FullNameCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberName).ToList<string>();
                     var FullName = FullNameCollection[0];
                     //homepage is made and switch to so user can do something with the app
-                    OnNewHomePageMade(AccessLevel, FullName);
+                    OnNewHomePageMade(AccessLevel, FullName, id);
                     SortUser = AccessLevel;
                 }
                 else //username doesn't exist
@@ -160,7 +160,7 @@ namespace KBSBoot.Model
 
         #region SpecialCharChecks
         //check for special characters, digits are allowed
-        public bool HasSpecialChars(string stString)
+        public static bool HasSpecialChars(string stString)
         {
             if (stString.Any(ch => !Char.IsLetterOrDigit(ch)))
             {
@@ -173,7 +173,7 @@ namespace KBSBoot.Model
         }
 
         //check if name has spacial chars
-        public bool NameHasSpecialChars(string stString)
+        public static bool NameHasSpecialChars(string stString)
         {
             string s = stString.Replace(" ", string.Empty);
             if (s.Any(ch => !Char.IsLetter(ch)))
@@ -188,9 +188,9 @@ namespace KBSBoot.Model
         #endregion
 
 
-        protected virtual void OnNewHomePageMade(int type, string FullName)
+        protected virtual void OnNewHomePageMade(int type, string FullName, int memberId)
         {
-            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName));
-        } 
+            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, memberId));
+        }
     }
 }
