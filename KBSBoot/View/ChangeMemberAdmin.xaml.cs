@@ -41,7 +41,7 @@ namespace KBSBoot.View
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberID));
         }
         private void ChangeUser_Click(object sender, RoutedEventArgs e)
         {
@@ -89,7 +89,7 @@ namespace KBSBoot.View
                         origin.memberSubscribedUntill = memberUntil;
                         context.SaveChanges();
                         MessageBox.Show("Gebruiker is succesvol gewijzigd.", "Gebruiker gewijzigd", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+                        Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberID));
                     }
                 }
                 catch (FormatException)
