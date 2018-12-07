@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Width="1024" Height="787">
-    <Grid>
+    <Grid Background="White">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToEditUserScreen_Click">
@@ -26,26 +26,26 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lid toevoegen</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Label Content="Naam" HorizontalAlignment="Left" Margin="80,130,0,10" VerticalAlignment="Top" Height="50" Width="100" FontSize="30"/>
-        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="50" Margin="350,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="36"/>
-        <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="80,200,0,0" VerticalAlignment="Top" FontSize="30" Width="230" Height="50"/>
-        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="50" Margin="350,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="30"/>
-        <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,270,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="RowLevelBox_SelectionChanged" FontSize="30" Height="60">
+        <Label Content="Naam" HorizontalAlignment="Left" Margin="80,130,0,10" VerticalAlignment="Top" Height="50" Width="100" FontSize="24"/>
+        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="40" Margin="350,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24"/>
+        <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="80,185,0,0" VerticalAlignment="Top" FontSize="24" Width="230" Height="50"/>
+        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="41" Margin="350,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" Text="ggg"/>
+        <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,240,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,239,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="43">
             <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
             <ComboBoxItem>Amateur</ComboBoxItem>
             <ComboBoxItem>Gevorderd</ComboBoxItem>
             <ComboBoxItem>Professional</ComboBoxItem>
         </ComboBox>
-        <Label Content="Rol" HorizontalAlignment="Left" Margin="80,340,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60">
+        <Label Content="Rol" HorizontalAlignment="Left" Margin="80,287,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,291,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="43">
             <ComboBoxItem IsSelected="True">Lid</ComboBoxItem>
             <ComboBoxItem>Wedstrijdcommissaris</ComboBoxItem>
             <ComboBoxItem>Materiaalcommissaris</ComboBoxItem>
             <ComboBoxItem>Administrator</ComboBoxItem>
         </ComboBox>
-        <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,408,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="350,500,0,0" VerticalAlignment="Top" Width="200" Click="AddUser_Click" FontSize="30" Height="50"/>
-        <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60"/>
+        <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,334,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="505,418,0,0" VerticalAlignment="Top" Width="145" Click="AddUser_Click" FontSize="24" Height="48"/>
+        <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="350,339,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="42"/>
     </Grid>
 </UserControl>

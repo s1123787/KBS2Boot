@@ -39,19 +39,19 @@ namespace KBSBoot.View
         {
             if (AccessLevel == 1)
             {
-                Switcher.Switch(new HomePageMember(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 2)
             {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 3)
             {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
             }
             else if (AccessLevel == 4)
             {
-                Switcher.Switch(new HomePageAdministrator(FullName,AccessLevel, MemberId));
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
             }
         }
 
@@ -112,7 +112,7 @@ namespace KBSBoot.View
                                 beginTime = r.beginTime,
                                 endTime = r.endTime
                             });
-                
+
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
@@ -150,6 +150,6 @@ namespace KBSBoot.View
                 MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        
+
     }
 }

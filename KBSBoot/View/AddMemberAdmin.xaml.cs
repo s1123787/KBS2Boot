@@ -37,7 +37,7 @@ namespace KBSBoot.View
             DatePicker.DisplayDateStart = DateTime.Today;
         }
 
-        //Method to excecute when AddUser button is clicked
+        //Method to execute when AddUser button is clicked
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
             //Save textbox content to variables for easy access
@@ -62,8 +62,8 @@ namespace KBSBoot.View
                     }
 
                     //CHeck for invalid characters in the strings
-                    CheckForInvalidCharacters(name);
-                    CheckForInvalidCharacters(userName);
+                    Member.NameHasSpecialChars(name);
+                    Member.HasSpecialChars(userName);
 
                     //Create new member to add to the DB
                     var member = new Member
@@ -154,11 +154,6 @@ namespace KBSBoot.View
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
-        }
-
-        private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

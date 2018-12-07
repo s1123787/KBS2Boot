@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +19,7 @@ using KBSBoot.Model;
 namespace KBSBoot.View
 {
     public partial class DamageReportsScreen : UserControl
-    { 
+    {
         public string FullName;
         public int AccessLevel;
         public int MemberId;
@@ -31,7 +31,7 @@ namespace KBSBoot.View
             MemberId = memberId;
             InitializeComponent();
         }
-        
+
         //Method to load a list of all boats with damage
         private void LoadBoatsWithDamage()
         {
@@ -42,16 +42,16 @@ namespace KBSBoot.View
                 //tables used: Boats - BoatDamages - BoatTypes
                 //selected boat Id, boat name, boat type description, amount of damage reports, boat in service or not
                 var data = from b in context.Boats
-                    where (from bd in context.BoatDamages select bd.boatId).Contains(b.boatId)
-                    select new
-                    {
-                        boatId = b.boatId,
-                        boatName = b.boatName,
-                        boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
-                        boatDamageReportAmount = (from bd2 in context.BoatDamages where bd2.boatId == b.boatId select bd2).Count(),
-                        boatOutOfService = b.boatOutOfService
-                    };
-                
+                           where (from bd in context.BoatDamages select bd.boatId).Contains(b.boatId)
+                           select new
+                           {
+                               boatId = b.boatId,
+                               boatName = b.boatName,
+                               boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
+                               boatDamageReportAmount = (from bd2 in context.BoatDamages where bd2.boatId == b.boatId select bd2).Count(),
+                               boatOutOfService = b.boatOutOfService
+                           };
+
                 //add all boats with damage reports to list
                 foreach (var d in data)
                 {
@@ -100,22 +100,22 @@ namespace KBSBoot.View
                 MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
         }
-        
+
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
-        
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
-        
+
         // View boat details
         private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
@@ -165,8 +165,8 @@ namespace KBSBoot.View
                 using (var context = new BootDB())
                 {
                     var currentBoat = (from b in context.Boats
-                        where b.boatId == boat.boatId
-                        select b).SingleOrDefault();
+                                       where b.boatId == boat.boatId
+                                       select b).SingleOrDefault();
 
                     currentBoat.boatOutOfService = 0;
 

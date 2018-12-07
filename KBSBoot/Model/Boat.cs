@@ -44,7 +44,11 @@ namespace KBSBoot.Model
 
         [NotMapped]
         public int boatAmountOfSpaces { get; set; }
-
+        
+        //Properties used for DamageReportsScreen
+        [NotMapped] public int boatDamageReportAmount { get; set; }
+        [NotMapped] public string boatTypeDescription { get; set; }
+        [NotMapped] public bool boatInService { get; set; }
 
         public Boat()
         {

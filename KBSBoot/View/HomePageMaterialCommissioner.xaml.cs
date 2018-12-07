@@ -34,12 +34,17 @@ namespace KBSBoot.View
 
         private void ViewDidLoaded(object sender, RoutedEventArgs e)
         {
-            FullNameLabel.Content = $"Welkom {FullName}";
+
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
+        }
+
+        private void Damage_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
         }
     }
 }

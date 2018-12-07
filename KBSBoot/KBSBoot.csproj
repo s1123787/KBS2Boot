@@ -110,6 +110,9 @@
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DamageDetailScreen.xaml.cs">
+      <DependentUpon>DamageDetailScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
     </Compile>
@@ -144,11 +147,18 @@
       <DependentUpon>SelectDateOfReservation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Switcher.cs" />
+    <Compile Include="View\DamageReportScreen.xaml.cs">
+      <DependentUpon>DamageReportScreen.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\AddBoatMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DamageDetailScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -214,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectDateOfReservation.xaml">
+      <<SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DamageReportScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -258,6 +272,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Boat-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Boat-Damage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
