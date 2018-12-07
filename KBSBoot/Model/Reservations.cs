@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace KBSBoot.Model
         public TimeSpan endTime { get; set; }
         public string boatName;
         public string boatType;
+        [NotMapped]
         public string resdate { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();

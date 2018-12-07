@@ -224,7 +224,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectDateOfReservation.xaml">
-      <<SubType>Designer</SubType>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DamageReportScreen.xaml">
