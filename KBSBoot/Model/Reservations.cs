@@ -21,6 +21,8 @@ namespace KBSBoot.Model
         public string boatType;
         [NotMapped]
         public string resdate { get; set; }
+        public string beginTimeString { get; set; }
+        public string endTimeString { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
@@ -30,10 +32,14 @@ namespace KBSBoot.Model
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-
-        public Reservations()
+      
+        public Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
         {
-
+            this.reservationId = reservationId;
+            this.memberId = memberId;
+            this.date = date;
+            this.beginTime = beginTime;
+            this.endTime = endTime;
         }
 
         public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime)
@@ -44,6 +50,40 @@ namespace KBSBoot.Model
             //this.resdate = resdate;
             this.beginTime = beginTime;
             this.endTime = endTime;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
+        }
+
+        public void DeleteReservation(int reservationId)
+        {
+            //delete row in reservations table
+            using (var context = new BootDB())
+            {
+                var data = (from r in context.Reservations
+                            where r.reservationId == reservationId
+                            select new { r.reservationId, r.memberId, r.date, r.beginTime, r.endTime });
+
+                foreach (var d in data)
+                {
+                    Reservations res1 = new Reservations(d.reservationId, d.memberId, d.date, d.beginTime, d.endTime);
+                    context.Reservations.Attach(res1);
+                    context.Reservations.Remove(res1);
+                }
+
+                //delete row in Reservations_Boats table 
+                var data2 = (from rb in context.Reservation_Boats
+                             where rb.reservationId == reservationId
+                             select new { rb.reservationId, rb.boatId });
+                foreach (var d in data2)
+                {
+                    Reservation_Boats reservation_Boats = new Reservation_Boats(d.reservationId, d.boatId);
+                    context.Reservation_Boats.Attach(reservation_Boats);
+                    context.Reservation_Boats.Remove(reservation_Boats);
+                }
+
+                context.SaveChanges();
+
+            }
         }
 
         public List<DateTime> checkDates(int boatId)

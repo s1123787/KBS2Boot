@@ -17,5 +17,11 @@ namespace KBSBoot.Model
         [Key]
         [Column(Order = 2)]
         public int boatId { get; set; }
+
+        public Reservation_Boats(int reservationId, int boatId)
+        {
+            this.reservationId = reservationId;
+            this.boatId = boatId;
+        }
     }
 }

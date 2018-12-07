@@ -84,11 +84,15 @@ namespace KBSBoot.View
 
             //Load list with reservations for the logged in user
             LoadReservations();
+            LoadReservationsHistory();
         }
 
+        //load upcoming reservations
         private void LoadReservations()
         {
             List<Reservations> reservations = new List<Reservations>();
+            DateTime date = DateTime.Now.Date;
+            TimeSpan endTime = DateTime.Now.TimeOfDay;
 
             using (var context = new BootDB())
             {
@@ -101,8 +105,8 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId
-                            orderby r.date descending, r.beginTime descending
+                            where r.memberId == MemberId && r.date > date || (r.date == date && r.endTime > endTime)
+                            orderby r.date ascending, r.beginTime ascending
                             select new
                             {
                                 reservationId = r.reservationId,
@@ -120,34 +124,77 @@ namespace KBSBoot.View
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
                 }
             }
+            if(reservations.Count == 0)
+            {
+                ReservationList.Visibility = Visibility.Collapsed;
+                reservationsLabel.Visibility = Visibility.Collapsed;
+
+                historyLabel.Margin = new Thickness(78, 100, 0, 0);
+                historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
+            }
             //add list with reservation to the grid
             ReservationList.ItemsSource = reservations;
+        }
+
+        //load reservation history 
+        private void LoadReservationsHistory()
+        {
+            List<Reservations> reservationsHistory = new List<Reservations>();
+            DateTime date = DateTime.Now.Date;
+            TimeSpan endTime = DateTime.Now.TimeOfDay;
+
+            using (var context = new BootDB())
+            {
+                //tables used: Reservation - Reservation_Boats - Boats - BoatTypes
+                //selected reservationId, BoatName, BoatTypeDiscription, date, beginTime, endTime 
+                var data = (from r in context.Reservations
+                            join rb in context.Reservation_Boats
+                            on r.reservationId equals rb.reservationId
+                            join b in context.Boats
+                            on rb.boatId equals b.boatId
+                            join bt in context.BoatTypes
+                            on b.boatTypeId equals bt.boatTypeId
+                            where r.memberId == MemberId && r.date <= date
+                            orderby r.date descending, r.beginTime descending
+                            select new
+                            {
+                                reservationId = r.reservationId,
+                                boatName = b.boatName,
+                                boatType = bt.boatTypeDescription,
+                                date = r.date,
+                                beginTime = r.beginTime,
+                                endTime = r.endTime
+                            });
+                //add all reservations to reservation list
+                foreach (var d in data)
+                {
+                    string resdate = d.date.ToString("d");
+                    reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                }
+
+                //add list with reservation to the grid
+                ReservationHistoryList.ItemsSource = reservationsHistory;
+            }
+
         }
 
         //get boatId from the report demage button
         private void ReportDemage_Click(object sender, RoutedEventArgs e)
         {
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
+            Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+        }
 
-            //check if report demage should be possible
-            if (Convert.ToDateTime(reservation.resdate) < DateTime.Now.Date)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
+            var result = MessageBox.Show($"Weet u zeker dat u de reservering van {reservation.resdate} om {reservation.beginTimeString} uur tot {reservation.endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+
+            //check messagebox result
+            if (result == MessageBoxResult.Yes)
             {
-                Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
-            }
-            else if (Convert.ToDateTime(reservation.resdate) == DateTime.Now.Date)
-            {
-                if (reservation.beginTime <= DateTime.Now.TimeOfDay)
-                {
-                    Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
-                }
-                else
-                {
-                    MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-            }
-            else
-            {
-                MessageBox.Show($"U kunt nog geen schade melden, dit is pas mogelijk op: {reservation.resdate} na: {reservation.beginTime.ToString(@"hh\:mm")} uur", "Schade melden niet mogelijk", MessageBoxButton.OK, MessageBoxImage.Warning);
+                reservation.DeleteReservation(reservation.reservationId);
+                Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
             }
         }
 
