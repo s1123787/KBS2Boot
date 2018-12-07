@@ -23,7 +23,8 @@ namespace KBSBoot.Model
         public string boatOutOfServiceString { get; set; }
         [NotMapped]
         public string boatSteerString { get; set; }
-        public override string ToString()
+
+      public override string ToString()
         {
             if(boatAmountSpaces != 0)
             {
@@ -32,7 +33,6 @@ namespace KBSBoot.Model
             {
                 return boatTypeName;
             } else
-
             {
                 return base.ToString();
             }

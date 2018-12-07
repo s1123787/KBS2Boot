@@ -112,7 +112,7 @@
     </Compile>
     <Compile Include="View\ChangeMemberAdmin.xaml.cs">
       <DependentUpon>ChangeMemberAdmin.xaml</DependentUpon>
-    <Compile>
+    </Compile>
     <Compile Include="View\DamageDetailScreen.xaml.cs">
       <DependentUpon>DamageDetailScreen.xaml</DependentUpon>
     </Compile>
@@ -163,8 +163,13 @@
     </Page>
     <Page Include="View\ChangeMemberAdmin.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>    
+      <Generator>MSBuild:Compile</Generator>  
+    </Page>
      <Page Include="View\DamageDetailScreen.xaml">
+       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DamageDetailScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
