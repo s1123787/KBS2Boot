@@ -53,7 +53,10 @@ namespace KBSBoot.View
             this.boatName = boatName;
             this.boatTypeDescription = boatTypeDescription;
             InitializeComponent();
+
+            //datepicker starts from today
             DatePicker.DisplayDateStart = DateTime.Today;
+            //only possible to select dates 2 weeks from now
             DatePicker.DisplayDateEnd = DateTime.Now.AddDays(14);
             reservation = new Reservations();
         }
@@ -75,6 +78,8 @@ namespace KBSBoot.View
 
         private void DidLoaded(object sender, RoutedEventArgs e)
         {
+
+            //show the boat information
             BoatName.Content = $"  {boatName}";
             BoatDescription.Content = $" {boatTypeDescription}";
             if (AccessLevel == 1)
@@ -94,10 +99,14 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
+
+            //check which dates are not possible to reservate
             datum = reservation.checkDates(boatId);
 
             foreach (var date in datum)
             {
+
+                //disable the dates that are not possible to reservate
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
             }
         }
@@ -107,6 +116,10 @@ namespace KBSBoot.View
             beginTime.Clear();
             endTime.Clear();
 
+            //reservation button is visible
+            ReservationButton.Visibility = Visibility.Visible;
+
+            //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
 
             StackPanel sp1 = new StackPanel();
@@ -116,32 +129,41 @@ namespace KBSBoot.View
             sp1.Children.Add(tb);
             mainStackPanel.Children.Add(sp1);
 
+            //getting the selected date
             selectedDate = DatePicker.SelectedDate.Value;
 
+            //make the timepicker visible
             TimePicker.Visibility = Visibility.Visible;
+
+            //getting the information when sun is coming up and is going down
             DateTime test = DatePicker.SelectedDate.Value;
             var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, test);
 
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
-            InformationSun.Content = $" de zon is op van {test1.TimeOfDay} tot {test2.TimeOfDay}";
+
+            InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
             using (var context = new BootDB())
             {
+
+                //getting all reservations for selected date
                 var data1 = (from b in context.Boats
                              join rb in context.Reservation_Boats
                              on b.boatId equals rb.boatId
                              join r in context.Reservations
                              on rb.reservationId equals r.reservationId
-                             where b.boatId == 1 && r.date == selectedDate
+                             where b.boatId == boatId && r.date == selectedDate
                              select new
                              {
                                  beginTime = r.beginTime,
                                  endTime = r.endTime,
                              });
                 bool dateTrue = false;
+
+                //adding all reservations for selected date to screen
                 foreach (var d1 in data1)
                 {
                     beginTime.Add(d1.beginTime);
@@ -156,17 +178,18 @@ namespace KBSBoot.View
                     mainStackPanel.Children.Add(sp);
                     dateTrue = true;
                 }
+
+                //this will be executed when there are no reservation for selected date
                 if (dateTrue == false)
                 {
                     StackPanel sp = new StackPanel();
                     Label l = new Label();
                     l.Content = $"Er zijn nog geen reserveringen";
-                    //l.Margin = new Thickness(0, x, 0, 0);
+
                     l.Width = 400;
                     l.FontSize = 14;
                     sp.Children.Add(l);
                     mainStackPanel.Children.Add(sp);
-                    //x += 40;
                     dateTrue = true;
                 }
             }
@@ -174,18 +197,18 @@ namespace KBSBoot.View
 
         private void ReservationButton_Click(object sender, RoutedEventArgs e)
         {
+            //getting the selected begin and end time
             selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
             selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
-            //check if endtime is after begin time
+            //check if selected times are possible
             var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+            //this will be executed when the selected times are not correct
             if (!check)
             {
                 ErrorLabel.Content = "deze tijden zijn niet beschikbaar";
             }
-            else
+            else //when it is possible to add reservation
             {
-                //ErrorLabel.Content = "het is mogelijk";
-
                 using (var context = new BootDB())
                 {
                     var reservation = new Reservations
@@ -196,12 +219,12 @@ namespace KBSBoot.View
                         endTime = selectedEndTime,
                         boatName = "empty",
                         boatType = "empty"
-
                     };
 
                     context.Reservations.Add(reservation);
                     context.SaveChanges();
 
+                    //getting the last reservation id to add that to other table
                     var data = (from r in context.Reservations
                                 orderby r.reservationId descending
                                 select r.reservationId).First().ToString();
@@ -217,7 +240,7 @@ namespace KBSBoot.View
                     context.Reservation_Boats.Add(reservation_boat);
                     context.SaveChanges();
                 }
-
+                //show message when reservation is added to screen
                 MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 backToHomeScreen();

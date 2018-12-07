@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -113,6 +114,9 @@
     <Compile Include="View\EditBoatMaterialCommissioner.xaml.cs">
       <DependentUpon>EditBoatMaterialCommissioner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ChangeMemberAdmin.xaml.cs">
+      <DependentUpon>ChangeMemberAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DamageDetailScreen.xaml.cs">
       <DependentUpon>DamageDetailScreen.xaml</DependentUpon>
     </Compile>
@@ -165,8 +169,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DamageDetailScreen.xaml">
+    <Page Include="View\ChangeMemberAdmin.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>  
+    </Page>
+     <Page Include="View\DamageDetailScreen.xaml">
+       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
