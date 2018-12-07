@@ -58,9 +58,14 @@ namespace KBSBoot.View
             Switcher.Switch(new LoginScreen());
         }       
 
-        private void Users_Click(object sender, RoutedEventArgs e)
+        private void Boats_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
+        }
+
+        private void PlaceReservation_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)
