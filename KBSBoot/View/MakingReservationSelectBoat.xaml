@@ -7,6 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+
     <Grid x:Name="GridMakingReservation">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -23,6 +24,7 @@
                         <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
+
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boot selecteren</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
@@ -72,6 +74,7 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+
         <Label x:Name="RowLevelNameLabel" Content="" HorizontalAlignment="Left" Margin="50,198,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
         <Label x:Name="label" Content="Je hebt teveel reserveringen op je naam staan." HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" FontSize="30"/>
         <Label x:Name="label1" HorizontalAlignment="Left" Margin="200,240,0,0" VerticalAlignment="Top" FontSize="30">

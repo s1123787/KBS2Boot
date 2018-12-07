@@ -21,7 +21,7 @@ namespace KBSBoot.View
         public event AddBoatD OnAddBoat;
 
         List<String> boattypes = new List<String>();
-        byte[] data = new byte[0];
+
         System.Drawing.Image SelectedImageForConversion;
         int SelectedBoatTypeId;
 
@@ -29,8 +29,10 @@ namespace KBSBoot.View
         public int AccessLevel;
         private int MemberId;
 
-        public AddBoatMaterialCommissioner()
+        public AddBoatMaterialCommissioner(string FullName, int AccessLevel)
         {
+            this.FullName = FullName;
+            this.AccessLevel = AccessLevel;
             InitializeComponent();
             BoatTypeBox.IsEnabled = false;
             OnAddBoat += Boat.OnAddBoatIsPressed;
@@ -41,6 +43,7 @@ namespace KBSBoot.View
         protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid)
         {
             OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid));
+            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel));
         }
 
         //Pulls all boattype information needed for filling the comboboxes from the database

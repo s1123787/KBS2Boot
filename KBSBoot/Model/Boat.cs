@@ -168,7 +168,7 @@ namespace KBSBoot.Model
                 }
                 catch (FileTooLargeException)
                 {
-                    MessageBox.Show("De geselecteerde afbeelding is te groot. (Max. 512kb)", "Bestand te groot", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("De geselecteerde afbeelding is te groot. (Max. 256kb)", "Bestand te groot", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (Exception ex)
                 {
@@ -191,7 +191,6 @@ namespace KBSBoot.Model
                 context.SaveChanges();
 
                 MessageBox.Show("Boot is succesvol toegevoegd.", "Boot toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new AddBoatMaterialCommissioner());
             }
         }
 

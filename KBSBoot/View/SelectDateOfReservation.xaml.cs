@@ -53,6 +53,7 @@ namespace KBSBoot.View
             this.boatName = boatName;
             this.boatTypeDescription = boatTypeDescription;
             InitializeComponent();
+
             //datepicker starts from today
             DatePicker.DisplayDateStart = DateTime.Today;
             //only possible to select dates 2 weeks from now
@@ -77,6 +78,7 @@ namespace KBSBoot.View
 
         private void DidLoaded(object sender, RoutedEventArgs e)
         {
+
             //show the boat information
             BoatName.Content = $"  {boatName}";
             BoatDescription.Content = $" {boatTypeDescription}";
@@ -97,11 +99,13 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
+
             //check which dates are not possible to reservate
             datum = reservation.checkDates(boatId);
 
             foreach (var date in datum)
             {
+
                 //disable the dates that are not possible to reservate
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
             }
@@ -137,12 +141,14 @@ namespace KBSBoot.View
 
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
+
             InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
             using (var context = new BootDB())
             {
+
                 //getting all reservations for selected date
                 var data1 = (from b in context.Boats
                              join rb in context.Reservation_Boats
@@ -156,6 +162,7 @@ namespace KBSBoot.View
                                  endTime = r.endTime,
                              });
                 bool dateTrue = false;
+
                 //adding all reservations for selected date to screen
                 foreach (var d1 in data1)
                 {
@@ -171,12 +178,14 @@ namespace KBSBoot.View
                     mainStackPanel.Children.Add(sp);
                     dateTrue = true;
                 }
+
                 //this will be executed when there are no reservation for selected date
                 if (dateTrue == false)
                 {
                     StackPanel sp = new StackPanel();
                     Label l = new Label();
                     l.Content = $"Er zijn nog geen reserveringen";
+
                     l.Width = 400;
                     l.FontSize = 14;
                     sp.Children.Add(l);

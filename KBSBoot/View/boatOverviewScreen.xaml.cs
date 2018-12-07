@@ -205,6 +205,12 @@ namespace KBSBoot.View
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
         }
 
+        private void EditBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, boat.boatId));
+        }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
@@ -270,7 +276,7 @@ namespace KBSBoot.View
 
         private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddBoatMaterialCommissioner());
+            Switcher.Switch(new AddBoatMaterialCommissioner(FullName, AccessLevel));
         }
     }
 }

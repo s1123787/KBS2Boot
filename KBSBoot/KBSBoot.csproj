@@ -44,8 +44,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
@@ -111,6 +111,9 @@
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditBoatMaterialCommissioner.xaml.cs">
+      <DependentUpon>EditBoatMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ChangeMemberAdmin.xaml.cs">
       <DependentUpon>ChangeMemberAdmin.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditBoatMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,6 +281,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Boat-Plus.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\reservation.png" />

@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="KBSBoot.View.AddBoatMaterialCommissioner"
+﻿<UserControl x:Class="KBSBoot.View.EditBoatMaterialCommissioner"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KBSBoot.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1024">
     <Grid Background="White">
@@ -23,29 +24,28 @@
                         <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <TextBlock x:Name="AddBoatLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boot toevoegen</TextBlock>
+                <TextBlock x:Name="AddBoatLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boot wijzigen</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Label Content="Boot naam" HorizontalAlignment="Left" Margin="66,143,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="50" Margin="254,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30"/>
-        <Label Content="Aantal pers." HorizontalAlignment="Left" Margin="58,237,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <ComboBox x:Name="BoatCapacityBox" HorizontalAlignment="Left" Margin="254,222,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="BoatCapacityBox_SelectionChanged" FontSize="30"/>
-        <Label Content="Type" HorizontalAlignment="Left" Margin="148,331,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <ComboBox x:Name="BoatTypeBox" HorizontalAlignment="Left" Margin="254,316,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="BoatTypeBox_SelectionChanged" FontSize="30">
+        <Label Content="Boot naam" HorizontalAlignment="Left" Margin="68,155,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="50" Margin="256,142,0,0" Text="" VerticalAlignment="Top" Width="300" FontSize="30" MaxLength="45"/>
+        <Label Content="Aantal pers." HorizontalAlignment="Left" Margin="57,249,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <ComboBox x:Name="BoatCapacityBox" HorizontalAlignment="Left" Margin="256,234,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="BoatCapacityBox_SelectionChanged" FontSize="30"/>
+        <Label Content="Type" HorizontalAlignment="Left" Margin="150,343,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <ComboBox x:Name="BoatTypeBox" HorizontalAlignment="Left" Margin="256,328,0,0" VerticalAlignment="Top" Width="300" FontSize="30">
             <ComboBoxItem>-</ComboBoxItem>
         </ComboBox>
-        <Label Content="Youtube url" HorizontalAlignment="Left" Margin="58,426,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <TextBox x:Name="YoutubeUrlBox" HorizontalAlignment="Left" Height="50" Margin="254,413,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30"/>
-        <Button Content="Toevoegen" HorizontalAlignment="Left" Margin="453,524,0,0" VerticalAlignment="Top" Width="101" Click="AddBoat_Click"/>
-        <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="636,392,0,0" VerticalAlignment="Top" Width="152" Click="ImageSelect_Click" />
+        <Label Content="Youtube url" HorizontalAlignment="Left" Margin="68,438,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <TextBox x:Name="YoutubeUrlBox" HorizontalAlignment="Left" Height="50" Margin="256,425,0,0" Text="" VerticalAlignment="Top" Width="300" FontSize="30" />
+        <Button Content="Toepassen" HorizontalAlignment="Left" Margin="456,541,0,0" VerticalAlignment="Top" Width="100" Click="SubmitChanges_Click"/>
+        <Button x:Name="ImageSelectButton" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="636,392,0,0" VerticalAlignment="Top" Width="152" Click="ImageSelectButton_Click" />
 
         <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="636,366,0,0" VerticalAlignment="Top"/>
         <Label Content="*Alleen PNG formaat" HorizontalAlignment="Left" Margin="648,423,0,0" VerticalAlignment="Top"/>
         <Label Content="*Max. 256KB" HorizontalAlignment="Left" Margin="648,449,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.558,0.266"/>
 
         <Border BorderBrush="Black" BorderThickness="1" Margin="612,161,0,0" Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Margin="0,0,0,0" Stretch="Fill" x:Name ="SelectedImage"  VerticalAlignment="Top" Height="200" Width="200"/>
+            <Image Margin="0,0,0,0" Stretch="Fill" x:Name ="SelectedImageBox"  VerticalAlignment="Top" Height="200" Width="200"/>
         </Border>
-
     </Grid>
 </UserControl>

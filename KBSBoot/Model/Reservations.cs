@@ -109,7 +109,6 @@ namespace KBSBoot.Model
                                 date = r.date,
                             });
 
-                int count = 0;
                 foreach (var d in data)
                 {
                     //valid is automatically false
@@ -140,12 +139,14 @@ namespace KBSBoot.Model
                             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
                             sunUp = test1.TimeOfDay;
                             sunDown = test1.TimeOfDay;
-                            //check if the difference between the time the sun is coming up and the first begin time is more then an hour
+                            
+                          //check if the difference between the time the sun is coming up and the first begin time is more then an hour
                             if (BTime - sunUp >= new TimeSpan(1, 0, 0))
                             {
                                 valid = true;
                             }
                         }
+
                         //check if it not the last endtime of the reservations
                         if (i < data2.Count() - 1 && valid == false)
                         {                            
@@ -157,6 +158,7 @@ namespace KBSBoot.Model
                                 valid = true;
                             }
                         }
+
                         //check if it is the last end time of the reservations
                         else if (valid == false && i == data2.Count())
                         {
@@ -168,6 +170,7 @@ namespace KBSBoot.Model
                             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
                             sunUp = test1.TimeOfDay;
                             sunDown = test1.TimeOfDay;
+
                             //check if difference between sun is going down and last end time is more then an hour
                             if (sunDown - Etime >= new TimeSpan(1, 0, 0))
                             {
@@ -175,6 +178,7 @@ namespace KBSBoot.Model
                             }
                         }
                     }
+
                     //check if valid is still false
                     if (valid == false)
                     {
@@ -221,11 +225,13 @@ namespace KBSBoot.Model
                         {                            
                             return false;
                         }
+                      
                         //check if there are any begintimes between the selected begin and endtime
                         if (beginTimes[i] > selectedBeginTime && beginTimes[i] < selectedEndTime)
                         {
                             return false;
                         }
+
                         //check if there are any endtimes between the selected begin and endtime
                         else if (endTimes[i] > selectedEndTime && endTimes[i] < selectedEndTime)
                         {

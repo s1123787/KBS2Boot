@@ -37,10 +37,10 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
             InitializeComponent();
-
             Bootplekken.ItemsSource = LoadBoatSeatsSelection();
             Bootnamen.ItemsSource = LoadBoatNamesSelection();
         }
+        
         private List<BoatTypes> LoadBoatNamesSelection()
         {
             List<BoatTypes> boatnames = new List<BoatTypes>();
