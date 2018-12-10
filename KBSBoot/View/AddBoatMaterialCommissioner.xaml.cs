@@ -146,7 +146,8 @@ namespace KBSBoot.View
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            //switch to Homepage Material Commissioner
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
