@@ -214,7 +214,19 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            switch(AccessLevel)
+            {
+                case 1:
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                    break;
+                case 2:
+                    Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+                    break;
+                case 3:
+                    Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+                    break;
+            }
+            
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
