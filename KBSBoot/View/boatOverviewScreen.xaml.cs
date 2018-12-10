@@ -242,6 +242,10 @@ namespace KBSBoot.View
             else if (AccessLevel == 3)
             {
                 AccessLevelButton.Content = "Materiaalcommissaris";
+
+                //Edit button in overview
+                GridViewColumn myGridViewColumn = BoatList.TryFindResource("gridViewColumnResource") as GridViewColumn;
+                BoatGridView.Columns.Add(myGridViewColumn);
             }
             else if (AccessLevel == 4)
             {
