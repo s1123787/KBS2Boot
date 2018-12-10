@@ -40,7 +40,7 @@
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
                     <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot type" Width="180"/>
                     <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>

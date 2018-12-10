@@ -45,7 +45,7 @@
         </Button>
         <Button x:Name="PlaceReservation" Grid.Row="1" Grid.Column="2" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="PlaceReservation_Click">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
-                <Image Source="../Resources/placereservation.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
+                <Image Source="/KBSBoot;component/Resources/placereservation.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
                 <TextBlock Text="Plaats reservering" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
