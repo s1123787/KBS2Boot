@@ -26,13 +26,15 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
+        private bool IsDashboard;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId)
+        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId, bool IsDashboard=false)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.MemberId = MemberId;
+            this.IsDashboard = IsDashboard;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
@@ -130,7 +132,14 @@ namespace KBSBoot.View
 
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+            if(IsDashboard)
+            {
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            }
+            else
+            {
+                Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+            }            
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
