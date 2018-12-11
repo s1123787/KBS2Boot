@@ -16,8 +16,8 @@ namespace KBSBoot.Model
         public int boatDamageLevel { get; set; }
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
-        [NotMapped] public int reservationId { get; set; }
-        [NotMapped] public int memberId { get; set; }
+        public int reservationId { get; set; }
+        public int memberId { get; set; }
       
         //Properties for DamageDetailsScreen
         [NotMapped] public string boatDamageReportDate { get; set; }
