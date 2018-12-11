@@ -96,7 +96,7 @@ namespace KBSBoot.Model
 
         public List<DateTime> checkDates(int boatId)
         {
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> InvalidDates = new List<DateTime>();
             using (var context = new BootDB())
             {
                 //getting all the dates for the selected boat
@@ -184,11 +184,11 @@ namespace KBSBoot.Model
                     //check if valid is still false
                     if (valid == false)
                     {
-                        dates.Add(d.date);
+                        InvalidDates.Add(d.date);
                     }                    
                 }
             }
-            return dates;
+            return InvalidDates;
         }
 
 
