@@ -185,7 +185,7 @@ namespace KBSBoot.Model
                     if (valid == false)
                     {
                         dates.Add(d.date);
-                    }
+                    }                    
                 }
             }
             return dates;
