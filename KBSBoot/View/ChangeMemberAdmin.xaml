@@ -17,9 +17,7 @@
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
                         <Separator/>
-                        <Button Click="BackToHomePage_Click">
-                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" Margin="0,5,0,0" />
-                        </Button>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
                         <Button Content="Goodbye" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
