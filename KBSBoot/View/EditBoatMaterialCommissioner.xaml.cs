@@ -150,7 +150,12 @@ namespace KBSBoot.View
                     var SelectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
                     String SelectedImageInput = SelectedImageString;
 
-                    using (var context = new BootDB())
+
+                    if ((System.Windows.Forms.MessageBox.Show("Weet u zeker dat u deze wijzigingen wil toepassen?", "Bevestiging",
+                    System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question,
+                    System.Windows.Forms.MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes))
+
+                        using (var context = new BootDB())
                     {
                         var boot = context.Boats.SingleOrDefault(b => b.boatId == boatId);
                         var image = context.BoatImages.SingleOrDefault(i => i.boatId == boatId);
@@ -213,10 +218,6 @@ namespace KBSBoot.View
 
         private void SubmitChanges_Click(object sender, RoutedEventArgs e)
         {
-
-            if ((System.Windows.Forms.MessageBox.Show("Weet u zeker dat u deze wijzigingen wil toepassen?", "Bevestiging",
-            System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question,
-            System.Windows.Forms.MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes))
                 UpdateBoat();
             
 
