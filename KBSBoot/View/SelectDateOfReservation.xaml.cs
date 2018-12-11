@@ -42,6 +42,7 @@ namespace KBSBoot.View
         public TimeSpan selectedEndTime;
         public bool geldig = false;
         public Reservations reservation;
+        public static DateTime SelectedDateTime;
 
 
         public SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
@@ -136,8 +137,8 @@ namespace KBSBoot.View
             TimePicker.Visibility = Visibility.Visible;
 
             //getting the information when sun is coming up and is going down
-            DateTime test = DatePicker.SelectedDate.Value;
-            var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, test);
+            SelectedDateTime = DatePicker.SelectedDate.Value;
+            var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
 
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
@@ -217,8 +218,6 @@ namespace KBSBoot.View
                         date = selectedDate,
                         beginTime = selectedBeginTime,
                         endTime = selectedEndTime,
-                        boatName = "empty",
-                        boatType = "empty"
                     };
 
                     context.Reservations.Add(reservation);

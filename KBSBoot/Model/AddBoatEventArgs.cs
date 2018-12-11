@@ -19,7 +19,11 @@ namespace KBSBoot.Model
 
         public int boatTypeId { get; set; }
 
-        public AddBoatEventArgs(string boatName, int boatOutOfService, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boattypeId)
+        public string fullName { get; set; }
+        public int accessLevel { get; set; }
+        public int memberId { get; set; }
+
+        public AddBoatEventArgs(string boatName, int boatOutOfService, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boattypeId, string fullName, int accessLevel, int MemberId)
         {
             this.boatType = boatType;
             this.boatName = boatName;
@@ -27,6 +31,9 @@ namespace KBSBoot.Model
             this.boatYoutubeUrl = boatYoutubeUrl;
             this.BoatImage = boatImage;
             this.boatTypeId = boattypeId;
+            this.fullName = fullName;
+            this.accessLevel = accessLevel;
+            this.memberId = memberId;
         }
     }
 }

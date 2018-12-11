@@ -1,4 +1,5 @@
 ﻿using KBSBoot.DAL;
+using KBSBoot.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,8 +18,10 @@ namespace KBSBoot.Model
         public DateTime date { get; set; }
         public TimeSpan beginTime { get; set; }
         public TimeSpan endTime { get; set; }
-        public string boatName;
-        public string boatType;
+        [NotMapped]
+        public string boatName { get; set; }
+        [NotMapped]
+        public string boatType { get; set; }
         [NotMapped]
         public string resdate { get; set; }
         [NotMapped]
@@ -94,7 +97,7 @@ namespace KBSBoot.Model
 
         public List<DateTime> checkDates(int boatId)
         {
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> InvalidDates = new List<DateTime>();
             using (var context = new BootDB())
             {
                 //getting all the dates for the selected boat
@@ -160,7 +163,7 @@ namespace KBSBoot.Model
                         }
 
                         //check if it is the last end time of the reservations
-                        else if (valid == false && i == data2.Count())
+                        else if (valid == false && i == data2.Count() -1 )
                         {
                             //getting all the neccessary information
                             var Etime = data2[i].endTime;
@@ -169,7 +172,7 @@ namespace KBSBoot.Model
                             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
                             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
                             sunUp = test1.TimeOfDay;
-                            sunDown = test1.TimeOfDay;
+                            sunDown = test2.TimeOfDay;
 
                             //check if difference between sun is going down and last end time is more then an hour
                             if (sunDown - Etime >= new TimeSpan(1, 0, 0))
@@ -182,11 +185,11 @@ namespace KBSBoot.Model
                     //check if valid is still false
                     if (valid == false)
                     {
-                        dates.Add(d.date);
-                    }
+                        InvalidDates.Add(d.date);
+                    }                    
                 }
             }
-            return dates;
+            return InvalidDates;
         }
 
 
@@ -206,8 +209,9 @@ namespace KBSBoot.Model
             else if (selectedEndTime - selectedBeginTime < new TimeSpan(1, 0, 0)) //check if reservation is less then hour
             {
                 return false;
-            }
-            else //if endtime is after begin time and reservation is more then 1 hour
+            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now && selectedBeginTime < DateTime.Now.TimeOfDay){
+                return false;
+            } else //if endtime is after begin time and reservation is more then 1 hour
             {
                 //check if there are any reservations on the selected date
                 if (beginTimes.Count != 0)

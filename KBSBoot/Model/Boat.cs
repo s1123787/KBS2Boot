@@ -155,6 +155,7 @@ namespace KBSBoot.Model
                     //Add the boat to the database
                     Boat.AddBoatToDB(boat);
                     BoatImages.AddImageToDB(boatImage);
+                    Switcher.Switch(new boatOverviewScreen(e.fullName, e.accessLevel, e.memberId));
                 }
                 catch (FormatException)
                 {
