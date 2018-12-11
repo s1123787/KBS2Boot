@@ -76,11 +76,15 @@ namespace KBSBoot.View
                                      boatTypeDescription = bt.boatTypeDescription,
                                      boatOutOfService = b.boatOutOfService,
                                      boatSteer = bt.boatSteer,
-                                     boatAmountSpaces = bt.boatAmountSpaces
+                                     boatAmountSpaces = bt.boatAmountSpaces,
+                                     boatRowLevel = bt.boatRowLevel
                                  });
 
                 foreach (var b in tableData)
                 {
+                    if (b.boatRowLevel > AccessLevel)
+                        continue;
+
                     // Add boat to boats list
                     Boat boat = new Boat()
                     {
