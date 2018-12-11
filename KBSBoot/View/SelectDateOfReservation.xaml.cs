@@ -217,8 +217,6 @@ namespace KBSBoot.View
                         date = selectedDate,
                         beginTime = selectedBeginTime,
                         endTime = selectedEndTime,
-                        boatName = "empty",
-                        boatType = "empty"
                     };
 
                     context.Reservations.Add(reservation);

@@ -171,10 +171,10 @@
     </Page>
     <Page Include="View\ChangeMemberAdmin.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>  
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-     <Page Include="View\DamageDetailScreen.xaml">
-       <SubType>Designer</SubType>
+    <Page Include="View\DamageDetailScreen.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
