@@ -17,8 +17,9 @@ namespace KBSBoot.Model
         public DateTime date { get; set; }
         public TimeSpan beginTime { get; set; }
         public TimeSpan endTime { get; set; }
-        
+        [NotMapped]
         public string boatName { get; set; }
+        [NotMapped]
         public string boatType { get; set; }
         [NotMapped]
         public string resdate { get; set; }
@@ -207,8 +208,9 @@ namespace KBSBoot.Model
             else if (selectedEndTime - selectedBeginTime < new TimeSpan(1, 0, 0)) //check if reservation is less then hour
             {
                 return false;
-            }
-            else //if endtime is after begin time and reservation is more then 1 hour
+            } else if (selectedBeginTime < DateTime.Now.TimeOfDay){
+                return false;
+            } else //if endtime is after begin time and reservation is more then 1 hour
             {
                 //check if there are any reservations on the selected date
                 if (beginTimes.Count != 0)
