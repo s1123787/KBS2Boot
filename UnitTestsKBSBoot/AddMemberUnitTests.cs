@@ -1,111 +1,110 @@
-﻿using System;
-using System.IO;
+﻿/*using System;
 using System.Linq;
-using NUnit.Framework;
-using KBSBoot.View;
-using KBSBoot.Model;
 using KBSBoot.DAL;
+using KBSBoot.Model;
+using KBSBoot.View;
+using NUnit.Framework;
 
-namespace KBSBootUnitTests
+namespace UnitTestsKBSBoot
 {
     [TestFixture]
     public class AddMemberUnitTests
     {
-        [Test]
-        public void CheckForInvalidDate_EnterADateThatExists_ResultIsTrue()
-        {
-            //Arrange
-            var year = 2018;
-            var month = 12;
-            var day = 31;
-            var result = false;
-
-            //Act
-            try
-            {
-                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
-                AddMemberAdmin.CheckForInvalidDate(year, month, day);
-                result = true;
-            }
-            catch (InvalidDateException e)
-            {
-                result = false;
-            }
-
-            //Assert
-            Assert.True(result);
-        }
-
-        [Test]
-        public void CheckForInvalidDate_EnterADateThatDoesNotExist_ResultIsFalse()
-        {
-            //Arrange
-            var year = 2018;
-            var month = 11;
-            var day = 31;
-            var result = false;
-
-            //Act
-            try
-            {
-                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
-                AddMemberAdmin.CheckForInvalidDate(year, month, day);
-                result = true;
-            }
-            catch (InvalidDateException e)
-            {
-                result = false;
-            }
-
-            //Assert
-            Assert.False(result);
-        }
-
-        [Test]
-        public void CheckIfDateIsBeforeToday_EnterADateAYearAwayFromCurrentDate_ResultIsTrue()
-        {
-            //Arrange
-            var date = DateTime.Now.AddYears(1);
-            var result = false;
-
-            //Act
-            try
-            {
-                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
-                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
-                result = true;
-            }
-            catch (InvalidDateException e)
-            {
-                result = false;
-            }
-
-            //Assert
-            Assert.True(result);
-        }
-
-        [Test]
-        public void CheckIfDateIsBeforeToday_EnterTheDateOfYesterday_ResultIsFalse()
-        {
-            //Arrange
-            var date = DateTime.Now.AddDays(-1);
-            var result = false;
-
-            //Act
-            try
-            {
-                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
-                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
-                result = true;
-            }
-            catch (InvalidDateException e)
-            {
-                result = false;
-            }
-
-            //Assert
-            Assert.False(result);
-        }
+//        [Test]
+//        public void CheckForInvalidDate_EnterADateThatExists_ResultIsTrue()
+//        {
+//            //Arrange
+//            var year = 2018;
+//            var month = 12;
+//            var day = 31;
+//            var result = false;
+//
+//            //Act
+//            try
+//            {
+//                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
+//                AddMemberAdmin.CheckForInvalidDate(year, month, day);
+//                result = true;
+//            }
+//            catch (InvalidDateException e)
+//            {
+//                result = false;
+//            }
+//
+//            //Assert
+//            Assert.True(result);
+//        }
+//
+//        [Test]
+//        public void CheckForInvalidDate_EnterADateThatDoesNotExist_ResultIsFalse()
+//        {
+//            //Arrange
+//            var year = 2018;
+//            var month = 11;
+//            var day = 31;
+//            var result = false;
+//
+//            //Act
+//            try
+//            {
+//                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
+//                AddMemberAdmin.CheckForInvalidDate(year, month, day);
+//                result = true;
+//            }
+//            catch (InvalidDateException e)
+//            {
+//                result = false;
+//            }
+//
+//            //Assert
+//            Assert.False(result);
+//        }
+//
+//        [Test]
+//        public void CheckIfDateIsBeforeToday_EnterADateAYearAwayFromCurrentDate_ResultIsTrue()
+//        {
+//            //Arrange
+//            var date = DateTime.Now.AddYears(1);
+//            var result = false;
+//
+//            //Act
+//            try
+//            {
+//                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
+//                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
+//                result = true;
+//            }
+//            catch (InvalidDateException e)
+//            {
+//                result = false;
+//            }
+//
+//            //Assert
+//            Assert.True(result);
+//        }
+//
+//        [Test]
+//        public void CheckIfDateIsBeforeToday_EnterTheDateOfYesterday_ResultIsFalse()
+//        {
+//            //Arrange
+//            var date = DateTime.Now.AddDays(-1);
+//            var result = false;
+//
+//            //Act
+//            try
+//            {
+//                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
+//                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
+//                result = true;
+//            }
+//            catch (InvalidDateException e)
+//            {
+//                result = false;
+//            }
+//
+//            //Assert
+//            Assert.False(result);
+//        }
 
         [Test]
         public void CheckForInvalidCharacters_EnterAStringWhichDoesNotContainInvalidCharacters_ResultIsTrue()
@@ -118,7 +117,7 @@ namespace KBSBootUnitTests
             try
             {
                 //The method CheckForInvalidCharacters has a void return type and throws a FormatException when the the string contains invalid characters
-                AddMemberAdmin.CheckForInvalidCharacters(str);
+                Member.CheckForInvalidCharacters(str);
                 result = true;
             }
             catch (FormatException e)
@@ -141,7 +140,7 @@ namespace KBSBootUnitTests
             try
             {
                 //The method CheckForInvalidCharacters has a void return type and throws a FormatException when the the string contains invalid characters
-                AddMemberAdmin.CheckForInvalidCharacters(str);
+                Member.CheckForInvalidCharacters(str);
                 result = true;
             }
             catch (FormatException e)
@@ -152,7 +151,7 @@ namespace KBSBootUnitTests
             //Assert
             Assert.False(result);
         }
-        /*
+        
         [Test]
         public void AddMemberToDB_AddMemberToDataBase_ResultIsTrue()
         {
@@ -170,8 +169,7 @@ namespace KBSBootUnitTests
             //Method is placed inside a try block, so if it cant connect the result is set to false
             try
             {
-                AddMemberAdmin ama = new AddMemberAdmin("Ruben");
-                ama.AddMemberToDB(member);
+                Member.AddMemberToDB(member);
             }
             catch (Exception e)
             {
@@ -199,8 +197,8 @@ namespace KBSBootUnitTests
 
             //Assert
             Assert.True(result);
-        } */
-        /*
+        } 
+        
         [Test]
         public void CheckIfMemberExists_EnterAMemberThatIsNotInTheDateBase_ResultIsTrue()
         {
@@ -224,13 +222,12 @@ namespace KBSBootUnitTests
             var result = false;
 
             //Act
-            AddMemberAdmin a = new AddMemberAdmin("Ruben");
-            a.AddMemberToDB(member1);
+            Member.AddMemberToDB(member1);
 
             try
             {
                 //The method CheckIfMemberExists has a void return type and throws an Exception when the the member is already in the database
-                AddMemberAdmin.CheckIfMemberExists(member2);
+                Member.CheckIfMemberExists(member2);
                 result = true;
             }
             catch (Exception e)
@@ -265,13 +262,12 @@ namespace KBSBootUnitTests
             var result = false;
 
             //Act
-            AddMemberAdmin a = new AddMemberAdmin("Ruben");
-            a.AddMemberToDB(member);
+            Member.AddMemberToDB(member);
 
             try
             {
                 //The method CheckIfMemberExists has a void return type and throws an Exception when the the member is already in the database
-                AddMemberAdmin.CheckIfMemberExists(member);
+                Member.CheckIfMemberExists(member);
                 result = true;
             }
             catch (Exception e)
@@ -289,6 +285,6 @@ namespace KBSBootUnitTests
 
             //Assert
             Assert.False(result);
-        } */
+        } 
     }
-}
+}*/

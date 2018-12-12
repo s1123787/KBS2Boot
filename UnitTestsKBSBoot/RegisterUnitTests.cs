@@ -12,11 +12,10 @@ namespace UnitTestsKBSBoot
         public void HasSpecialChars_CheckUsernameOnSpecialChars_ReturnTrue()
         {
             //Arrange
-            Member member = new Member();
             string username = "youri!";
 
             //Act
-            bool return1 = member.HasSpecialChars(username);
+            bool return1 = Member.HasSpecialChars(username);
 
             //Assert
             Assert.IsTrue(return1);
@@ -26,11 +25,10 @@ namespace UnitTestsKBSBoot
         public void HasSpecialChars_CheckUsernameOnSpecialChars_ReturnFalse()
         {
             //Arrange
-            Member member = new Member();
             string username = "youri";
 
             //Act
-            bool return1 = member.HasSpecialChars(username);
+            bool return1 = Member.HasSpecialChars(username);
 
             //Assert
             Assert.IsFalse(return1);
@@ -40,11 +38,10 @@ namespace UnitTestsKBSBoot
         public void HasSpecialChars_CheckUsernameOnSpaces_ReturnTrue()
         {
             //Arrange
-            Member m = new Member();
             string username = "youri dekker";
 
             //Act 
-            bool return1 = m.HasSpecialChars(username);
+            bool return1 = Member.HasSpecialChars(username);
 
             //Assert
             Assert.IsTrue(return1);
@@ -73,25 +70,22 @@ namespace UnitTestsKBSBoot
         public void NameHasSpecialChars_CheckNameOnSpecialChars_ReturnTrue()
         {
             //Arrange
-            Member member = new Member();
             string name = "youri!";
 
             //Act
-            bool return1 = member.NameHasSpecialChars(name);
+            bool return1 = Member.NameHasSpecialChars(name);
 
             //Assert
             Assert.IsTrue(return1);
         }
-
         [Test]
         public void NameHasSpecialChars_CheckNameOnSpecialChars_ReturnFalse()
         {
             //Arrange
-            Member member = new Member();
             string name = "youri";
 
             //Act
-            bool return1 = member.NameHasSpecialChars(name);
+            bool return1 = Member.NameHasSpecialChars(name);
 
             //Assert
             Assert.IsFalse(return1);
@@ -101,11 +95,10 @@ namespace UnitTestsKBSBoot
         public void NameHasSpecialChars_CheckNameOnSpaces_ReturnFalse()
         {
             //Arrange
-            Member m = new Member();
             string name = "youri dekker";
 
             //Act 
-            bool return1 = m.NameHasSpecialChars(name);
+            bool return1 = Member.NameHasSpecialChars(name);
 
             //Assert
             Assert.IsFalse(return1);

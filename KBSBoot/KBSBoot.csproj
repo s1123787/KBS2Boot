@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,16 +44,23 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,16 +80,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AddBoatEventArgs.cs" />
     <Compile Include="Model\Boat.cs" />
     <Compile Include="Model\BoatDamage.cs" />
     <Compile Include="Model\BoatImages.cs" />
-    <Compile Include="Model\BoatInfoEventArgs.cs" />
     <Compile Include="Model\BoatTypes.cs" />
+    <Compile Include="Model\FileTooLargeException.cs" />
+    <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
+    <Compile Include="Model\InvalidYoutubeUrlException.cs" />
     <Compile Include="Model\LoginEventArgs.cs" />
     <Compile Include="Model\RegisterEventArgs.cs" />
+    <Compile Include="Model\ReservationEventArgs.cs" />
+    <Compile Include="Model\Reservations.cs" />
+    <Compile Include="Model\Reservation_Boats.cs" />
     <Compile Include="Resources\InternetExplorerBrowserEmulation.cs" />
+    <Compile Include="Resources\ObjectResults.cs" />
+    <Compile Include="Resources\SunInfo.cs" />
+    <Compile Include="View\AddBoatMaterialCommissioner.xaml.cs">
+      <DependentUpon>AddBoatMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
     </Compile>
@@ -90,6 +110,15 @@
     </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditBoatMaterialCommissioner.xaml.cs">
+      <DependentUpon>EditBoatMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChangeMemberAdmin.xaml.cs">
+      <DependentUpon>ChangeMemberAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DamageDetailScreen.xaml.cs">
+      <DependentUpon>DamageDetailScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditUserScreen.xaml.cs">
       <DependentUpon>EditUserScreen.xaml</DependentUpon>
@@ -109,14 +138,42 @@
     <Compile Include="View\HomePageMaterialCommissioner.xaml.cs">
       <DependentUpon>HomePageMaterialCommissioner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MakingReservationSelectBoat.xaml.cs">
+      <DependentUpon>MakingReservationSelectBoat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RegisterScreen.xaml.cs">
       <DependentUpon>RegisterScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReportDamage.xaml.cs">
       <DependentUpon>ReportDamage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ReservationsScreen.xaml.cs">
+      <DependentUpon>ReservationsScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectDateOfReservation.xaml.cs">
+      <DependentUpon>SelectDateOfReservation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Switcher.cs" />
+    <Compile Include="View\DamageReportScreen.xaml.cs">
+      <DependentUpon>DamageReportScreen.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AddBoatMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditBoatMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ChangeMemberAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DamageDetailScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,11 +222,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MakingReservationSelectBoat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\RegisterScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ReportDamage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ReservationsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectDateOfReservation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DamageReportScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,9 +282,26 @@
   <ItemGroup>
     <Resource Include="Resources\users.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Boat-Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\reservation.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Boat-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Boat-Damage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\placereservation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\adduser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\multipleboats.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

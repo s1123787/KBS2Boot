@@ -25,17 +25,21 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
+        public int MemberId;
+        private bool IsDashboard;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName, int AccessLevel)
+        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId, bool IsDashboard=false)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
+            this.MemberId = MemberId;
+            this.IsDashboard = IsDashboard;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
 
-        //Method to excecute when AddUser button is clicked
+        //Method to execute when AddUser button is clicked
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
             //Save textbox content to variables for easy access
@@ -60,8 +64,8 @@ namespace KBSBoot.View
                     }
 
                     //CHeck for invalid characters in the strings
-                    CheckForInvalidCharacters(name);
-                    CheckForInvalidCharacters(userName);
+                    Member.NameHasSpecialChars(name);
+                    Member.HasSpecialChars(userName);
 
                     //Create new member to add to the DB
                     var member = new Member
@@ -100,29 +104,6 @@ namespace KBSBoot.View
             }
         }
 
-        //Method to check if a date exists
-        public static void CheckForInvalidDate(int year, int month, int day)
-        {
-            if (year < 1 || month > 12 || month < 1 || day > DateTime.DaysInMonth(year, month) || day < 1)
-                throw new InvalidDateException("Datum bestaat niet.");
-        }
-
-        //Method to check if date is before the date of today
-        public static void CheckIfDateIsBeforeToday(DateTime date)
-        {
-            if (date < DateTime.Now)
-                throw new InvalidDateException("Datum is voor de datum van vandaag.");
-        }
-
-        //Method used to check if the entered name and user name contain any invalid characters
-        public static void CheckForInvalidCharacters(string str)
-        {
-            var regexItem = new Regex("^[a-zA-Z0-9ÅåǺǻḀḁẚĂăẶặẮắẰằẲẳẴẵȂȃÂâẬậẤấẦầẪẫẨẩẢảǍǎȺⱥȦȧǠǡẠạÄäǞǟÀàȀȁÁáĀāĀ̀ā̀ÃãĄąĄ́ą́Ą̃ą̃ᶏĔĕḜḝȆȇÊêÊ̄ê̄Ê̌ê̌ỀềẾếỂểỄễỆệẺẻḘḙĚěɆɇĖėĖ́ė́Ė̃ė̃ẸẹËëÈèÈ̩è̩ȄȅÉéÉ̩é̩ĒēḔḕḖḗẼẽḚḛĘęĘ́ę́Ę̃ę̃ȨȩE̩e̩ᶒØøǾǿÖöȪȫÓóÒòÔôỐốỒồỔổỖỗỘộǑǒŐőŎŏȎȏȮȯȰȱỌọƟɵƠơỚớỜờỠỡỢợỞởỎỏŌōṒṓṐṑÕõȬȭṌṍṎṏǪǫȌȍO̩o̩Ó̩ó̩Ò̩ò̩ǬǭŬŭɄʉᵾᶶỤụÜüǛǜǗǘǙǚǕǖṲṳÚúÙùÛûṶṷǓǔȖȗŰűŬŭƯưỨứỪừỬửỰựỮỮỦủŪūŪ̀ū̀Ū́ū́ṺṻŪ̃ū̃ŨũṸṹṴṵᶙŲųŲ́ų́Ų̃ų̃ȔȕŮůỊịĬĭÎîǏǐƗɨÏïḮḯÍíÌìȈȉĮįĮ́Į̃ĪīĪ̀ī̀ᶖỈỉȊȋĨĩḬḭᶤ ]*$");
-
-            if (!regexItem.IsMatch(str))
-                throw new FormatException();
-        }
-
         //Method to check if user already exists
         public static void CheckIfMemberExists(Member member)
         {
@@ -145,18 +126,20 @@ namespace KBSBoot.View
                 context.Members.Add(member);
                 context.SaveChanges();
                 MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
+                Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
             }
         }
 
         private void BackToEditUserScreen_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel));
-        }
-
-        private void RowLevelBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            if(IsDashboard)
+            {
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            }
+            else
+            {
+                Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+            }            
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -166,7 +149,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel));
+            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

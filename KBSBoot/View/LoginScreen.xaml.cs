@@ -36,7 +36,7 @@ namespace KBSBoot.View
             var textvalue = usernametxt.Text;
 
             OnLoginButtonPressed(textvalue);
-            
+            OnLogin -= m.OnLoginButtonIsPressed;
         }
 
         private void RegisterBtn_click(object sender, RoutedEventArgs e)
@@ -49,31 +49,26 @@ namespace KBSBoot.View
             OnLogin?.Invoke(this, new LoginEventArgs(name));
         }
 
-        public void UpdateLabel(string content)
-        {
-            //ErrorLabel.Content = content;
-        }
-
         public void OnNewHomePage(object source, HomePageEventArgs e) 
         {
             if (e.TypeMember == 4)
             {
-                Switcher.Switch(new HomePageAdministrator(e.FullName, e.TypeMember));
+                Switcher.Switch(new HomePageAdministrator(e.FullName, e.TypeMember, e.MemberId));
             } else if (e.TypeMember == 3)
             {
-                Switcher.Switch(new HomePageMaterialCommissioner(e.FullName, e.TypeMember));
+                Switcher.Switch(new HomePageMaterialCommissioner(e.FullName, e.TypeMember, e.MemberId));
             } else if(e.TypeMember == 2)
             {
-                Switcher.Switch(new HomePageMatchCommissioner(e.FullName, e.TypeMember));
+                Switcher.Switch(new HomePageMatchCommissioner(e.FullName, e.TypeMember, e.MemberId));
             } else if (e.TypeMember == 1)
             {
-                Switcher.Switch(new HomePageMember(e.FullName, e.TypeMember));
+                Switcher.Switch(new HomePageMember(e.FullName, e.TypeMember, e.MemberId));
             }
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void DidLoaded(object sender, RoutedEventArgs e)
         {
-
+            this.usernametxt.Focus();
         }
     }
 }

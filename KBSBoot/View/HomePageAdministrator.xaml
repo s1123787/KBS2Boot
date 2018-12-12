@@ -7,10 +7,19 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="ViewDidLoaded" Width="1024" Height="762" Foreground="White">
-    <Grid x:Name="AdminGrid" Height="768">
-        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+    <Grid x:Name="MemberGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1024" Height="768">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80" Grid.ColumnSpan="3">
             <DockPanel Margin="100,0,0,0">
-                
                 <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
@@ -21,10 +30,16 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Welkom ...</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Button x:Name="Users" Margin="50,120,525,345" Click="Users_Click" Height="300"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Width="400">
-            <StackPanel Orientation="Vertical" Width="326" Height="260">
-                <Image Source="../Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
-                <TextBlock Text="Beheren gebruikers" FontSize="36" Height="72" Margin="0,0,0.143,0"/>
+        <Button x:Name="Users" Grid.Row="1" Grid.Column="0" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="Users_Click">
+            <StackPanel Orientation="Vertical" Width="269" Height="235">
+                <Image Source="/KBSBoot;component/Resources/Users.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
+                <TextBlock Text="Beheren gebruikers" FontSize="30" Height="72" TextAlignment="Center"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="AddUser" Grid.Row="1" Grid.Column="1" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="AddUser_Click" >
+            <StackPanel Orientation="Vertical" Width="269" Height="235">
+                <Image Source="/KBSBoot;component/Resources/adduser.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
+                <TextBlock FontSize="30" Height="82" TextAlignment="Center">Gebruiker<LineBreak/>toevoegen</TextBlock>
             </StackPanel>
         </Button>
     </Grid>

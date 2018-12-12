@@ -17,32 +17,47 @@
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Administrator" IsEnabled="False" />
                         <Separator/>
-                        <Button Click="BackToHomePage_Click">
-                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" Margin="0,5,0,0" />
-                        </Button>
-                        <Button Content="Goodbye" Click="LogoutButton_Click"/>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wijzigen van leden</TextBlock>
             </DockPanel>
-        </materialDesign:ColorZone>        
-        <DataGrid MinHeight="200" Height="289" MinWidth="600" Width="682" HorizontalAlignment="Left" Margin="55,74,0,0"  IsReadOnly="False"
-          Name="memberList" VerticalAlignment="Top" RowHeight="30" ColumnWidth="*" Loaded="memberList_Loaded" CanUserDeleteRows="False"
-                  ColumnHeaderHeight="50" HeadersVisibility="Column"
-                  Background="LightGray" RowBackground="White" 
-                  AlternatingRowBackground="LightGray"
-                  BorderBrush="LightGray" BorderThickness="1" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Lid ID" Binding="{Binding memberId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Gebruikersnaam" Binding="{Binding memberUsername}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Lid naam" Binding="{Binding memberName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Toegangsniveau" Binding="{Binding memberAccessLevelId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Roeiniveau" Binding="{Binding memberRowLevelId}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Betaald t/m" Binding="{Binding memberSubscribedUntill}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Wijzigen opslaan" Height="57" HorizontalAlignment="Left" Margin="741,653,0,0"
-                Name="SaveButton" VerticalAlignment="Top" Width="188" Click="SaveChanges_Click" />
-        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="741,130,0,0" VerticalAlignment="Top" Width="188" Click="AddMember_Click" Height="51"/>
+        </materialDesign:ColorZone>
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel">
+            <ListView Name="memberList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderBrush" Value="LightGray" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="150"/>
+                        <GridViewColumn Header="Abonnement" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding memberSubscribedUntill, StringFormat=dd/MM/yyyy}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="175">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✎" Click="ChangeMember_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+        <Button x:Name="AddMember" Content="Lid toevoegen" HorizontalAlignment="Left" Margin="796,114,0,0" VerticalAlignment="Top" Width="188" Click="AddMember_Click" Height="51"/>
     </Grid>
 </UserControl>
