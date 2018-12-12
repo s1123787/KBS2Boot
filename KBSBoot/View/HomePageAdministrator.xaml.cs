@@ -60,7 +60,8 @@ namespace KBSBoot.View
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId));
+            bool IsDashboard = true;
+            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId, IsDashboard));
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)

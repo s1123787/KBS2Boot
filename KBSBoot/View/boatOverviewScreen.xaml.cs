@@ -76,11 +76,15 @@ namespace KBSBoot.View
                                      boatTypeDescription = bt.boatTypeDescription,
                                      boatOutOfService = b.boatOutOfService,
                                      boatSteer = bt.boatSteer,
-                                     boatAmountSpaces = bt.boatAmountSpaces
+                                     boatAmountSpaces = bt.boatAmountSpaces,
+                                     boatRowLevel = bt.boatRowLevel
                                  });
 
                 foreach (var b in tableData)
                 {
+                    if (b.boatRowLevel > AccessLevel)
+                        continue;
+
                     // Add boat to boats list
                     Boat boat = new Boat()
                     {
@@ -205,10 +209,28 @@ namespace KBSBoot.View
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
         }
 
+        private void EditBoat_Click(object sender, RoutedEventArgs e)
+        {
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, boat.boatId));
+        }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            switch(AccessLevel)
+            {
+                case 1:
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                    break;
+                case 2:
+                    Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+                    break;
+                case 3:
+                    Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+                    break;
+            }
+            
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
@@ -224,6 +246,10 @@ namespace KBSBoot.View
             else if (AccessLevel == 3)
             {
                 AccessLevelButton.Content = "Materiaalcommissaris";
+
+                //Edit button in overview
+                GridViewColumn myGridViewColumn = BoatList.TryFindResource("gridViewColumnResource") as GridViewColumn;
+                BoatGridView.Columns.Add(myGridViewColumn);
             }
             else if (AccessLevel == 4)
             {
@@ -270,7 +296,7 @@ namespace KBSBoot.View
 
         private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new AddBoatMaterialCommissioner());
+            Switcher.Switch(new AddBoatMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
     }
 }

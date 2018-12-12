@@ -26,7 +26,7 @@ namespace KBSBoot.Model
         //Method used to check if the entered string contains any invalid characters
         public static void CheckForInvalidCharacters(string str)
         {
-            var regexItem = new Regex("(?i)^(?:(?![×Þß÷þø])[ -'0-9a-zÀ-ÿ])+$");
+            var regexItem = new Regex("^[a-zA-Z0-9À-ÿ-_' ]*$");
 
             if (!regexItem.IsMatch(str))
                 throw new FormatException();

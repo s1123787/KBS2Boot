@@ -169,8 +169,8 @@ namespace KBSBoot.View
                     boatPhoto.Source = bitmapimg;
 
                     BrushConverter bc = new BrushConverter();
-                    Brush brushAppBlue = (Brush)bc.ConvertFrom("#FF2196F3");
-                    brushAppBlue.Freeze();
+                    Brush brushAppOrange = (Brush)bc.ConvertFrom("#FF5722");
+                    brushAppOrange.Freeze();
 
                     //Create new border
                     Border border1 = new Border()
@@ -180,7 +180,7 @@ namespace KBSBoot.View
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Top,
                         Margin = new Thickness(270, 120, 0, 0),
-                        BorderBrush = brushAppBlue,
+                        BorderBrush = brushAppOrange,
                         BorderThickness = new Thickness(1)
                     };
 

@@ -17,31 +17,27 @@
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
                         <Separator/>
-                        <Button Click="BackToHomePage_Click">
-                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" />
-                        </Button>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
                         <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Opgeven datum en tijd</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Label x:Name="InformationSun" HorizontalAlignment="Left" Margin="150,400,0,0" VerticalAlignment="Top" Width="500" FontSize="16"/>
+        <Label x:Name="InformationSun" HorizontalAlignment="Left" Margin="140,380,0,0" VerticalAlignment="Top" Width="500" FontSize="16"/>
         <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="150,300,0,0" VerticalAlignment="Top" Width="300" FontSize="26" Height="60" materialDesign:HintAssist.Hint="Kies een datum" SelectedDateChanged="DatePicker_SelectedDateChanged" />
-        <Label x:Name="BoatName" HorizontalAlignment="Left" Margin="250,130,0,0" VerticalAlignment="Top"  Width="100" FontSize="20" Height="40"/>
-
-
+        <Label x:Name="BoatName" HorizontalAlignment="Left" Margin="260,130,0,0" VerticalAlignment="Top"  Width="100" FontSize="20" Height="40"/>
 
         <StackPanel Name="mainStackPanel" Width="400" Height="300" HorizontalAlignment="Right" Margin="0,300,0,0" VerticalAlignment="Top">
         </StackPanel>
         <Label x:Name="label" Content="Naam boot: " HorizontalAlignment="Left" Margin="150,130,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label x:Name="label1" Content="Type boot: " HorizontalAlignment="Left" Margin="150,170,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label x:Name="BoatDescription" Content="" HorizontalAlignment="Left" Margin="250,170,0,0" VerticalAlignment="Top" FontSize="20" Width="400" Height="40"/>
+        <Label x:Name="BoatDescription" Content="" HorizontalAlignment="Left" Margin="260,170,0,0" VerticalAlignment="Top" FontSize="20" Width="400" Height="40"/>
         <StackPanel x:Name="TimePicker" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Left" Margin="150,500,0,0" VerticalAlignment="Top" Height="100" Width="400">
             <materialDesign:TimePicker Name="beginTimePicker" Is24Hours="True" materialDesign:HintAssist.Hint="Van" FontSize="20" HorizontalAlignment="Left" Width="175"/>
             <materialDesign:TimePicker Name="endTimePicker" Is24Hours="True"  materialDesign:HintAssist.Hint="Tot" FontSize="20" HorizontalAlignment="Left" Width="175" Margin="50,12,0,0" />
         </StackPanel>
-        <Button x:Name="ReservationButton" Content="Reserveren" HorizontalAlignment="Left" Margin="638,663,0,0" VerticalAlignment="Top" Width="249" Height="38" Click="ReservationButton_Click"/>
+        <Button x:Name="ReservationButton" Visibility="Hidden" Content="Reserveren" HorizontalAlignment="Left" Margin="638,663,0,0" VerticalAlignment="Top" Width="249" Height="38" Click="ReservationButton_Click"/>
         <Label x:Name="ErrorLabel" Foreground="Red" HorizontalAlignment="Left" Margin="150,470,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </UserControl>

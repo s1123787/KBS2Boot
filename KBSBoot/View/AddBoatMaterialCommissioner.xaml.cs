@@ -21,7 +21,7 @@ namespace KBSBoot.View
         public event AddBoatD OnAddBoat;
 
         List<String> boattypes = new List<String>();
-        byte[] data = new byte[0];
+
         System.Drawing.Image SelectedImageForConversion;
         int SelectedBoatTypeId;
 
@@ -29,8 +29,11 @@ namespace KBSBoot.View
         public int AccessLevel;
         private int MemberId;
 
-        public AddBoatMaterialCommissioner()
+        public AddBoatMaterialCommissioner(string FullName, int AccessLevel, int MemberId)
         {
+            this.FullName = FullName;
+            this.AccessLevel = AccessLevel;
+            this.MemberId = MemberId;
             InitializeComponent();
             BoatTypeBox.IsEnabled = false;
             OnAddBoat += Boat.OnAddBoatIsPressed;
@@ -38,10 +41,12 @@ namespace KBSBoot.View
         }
 
         //Adds the boat to the database when the ok button is pressed
-        protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid)
+        protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid, string fullName, int accessLevel, int memberId)
         {
-            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid));
+            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid, FullName, AccessLevel, MemberId));
         }
+
+            
 
         //Pulls all boattype information needed for filling the comboboxes from the database
         private List<BoatTypes> GetBoatTypes()
@@ -110,7 +115,7 @@ namespace KBSBoot.View
             var boatyoutubeurlinput = YoutubeUrlBox.Text;
             var boatTypeIdInput = SelectedBoatTypeId;
 
-            OnAddBoatOkButtonIsPressed(boatnameinput, (string)BoatTypeBox.SelectedValue, boatyoutubeurlinput, 0, SelectedImageForConversion, boatTypeIdInput);
+            OnAddBoatOkButtonIsPressed(boatnameinput, (string)BoatTypeBox.SelectedValue, boatyoutubeurlinput, 0, SelectedImageForConversion, boatTypeIdInput, FullName, AccessLevel, MemberId);
         }
 
         //Method that opens the file select dialog for selecting an image
@@ -142,7 +147,8 @@ namespace KBSBoot.View
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            //switch to Homepage Material Commissioner
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)

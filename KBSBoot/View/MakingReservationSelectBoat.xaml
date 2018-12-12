@@ -7,7 +7,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
-    <Grid>
+
+    <Grid x:Name="GridMakingReservation">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToHomePage_Click">
@@ -17,17 +18,41 @@
                     <StackPanel>
                         <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
                         <Separator/>
-                        <Button Click="BackToHomePage_Click">
-                            <materialDesign:PackIcon Kind="HomeOutline" Width="25" Height="25" />
-                        </Button>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
                         <Button Content="Uitloggen" Click="LogoutButton_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
-                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Mijn reserveringen</TextBlock>
+
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boot selecteren</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
+        <StackPanel Name="FilterStackPanel" Margin="222,113,180,591">
+            <Canvas Background="White">
+                <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="413" Canvas.Top="18" Click="SelectionFilteren_Click"/>
+                <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="517" Canvas.Top="18" Click="ResetSelection_Click"/>
+                <Label Content="Boot type" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Bootnamen" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding boatTypeName}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Content="Aantal plekken" Canvas.Left="198" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Bootplekken" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding boatAmountSpaces}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Canvas>
+        </StackPanel>
+        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16">
                 <ListView.View>
                     <GridView>
@@ -47,6 +72,15 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+
+        <Label x:Name="RowLevelNameLabel" Content="" HorizontalAlignment="Left" Margin="50,198,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="label" Content="Je hebt teveel reserveringen op je naam staan." HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <Label x:Name="label1" HorizontalAlignment="Left" Margin="200,240,0,0" VerticalAlignment="Top" FontSize="30">
+            <Hyperlink Click="Hl_Click">
+                Klik hier
+            </Hyperlink>
+        </Label>
+        <Label x:Name="label2" Content="om een reservering te annuleren." HorizontalAlignment="Left" Margin="315,240,0,0" VerticalAlignment="Top" FontSize="30"/>
 
     </Grid>
 </UserControl>
