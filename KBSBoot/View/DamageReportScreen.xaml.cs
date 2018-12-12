@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KBSBoot.DAL;
 using KBSBoot.Model;
+using MaterialDesignThemes.Wpf;
 
 namespace KBSBoot.View
 {
@@ -101,6 +102,15 @@ namespace KBSBoot.View
             }
         }
 
+        private void InMaintenance_Click(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            // Switch screen to detailpage on click
+            Switcher.Switch(new InMaintenanceScreen(FullName, AccessLevel, boat.boatId, MemberId));
+        }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
@@ -153,6 +163,11 @@ namespace KBSBoot.View
                 MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        #region
+        
+
+        #endregion
 
         //Unchecked takes boat out of maintenance
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)

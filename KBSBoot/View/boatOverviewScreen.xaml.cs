@@ -82,9 +82,6 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    if (b.boatRowLevel > AccessLevel)
-                        continue;
-
                     // Add boat to boats list
                     Boat boat = new Boat()
                     {

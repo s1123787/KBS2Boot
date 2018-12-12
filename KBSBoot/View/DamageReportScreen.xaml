@@ -35,7 +35,8 @@
                         <GridViewColumn Width="150" Header="In onderhoud">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding IsSelected}" />
+                                    <!--<CheckBox Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding IsSelected}" />-->
+                                    <Button Content="In onderhoud" Click="InMaintenance_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
