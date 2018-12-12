@@ -163,13 +163,14 @@ namespace KBSBoot.View
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
                                 beginTime = r.beginTime,
-                                endTime = r.endTime
+                                endTime = r.endTime,
+                                boatId = b.boatId
                             });
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
                     string resdate = d.date.ToString("d");
-                    reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                    reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
 
                 //add list with reservation to the grid
@@ -182,7 +183,7 @@ namespace KBSBoot.View
         private void ReportDemage_Click(object sender, RoutedEventArgs e)
         {
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

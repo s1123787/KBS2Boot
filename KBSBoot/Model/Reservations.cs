@@ -28,6 +28,7 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+        public int boatId { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
@@ -37,7 +38,7 @@ namespace KBSBoot.Model
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-      
+
         public Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
         {
             this.reservationId = reservationId;
@@ -57,6 +58,19 @@ namespace KBSBoot.Model
             this.endTime = endTime;
             this.beginTimeString = beginTime.ToString(@"hh\:mm");
             this.endTimeString = endTime.ToString(@"hh\:mm");
+        }
+
+        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int boatId)
+        {
+            this.reservationId = reservationId;
+            this.boatName = boatName;
+            this.boatType = boatType;
+            this.resdate = resdate;
+            this.beginTime = beginTime;
+            this.endTime = endTime;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
+            this.boatId = boatId;
         }
 
         public Reservations()
