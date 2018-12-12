@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
-    <Grid Background="White">
+    <Grid x:Name="ViewGrid" Background="White">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="PreviousPage_Click">
@@ -28,13 +28,32 @@
         <Label Content="Beschrijving:" HorizontalAlignment="Left" Margin="21,140,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="nameLabel" Content="" HorizontalAlignment="Left" Margin="124,97,0,0" VerticalAlignment="Top" Width="auto" FontSize="16"/>
         <Label x:Name="descriptionLabel" Content="" HorizontalAlignment="Left" Margin="124,140,0,0" VerticalAlignment="Top" Width="auto" FontSize="16"/>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="21,197,0,0" VerticalAlignment="Top" Width="944">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="20,197,0,0" VerticalAlignment="Top" Width="980">
             <ListView ItemsSource="{Binding ReportList}" Name="ReportList" FontSize="16" HorizontalAlignment="Center">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Setter Property="Focusable" Value="false"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLevelText}" Header="Ernstigheid van de schade" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLocation}" Header="Locatie van de schade" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageReason}" Header="Oorzaak van de schade" Width="auto"/>
+                        <GridViewColumn Header="Foto" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Height="150" Source="{Binding Path=ImageSource}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLevelText}" Header="Ernstigheid" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLocation}" Header="Locatie" Width="auto"/>
+                        <GridViewColumn Header="Oorzaak" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding boatDamageReason}" MaxWidth="250"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding boatDamageReportDate}" Header="Meld datum" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatDamageReporter}" Header="Gemeld door" Width="auto"/>
                     </GridView>

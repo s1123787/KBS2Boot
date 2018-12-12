@@ -7,13 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.DAL;
 using KBSBoot.Model;
+using Microsoft.Win32;
+using Image = System.Drawing.Image;
 
 namespace KBSBoot.View
 {
@@ -28,14 +26,16 @@ namespace KBSBoot.View
         public int ReservationId;
         public int BoatId;
         public int MemberId;
-        
+        Image SelectedImageForConversion;
+
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
+        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId, int ReservationId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.boatId = boatId;
             this.MemberId = MemberId;
+            this.ReservationId = ReservationId;
             InitializeComponent();
         }
 
@@ -52,13 +52,20 @@ namespace KBSBoot.View
             {
                 try
                 {
+                    //Convert image to blob
+                    var SelectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
+                    string SelectedImageInput = SelectedImageString;
+
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
+                        reservationId = ReservationId,
                         boatId = this.boatId,
+                        memberId = MemberId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
-                        boatDamageReason = reason
+                        boatDamageReason = reason,
+                        boatImageBlob = SelectedImageInput
                     };
 
                     //Add report to database
@@ -85,6 +92,21 @@ namespace KBSBoot.View
                 context.SaveChanges();
                 MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
                 Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+        }
+
+        private void ImageSelect_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Kies een afbeelding";
+            op.Filter = "PNG| *.png";
+
+            //Shows a preview for the selected image
+            if (op.ShowDialog() == true)
+            {
+                SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
+                ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
+                SelectedImageForConversion = System.Drawing.Image.FromFile(op.FileName);
             }
         }
 

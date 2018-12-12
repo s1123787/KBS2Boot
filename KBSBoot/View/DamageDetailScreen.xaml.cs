@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using KBSBoot.DAL;
 using KBSBoot.Model;
 
@@ -40,6 +43,7 @@ namespace KBSBoot.View
                            where bd.boatId == BoatId
                            select new
                            {
+                               boatImageBlob = bd.boatImageBlob,
                                boatName = b.boatName,
                                boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
                                boatDamageLevel = bd.boatDamageLevel,
@@ -54,6 +58,7 @@ namespace KBSBoot.View
                 {
                     reports.Add(new BoatDamage
                     {
+                        boatImageBlob = d.boatImageBlob,
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
