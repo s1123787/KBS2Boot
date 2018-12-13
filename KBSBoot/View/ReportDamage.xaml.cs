@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using KBSBoot.DAL;
 using KBSBoot.Model;
 using Microsoft.Win32;
 using Image = System.Drawing.Image;
@@ -21,19 +14,18 @@ namespace KBSBoot.View
     public partial class ReportDamage : UserControl
     {
         public string FullName;
-        public int boatId;
         public int AccessLevel;
         public int ReservationId;
         public int BoatId;
         public int MemberId;
-        Image SelectedImageForConversion;
+        public Image SelectedImageForConversion;
 
         //Constructor for ReportDamage class
         public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId, int ReservationId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
-            this.boatId = boatId;
+            this.BoatId = boatId;
             this.MemberId = MemberId;
             this.ReservationId = ReservationId;
             InitializeComponent();
@@ -60,7 +52,7 @@ namespace KBSBoot.View
                     var boatDamage = new BoatDamage
                     {
                         reservationId = ReservationId,
-                        boatId = this.boatId,
+                        boatId = BoatId,
                         memberId = MemberId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
@@ -69,7 +61,10 @@ namespace KBSBoot.View
                     };
 
                     //Add report to database
-                    AddReportToDB(boatDamage);
+                    BoatDamage.AddReportToDB(boatDamage);
+                    
+                    MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
                 }
                 catch (FileTooLargeException)
                 {
@@ -84,18 +79,6 @@ namespace KBSBoot.View
             else
             {
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-        //Method to add report to the database
-        public void AddReportToDB(BoatDamage report)
-        {
-            using (var context = new BootDB())
-            {
-                context.BoatDamages.Add(report);
-                context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
             }
         }
 
@@ -119,7 +102,7 @@ namespace KBSBoot.View
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
@@ -138,14 +121,17 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
         }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
         }
+
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));

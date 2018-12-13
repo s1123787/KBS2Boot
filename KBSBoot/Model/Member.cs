@@ -158,6 +158,30 @@ namespace KBSBoot.Model
                 }
             }
         }
+        
+        //Method to check if user already exists
+        public static void CheckIfMemberExists(Member member)
+        {
+            using (var context = new BootDB())
+            {
+                var members = from m in context.Members
+                    where m.memberUsername == member.memberUsername
+                    select m;
+
+                if (members.ToList().Count > 0)
+                    throw new Exception("Gebruiker bestaat al");
+            }
+        }
+
+        //Method to add member to the database
+        public static void AddMemberToDB(Member member)
+        {
+            using (var context = new BootDB())
+            {
+                context.Members.Add(member);
+                context.SaveChanges();
+            }
+        }
 
         //Method used to check if the entered name and user name contain any invalid characters
         public static void CheckForInvalidCharacters(string str)

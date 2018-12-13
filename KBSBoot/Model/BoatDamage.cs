@@ -1,13 +1,8 @@
 ﻿using KBSBoot.DAL;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace KBSBoot.Model
@@ -69,7 +64,6 @@ namespace KBSBoot.Model
             {
                 context.BoatDamages.Add(report);
                 context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }        
     }
