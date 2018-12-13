@@ -19,6 +19,8 @@ namespace KBSBoot.Model
         public TimeSpan beginTime { get; set; }
         public TimeSpan endTime { get; set; }
         [NotMapped]
+        public int boatId { get; set; }
+        [NotMapped]
         public string boatName { get; set; }
         [NotMapped]
         public string boatType { get; set; }
