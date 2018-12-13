@@ -30,8 +30,6 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
-        [NotMapped]
-        public int boatId { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
