@@ -71,6 +71,10 @@ namespace KBSBoot.View
                     //Add report to database
                     AddReportToDB(boatDamage);
                 }
+                catch (FileTooLargeException)
+                {
+                    MessageBox.Show("De geselecteerde afbeelding is te groot. (Max. 256kb)", "Bestand te groot", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
                 catch (Exception exception)
                 {
                     //Error message for any other exception that could occur

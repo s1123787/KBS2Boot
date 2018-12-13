@@ -24,32 +24,9 @@ namespace KBSBoot.Model
         public int memberId { get; set; }
       
         //Properties for DamageDetailsScreen
-        [NotMapped] public Image boatImage { get; set; }
         [NotMapped] public string boatDamageReportDate { get; set; }
         [NotMapped] public string boatDamageReporter { get; set; }
         [NotMapped] public string boatDamageLevelText { get; set; }
-
-        //Method to convert damage level int to a string that can be used in DamageDetailsScreen
-        public static string DamageLevelToString(int input)
-        {
-            if (input == 1)
-                return "Lichte schade";
-            if (input == 2)
-                return "Schade";
-            else
-                return "Onherstelbare schade";
-        }
-
-        //Method to add report to the database
-        public static void AddReportToDB(BoatDamage report)
-        {
-            using (var context = new BootDB())
-            {
-                context.BoatDamages.Add(report);
-                context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
 
         public object ImageSource
         {
@@ -73,5 +50,27 @@ namespace KBSBoot.Model
                 }
             }
         }
+
+        //Method to convert damage level int to a string that can be used in DamageDetailsScreen
+        public static string DamageLevelToString(int input)
+        {
+            if (input == 1)
+                return "Lichte schade";
+            if (input == 2)
+                return "Schade";
+            else
+                return "Onherstelbare schade";
+        }
+
+        //Method to add report to the database
+        public static void AddReportToDB(BoatDamage report)
+        {
+            using (var context = new BootDB())
+            {
+                context.BoatDamages.Add(report);
+                context.SaveChanges();
+                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }        
     }
 }
