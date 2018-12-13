@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using KBSBoot.DAL;
 using KBSBoot.Model;
 
@@ -40,6 +40,7 @@ namespace KBSBoot.View
                            where bd.boatId == BoatId
                            select new
                            {
+                               boatImageBlob = bd.boatImageBlob,
                                boatName = b.boatName,
                                boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
                                boatDamageLevel = bd.boatDamageLevel,
@@ -54,6 +55,7 @@ namespace KBSBoot.View
                 {
                     reports.Add(new BoatDamage
                     {
+                        boatImageBlob = d.boatImageBlob,
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
@@ -67,6 +69,13 @@ namespace KBSBoot.View
             }
             //add list with reports to the grid
             ReportList.ItemsSource = reports;
+        }
+
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)

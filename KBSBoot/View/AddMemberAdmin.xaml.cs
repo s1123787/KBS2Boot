@@ -78,9 +78,12 @@ namespace KBSBoot.View
                     };
 
                     //Check if the member aleady exists
-                    CheckIfMemberExists(member);
+                    Member.CheckIfMemberExists(member);
                     //Add new member to database
-                    AddMemberToDB(member);
+                    Member.AddMemberToDB(member);
+                    
+                    MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
                 }
                 catch (FormatException)
                 {
@@ -101,32 +104,6 @@ namespace KBSBoot.View
             else
             {
                 MessageBox.Show("Vul alle velden in.", "Niet alle velden zijn ingevuld", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-        //Method to check if user already exists
-        public static void CheckIfMemberExists(Member member)
-        {
-            using (var context = new BootDB())
-            {
-                var members = from m in context.Members
-                              where m.memberUsername == member.memberUsername
-                              select m;
-
-                if (members.ToList().Count > 0)
-                    throw new Exception("Gebruiker bestaat al");
-            }
-        }
-
-        //Method to add member to the database
-        public void AddMemberToDB(Member member)
-        {
-            using (var context = new BootDB())
-            {
-                context.Members.Add(member);
-                context.SaveChanges();
-                MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
             }
         }
 

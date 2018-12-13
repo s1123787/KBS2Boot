@@ -1,8 +1,7 @@
-﻿/*using System;
+﻿using System;
 using System.Linq;
 using KBSBoot.DAL;
 using KBSBoot.Model;
-using KBSBoot.View;
 using NUnit.Framework;
 
 namespace UnitTestsKBSBoot
@@ -10,101 +9,101 @@ namespace UnitTestsKBSBoot
     [TestFixture]
     public class AddMemberUnitTests
     {
-//        [Test]
-//        public void CheckForInvalidDate_EnterADateThatExists_ResultIsTrue()
-//        {
-//            //Arrange
-//            var year = 2018;
-//            var month = 12;
-//            var day = 31;
-//            var result = false;
-//
-//            //Act
-//            try
-//            {
-//                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
-//                AddMemberAdmin.CheckForInvalidDate(year, month, day);
-//                result = true;
-//            }
-//            catch (InvalidDateException e)
-//            {
-//                result = false;
-//            }
-//
-//            //Assert
-//            Assert.True(result);
-//        }
-//
-//        [Test]
-//        public void CheckForInvalidDate_EnterADateThatDoesNotExist_ResultIsFalse()
-//        {
-//            //Arrange
-//            var year = 2018;
-//            var month = 11;
-//            var day = 31;
-//            var result = false;
-//
-//            //Act
-//            try
-//            {
-//                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
-//                AddMemberAdmin.CheckForInvalidDate(year, month, day);
-//                result = true;
-//            }
-//            catch (InvalidDateException e)
-//            {
-//                result = false;
-//            }
-//
-//            //Assert
-//            Assert.False(result);
-//        }
-//
-//        [Test]
-//        public void CheckIfDateIsBeforeToday_EnterADateAYearAwayFromCurrentDate_ResultIsTrue()
-//        {
-//            //Arrange
-//            var date = DateTime.Now.AddYears(1);
-//            var result = false;
-//
-//            //Act
-//            try
-//            {
-//                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
-//                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
-//                result = true;
-//            }
-//            catch (InvalidDateException e)
-//            {
-//                result = false;
-//            }
-//
-//            //Assert
-//            Assert.True(result);
-//        }
-//
-//        [Test]
-//        public void CheckIfDateIsBeforeToday_EnterTheDateOfYesterday_ResultIsFalse()
-//        {
-//            //Arrange
-//            var date = DateTime.Now.AddDays(-1);
-//            var result = false;
-//
-//            //Act
-//            try
-//            {
-//                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
-//                AddMemberAdmin.CheckIfDateIsBeforeToday(date);
-//                result = true;
-//            }
-//            catch (InvalidDateException e)
-//            {
-//                result = false;
-//            }
-//
-//            //Assert
-//            Assert.False(result);
-//        }
+        [Test]
+        public void CheckForInvalidDate_EnterADateThatExists_ResultIsTrue()
+        {
+            //Arrange
+            var year = 2018;
+            var month = 12;
+            var day = 31;
+            var result = false;
+
+            //Act
+            try
+            {
+                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
+                InputValidation.CheckForInvalidDate(year, month, day);
+                result = true;
+            }
+            catch (InvalidDateException e)
+            {
+                result = false;
+            }
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Test]
+        public void CheckForInvalidDate_EnterADateThatDoesNotExist_ResultIsFalse()
+        {
+            //Arrange
+            var year = 2018;
+            var month = 11;
+            var day = 31;
+            var result = false;
+
+            //Act
+            try
+            {
+                //The method CheckForInvalidDate has a void return type and throws a InvalidDateException when the date is invalid
+                InputValidation.CheckForInvalidDate(year, month, day);
+                result = true;
+            }
+            catch (InvalidDateException e)
+            {
+                result = false;
+            }
+
+            //Assert
+            Assert.False(result);
+        }
+
+        [Test]
+        public void CheckIfDateIsBeforeToday_EnterADateAYearAwayFromCurrentDate_ResultIsTrue()
+        {
+            //Arrange
+            var date = DateTime.Now.AddYears(1);
+            var result = false;
+
+            //Act
+            try
+            {
+                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
+                InputValidation.CheckIfDateIsBeforeToday(date);
+                result = true;
+            }
+            catch (InvalidDateException e)
+            {
+                result = false;
+            }
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Test]
+        public void CheckIfDateIsBeforeToday_EnterTheDateOfYesterday_ResultIsFalse()
+        {
+            //Arrange
+            var date = DateTime.Now.AddDays(-1);
+            var result = false;
+
+            //Act
+            try
+            {
+                //The method CheckIfDateIsBeforeToday has a void return type and throws a InvalidDateException when the date is invalid
+                InputValidation.CheckIfDateIsBeforeToday(date);
+                result = true;
+            }
+            catch (InvalidDateException e)
+            {
+                result = false;
+            }
+
+            //Assert
+            Assert.False(result);
+        }
 
         [Test]
         public void CheckForInvalidCharacters_EnterAStringWhichDoesNotContainInvalidCharacters_ResultIsTrue()
@@ -287,4 +286,4 @@ namespace UnitTestsKBSBoot
             Assert.False(result);
         } 
     }
-}*/
+}
