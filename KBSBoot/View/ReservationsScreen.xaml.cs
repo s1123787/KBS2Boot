@@ -105,7 +105,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId && r.date > date || (r.date == date && r.endTime > endTime)
+                            where r.memberId == MemberId && (r.date > date || (r.date == date && r.endTime > endTime))
                             orderby r.date ascending, r.beginTime ascending
                             select new
                             {
@@ -154,7 +154,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId && r.date <= date
+                            where r.memberId == MemberId && (r.date < date || (r.date == date && r.endTime < endTime))
                             orderby r.date descending, r.beginTime descending
                             select new
                             {
@@ -196,6 +196,21 @@ namespace KBSBoot.View
             {
                 reservation.DeleteReservation(reservation.reservationId);
                 Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
+            }
+        }
+
+        private void ReserveAgain_Click(object sender, RoutedEventArgs e)
+        {
+            //get data from correct row
+            Reservations r = ((FrameworkElement)sender).DataContext as Reservations;
+
+            //Check if member has already 2 reservations
+            if (Reservations.CheckAmountReservations(MemberId) >= 2)
+            {
+                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }else
+            {
+                Switcher.Switch(new SelectDateOfReservation(r.boatId, r.boatName, r.boatType, AccessLevel, FullName, MemberId));
             }
         }
 

@@ -173,10 +173,13 @@ namespace KBSBoot.View
             }
 
             //check if there are 2 (or more) reservation on the name
+            DateTime DateNow = DateTime.Now.Date;
+            TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+
             using(var context = new BootDB())
             {
                 var data = (from r in context.Reservations
-                            where r.date > DateTime.Now && r.memberId == MemberId
+                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId).ToList();
                 if (data.Count >= 2) //when it is not possible to make a reservation
                 {
