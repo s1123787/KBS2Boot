@@ -18,9 +18,7 @@ namespace KBSBoot.Model
         public int boatSteer { get; set; }
         public int boatRowLevel { get; set; }
         public int boatAmountSpaces { get; set; }
-
-        [NotMapped]
-        public string boatOutOfServiceString { get; set; }
+        
         [NotMapped]
         public string boatSteerString { get; set; }
 

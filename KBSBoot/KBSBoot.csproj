@@ -88,6 +88,7 @@
     <Compile Include="Model\FileTooLargeException.cs" />
     <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\BoatInMaintenances.cs" />
     <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\InvalidYoutubeUrlException.cs" />
@@ -132,6 +133,9 @@
     <Compile Include="View\HomePageMember.xaml.cs">
       <DependentUpon>HomePageMember.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\InMaintenanceScreen.xaml.cs">
+      <DependentUpon>InMaintenanceScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
     </Compile>
@@ -174,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DamageDetailScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InMaintenanceScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

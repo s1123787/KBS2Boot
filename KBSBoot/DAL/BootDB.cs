@@ -22,5 +22,7 @@ namespace KBSBoot.DAL
 
         public virtual DbSet<Reservations> Reservations { get; set; }
         public virtual DbSet<Reservation_Boats> Reservation_Boats { get; set; }
+
+        public virtual DbSet<BoatInMaintenances> BoatInMaintenances { get; set; }
     }
 }
