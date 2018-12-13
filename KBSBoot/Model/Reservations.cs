@@ -28,6 +28,7 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+        [NotMapped]
         public int boatId { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
@@ -259,10 +260,24 @@ namespace KBSBoot.Model
                 }
                 //check if selected begin time or end time is in daylight
                 if (selectedBeginTime <= sunUp || selectedEndTime >= sunDown)
-                {
+                {;
                     return false;
                 }
                 return true;
+            }
+        }
+
+        public static int CheckAmountReservations(int MemberId)
+        {
+            TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+            DateTime date = DateTime.Now.Date;
+            using (var context = new BootDB())
+            {
+                var data = (from r in context.Reservations
+                            where r.memberId == MemberId && (r.date > date || (r.date == date && r.endTime > TimeNow))
+                            select r.reservationId).ToList();
+
+                return data.Count();
             }
         }
     }
