@@ -36,12 +36,19 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
-                    <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                    <GridViewColumn Header="Reserveer opnieuw" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Reserveer opnieuw" Click="ReserveAgain_Click" Width="auto"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Annuleren" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -53,7 +60,7 @@
             </ListView.View>
         </ListView>
         <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto">
-            <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Center" Width="850">
+            <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Left" MinWidth="850" Width="auto">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -66,12 +73,19 @@
 
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
-                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                        <GridViewColumn Header="Reserveer opnieuw" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Reserveer opnieuw" Click="ReserveAgain_Click" Width="auto"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Meld schade" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

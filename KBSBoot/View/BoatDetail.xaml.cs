@@ -91,7 +91,6 @@ namespace KBSBoot.View
                                      boatName = b.boatName,
                                      boatTypeName = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
                                      boatSteer = bt.boatSteer,
                                      boatRowLevel = bt.boatRowLevel,
                                      boatAmountSpaces = bt.boatAmountSpaces,
@@ -107,7 +106,6 @@ namespace KBSBoot.View
                         boatTypeDescription = b.boatTypeDescription,
                         boatSteerString = (b.boatSteer == 0) ? "zonder stuur" : "met stuur",
                         boatAmountSpaces = b.boatAmountSpaces,
-                        boatOutOfServiceString = (b.boatOutOfService == 0) ? "nee" : "ja",
                         boatRowLevel = b.boatRowLevel
                     };
 

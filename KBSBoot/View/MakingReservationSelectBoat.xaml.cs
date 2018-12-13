@@ -173,10 +173,13 @@ namespace KBSBoot.View
             }
 
             //check if there are 2 (or more) reservation on the name
+            DateTime DateNow = DateTime.Now.Date;
+            TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+
             using(var context = new BootDB())
             {
                 var data = (from r in context.Reservations
-                            where r.date > DateTime.Now && r.memberId == MemberId
+                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId).ToList();
                 if (data.Count >= 2) //when it is not possible to make a reservation
                 {
@@ -227,7 +230,6 @@ namespace KBSBoot.View
                             boatName = b.boatName,
                             boatTypeId = b.boatTypeId,
                             boatYoutubeUrl = b.boatYoutubeUrl,
-                            boatOutofService = b.boatOutOfService,
                             boatType = bt.boatTypeName,
                             boatTypeDescription = bt.boatTypeDescription,
                             boatAmountSpaces = bt.boatAmountSpaces,
@@ -246,7 +248,6 @@ namespace KBSBoot.View
                                      boatName = b.boatName,
                                      boatTypeId = b.boatTypeId,
                                      boatYoutubeUrl = b.boatYoutubeUrl,
-                                     boatOutofService = b.boatOutOfService,
                                      boatType = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
                                      boatAmountSpaces = bt.boatAmountSpaces,
@@ -264,7 +265,6 @@ namespace KBSBoot.View
                                 boatName = b.boatName,
                                 boatTypeId = b.boatTypeId,
                                 boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatOutofService = b.boatOutOfService,
                                 boatType = bt.boatTypeName,
                                 boatTypeDescription = bt.boatTypeDescription,
                                 boatAmountSpaces = bt.boatAmountSpaces,
@@ -281,7 +281,6 @@ namespace KBSBoot.View
                                 boatName = b.boatName,
                                 boatTypeId = b.boatTypeId,
                                 boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatOutofService = b.boatOutOfService,
                                 boatType = bt.boatTypeName,
                                 boatTypeDescription = bt.boatTypeDescription,
                                 boatAmountSpaces = bt.boatAmountSpaces,
@@ -314,7 +313,7 @@ namespace KBSBoot.View
                     string steer = (d.boatSteer == 0) ? "nee" : "ja";
 
                     //add data to the table
-                    boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatOutOfService = 1, boatYoutubeUrl = null });
+                    boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatYoutubeUrl = null });
                 }
                 BoatList.ItemsSource = boats;
             }
