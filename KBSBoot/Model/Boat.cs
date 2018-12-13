@@ -21,7 +21,6 @@ namespace KBSBoot.Model
         public int boatTypeId { get; set; }
 
         public string boatName { get; set; }
-        public int boatOutOfService { get; set; }
         public string boatYoutubeUrl { get; set; }
 
         public BitmapImage boatPhotoBitmap;
@@ -138,7 +137,6 @@ namespace KBSBoot.Model
                     {
                         boatName = e.boatName,
                         boatTypeId = e.boatTypeId,
-                        boatOutOfService = 0,
                         boatYoutubeUrl = (e.boatYoutubeUrl == "")? null : e.boatYoutubeUrl
                     };
 

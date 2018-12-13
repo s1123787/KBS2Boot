@@ -74,7 +74,6 @@ namespace KBSBoot.View
                                      boatTypeId = bt.boatTypeId,
                                      boatTypeName = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
                                      boatSteer = bt.boatSteer,
                                      boatAmountSpaces = bt.boatAmountSpaces,
                                      boatRowLevel = bt.boatRowLevel
@@ -88,8 +87,7 @@ namespace KBSBoot.View
                         boatId = b.boatId,
                         boatTypeName = b.boatTypeName,
                         boatAmountOfSpaces = b.boatAmountSpaces,
-                        boatName = b.boatName,
-                        IsSelected = (b.boatOutOfService == 1)? true : false
+                        boatName = b.boatName
                     };
                     //Filters selection based on chosen options
                     if (FilterEnabled)

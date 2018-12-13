@@ -227,7 +227,6 @@ namespace KBSBoot.View
                             boatName = b.boatName,
                             boatTypeId = b.boatTypeId,
                             boatYoutubeUrl = b.boatYoutubeUrl,
-                            boatOutofService = b.boatOutOfService,
                             boatType = bt.boatTypeName,
                             boatTypeDescription = bt.boatTypeDescription,
                             boatAmountSpaces = bt.boatAmountSpaces,
@@ -246,7 +245,6 @@ namespace KBSBoot.View
                                      boatName = b.boatName,
                                      boatTypeId = b.boatTypeId,
                                      boatYoutubeUrl = b.boatYoutubeUrl,
-                                     boatOutofService = b.boatOutOfService,
                                      boatType = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
                                      boatAmountSpaces = bt.boatAmountSpaces,
@@ -264,7 +262,6 @@ namespace KBSBoot.View
                                 boatName = b.boatName,
                                 boatTypeId = b.boatTypeId,
                                 boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatOutofService = b.boatOutOfService,
                                 boatType = bt.boatTypeName,
                                 boatTypeDescription = bt.boatTypeDescription,
                                 boatAmountSpaces = bt.boatAmountSpaces,
@@ -281,7 +278,6 @@ namespace KBSBoot.View
                                 boatName = b.boatName,
                                 boatTypeId = b.boatTypeId,
                                 boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatOutofService = b.boatOutOfService,
                                 boatType = bt.boatTypeName,
                                 boatTypeDescription = bt.boatTypeDescription,
                                 boatAmountSpaces = bt.boatAmountSpaces,
@@ -314,7 +310,7 @@ namespace KBSBoot.View
                     string steer = (d.boatSteer == 0) ? "nee" : "ja";
 
                     //add data to the table
-                    boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatOutOfService = 1, boatYoutubeUrl = null });
+                    boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatYoutubeUrl = null });
                 }
                 BoatList.ItemsSource = boats;
             }

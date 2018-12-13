@@ -35,7 +35,7 @@
                         <GridViewColumn Width="150" Header="Onderhoud">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="🔧" Click="InMaintenance_Click"/>
+                                    <Button Content="🛠" Click="InMaintenance_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

@@ -155,6 +155,8 @@ namespace KBSBoot.View
             //save to boatMaintenance
             if (valid == true)
             {
+                int insertId;
+
                 using (var context = new BootDB())
                 {
                     var inmain = new BoatInMaintenances()
@@ -166,8 +168,12 @@ namespace KBSBoot.View
 
                     context.BoatInMaintenances.Add(inmain);
                     context.SaveChanges();
+
+                    insertId = inmain.boatInMaintenanceId;
                 }
-               
+
+                
+
                 MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}");
                 Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
             }
