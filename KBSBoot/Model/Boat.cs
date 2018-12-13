@@ -219,5 +219,38 @@ namespace KBSBoot.Model
             }
             return SelectedBoatTypeId;
         }
+
+        public bool CheckIfBoatInMaintenance()
+        {
+            bool returnValue = false;
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId
+                            select b;
+                if (boats.ToList().Count > 0)
+                    returnValue = true;
+            }
+
+            return returnValue;
+        }
+
+        public bool CheckIfTodayBoatIsInMaintenance()
+        {
+            bool returnValue = false;
+            DateTime today = DateTime.Now;
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId && (b.startDate <= today && b.endDate >= today)
+                            select b;
+                if (boats.ToList().Count > 0)
+                    returnValue = true;
+            }
+
+            return returnValue;
+        }
     }
 }

@@ -126,7 +126,7 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
-
+        
         private void InMaintenance_Click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
@@ -157,13 +157,18 @@ namespace KBSBoot.View
             {
                 int insertId;
 
+                //set enddate time to 23:59:59 from day
+                DateTime nu = (DateTime) untill;
+                DateTime newUntill = nu.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
                 using (var context = new BootDB())
                 {
                     var inmain = new BoatInMaintenances()
                     {
                         boatId = this.BoatID,
                         startDate = from,
-                        endDate = untill
+                        endDate = newUntill
                     };
 
                     context.BoatInMaintenances.Add(inmain);
