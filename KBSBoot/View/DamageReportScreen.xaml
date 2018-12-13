@@ -25,8 +25,8 @@
             </DockPanel>
         </materialDesign:ColorZone>
 
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" HorizontalAlignment="Center">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollView_MouseWheel">
+            <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" HorizontalAlignment="Center" Focusable="False">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>

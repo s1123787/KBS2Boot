@@ -71,6 +71,13 @@ namespace KBSBoot.View
             BoatList.ItemsSource = boats;
         }
 
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
+
         private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)

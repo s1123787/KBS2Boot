@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KBSBoot.DAL;
@@ -72,6 +73,13 @@ namespace KBSBoot.View
             }
             //add list with reports to the grid
             ReportList.ItemsSource = reports;
+        }
+
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)

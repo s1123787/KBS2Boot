@@ -28,14 +28,8 @@
         <Label Content="Beschrijving:" HorizontalAlignment="Left" Margin="21,140,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Label x:Name="nameLabel" Content="" HorizontalAlignment="Left" Margin="124,97,0,0" VerticalAlignment="Top" Width="auto" FontSize="16"/>
         <Label x:Name="descriptionLabel" Content="" HorizontalAlignment="Left" Margin="124,140,0,0" VerticalAlignment="Top" Width="auto" FontSize="16"/>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="20,197,0,0" VerticalAlignment="Top" Width="980">
-            <ListView ItemsSource="{Binding ReportList}" Name="ReportList" FontSize="16" HorizontalAlignment="Center">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="VerticalAlignment" Value="Top"/>
-                        <Setter Property="Focusable" Value="false"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
+        <ScrollViewer HorizontalAlignment="Left" Height="550" Width="995" Margin="15,197,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollView_MouseWheel">
+            <ListView ItemsSource="{Binding ReportList}" Name="ReportList" FontSize="16" HorizontalAlignment="Center" Focusable="False">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Foto" Width="auto">
@@ -46,7 +40,13 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding boatDamageLevelText}" Header="Ernstigheid" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatDamageLocation}" Header="Locatie" Width="auto"/>
+                        <GridViewColumn Header="Locatie" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding boatDamageLocation}" MaxWidth="115"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Oorzaak" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
