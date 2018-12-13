@@ -1,4 +1,5 @@
 ﻿using KBSBoot.DAL;
+using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace KBSBoot.View
         public int MemberId;
         public DateTime selectedDateFrom;
         public DateTime selectedDateUntill;
+        private string boatName;
 
 
         public InMaintenanceScreen(string FullName, int AccessLevel, int BoatId, int MemberId)
@@ -105,6 +107,7 @@ namespace KBSBoot.View
                 }
             }
 
+            this.boatName = boatName;
             boatIdLabel.Content = boatName;
             boatDescrLabel.Content = boatDescr;
         }
@@ -126,13 +129,48 @@ namespace KBSBoot.View
 
         private void InMaintenance_Click(object sender, RoutedEventArgs e)
         {
-            //startdate is not empty
+            bool valid = true;
+            DateTime? from = DatePicker.SelectedDate;
+            DateTime? untill = DatePickerUntill.SelectedDate;
+            
+            //start date is not empty
+            if (from == null)
+            {
+                valid = false;
+                MessageBox.Show("Vult u de start datum in.");
+            }
+            else if (untill == null) //end date is not empty
+            {
+                valid = false;
+                MessageBox.Show("Vult u de eind datum in.");
+            }
+            else if (from > untill) //startdate > enddates
+            {
+                valid = false;
+                MessageBox.Show("Start datum mag niet voorbij eind datum zijn.");
+            }
 
-            //enddate is not empty
-
-            //startdate < enddate
+            
 
             //save to boatMaintenance
+            if (valid == true)
+            {
+                using (var context = new BootDB())
+                {
+                    var inmain = new BoatInMaintenances()
+                    {
+                        boatId = this.BoatID,
+                        startDate = from,
+                        endDate = untill
+                    };
+
+                    context.BoatInMaintenances.Add(inmain);
+                    context.SaveChanges();
+                }
+               
+                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}");
+                Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
+            }
 
             //update boats, set boatMaintenanceId = boatMaintenance insertId
         }

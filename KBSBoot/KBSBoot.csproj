@@ -88,6 +88,7 @@
     <Compile Include="Model\FileTooLargeException.cs" />
     <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\BoatInMaintenances.cs" />
     <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\InvalidYoutubeUrlException.cs" />
