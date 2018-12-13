@@ -32,11 +32,10 @@
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot beschrijving" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatDamageReportAmount}" Header="Aantal schademeldingen" Width="auto"/>
-                        <GridViewColumn Width="150" Header="In onderhoud">
+                        <GridViewColumn Width="150" Header="Onderhoud">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <!--<CheckBox Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding IsSelected}" />-->
-                                    <Button Content="In onderhoud" Click="InMaintenance_Click"/>
+                                    <Button Content="🔧" Click="InMaintenance_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
