@@ -65,16 +65,12 @@ namespace KBSBoot.View
 
                     boats.Add(nextBoat);
 
+
                     //check if boat is in maintenance
-                    if(nextBoat.CheckIfBoatInMaintenance() == false) {
-                        //Edit button in overview
-                        /*
-                         * <Button Content="🛠" Click="InMaintenance_Click"/>
-                         * */
-
-
-                        //GridViewColumn myGridViewColumn = BoatList.TryFindResource("gridViewColumnResource") as GridViewColumn;
-                        //BoatGridView.Columns.Add(myGridViewColumn);
+                    if (nextBoat.CheckIfBoatInMaintenance() == true)
+                    {
+                        //hide button in overview
+                        nextBoat.IsInMaintenance = true;
                     }
                 }
             }

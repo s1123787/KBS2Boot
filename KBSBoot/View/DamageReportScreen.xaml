@@ -44,8 +44,24 @@
                         </GridViewColumn>
                         <GridViewColumn Width="150" Header="Onderhoud">
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="🛠" Click="InMaintenance_Click"/>
+                                <DataTemplate x:Name="inMaintenanceDataTemplate">
+
+                                    <Button Click="InMaintenance_Click" Content="🛠">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsInMaintenance}" Value="False">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                        <Setter Property="Content" Value="FOUT"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsInMaintenance}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Setter Property="Content" Value="🛠"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
