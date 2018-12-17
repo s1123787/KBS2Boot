@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
     <Grid Background="White">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -35,6 +34,13 @@
         <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,291,0,0" VerticalAlignment="Top" FontSize="16"/>
         <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="128" Margin="118,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
         <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="299,483,0,0" VerticalAlignment="Top" Width="145" Click="ReportDamageButton_Click" FontSize="16" Height="41"/>
+        <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="508,465,0,0" VerticalAlignment="Top" Width="170" Click="ImageSelect_Click" FontSize="16" Height="42"/>
+        <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="508,439,0,0" VerticalAlignment="Top"/>
+        <Label Content="*Alleen PNG formaat" HorizontalAlignment="Left" Margin="508,520,0,0" VerticalAlignment="Top"/>
+        <Label Content="*Max. 256KB" HorizontalAlignment="Left" Margin="508,546,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.558,0.266"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="508,229,0,0" Width="auto" Height="auto" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image Margin="0,0,0,0" Stretch="Fill" x:Name ="SelectedImage"  VerticalAlignment="Top" Height="200" Width="200"/>
+        </Border>
         <TextBlock HorizontalAlignment="Left" Margin="507,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="164" Width="480" FontSize="16"><Run Text="Lichte schade:"/><Run Text="&#x9;&#x9;"/><Run Text="krasjes en deukjes."/><LineBreak/><Run Text="Schade :             "/><Run Text="&#x9;&#x9;"/><Run Text="scheuren of deuken."/><LineBreak/><Run Text="Onherstelbare schade:"/><Run Text="&#x9;"/><Run Text="schade die niet is te repareren"/><Run Text=" "/><Run Text="of schade"/><Run Text=" &#x9;&#x9;&#x9;"/><Run Text="die meer kost dan dat"/><Run Text=" "/><Run Text="de boot waard is."/><LineBreak/><Run/></TextBlock>
     </Grid>
 </UserControl>
