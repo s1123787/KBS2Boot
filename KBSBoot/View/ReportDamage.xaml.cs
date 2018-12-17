@@ -28,6 +28,12 @@ namespace KBSBoot.View
         public int ReservationId;
         public int BoatId;
         public int MemberId;
+        public enum Page
+        {
+            BatchReservationScreen,
+            ReservationsScreen
+        };
+        public static Page getPage;
         
         //Constructor for ReportDamage class
         public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
@@ -118,7 +124,15 @@ namespace KBSBoot.View
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
+            switch (getPage)
+            {
+                case Page.BatchReservationScreen:
+                    Switcher.Switch(new BatchReservationScreen(FullName, AccessLevel, MemberId));
+                    break;
+                case Page.ReservationsScreen:
+                    Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
+                    break;
+            }
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {

@@ -20,7 +20,7 @@ namespace KBSBoot.View
     /// <summary>
     /// Interaction logic for MakingReservationSelectBoat.xaml
     /// </summary>
-    public partial class MakingReservationSelectBoat : UserControl
+    public partial class BatchReservationBoatSelect : UserControl
     {
         public string FullName;
         public int AccessLevel;
@@ -30,8 +30,9 @@ namespace KBSBoot.View
         private int bootplek;
         private int RowLevelId;
         private string RowLevelName;
+        List<Boat> ReservationSelection = new List<Boat>();
 
-        public MakingReservationSelectBoat(string FullName, int AccessLevel, int MemberId)
+        public BatchReservationBoatSelect(string FullName, int AccessLevel, int MemberId)
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
@@ -40,7 +41,7 @@ namespace KBSBoot.View
             Bootplekken.ItemsSource = LoadBoatSeatsSelection();
             Bootnamen.ItemsSource = LoadBoatNamesSelection();
         }
-        
+
         private List<BoatTypes> LoadBoatNamesSelection()
         {
             List<BoatTypes> boatnames = new List<BoatTypes>();
@@ -173,14 +174,13 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-
-                //check if there are 2 (or more) reservation on the name
+                //check if there are 2 (or more) reservation on the name and the user is not a matchcommissioner
                 using (var context = new BootDB())
                 {
                     var data = (from r in context.Reservations
-                                where r.date > DateTime.Now && r.memberId == MemberId && (int)r.reservationBatch == 0
+                                where r.date > DateTime.Now && r.memberId == MemberId
                                 select r.reservationId).ToList();
-                    if (data.Count >= 2) //when it is not possible to make a reservation
+                    if (data.Count >= 2 && AccessLevel != 2) //when it is not possible to make a reservation
                     {
                         ScrollViewer.Visibility = Visibility.Hidden;
                         FilterStackPanel.Visibility = Visibility.Hidden;
@@ -200,7 +200,7 @@ namespace KBSBoot.View
             //when "klik hier" is pressed
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
-        
+
         public void LoadBoats()
         {
             using (var context = new BootDB())
@@ -209,53 +209,54 @@ namespace KBSBoot.View
                 List<BoatTypes> boatTypes = new List<BoatTypes>();
                 //getting rowlevel id
                 RowLevelId = int.Parse((from b in context.Members
-                                                where b.memberId == MemberId
-                                                select b.memberRowLevelId).First().ToString());
+                                        where b.memberId == MemberId
+                                        select b.memberRowLevelId).First().ToString());
                 //getting rowlevel name
                 RowLevelName = (from b in context.Rowlevel
                                 where b.rowLevelId == RowLevelId
                                 select b.description).First().ToString();
 
                 //show row level name on the screen
-                RowLevelNameLabel.Content = $"Roeiniveau: {RowLevelName}"; 
+                RowLevelNameLabel.Content = $"Roeiniveau: {RowLevelName}";
 
                 //this is needed to prevent crashes
                 var data = (from b in context.Boats
-                        join bt in context.BoatTypes
-                        on b.boatTypeId equals bt.boatTypeId
-                        where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8
-                        select new
-                        {
-                            boatId = b.boatId,
-                            boatName = b.boatName,
-                            boatTypeId = b.boatTypeId,
-                            boatYoutubeUrl = b.boatYoutubeUrl,
-                            boatOutofService = b.boatOutOfService,
-                            boatType = bt.boatTypeName,
-                            boatTypeDescription = bt.boatTypeDescription,
-                            boatAmountSpaces = bt.boatAmountSpaces,
-                            boatSteer = bt.boatSteer,
-                        });
+                            join bt in context.BoatTypes
+                            on b.boatTypeId equals bt.boatTypeId
+                            where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8
+                            select new
+                            {
+                                boatId = b.boatId,
+                                boatName = b.boatName,
+                                boatTypeId = b.boatTypeId,
+                                boatYoutubeUrl = b.boatYoutubeUrl,
+                                boatOutofService = b.boatOutOfService,
+                                boatType = bt.boatTypeName,
+                                boatTypeDescription = bt.boatTypeDescription,
+                                boatAmountSpaces = bt.boatAmountSpaces,
+                                boatSteer = bt.boatSteer,
+                            });
 
                 if (RowLevelId == 2) //when row level is amateur
                 {
                     data = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8 || bt.boatTypeId == 4 || bt.boatTypeId == 6
-                                 select new
-                                 {
-                                     boatId = b.boatId,
-                                     boatName = b.boatName,
-                                     boatTypeId = b.boatTypeId,
-                                     boatYoutubeUrl = b.boatYoutubeUrl,
-                                     boatOutofService = b.boatOutOfService,
-                                     boatType = bt.boatTypeName,
-                                     boatTypeDescription = bt.boatTypeDescription,
-                                     boatAmountSpaces = bt.boatAmountSpaces,
-                                     boatSteer = bt.boatSteer,
-                                 });                    
-                } else if (RowLevelId == 3) //when rowlevel is gevorderd
+                            join bt in context.BoatTypes
+                            on b.boatTypeId equals bt.boatTypeId
+                            where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8 || bt.boatTypeId == 4 || bt.boatTypeId == 6
+                            select new
+                            {
+                                boatId = b.boatId,
+                                boatName = b.boatName,
+                                boatTypeId = b.boatTypeId,
+                                boatYoutubeUrl = b.boatYoutubeUrl,
+                                boatOutofService = b.boatOutOfService,
+                                boatType = bt.boatTypeName,
+                                boatTypeDescription = bt.boatTypeDescription,
+                                boatAmountSpaces = bt.boatAmountSpaces,
+                                boatSteer = bt.boatSteer,
+                            });
+                }
+                else if (RowLevelId == 3) //when rowlevel is gevorderd
                 {
                     data = (from b in context.Boats
                             join bt in context.BoatTypes
@@ -273,7 +274,8 @@ namespace KBSBoot.View
                                 boatAmountSpaces = bt.boatAmountSpaces,
                                 boatSteer = bt.boatSteer,
                             });
-                } else if (RowLevelId == 4) //when row level is professional
+                }
+                else if (RowLevelId == 4) //when row level is professional
                 {
                     data = (from b in context.Boats
                             join bt in context.BoatTypes
@@ -290,7 +292,7 @@ namespace KBSBoot.View
                                 boatAmountSpaces = bt.boatAmountSpaces,
                                 boatSteer = bt.boatSteer,
                             });
-                }               
+                }
                 foreach (var d in data)
                 {
                     //Filters selection based on chosen options
@@ -325,10 +327,19 @@ namespace KBSBoot.View
 
         private void ReservationButtonIsPressed(object sender, RoutedEventArgs e)
         {
-            //to make it possible to make a reservation for the selected boat
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeDescription, AccessLevel, FullName, MemberId));
+
+            Switcher.Switch(new BatchReservationMatchCommissioner(ReservationSelection, AccessLevel, FullName, MemberId));
         }
-       
+
+        private void ReservationCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            ReservationSelection.Add(boat);
+        }
+
+        private void ReservationCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ReservationSelection.Remove(((FrameworkElement)sender).DataContext as Boat);
+        }
     }
 }
