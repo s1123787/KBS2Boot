@@ -98,7 +98,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Label x:Name="NoHistoryReservationAvailable" Content="Er zijn nog geen reserveringen plaatsgevonden" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <Label x:Name="NoHistoryReservationAvailable" Content="Er hebben nog geen reserveringen plaatsgevonden" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
