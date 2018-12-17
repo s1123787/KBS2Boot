@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using KBSBoot;
 using KBSBoot.Model;
+using KBSBoot.DAL;
 
 namespace UnitTestsKBSBoot
 {
@@ -48,7 +49,7 @@ namespace UnitTestsKBSBoot
         }
 
         [Test]
-        public void IsNullOrWhiteSpace_CheckIfUsernameIsFilledIn_ReturnTrue()
+        public void IsNullOrWhiteSpace_NoUsernameFilledIn_ReturnTrue()
         {
             //Arrange
             Member m = new Member();
@@ -135,6 +136,9 @@ namespace UnitTestsKBSBoot
 
             //Assert
             Assert.IsFalse(result1);
+
+            //remove added record
+            Member.RemoveLastAddedMember();
         }
 
         [Test]
@@ -149,6 +153,9 @@ namespace UnitTestsKBSBoot
 
             //Assert
             Assert.IsTrue(m.UsernameExists(username));
+
+            //remove added record
+            Member.RemoveLastAddedMember();
         }
 
     }

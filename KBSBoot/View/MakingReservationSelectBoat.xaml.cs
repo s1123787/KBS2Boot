@@ -323,6 +323,7 @@ namespace KBSBoot.View
         {
             //to make it possible to make a reservation for the selected boat
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.SelectBoatScreen;
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeDescription, AccessLevel, FullName, MemberId));
         }
        

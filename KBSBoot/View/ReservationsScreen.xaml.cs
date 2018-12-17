@@ -114,14 +114,15 @@ namespace KBSBoot.View
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
                                 beginTime = r.beginTime,
-                                endTime = r.endTime
+                                endTime = r.endTime,
+                                boatId = b.boatId
                             });
 
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
                     string resdate = d.date.ToString("d");
-                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
             }
             if(reservations.Count == 0)
@@ -210,6 +211,7 @@ namespace KBSBoot.View
                 MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
             }else
             {
+                SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.ReservationsScreen;
                 Switcher.Switch(new SelectDateOfReservation(r.boatId, r.boatName, r.boatType, AccessLevel, FullName, MemberId));
             }
         }

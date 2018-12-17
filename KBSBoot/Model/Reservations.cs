@@ -239,7 +239,7 @@ namespace KBSBoot.Model
             else if (selectedEndTime - selectedBeginTime < new TimeSpan(1, 0, 0)) //check if reservation is less then hour
             {
                 return false;
-            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now && selectedBeginTime < DateTime.Now.TimeOfDay){
+            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now.Date && selectedBeginTime < DateTime.Now.TimeOfDay){
                 return false;
             } else //if endtime is after begin time and reservation is more then 1 hour
             {
