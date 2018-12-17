@@ -219,7 +219,7 @@ namespace KBSBoot.View
                 //show row level name on the screen
                 RowLevelNameLabel.Content = $"Roeiniveau: {RowLevelName}"; 
 
-                //this is needed to prevent crashes
+                //get all data from the boats that are able for a reservation
                 var data = (from b in context.Boats
                         join bt in context.BoatTypes
                         on b.boatTypeId equals bt.boatTypeId
