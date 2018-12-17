@@ -29,7 +29,7 @@
                 <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="413" Canvas.Top="18" Click="SelectionFilteren_Click"/>
                 <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="517" Canvas.Top="18" Click="ResetSelection_Click"/>
                 <Label Content="Boot type" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootnamen" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
+                <ComboBox x:Name="Boatnames" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Boatnames_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -39,7 +39,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Content="Aantal plekken" Canvas.Left="198" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootplekken" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                <ComboBox x:Name="Boatseats" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Boatseats_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

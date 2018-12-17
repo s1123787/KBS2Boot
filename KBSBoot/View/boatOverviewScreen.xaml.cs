@@ -27,8 +27,8 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         private bool FilterEnabled = false;
-        private string bootnaam;
-        private int bootplek;
+        private string boatname;
+        private int boatseat;
         public int MemberId;
 
 
@@ -39,8 +39,8 @@ namespace KBSBoot.View
             this.MemberId = MemberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
-            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
-            Bootnamen.ItemsSource = LoadBoatNamesSelection();
+            Boatseats.ItemsSource = LoadBoatSeatsSelection();
+            Boatnames.ItemsSource = LoadBoatNamesSelection();
         }
 
 
@@ -92,17 +92,17 @@ namespace KBSBoot.View
                     //Filters selection based on chosen options
                     if (FilterEnabled)
                     {
-                        if (Bootnamen.SelectedItem != null)
+                        if (Boatnames.SelectedItem != null)
                         {
-                            bootnaam = Bootnamen.SelectedItem.ToString();
-                            if (b.boatTypeName != bootnaam)
+                            boatname = Boatnames.SelectedItem.ToString();
+                            if (b.boatTypeName != boatname)
                             {
                                 continue;
                             }
                         }
-                        if (Bootplekken.SelectedItem != null)
+                        if (Boatseats.SelectedItem != null)
                         {
-                            if (b.boatAmountSpaces != bootplek)
+                            if (b.boatAmountSpaces != boatseat)
                             {
                                 continue;
                             }
@@ -265,27 +265,27 @@ namespace KBSBoot.View
             FilterEnabled = false;
             BoatList.ItemsSource = LoadCollectionData();
             //Resets the filteroptions
-            Bootplekken.IsEnabled = true;
-            Bootnamen.IsEnabled = true;
-            Bootnamen.SelectedItem = null;
-            Bootplekken.SelectedItem = null;
+            Boatseats.IsEnabled = true;
+            Boatnames.IsEnabled = true;
+            Boatnames.SelectedItem = null;
+            Boatseats.SelectedItem = null;
         }
 
-        private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootnamen.SelectedItem != null)
+            if (Boatnames.SelectedItem != null)
             {
-                bootnaam = Bootnamen.SelectedItem.ToString();
-                Bootplekken.IsEnabled = false;
+                boatname = Boatnames.SelectedItem.ToString();
+                Boatseats.IsEnabled = false;
             }
         }
-        private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Boatseats_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootplekken.SelectedItem != null)
+            if (Boatseats.SelectedItem != null)
             {
                 //Assigns value to chosen option
-                bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
-                Bootnamen.IsEnabled = false;
+                boatseat = Int32.Parse(Boatseats.SelectedItem.ToString());
+                Boatnames.IsEnabled = false;
             }
         }
 
