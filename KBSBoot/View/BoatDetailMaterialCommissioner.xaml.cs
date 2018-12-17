@@ -63,6 +63,7 @@ namespace KBSBoot.View
             DisplayPhoto(this.BoatID);
 
             LoadReservations();
+            LoadReservationHistory();
         }
 
         private void LoadReservations()
@@ -97,12 +98,54 @@ namespace KBSBoot.View
             }
             if (reservations.Count == 0)
             {
-                ReservationList.Visibility = Visibility.Hidden;
+                ReservationList.Visibility = Visibility.Collapsed;
             }
             else
             {
-                NoReservationAvailable.Visibility = Visibility.Hidden;
+                NoReservationAvailable.Visibility = Visibility.Collapsed;
                 ReservationList.ItemsSource = reservations;
+            }
+        }
+
+        private void LoadReservationHistory()
+        {
+            List<Reservations> reservationsHistory = new List<Reservations>();
+            DateTime dateToday = DateTime.Now.Date;
+            DateTime date3months = DateTime.Now.AddMonths(-3);
+            TimeSpan endTime = DateTime.Now.TimeOfDay;
+
+            using (var context = new BootDB())
+            {
+                var reservationsDataHistory = (from r in context.Reservations
+                                        join m in context.Members
+                                        on r.memberId equals m.memberId
+                                        join rb in context.Reservation_Boats
+                                        on r.reservationId equals rb.reservationId
+                                        where rb.boatId == BoatID && (r.date < dateToday || (r.date == dateToday && r.endTime < endTime)) && r.date > date3months
+                                        orderby r.date descending, r.beginTime descending
+                                        select new
+                                        {
+                                            reservationID = r.reservationId,
+                                            memberName = m.memberName,
+                                            memberUserName = m.memberUsername,
+                                            date = r.date,
+                                            beginTime = r.beginTime,
+                                            endTime = r.endTime
+                                        });
+                foreach (var d in reservationsDataHistory)
+                {
+                    string resdate = d.date.ToString("d");
+                    reservationsHistory.Add(new Reservations(d.memberName, d.memberUserName, d.reservationID, resdate, d.beginTime, d.endTime));
+                }
+            }
+            if (reservationsHistory.Count == 0)
+            {
+                ReservationHistoryList.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NoHistoryReservationAvailable.Visibility = Visibility.Collapsed;
+                ReservationHistoryList.ItemsSource = reservationsHistory;
             }
         }
 
@@ -254,7 +297,7 @@ namespace KBSBoot.View
                 WebBrowser webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
-                    Height = videoHeight,
+                    Height = videoHeight - 120,
                     Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
                     Margin = new Thickness(700, 120, 0, 0)
