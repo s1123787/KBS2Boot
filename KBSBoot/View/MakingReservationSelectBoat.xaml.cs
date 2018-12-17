@@ -223,7 +223,7 @@ namespace KBSBoot.View
                 var data = (from b in context.Boats
                         join bt in context.BoatTypes
                         on b.boatTypeId equals bt.boatTypeId
-                        where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8
+                        where bt.boatRowLevel <= RowLevelId
                         select new
                         {
                             boatId = b.boatId,
@@ -234,59 +234,7 @@ namespace KBSBoot.View
                             boatTypeDescription = bt.boatTypeDescription,
                             boatAmountSpaces = bt.boatAmountSpaces,
                             boatSteer = bt.boatSteer,
-                        });
-
-                if (RowLevelId == 2) //when row level is amateur
-                {
-                    data = (from b in context.Boats
-                                 join bt in context.BoatTypes
-                                 on b.boatTypeId equals bt.boatTypeId
-                                 where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8 || bt.boatTypeId == 4 || bt.boatTypeId == 6
-                                 select new
-                                 {
-                                     boatId = b.boatId,
-                                     boatName = b.boatName,
-                                     boatTypeId = b.boatTypeId,
-                                     boatYoutubeUrl = b.boatYoutubeUrl,
-                                     boatType = bt.boatTypeName,
-                                     boatTypeDescription = bt.boatTypeDescription,
-                                     boatAmountSpaces = bt.boatAmountSpaces,
-                                     boatSteer = bt.boatSteer,
-                                 });                    
-                } else if (RowLevelId == 3) //when rowlevel is gevorderd
-                {
-                    data = (from b in context.Boats
-                            join bt in context.BoatTypes
-                            on b.boatTypeId equals bt.boatTypeId
-                            where bt.boatTypeId == 2 || bt.boatTypeId == 7 || bt.boatTypeId == 8 || bt.boatTypeId == 4 || bt.boatTypeId == 6 || bt.boatTypeId == 3 || bt.boatTypeId == 5 || bt.boatTypeId == 9
-                            select new
-                            {
-                                boatId = b.boatId,
-                                boatName = b.boatName,
-                                boatTypeId = b.boatTypeId,
-                                boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatType = bt.boatTypeName,
-                                boatTypeDescription = bt.boatTypeDescription,
-                                boatAmountSpaces = bt.boatAmountSpaces,
-                                boatSteer = bt.boatSteer,
-                            });
-                } else if (RowLevelId == 4) //when row level is professional
-                {
-                    data = (from b in context.Boats
-                            join bt in context.BoatTypes
-                            on b.boatTypeId equals bt.boatTypeId
-                            select new
-                            {
-                                boatId = b.boatId,
-                                boatName = b.boatName,
-                                boatTypeId = b.boatTypeId,
-                                boatYoutubeUrl = b.boatYoutubeUrl,
-                                boatType = bt.boatTypeName,
-                                boatTypeDescription = bt.boatTypeDescription,
-                                boatAmountSpaces = bt.boatAmountSpaces,
-                                boatSteer = bt.boatSteer,
-                            });
-                }               
+                        });                
                 foreach (var d in data)
                 {
                     //Filters selection based on chosen options
