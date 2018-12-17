@@ -109,6 +109,9 @@
     <Compile Include="View\BoatDetail.xaml.cs">
       <DependentUpon>BoatDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BoatDetailMaterialCommissioner.xaml.cs">
+      <DependentUpon>BoatDetailMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BoatDetailMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

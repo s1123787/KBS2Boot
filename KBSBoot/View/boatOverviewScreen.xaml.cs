@@ -190,7 +190,13 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
+            if (AccessLevel == 3)
+            {
+                Switcher.Switch(new BoatDetailMaterialCommissioner(FullName, AccessLevel, boat.boatId, MemberId));
+            } else
+            {
+                Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
+            }
         }
 
         //Go to reservation screen

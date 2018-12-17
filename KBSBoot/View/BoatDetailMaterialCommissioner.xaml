@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="KBSBoot.View.BoatDetailMaterialCommissioner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="ViewDidLoaded">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Bool2VisibilityConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="ViewGrid"  HorizontalAlignment="Left" Width="1024" Height="768" VerticalAlignment="Top">
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80" Width="1024">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="PreviousPage_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
+                        <Separator/>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Loaded="DidLoaded">Informatie boot</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+        <!--<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="194,26,0,0" VerticalAlignment="Top" Width="150">
+            <Image Width="150" Height="150" Stretch="Fill" VerticalAlignment="Top"/>
+        </Border>-->
+        <StackPanel Orientation="Horizontal"  x:Name="nameWrap" Margin="300,113,0,610">
+            <materialDesign:PackIcon Kind="Anchor" Width="40" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Foreground="#FF5722" />
+            <Label FontSize="22"  x:Name="boatViewName" Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Foreground="#FF5722"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="descrWrap" Margin="300,158,0,580" Height="30">
+            <Label FontSize="16"  x:Name="boatViewDescription" Content="Omschrijving" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="typeWrap" Margin="300,193,0,545" Height="30">
+            <materialDesign:PackIcon Kind="Boat" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
+            <Label FontSize="16"  x:Name="boatViewType" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="steerWrap" Margin="300,228,0,511" Height="29">
+            <materialDesign:PackIcon Kind="Steering" Width="20" Height="20" Margin="10,0,5,0" Foreground="#FF5722" VerticalAlignment="Center" />
+            <Label FontSize="16"  x:Name="boatViewSteer" Content="Stuur" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="niveauWrap"  Margin="300,262,0,476" Height="30">
+            <materialDesign:PackIcon Kind="LockOpen" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
+            <Label FontSize="16"  x:Name="boatViewNiveau" Content="Niveau" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </StackPanel>
+        <ScrollViewer Height="auto" MaxHeight="400" Margin="100, 340, 100, 40">
+            <StackPanel Width="auto" Height="auto">
+                <Label Content="Aankomende reserveringen" FontSize="24" FontStyle="Italic" Margin="0,20,0,-18" Width="auto" Height="auto"></Label>
+                <ListView Name="ReservationList" FontSize="20" HorizontalAlignment="Center" Height="auto" Margin="0, 20, 0,0" VerticalAlignment="Top" Width="auto">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            <Setter Property="Focusable" Value="false"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="16"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding memberUserName}" Header="Gebruikersnaam" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label x:Name="NoReservationAvailable" Content="Er zijn geen aankomende reserveringen" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                <Label Content="Plaatsgevonden reserveringen" FontSize="24" FontStyle="Italic" Margin="0,20,0,-18" Width="auto" Height="auto"></Label>
+                <ListView Name="ReservationHistoryList" FontSize="20" HorizontalAlignment="Center" Height="auto" Margin="0,20,0,0" VerticalAlignment="Top" Width="auto">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            <Setter Property="Focusable" Value="false"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="16"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding memberUserName}" Header="Gebruikersnaam" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label x:Name="NoHistoryReservationAvailable" Content="Er zijn nog geen reserveringen plaatsgevonden" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
