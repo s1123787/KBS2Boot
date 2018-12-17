@@ -63,7 +63,7 @@ namespace KBSBoot.View
             DisplayPhoto(this.BoatID);
 
             LoadReservations();
-            LoadReservationHistory();
+            LoadReservationsHistory();
         }
 
         private void LoadReservations()
@@ -107,7 +107,7 @@ namespace KBSBoot.View
             }
         }
 
-        private void LoadReservationHistory()
+        private void LoadReservationsHistory()
         {
             List<Reservations> reservationsHistory = new List<Reservations>();
             DateTime dateToday = DateTime.Now.Date;
