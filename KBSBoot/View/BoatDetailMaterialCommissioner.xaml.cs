@@ -68,12 +68,14 @@ namespace KBSBoot.View
 
         private void LoadReservations()
         {
+            //where reservations get stored
             List<Reservations> reservations = new List<Reservations>();
-            DateTime date = DateTime.Now.Date;
-            TimeSpan endTime = DateTime.Now.TimeOfDay;
+            DateTime date = DateTime.Now.Date; //is needed to check if the reservation is outdated
+            TimeSpan endTime = DateTime.Now.TimeOfDay; //is needed to check if reservation is outdated
 
             using (var context = new BootDB())
             {
+                //getting all data from database
                 var reservationsData = (from r in context.Reservations
                                         join m in context.Members
                                         on r.memberId equals m.memberId
@@ -92,30 +94,38 @@ namespace KBSBoot.View
                                         });                
                 foreach (var d in reservationsData)
                 {
+                    //make sure the date is shown in a normal way
                     string resdate = d.date.ToString("d");
+                    //adding data from database to the list
                     reservations.Add(new Reservations(d.memberName, d.memberUserName, d.reservationID, resdate, d.beginTime, d.endTime));
                 }
             }
+            //check if there are any reservation ahead
             if (reservations.Count == 0)
             {
+                //delete the list of reservations
                 ReservationList.Visibility = Visibility.Collapsed;
             }
-            else
+            else //there are reservations ahead
             {
+                //Hide the label that shows "er zijn geen aankomende reserveringen"
                 NoReservationAvailable.Visibility = Visibility.Collapsed;
+                // adding all data to the list
                 ReservationList.ItemsSource = reservations;
             }
         }
 
         private void LoadReservationsHistory()
         {
+            //where reservations get stored
             List<Reservations> reservationsHistory = new List<Reservations>();
-            DateTime dateToday = DateTime.Now.Date;
-            DateTime date3months = DateTime.Now.AddMonths(-3);
-            TimeSpan endTime = DateTime.Now.TimeOfDay;
+            DateTime dateToday = DateTime.Now.Date; //is needed to check if reservation is already done
+            DateTime date3months = DateTime.Now.AddMonths(-3); //is needed to check if the reservation has happened between now and 3 months ago
+            TimeSpan endTime = DateTime.Now.TimeOfDay; //is needed to check if reservation is already done
 
             using (var context = new BootDB())
             {
+                //getting all information from database
                 var reservationsDataHistory = (from r in context.Reservations
                                         join m in context.Members
                                         on r.memberId equals m.memberId
@@ -134,17 +144,23 @@ namespace KBSBoot.View
                                         });
                 foreach (var d in reservationsDataHistory)
                 {
+                    //is needed to show the date in a normal way
                     string resdate = d.date.ToString("d");
+                    //adding all data to the list
                     reservationsHistory.Add(new Reservations(d.memberName, d.memberUserName, d.reservationID, resdate, d.beginTime, d.endTime));
                 }
             }
+            //check if there are any reservations
             if (reservationsHistory.Count == 0)
             {
+                //hide the reservation list
                 ReservationHistoryList.Visibility = Visibility.Collapsed;
             }
-            else
+            else //there are reservations
             {
+                //hide the label "er zijn geen plaatsgevonden reserveringen"
                 NoHistoryReservationAvailable.Visibility = Visibility.Collapsed;
+                //add all data to the list on the screen
                 ReservationHistoryList.ItemsSource = reservationsHistory;
             }
         }
