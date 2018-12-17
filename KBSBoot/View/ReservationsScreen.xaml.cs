@@ -210,6 +210,7 @@ namespace KBSBoot.View
                 MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
             }else
             {
+                SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.ReservationsScreen;
                 Switcher.Switch(new SelectDateOfReservation(r.boatId, r.boatName, r.boatType, AccessLevel, FullName, MemberId));
             }
         }

@@ -43,6 +43,8 @@ namespace KBSBoot.View
         public bool geldig = false;
         public Reservations reservation;
         public static DateTime SelectedDateTime;
+        public enum PreviousScreen {BoatOverview, ReservationsScreen, SelectBoatScreen};
+        public static PreviousScreen Screen;
 
 
         public SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
@@ -69,7 +71,18 @@ namespace KBSBoot.View
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new MakingReservationSelectBoat(FullName, AccessLevel, MemberId));
+            switch (Screen)
+            {
+                case PreviousScreen.BoatOverview:
+                    Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
+                    break;
+                case PreviousScreen.ReservationsScreen:
+                    Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
+                    break;
+                case PreviousScreen.SelectBoatScreen:
+                    Switcher.Switch(new MakingReservationSelectBoat(FullName, AccessLevel, MemberId));
+                    break;
+            }
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
