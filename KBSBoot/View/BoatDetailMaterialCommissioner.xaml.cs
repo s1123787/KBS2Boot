@@ -69,6 +69,7 @@ namespace KBSBoot.View
             LoadReservations();
             LoadReservationsHistory();
             
+            //check if member has the needed rowlevel to make a reservation for the boat
             if (rowLevelMember >= rowLevelBoat)
             {
                 ReservationFromDetailMaterialCommisioner.IsEnabled = true;
@@ -385,10 +386,11 @@ namespace KBSBoot.View
         {
             List<Reservations> reservations = new List<Reservations>();
 
+            //getting reservations of user from database
             using (var context = new BootDB())
             {
                 DateTime DateNow = DateTime.Now.Date;
-                TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+                TimeSpan TimeNow = DateTime.Now.TimeOfDay;                
                 var data = (from r in context.Reservations
                             where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId);
@@ -397,6 +399,7 @@ namespace KBSBoot.View
                     reservations.Add(new Reservations());
                 }
             }
+            //check if member has more then two reservations
             if (reservations.Count < 2)
             {
                 Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
