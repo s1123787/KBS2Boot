@@ -43,7 +43,6 @@ namespace KBSBoot.View
             Boatnames.ItemsSource = LoadBoatNamesSelection();
         }
 
-
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
@@ -128,7 +127,7 @@ namespace KBSBoot.View
                                      {
                                          boatNames = bt.boatTypeName
                                      });
-
+                    //Fills list with all the typename options
                     foreach (var b in tableData)
                     {
                         boatnames.Add(new BoatTypes()
@@ -138,6 +137,7 @@ namespace KBSBoot.View
                     }
                 }
                 List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+                //Removes duplicates from list
                 DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
                 return DistinctBoatSeats;
             }
@@ -148,6 +148,7 @@ namespace KBSBoot.View
                 return null;
             }
         }
+
         private List<BoatTypes> LoadBoatSeatsSelection()
         {
             try
@@ -162,7 +163,7 @@ namespace KBSBoot.View
                                      {
                                          boatAmountSpaces = bt.boatAmountSpaces
                                      });
-
+                    //Fills list with all the seat options
                     foreach (var b in tableData)
                     {
                         boatseats.Add(new BoatTypes()
@@ -172,6 +173,7 @@ namespace KBSBoot.View
                     }
                 }
                 List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+                //Removes duplicates from list
                 DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
                 return DistinctBoatSeats;
             }
@@ -200,14 +202,13 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to reservation page on click
-            //SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
         }
 
         private void EditBoat_Click(object sender, RoutedEventArgs e)
         {
+            //Carry selected boatdata over to new screen
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-
             Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, boat.boatId));
         }
 
@@ -275,6 +276,7 @@ namespace KBSBoot.View
         {
             if (Boatnames.SelectedItem != null)
             {
+                //Put chosen option in variable
                 boatname = Boatnames.SelectedItem.ToString();
                 Boatseats.IsEnabled = false;
             }
@@ -283,7 +285,7 @@ namespace KBSBoot.View
         {
             if (Boatseats.SelectedItem != null)
             {
-                //Assigns value to chosen option
+                //Put chosen option in variable
                 boatseat = Int32.Parse(Boatseats.SelectedItem.ToString());
                 Boatnames.IsEnabled = false;
             }
