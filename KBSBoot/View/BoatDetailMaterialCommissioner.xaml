@@ -45,7 +45,7 @@
             <materialDesign:PackIcon Kind="Steering" Width="20" Height="20" Margin="10,0,5,0" Foreground="#FF5722" VerticalAlignment="Center" />
             <Label FontSize="16"  x:Name="boatViewSteer" Content="Stuur" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="niveauWrap"  Margin="300,262,0,476" Height="30">
+        <StackPanel Orientation="Horizontal" x:Name="niveauWrap"  Margin="300,262,600,476" Height="30">
             <materialDesign:PackIcon Kind="LockOpen" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
             <Label FontSize="16"  x:Name="boatViewNiveau" Content="Niveau" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
@@ -101,5 +101,6 @@
                 <Label x:Name="NoHistoryReservationAvailable" Content="Er hebben nog geen reserveringen plaatsgevonden" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
             </StackPanel>
         </ScrollViewer>
+        <Button x:Name="ReservationFromDetailMaterialCommisioner" Content="Reserveer" HorizontalAlignment="Left" Margin="545,270,0,0" VerticalAlignment="Top" Width="102" Click="Reservation_Click"/>
     </Grid>
 </UserControl>

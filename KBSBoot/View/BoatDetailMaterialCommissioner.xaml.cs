@@ -28,13 +28,17 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
+        private int rowLevelBoat;
+        private int rowLevelMember;
+        private string boatDescription;
+        private string boatName;
         private Boat boatData;
         private BoatTypes boatType;
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
         private int videoWidth = 500;
-        private int videoHeight = 320;
+        private int videoHeight = 320;      
 
         public BoatDetailMaterialCommissioner(string FullName, int AccessLevel, int BoatId, int MemberId)
         {
@@ -64,6 +68,15 @@ namespace KBSBoot.View
 
             LoadReservations();
             LoadReservationsHistory();
+            
+            //check if member has the needed rowlevel to make a reservation for the boat
+            if (rowLevelMember >= rowLevelBoat)
+            {
+                ReservationFromDetailMaterialCommisioner.IsEnabled = true;
+            } else
+            {
+                ReservationFromDetailMaterialCommisioner.IsEnabled = false;
+            }
         }
 
         private void LoadReservations()
@@ -88,12 +101,19 @@ namespace KBSBoot.View
                                             reservationID = r.reservationId,
                                             memberName = m.memberName,
                                             memberUserName = m.memberUsername,
+                                            memberRowLevel = m.memberRowLevelId,
                                             date = r.date,
                                             beginTime = r.beginTime,
                                             endTime = r.endTime
-                                        });                
+                                        });
+
+                //getting the rowlevel of the user
+                rowLevelMember = int.Parse((from b in context.Members
+                                        where b.memberId == MemberId
+                                        select b.memberRowLevelId).First().ToString());
+
                 foreach (var d in reservationsData)
-                {
+                {                    
                     //make sure the date is shown in a normal way
                     string resdate = d.date.ToString("d");
                     //adding data from database to the list
@@ -202,7 +222,9 @@ namespace KBSBoot.View
                         boatAmountSpaces = b.boatAmountSpaces,
                         boatRowLevel = b.boatRowLevel
                     };
-
+                    boatDescription = b.boatTypeDescription;
+                    boatName = b.boatName;
+                    rowLevelBoat = b.boatRowLevel;
                     // Loop through record and add to new Boat
                     boatData = new Boat()
                     {
@@ -358,6 +380,33 @@ namespace KBSBoot.View
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
+        }
+
+        private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+            List<Reservations> reservations = new List<Reservations>();
+
+            //getting reservations of user from database
+            using (var context = new BootDB())
+            {
+                DateTime DateNow = DateTime.Now.Date;
+                TimeSpan TimeNow = DateTime.Now.TimeOfDay;                
+                var data = (from r in context.Reservations
+                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
+                            select r.reservationId);
+                foreach (var d in data)
+                {
+                    reservations.Add(new Reservations());
+                }
+            }
+            //check if member has more then two reservations
+            if (reservations.Count < 2)
+            {
+                Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
+            } else
+            {
+                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
     }
