@@ -29,6 +29,7 @@ namespace KBSBoot.View
         private bool FilterEnabled = false;
         private string boatname;
         private int boatseat;
+        private int boatlevel;
         public int MemberId;
 
 
@@ -93,7 +94,6 @@ namespace KBSBoot.View
                     {
                         if (Boatnames.SelectedItem != null)
                         {
-                            boatname = Boatnames.SelectedItem.ToString();
                             if (b.boatTypeName != boatname)
                             {
                                 continue;
@@ -102,6 +102,12 @@ namespace KBSBoot.View
                         if (Boatseats.SelectedItem != null)
                         {
                             if (b.boatAmountSpaces != boatseat)
+                            {
+                                continue;
+                            }
+                        }
+                        if(Boatlevels.SelectedItem != null) {
+                            if(b.boatRowLevel != boatlevel)
                             {
                                 continue;
                             }
@@ -148,7 +154,7 @@ namespace KBSBoot.View
                 return null;
             }
         }
-
+        
         private List<BoatTypes> LoadBoatSeatsSelection()
         {
             try
@@ -275,8 +281,10 @@ namespace KBSBoot.View
             //Resets the filteroptions
             Boatseats.IsEnabled = true;
             Boatnames.IsEnabled = true;
+            Boatlevels.IsEnabled = true;
             Boatnames.SelectedItem = null;
             Boatseats.SelectedItem = null;
+            Boatlevels.SelectedItem = null;
         }
 
         private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -286,6 +294,7 @@ namespace KBSBoot.View
                 //Put chosen option in variable
                 boatname = Boatnames.SelectedItem.ToString();
                 Boatseats.IsEnabled = false;
+                Boatlevels.IsEnabled = false;
             }
         }
         private void Boatseats_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -298,9 +307,14 @@ namespace KBSBoot.View
             }
         }
 
-        private void AddBoat_Click(object sender, RoutedEventArgs e)
+        private void Boatlevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Switcher.Switch(new AddBoatMaterialCommissioner(FullName, AccessLevel, MemberId));
+            if(Boatlevels.SelectedItem != null)
+            {
+                //Put chosen option in variable, plus 1 because index starts at 0 while levels start at 1
+                boatlevel = (Boatlevels.SelectedIndex + 1);
+                Boatnames.IsEnabled = false;
+            }
         }
     }
 }
