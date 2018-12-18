@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{13EEB37A-4916-4DE0-AE49-FCFD0D089F74}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>KBSBoot</RootNamespace>
     <AssemblyName>KBSBoot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -109,6 +109,16 @@
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BatchReservationBoatSelect.xaml.cs">
+      <DependentUpon>BatchReservationBoatSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BatchReservationMatchCommissioner.xaml.cs">
+      <DependentUpon>BatchReservationMatchCommissioner.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\BatchReservationScreen.xaml.cs">
+      <DependentUpon>BatchReservationScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BoatDetail.xaml.cs">
       <DependentUpon>BoatDetail.xaml</DependentUpon>
     </Compile>
@@ -168,6 +178,18 @@
       <DependentUpon>DamageReportScreen.xaml</DependentUpon>
     </Compile>
     <Page Include="View\AddBoatMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatchReservationBoatSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatchReservationMatchCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatchReservationScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -323,6 +345,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="rowboat.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Flag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

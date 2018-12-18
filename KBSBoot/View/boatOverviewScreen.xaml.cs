@@ -67,6 +67,7 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
+                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -129,6 +130,7 @@ namespace KBSBoot.View
                     var tableData = (from b in context.Boats
                                      join bt in context.BoatTypes
                                      on b.boatTypeId equals bt.boatTypeId
+                                     where b.boatOutOfService == 0
                                      select new
                                      {
                                          boatNames = bt.boatTypeName
@@ -163,6 +165,7 @@ namespace KBSBoot.View
                     var tableData = (from b in context.Boats
                                      join bt in context.BoatTypes
                                      on b.boatTypeId equals bt.boatTypeId
+                                     where b.boatOutOfService == 0
                                      select new
                                      {
                                          boatAmountSpaces = bt.boatAmountSpaces

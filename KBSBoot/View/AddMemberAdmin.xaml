@@ -43,7 +43,7 @@
             <ComboBoxItem>Administrator</ComboBoxItem>
         </ComboBox>
         <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,334,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="505,418,0,0" VerticalAlignment="Top" Width="145" Click="AddUser_Click" FontSize="24" Height="48"/>
+        <Button x:Name="AddUser" Content="Voeg toe" HorizontalAlignment="Left" Margin="505,418,0,0" VerticalAlignment="Top" Width="145" Click="AddUser_Click" FontSize="24" Height="48" IsDefault="True"/>
         <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="350,339,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="42"/>
     </Grid>
 </UserControl>
