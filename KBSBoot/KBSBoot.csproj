@@ -37,6 +37,9 @@
   <PropertyGroup>
     <StartupObject>KBSBoot.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>rowboat.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -88,6 +91,7 @@
     <Compile Include="Model\FileTooLargeException.cs" />
     <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\BoatInMaintenances.cs" />
     <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\InvalidYoutubeUrlException.cs" />
@@ -118,6 +122,9 @@
     <Compile Include="View\BoatDetail.xaml.cs">
       <DependentUpon>BoatDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BoatDetailMaterialCommissioner.xaml.cs">
+      <DependentUpon>BoatDetailMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
@@ -141,6 +148,9 @@
     </Compile>
     <Compile Include="View\HomePageMember.xaml.cs">
       <DependentUpon>HomePageMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InMaintenanceScreen.xaml.cs">
+      <DependentUpon>InMaintenanceScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
@@ -187,6 +197,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\BoatDetailMaterialCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditBoatMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DamageDetailScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InMaintenanceScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -324,6 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\multipleboats.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="rowboat.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Flag.png" />

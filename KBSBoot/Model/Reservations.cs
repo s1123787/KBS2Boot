@@ -20,6 +20,8 @@ namespace KBSBoot.Model
         public TimeSpan endTime { get; set; }
         public int reservationBatch { get; set; }
         [NotMapped]
+        public int boatId { get; set; }
+        [NotMapped]
         public string boatName { get; set; }
         [NotMapped]
         public string boatType { get; set; }
@@ -29,6 +31,11 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+
+        [NotMapped]
+        public string memberName { get; set; }
+        [NotMapped]
+        public string memberUserName { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
@@ -38,7 +45,7 @@ namespace KBSBoot.Model
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-      
+
         public Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
         {
             this.reservationId = reservationId;
@@ -46,6 +53,16 @@ namespace KBSBoot.Model
             this.date = date;
             this.beginTime = beginTime;
             this.endTime = endTime;
+        }
+
+        public Reservations(string memberName, string memberUserName, int reservationId, string resdate, TimeSpan beginTime, TimeSpan endTime)
+        {
+            this.reservationId = reservationId;
+            this.memberName = memberName;
+            this.memberUserName = memberUserName;
+            this.resdate = resdate;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
         }
 
         public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime)
@@ -60,6 +77,19 @@ namespace KBSBoot.Model
             this.endTimeString = endTime.ToString(@"hh\:mm");
         }
 
+        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int boatId)
+        {
+            this.reservationId = reservationId;
+            this.boatName = boatName;
+            this.boatType = boatType;
+            this.resdate = resdate;
+            this.beginTime = beginTime;
+            this.endTime = endTime;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
+            this.boatId = boatId;
+        }
+  
         public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int reservationBatch)
         {
             this.reservationId = reservationId;
@@ -70,6 +100,7 @@ namespace KBSBoot.Model
             this.endTime = endTime;
             this.beginTimeString = beginTime.ToString(@"hh\:mm");
             this.endTimeString = endTime.ToString(@"hh\:mm");
+            this.boatId = boatId;
             this.reservationBatch = reservationBatch;
         }
 
@@ -223,7 +254,7 @@ namespace KBSBoot.Model
             else if (selectedEndTime - selectedBeginTime < new TimeSpan(1, 0, 0)) //check if reservation is less then hour
             {
                 return false;
-            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now && selectedBeginTime < DateTime.Now.TimeOfDay){
+            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now.Date && selectedBeginTime < DateTime.Now.TimeOfDay){
                 return false;
             } else //if endtime is after begin time and reservation is more then 1 hour
             {
@@ -263,6 +294,20 @@ namespace KBSBoot.Model
                     return false;
                 }
                 return true;
+            }
+        }
+
+        public static int CheckAmountReservations(int MemberId)
+        {
+            TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+            DateTime date = DateTime.Now.Date;
+            using (var context = new BootDB())
+            {
+                var data = (from r in context.Reservations
+                            where r.memberId == MemberId && (r.date > date || (r.date == date && r.endTime > TimeNow))
+                            select r.reservationId).ToList();
+
+                return data.Count();
             }
         }
     }

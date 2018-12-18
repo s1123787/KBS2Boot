@@ -75,7 +75,6 @@ namespace KBSBoot.View
                                      boatTypeId = bt.boatTypeId,
                                      boatTypeName = bt.boatTypeName,
                                      boatTypeDescription = bt.boatTypeDescription,
-                                     boatOutOfService = b.boatOutOfService,
                                      boatSteer = bt.boatSteer,
                                      boatAmountSpaces = bt.boatAmountSpaces,
                                      boatRowLevel = bt.boatRowLevel
@@ -83,17 +82,13 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    if (b.boatRowLevel > AccessLevel)
-                        continue;
-
                     // Add boat to boats list
                     Boat boat = new Boat()
                     {
                         boatId = b.boatId,
                         boatTypeName = b.boatTypeName,
                         boatAmountOfSpaces = b.boatAmountSpaces,
-                        boatName = b.boatName,
-                        IsSelected = (b.boatOutOfService == 1)? true : false
+                        boatName = b.boatName
                     };
                     //Filters selection based on chosen options
                     if (FilterEnabled)
@@ -114,6 +109,11 @@ namespace KBSBoot.View
                             }
                         }
                     }
+
+                    //Do not show boats in maintenance
+                    if (boat.CheckIfTodayBoatIsInMaintenance() == true)
+                        continue;
+
                     boats.Add(boat);
                 }
                 return boats;
@@ -198,7 +198,13 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to detailpage on click
-            Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
+            if (AccessLevel == 3)
+            {
+                Switcher.Switch(new BoatDetailMaterialCommissioner(FullName, AccessLevel, boat.boatId, MemberId));
+            } else
+            {
+                Switcher.Switch(new BoatDetail(FullName, AccessLevel, boat.boatId, MemberId));
+            }
         }
 
         //Go to reservation screen
@@ -208,7 +214,7 @@ namespace KBSBoot.View
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
             // Switch screen to reservation page on click
-            //SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
+            SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.BoatOverview;
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
         }
 

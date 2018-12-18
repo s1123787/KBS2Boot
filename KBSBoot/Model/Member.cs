@@ -33,7 +33,7 @@ namespace KBSBoot.Model
             using (var context = new BootDB())
             {
                 //all usernames of members who are active in database in a list
-                var members = (from m in context.Members where m.memberSubscribedUntill > DateTime.Now select m).ToList<Member>();
+                var members = (from m in context.Members where m.memberSubscribedUntill > DateTime.Now || m.memberAccessLevelId == 4 select m).ToList<Member>();
 
                 //check if username exist in list from database
                 if (members.Any(i => i.memberUsername == InputUserName))
@@ -95,11 +95,24 @@ namespace KBSBoot.Model
 
         public void AddNewUserToDB(string NameInput, string UsernameInput)
         {
-            using (var context = new BootDB())
+            //add user as member, but not active yet
+            if (CheckAmountUsers() != 0)
             {
-                var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1, };
-                context.Members.Add(member);
-                context.SaveChanges();
+                using (var context = new BootDB())
+                {
+                    var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1 };
+                    context.Members.Add(member);
+                    context.SaveChanges();
+                }
+            }//if system has no members, first one to register is admin
+            else
+            {
+                using (var context = new BootDB())
+                {
+                    var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 4, memberRowLevelId = 1 };
+                    context.Members.Add(member);
+                    context.SaveChanges();
+                }
             }
         }
 
@@ -158,6 +171,30 @@ namespace KBSBoot.Model
                 }
             }
         }
+        
+        //Method to check if user already exists
+        public static void CheckIfMemberExists(Member member)
+        {
+            using (var context = new BootDB())
+            {
+                var members = from m in context.Members
+                    where m.memberUsername == member.memberUsername
+                    select m;
+
+                if (members.ToList().Count > 0)
+                    throw new Exception("Gebruiker bestaat al");
+            }
+        }
+
+        //Method to add member to the database
+        public static void AddMemberToDB(Member member)
+        {
+            using (var context = new BootDB())
+            {
+                context.Members.Add(member);
+                context.SaveChanges();
+            }
+        }
 
         //Method used to check if the entered name and user name contain any invalid characters
         public static void CheckForInvalidCharacters(string str)
@@ -200,6 +237,29 @@ namespace KBSBoot.Model
         protected virtual void OnNewHomePageMade(int type, string FullName, int memberId)
         {
             OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, memberId));
+        }
+
+        private int CheckAmountUsers()
+        {
+            using (var context = new BootDB())
+            {
+                var data = (from m in context.Members
+                            select m).ToList();
+                return data.Count;
+            }
+        }
+
+        //for unittests
+        public static void RemoveLastAddedMember()
+        {
+            using (var context = new BootDB())
+            {
+                var data = (from m in context.Members
+                            select m).ToList().Last();
+                context.Members.Attach(data);
+                context.Members.Remove(data);
+                context.SaveChanges();
+            }
         }
     }
 }

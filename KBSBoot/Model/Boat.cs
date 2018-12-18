@@ -6,8 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -21,29 +19,18 @@ namespace KBSBoot.Model
         public int boatTypeId { get; set; }
 
         public string boatName { get; set; }
-        public int boatOutOfService { get; set; }
         public string boatYoutubeUrl { get; set; }
 
         public BitmapImage boatPhotoBitmap;
         private string returnImageBlob;
-        
-        [NotMapped]
-        public string boatTypeName { get; set; }
 
-        [NotMapped]
-        public string boatTypeDescription { get; set; }
-
-        [NotMapped]
-        public int boatAmountSpaces { get; set; }
-
-        [NotMapped]
-        public string boatSteer { get; set; }
-
-        [NotMapped]
-        public bool IsSelected { get; set; }
-
-        [NotMapped]
-        public int boatAmountOfSpaces { get; set; }
+        [NotMapped] public bool IsInMaintenance { get; set; }
+        [NotMapped] public string boatTypeName { get; set; }
+        [NotMapped] public string boatTypeDescription { get; set; }
+        [NotMapped] public int boatAmountSpaces { get; set; }
+        [NotMapped] public string boatSteer { get; set; }
+        [NotMapped] public bool IsSelected { get; set; }
+        [NotMapped] public int boatAmountOfSpaces { get; set; }
         
         //Properties used for DamageReportsScreen
         [NotMapped] public int boatDamageReportAmount { get; set; }
@@ -138,7 +125,6 @@ namespace KBSBoot.Model
                     {
                         boatName = e.boatName,
                         boatTypeId = e.boatTypeId,
-                        boatOutOfService = 0,
                         boatYoutubeUrl = (e.boatYoutubeUrl == "")? null : e.boatYoutubeUrl
                     };
 
@@ -220,6 +206,50 @@ namespace KBSBoot.Model
 
             }
             return SelectedBoatTypeId;
+        }
+
+        public bool CheckIfBoatInMaintenance()
+        {
+            bool returnValue = false;
+            List<BoatInMaintenances> boatItems = new List<BoatInMaintenances>();
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId
+                            orderby b.boatInMaintenanceId descending
+                            select b;
+
+                DateTime now = DateTime.Now.Date;
+                foreach (BoatInMaintenances bb in boats)
+                {
+                    boatItems.Add(bb);
+                }
+
+                //if all db items are before today
+                if (boatItems.Count == boats.ToList().Count)
+                    returnValue = true;
+
+            }
+
+            return returnValue;
+        }
+
+        public bool CheckIfTodayBoatIsInMaintenance()
+        {
+            bool returnValue = false;
+            DateTime today = DateTime.Now;
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId && (b.startDate <= today && b.endDate >= today)
+                            select b;
+                if (boats.ToList().Count > 0)
+                    returnValue = true;
+            }
+
+            return returnValue;
         }
     }
 }

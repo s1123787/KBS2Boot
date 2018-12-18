@@ -29,7 +29,7 @@ namespace KBSBoot.Model
                     // Convert Image to byte array
                     image.Save(ms, format);
                     byte[] imageBytes = ms.ToArray();
-                    InputValidation.CheckImageFileSize(imageBytes, 256000);
+                    InputValidation.CheckImageFileSize(imageBytes, 469986);
 
                     // Convert byte array to Base64 String
                     string base64String = Convert.ToBase64String(imageBytes);

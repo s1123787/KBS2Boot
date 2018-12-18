@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KBSBoot.DAL;
 using KBSBoot.Model;
+using Microsoft.Win32;
+using Image = System.Drawing.Image;
 
 namespace KBSBoot.View
 {
@@ -23,7 +14,6 @@ namespace KBSBoot.View
     public partial class ReportDamage : UserControl
     {
         public string FullName;
-        public int boatId;
         public int AccessLevel;
         public int ReservationId;
         public int BoatId;
@@ -34,14 +24,17 @@ namespace KBSBoot.View
             ReservationsScreen
         };
         public static Page getPage;
-        
+
+        public Image SelectedImageForConversion;
+
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
+        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId, int ReservationId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
-            this.boatId = boatId;
+            this.BoatId = boatId;
             this.MemberId = MemberId;
+            this.ReservationId = ReservationId;
             InitializeComponent();
         }
 
@@ -58,17 +51,31 @@ namespace KBSBoot.View
             {
                 try
                 {
+                    //Convert image to blob
+                    var SelectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
+                    string SelectedImageInput = SelectedImageString;
+
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
-                        boatId = this.boatId,
+                        reservationId = ReservationId,
+                        boatId = BoatId,
+                        memberId = MemberId,
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
-                        boatDamageReason = reason
+                        boatDamageReason = reason,
+                        boatImageBlob = SelectedImageInput
                     };
 
                     //Add report to database
-                    AddReportToDB(boatDamage);
+                    BoatDamage.AddReportToDB(boatDamage);
+                    
+                    MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                }
+                catch (FileTooLargeException)
+                {
+                    MessageBox.Show("De geselecteerde afbeelding is te groot. (Max. 256kb)", "Bestand te groot", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 catch (Exception exception)
                 {
@@ -82,15 +89,18 @@ namespace KBSBoot.View
             }
         }
 
-        //Method to add report to the database
-        public void AddReportToDB(BoatDamage report)
+        private void ImageSelect_Click(object sender, RoutedEventArgs e)
         {
-            using (var context = new BootDB())
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Kies een afbeelding";
+            op.Filter = "PNG| *.png";
+
+            //Shows a preview for the selected image
+            if (op.ShowDialog() == true)
             {
-                context.BoatDamages.Add(report);
-                context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
+                ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
+                SelectedImageForConversion = System.Drawing.Image.FromFile(op.FileName);
             }
         }
 
@@ -99,7 +109,7 @@ namespace KBSBoot.View
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
@@ -118,10 +128,12 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
         }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
         }
+
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
             switch (getPage)
@@ -134,6 +146,7 @@ namespace KBSBoot.View
                     break;
             }
         }
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));

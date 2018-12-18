@@ -114,14 +114,15 @@ namespace KBSBoot.View
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
                                 beginTime = r.beginTime,
-                                endTime = r.endTime
+                                endTime = r.endTime,
+                                boatId = b.boatId
                             });
 
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
                     string resdate = d.date.ToString("d");
-                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
             }
             if(reservations.Count == 0)
@@ -155,6 +156,7 @@ namespace KBSBoot.View
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
                             where (r.memberId == MemberId && r.date <= date && r.reservationBatch == 0)
+                            where r.memberId == MemberId && (r.date < date || (r.date == date && r.endTime < endTime) && r.reservationBatch == 0)
                             orderby r.date descending, r.beginTime descending
                             select new
                             {
@@ -165,12 +167,13 @@ namespace KBSBoot.View
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
                                 reservationBatch = r.reservationBatch
+                                boatId = b.boatId
                             });
                 //add all reservations to reservation list
                 foreach (var d in data)
                 {
                     string resdate = d.date.ToString("d");
-                    reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime));
+                    reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
 
                 //add list with reservation to the grid
@@ -184,7 +187,7 @@ namespace KBSBoot.View
         {
             ReportDamage.getPage = ReportDamage.Page.ReservationsScreen;
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            Switcher.Switch(new ReportDamage(FullName, reservation.reservationId, AccessLevel, MemberId));
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId, reservation.reservationId));
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -197,6 +200,22 @@ namespace KBSBoot.View
             {
                 reservation.DeleteReservation(reservation.reservationId);
                 Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
+            }
+        }
+
+        private void ReserveAgain_Click(object sender, RoutedEventArgs e)
+        {
+            //get data from correct row
+            Reservations r = ((FrameworkElement)sender).DataContext as Reservations;
+
+            //Check if member has already 2 reservations
+            if (Reservations.CheckAmountReservations(MemberId) >= 2)
+            {
+                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }else
+            {
+                SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.ReservationsScreen;
+                Switcher.Switch(new SelectDateOfReservation(r.boatId, r.boatName, r.boatType, AccessLevel, FullName, MemberId));
             }
         }
 

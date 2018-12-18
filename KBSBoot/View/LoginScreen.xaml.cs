@@ -65,5 +65,10 @@ namespace KBSBoot.View
                 Switcher.Switch(new HomePageMember(e.FullName, e.TypeMember, e.MemberId));
             }
         }
+
+        private void DidLoaded(object sender, RoutedEventArgs e)
+        {
+            this.usernametxt.Focus();
+        }
     }
 }

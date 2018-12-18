@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.DAL;
 using KBSBoot.Model;
+using MaterialDesignThemes.Wpf;
 
 namespace KBSBoot.View
 {
@@ -49,26 +41,39 @@ namespace KBSBoot.View
                                boatName = b.boatName,
                                boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
                                boatDamageReportAmount = (from bd2 in context.BoatDamages where bd2.boatId == b.boatId select bd2).Count(),
-                               boatOutOfService = b.boatOutOfService
                            };
-
+                
                 //add all boats with damage reports to list
                 foreach (var d in data)
                 {
-                    boats.Add(new Boat
+                    Boat nextBoat = new Boat
                     {
                         boatId = d.boatId,
                         boatName = d.boatName,
                         boatTypeDescription = d.boatDesc,
-                        boatDamageReportAmount = d.boatDamageReportAmount,
-                        boatOutOfService = d.boatOutOfService,
-                        boatInService = d.boatOutOfService == 1,
-                        IsSelected = (d.boatOutOfService == 1) ? true : false
-                    });
+                        boatDamageReportAmount = d.boatDamageReportAmount
+                    };
+
+                    boats.Add(nextBoat);
+
+
+                    //check if boat is in maintenance
+                    if (nextBoat.CheckIfBoatInMaintenance() == true)
+                    {
+                        //hide button in overview
+                        nextBoat.IsInMaintenance = true;
+                    }
                 }
             }
             //add list with boats to the grid
             BoatList.ItemsSource = boats;
+        }
+
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)
@@ -101,6 +106,15 @@ namespace KBSBoot.View
             }
         }
 
+        private void InMaintenance_Click(object sender, RoutedEventArgs e)
+        {
+            // Get current boat from click row
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+
+            // Switch screen to detailpage on click
+            Switcher.Switch(new InMaintenanceScreen(FullName, AccessLevel, boat.boatId, MemberId));
+        }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
@@ -125,62 +139,7 @@ namespace KBSBoot.View
             // Switch screen to detailpage on click
             Switcher.Switch(new DamageDetailsScreen(FullName, AccessLevel, boat.boatId, MemberId));
         }
-
-        //OutOfService checkbox actions, takes into maintenance
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            // Get current boat from click row
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-
-            try
-            {
-                using (var context = new BootDB())
-                {
-                    var currentBoat = (from b in context.Boats
-                                       where b.boatId == boat.boatId
-                                       select b).SingleOrDefault();
-
-                    currentBoat.boatOutOfService = 1;
-
-                    context.SaveChanges();
-
-                    MessageBox.Show(boat.boatName + " is in onderhoud geplaatst.", "Boot in onderhoud", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception exception)
-            {
-                //Error message for exception that could occur
-                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        //Unchecked takes boat out of maintenance
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            // Get current boat from click row
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-
-            try
-            {
-                using (var context = new BootDB())
-                {
-                    var currentBoat = (from b in context.Boats
-                                       where b.boatId == boat.boatId
-                                       select b).SingleOrDefault();
-
-                    currentBoat.boatOutOfService = 0;
-
-                    context.SaveChanges();
-
-                    MessageBox.Show(boat.boatName + " is uit onderhoud genomen en weer te reserveren.",
-                        "Boot weer beschikbaar", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch (Exception exception)
-            {
-                //Error message for exception that could occur
-                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        
     }
 }
+ 
