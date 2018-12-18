@@ -46,8 +46,8 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
 
-                                    <Button Click="InMaintenance_Click" Content="🛠">
-                                        <Button.Style>
+                                    <Button Click="InMaintenance_Click" Content="🛠" >
+                                        <!--<Button.Style>
                                             <Style TargetType="{x:Type Button}">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsInMaintenance}" Value="False">
@@ -60,7 +60,7 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </Button.Style>
+                                        </Button.Style>-->
                                     </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
