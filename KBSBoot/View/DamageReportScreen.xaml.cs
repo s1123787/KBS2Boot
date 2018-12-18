@@ -55,6 +55,16 @@ namespace KBSBoot.View
                     });
                 }
             }
+            //If there are no damagereports yet set tabel visibility to false
+            if (boats.Count == 0)
+            {
+                BoatList.Visibility = Visibility.Collapsed;
+            }
+            //If there are damagereports set the label that says there are non to invisible
+            else
+            {
+                NoDamageReportsAvailable.Visibility = Visibility.Collapsed;
+            }
             //add list with boats to the grid
             BoatList.ItemsSource = boats;
         }

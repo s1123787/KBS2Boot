@@ -48,5 +48,6 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+        <Label Name="NoDamageReportsAvailable" Content="Er zijn nog geen schademeldingen" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="370,227,370,0"/>
     </Grid>
 </UserControl>
