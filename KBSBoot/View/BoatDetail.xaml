@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="Bool2VisibilityConverter" />
     </UserControl.Resources>
-    <Grid x:Name="ViewGrid"  HorizontalAlignment="Left" Width="1024" Height="768" VerticalAlignment="Top">
+    <Grid x:Name="ViewGrid" Width="1024" Height="768">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80" Width="1024">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="PreviousPage_Click">
@@ -50,6 +50,6 @@
             <materialDesign:PackIcon Kind="LockOpen" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
             <Label FontSize="16"  x:Name="boatViewNiveau" Content="Niveau" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
+        <Button x:Name="ReservationBoatButton" Content="Reserveer" Height="35" Width="105" Margin="849,118,70,615" Click="Reservation_Click" HorizontalAlignment="Center"/>
     </Grid>
-
 </UserControl>
