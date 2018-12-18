@@ -66,7 +66,22 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            backToHomeScreen();
+            if (AccessLevel == 1)
+            {
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            }
         }
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
@@ -255,28 +270,9 @@ namespace KBSBoot.View
                 //show message when reservation is added to screen
                 MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                backToHomeScreen();
+                Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
             }
         }
-
-        public void backToHomeScreen()
-        {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
-        }
+        
     }
 }
