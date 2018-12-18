@@ -33,33 +33,17 @@
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot beschrijving" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatDamageReportAmount}" Header="Aantal schademeldingen" Width="auto"/>
+                        <GridViewColumn Width="150" Header="Onderhoud">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="InMaintenance_Click" Content="🛠"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="👁" Click="ViewBoat_Click"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="150" Header="Onderhoud">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-
-                                    <Button Click="InMaintenance_Click" Content="🛠" >
-                                        <!--<Button.Style>
-                                            <Style TargetType="{x:Type Button}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsInMaintenance}" Value="False">
-                                                        <Setter Property="Visibility" Value="Hidden"/>
-                                                        <Setter Property="Content" Value="FOUT"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsInMaintenance}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Setter Property="Content" Value="🛠"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>-->
-                                    </Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

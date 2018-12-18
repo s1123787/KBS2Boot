@@ -251,5 +251,37 @@ namespace KBSBoot.Model
 
             return returnValue;
         }
+
+        public bool CheckIfStartDateBeforeEndDate(DateTime startDate, DateTime endDate)
+        {
+            return startDate <= endDate;
+        }
+
+        public bool CheckBoatInMaintenance(int boatId)
+        {
+            bool returnValue = false;
+            List<BoatInMaintenances> boatItems = new List<BoatInMaintenances>();
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == boatId
+                            orderby b.boatInMaintenanceId descending
+                            select b;
+
+                DateTime now = DateTime.Now.Date;
+                foreach (BoatInMaintenances bb in boats)
+                {
+                    boatItems.Add(bb);
+                }
+
+                //if all db items are before today
+                if (boatItems.Count > 0)
+                    returnValue = true;
+
+            }
+
+            return returnValue;
+        }
     }
 }
