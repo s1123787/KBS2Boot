@@ -31,7 +31,9 @@ namespace KBSBoot.Model
         [NotMapped] public string boatSteer { get; set; }
         [NotMapped] public bool IsSelected { get; set; }
         [NotMapped] public int boatAmountOfSpaces { get; set; }
-        
+        [NotMapped] public int RowLevel { get; set; }
+        [NotMapped] public string RowlevelDescription { get; set; }
+
         //Properties used for DamageReportsScreen
         [NotMapped] public int boatDamageReportAmount { get; set; }
         [NotMapped] public bool boatInService { get; set; }
