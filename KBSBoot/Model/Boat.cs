@@ -238,26 +238,12 @@ namespace KBSBoot.Model
                 DateTime now = DateTime.Now.Date;
                 foreach (BoatInMaintenances bb in boats)
                 {
-                    Console.WriteLine($"Boot: {bb.boatId}");
-                    DateTime start = (DateTime)bb.startDate;
-                    DateTime end = (DateTime)bb.endDate;
-
-                    Console.WriteLine($" Start: {start.Date}");
-                    Console.WriteLine($" End: {end.Date}");
-                    Console.WriteLine(now);
-
-                    //if maintenance is before today
-                    if (start.Date != now && end.Date != now)
-                    { 
-                        boatItems.Add(bb);
-                    }
+                    boatItems.Add(bb);
                 }
 
                 //if all db items are before today
                 if (boatItems.Count == boats.ToList().Count)
                     returnValue = true;
-
-                Console.WriteLine(returnValue);
 
             }
 

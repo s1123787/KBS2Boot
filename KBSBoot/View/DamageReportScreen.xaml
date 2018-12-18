@@ -44,7 +44,7 @@
                         </GridViewColumn>
                         <GridViewColumn Width="150" Header="Onderhoud">
                             <GridViewColumn.CellTemplate>
-                                <DataTemplate x:Name="inMaintenanceDataTemplate">
+                                <DataTemplate>
 
                                     <Button Click="InMaintenance_Click" Content="🛠">
                                         <Button.Style>
