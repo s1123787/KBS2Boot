@@ -30,7 +30,8 @@ namespace KBSBoot.Model
         [NotMapped] public bool IsSelected { get; set; }
         [NotMapped] public int boatAmountOfSpaces { get; set; }
         [NotMapped] public int RowLevel { get; set; }
-        
+        [NotMapped] public string RowlevelDescription { get; set; }
+
         //Properties used for DamageReportsScreen
         [NotMapped] public int boatDamageReportAmount { get; set; }
         [NotMapped] public bool boatInService { get; set; }
@@ -54,7 +55,6 @@ namespace KBSBoot.Model
             this.boatTypeDescription = TypeDescription;
             this.boatAmountSpaces = AmountSpaces;
             this.boatSteer = Steer;
-            this.RowLevel = RowLevel;
         }
 
         public object ImageSource

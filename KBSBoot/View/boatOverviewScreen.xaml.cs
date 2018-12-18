@@ -30,6 +30,8 @@ namespace KBSBoot.View
         private string bootnaam;
         private int bootplek;
         public int MemberId;
+        public int MemberRowlevel;
+        public string MemberRowlevelDescription;
 
 
         public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
@@ -67,6 +69,8 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
+                                 join r in context.Rowlevel
+                                 on bt.boatRowLevel equals r.rowLevelId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -76,7 +80,8 @@ namespace KBSBoot.View
                                      boatTypeDescription = bt.boatTypeDescription,
                                      boatSteer = bt.boatSteer,
                                      boatAmountSpaces = bt.boatAmountSpaces,
-                                     boatRowLevel = bt.boatRowLevel
+                                     boatRowLevel = bt.boatRowLevel,
+                                     rowlevelDescription = r.description
                                  });
 
                 foreach (var b in tableData)
@@ -88,7 +93,8 @@ namespace KBSBoot.View
                         boatTypeName = b.boatTypeName,
                         boatAmountOfSpaces = b.boatAmountSpaces,
                         boatName = b.boatName,
-                        RowLevel = b.boatRowLevel
+                        RowLevel = b.boatRowLevel,
+                        RowlevelDescription = b.rowlevelDescription
                     };
                     //Filters selection based on chosen options
                     if (FilterEnabled)
@@ -203,18 +209,25 @@ namespace KBSBoot.View
         //Go to reservation screen
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
-            // Get current boat from click row
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-
-            if(Reservations.CheckAmountReservations(MemberId) < 2)
+   
+                // Get current boat from click row
+                Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            if (boat.RowLevel <= MemberRowlevel)
             {
-                // Switch screen to reservation page on click
-                SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.BoatOverview;
-                Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+                if (Reservations.CheckAmountReservations(MemberId) < 2)
+                {
+                    // Switch screen to reservation page on click
+                    SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.BoatOverview;
+                    Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+                }
+                else
+                {
+                    MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
-                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("U kunt deze boot niet reserveren, uw roeiniveau is niet hoog genoeg", "Kan niet reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -265,6 +278,23 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
+
+            //get rowlevel from member
+            using (var context = new BootDB())
+            {
+                var data = (from m in context.Members
+                            where m.memberId == MemberId
+                            select m.memberRowLevelId).First();
+                MemberRowlevel = data;
+
+                var desc = (from r in context.Rowlevel
+                            where r.rowLevelId == MemberRowlevel
+                            select r.description).First();
+                MemberRowlevelDescription = desc;
+            }
+
+            //set label content
+            RowLevelNameLabel.Content = $"Roeiniveau: {MemberRowlevelDescription}";
         }
 
         private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
