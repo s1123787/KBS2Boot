@@ -23,17 +23,19 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Margin="0">Schade melden</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <Label Content="Type schade:" HorizontalAlignment="Left" Margin="118,117,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <ComboBox x:Name="DamageLevel" HorizontalAlignment="Left" Margin="118,153,0,0" VerticalAlignment="Top" Width="210" FontSize="16">
+        <materialDesign:PackIcon Kind="Anchor" Width="40" Height="40" Foreground="#FF5722" Margin="118,117,0,0" />
+        <Label Name="BoatName" Content="Naam" FontSize="22" Foreground="#FF5722" Width="auto" MaxWidth="281" HorizontalAlignment="Left" Margin="163,118,0,0" VerticalAlignment="Top"/>
+        <Label Content="Type schade:" HorizontalAlignment="Left" Margin="118,171,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <ComboBox x:Name="DamageLevel" HorizontalAlignment="Left" Margin="118,207,0,0" VerticalAlignment="Top" Width="210" FontSize="16">
             <ComboBoxItem IsSelected="True">Lichte schade</ComboBoxItem>
             <ComboBoxItem>Schade</ComboBoxItem>
             <ComboBoxItem>Onherstelbare schade</ComboBoxItem>
         </ComboBox>
-        <Label Content="Waar zit de schade:" HorizontalAlignment="Left" Margin="118,205,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="31" Margin="118,241,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
-        <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,291,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="128" Margin="118,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
-        <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="299,483,0,0" VerticalAlignment="Top" Width="145" Click="ReportDamageButton_Click" FontSize="16" Height="41"/>
+        <Label Content="Waar zit de schade:" HorizontalAlignment="Left" Margin="118,259,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="31" Margin="118,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
+        <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,345,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="128" Margin="118,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
+        <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="299,537,0,0" VerticalAlignment="Top" Width="145" Click="ReportDamageButton_Click" FontSize="16" Height="41"/>
         <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="508,465,0,0" VerticalAlignment="Top" Width="170" Click="ImageSelect_Click" FontSize="16" Height="42"/>
         <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="508,439,0,0" VerticalAlignment="Top"/>
         <Label Content="*Alleen PNG formaat" HorizontalAlignment="Left" Margin="508,520,0,0" VerticalAlignment="Top"/>

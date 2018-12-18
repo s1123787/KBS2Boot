@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using KBSBoot.Model;
 using Microsoft.Win32;
+using KBSBoot.DAL;
+using System.Linq;
 using Image = System.Drawing.Image;
 
 namespace KBSBoot.View
@@ -119,6 +121,28 @@ namespace KBSBoot.View
             else if (AccessLevel == 4)
             {
                 AccessLevelButton.Content = "Administrator";
+            }
+
+            //Load boat name
+            try
+            {
+                using (var context = new BootDB())
+                {
+                    var name = from b in context.Boats
+                               where BoatId == b.boatId
+                               select b.boatName;
+
+                    //Set the name label content to the boat's name
+                    foreach (var n in name)
+                    {
+                        BoatName.Content = n;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
