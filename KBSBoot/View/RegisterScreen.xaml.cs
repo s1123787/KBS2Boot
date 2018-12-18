@@ -29,12 +29,10 @@ namespace KBSBoot.View
             InitializeComponent();
             Member member = new Member();
             OnRegister += member.OnRegisterOKButtonIsPressed;
-            //Name.Focus();
         }
 
         private void OKbtn_Click(object sender, RoutedEventArgs e)
         {
-
             var NameText = Name.Text;
             var UsernameText = Username.Text;
 
@@ -51,14 +49,9 @@ namespace KBSBoot.View
             Switcher.Switch(new LoginScreen());
         }
 
-        private void Clicked(object sender, MouseButtonEventArgs e)
+        private void DidLoaded(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
-        }
-
-        private void Click(object sender, MouseButtonEventArgs e)
-        {
-            Switcher.Switch(new LoginScreen());
+            Name.Focus();
         }
     }
 }

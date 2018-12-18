@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:KBSBoot.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
@@ -27,9 +26,8 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Boten met schademeldingen"/>
             </DockPanel>
         </materialDesign:ColorZone>
-
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944">
-            <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" HorizontalAlignment="Center">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,227,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollView_MouseWheel">
+            <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" HorizontalAlignment="Center" Focusable="False">
                 <ListView.View>
                     <GridView x:Name="BoatGridView">
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>

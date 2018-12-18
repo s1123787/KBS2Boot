@@ -37,6 +37,9 @@
   <PropertyGroup>
     <StartupObject>KBSBoot.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>rowboat.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -109,6 +112,9 @@
     <Compile Include="View\BoatDetail.xaml.cs">
       <DependentUpon>BoatDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BoatDetailMaterialCommissioner.xaml.cs">
+      <DependentUpon>BoatDetailMaterialCommissioner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
     </Compile>
@@ -166,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BoatDetailMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,6 +320,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\multipleboats.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="rowboat.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

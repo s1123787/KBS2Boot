@@ -6,8 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -26,26 +24,13 @@ namespace KBSBoot.Model
         public BitmapImage boatPhotoBitmap;
         private string returnImageBlob;
 
-        [NotMapped]
-        public bool IsInMaintenance { get; set; }
-
-        [NotMapped]
-        public string boatTypeName { get; set; }
-
-        [NotMapped]
-        public string boatTypeDescription { get; set; }
-
-        [NotMapped]
-        public int boatAmountSpaces { get; set; }
-
-        [NotMapped]
-        public string boatSteer { get; set; }
-
-        [NotMapped]
-        public bool IsSelected { get; set; }
-
-        [NotMapped]
-        public int boatAmountOfSpaces { get; set; }
+        [NotMapped] public bool IsInMaintenance { get; set; }
+        [NotMapped] public string boatTypeName { get; set; }
+        [NotMapped] public string boatTypeDescription { get; set; }
+        [NotMapped] public int boatAmountSpaces { get; set; }
+        [NotMapped] public string boatSteer { get; set; }
+        [NotMapped] public bool IsSelected { get; set; }
+        [NotMapped] public int boatAmountOfSpaces { get; set; }
         
         //Properties used for DamageReportsScreen
         [NotMapped] public int boatDamageReportAmount { get; set; }

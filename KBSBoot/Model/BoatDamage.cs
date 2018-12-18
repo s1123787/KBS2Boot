@@ -1,11 +1,9 @@
 ﻿using KBSBoot.DAL;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace KBSBoot.Model
 {
@@ -16,6 +14,7 @@ namespace KBSBoot.Model
         public int boatDamageLevel { get; set; }
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
+        public string boatImageBlob { get; set; }
         public int reservationId { get; set; }
         public int memberId { get; set; }
       
@@ -23,6 +22,29 @@ namespace KBSBoot.Model
         [NotMapped] public string boatDamageReportDate { get; set; }
         [NotMapped] public string boatDamageReporter { get; set; }
         [NotMapped] public string boatDamageLevelText { get; set; }
+
+        public object ImageSource
+        {
+            get
+            {
+                string boatPhotoBlob = boatImageBlob;
+                if (boatPhotoBlob != null && boatPhotoBlob != "")
+                {
+                    byte[] ib = Convert.FromBase64String(boatPhotoBlob);
+                    //Convert it to BitmapImage
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = new MemoryStream(ib);
+                    image.EndInit();
+                    //Return the image
+                    return image;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         //Method to convert damage level int to a string that can be used in DamageDetailsScreen
         public static string DamageLevelToString(int input)
@@ -42,8 +64,7 @@ namespace KBSBoot.Model
             {
                 context.BoatDamages.Add(report);
                 context.SaveChanges();
-                MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
+        }        
     }
 }

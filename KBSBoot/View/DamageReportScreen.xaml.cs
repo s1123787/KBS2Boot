@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.DAL;
 using KBSBoot.Model;
 using MaterialDesignThemes.Wpf;
@@ -76,6 +67,13 @@ namespace KBSBoot.View
             }
             //add list with boats to the grid
             BoatList.ItemsSource = boats;
+        }
+
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)
