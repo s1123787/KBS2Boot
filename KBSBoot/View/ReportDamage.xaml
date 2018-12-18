@@ -32,9 +32,9 @@
             <ComboBoxItem>Onherstelbare schade</ComboBoxItem>
         </ComboBox>
         <Label Content="Waar zit de schade:" HorizontalAlignment="Left" Margin="118,259,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="31" Margin="118,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
+        <TextBox x:Name="LocationBox" HorizontalAlignment="Left" Height="31" Margin="118,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16" MaxLength="100"/>
         <Label Content="Wat is er gebeurd:" HorizontalAlignment="Left" Margin="118,345,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="128" Margin="118,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16"/>
+        <TextBox x:Name="ReasonBox" HorizontalAlignment="Left" Height="128" Margin="118,381,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="326" FontSize="16" MaxLength="500"/>
         <Button x:Name="ReportDamageButton" Content="Meld schade" HorizontalAlignment="Left" Margin="299,537,0,0" VerticalAlignment="Top" Width="145" Click="ReportDamageButton_Click" FontSize="16" Height="41"/>
         <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="508,465,0,0" VerticalAlignment="Top" Width="170" Click="ImageSelect_Click" FontSize="16" Height="42"/>
         <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="508,439,0,0" VerticalAlignment="Top"/>

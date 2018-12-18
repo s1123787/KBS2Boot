@@ -59,6 +59,7 @@ namespace KBSBoot.View
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
                         boatDamageReason = reason,
+                        reportDate = DateTime.Now,
                         boatImageBlob = SelectedImageInput
                     };
 
@@ -66,7 +67,19 @@ namespace KBSBoot.View
                     BoatDamage.AddReportToDB(boatDamage);
                     
                     MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                    switch (AccessLevel)
+                    {
+                        case 1:
+                            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                            break;
+                        case 2:
+                            Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+                            break;
+                        case 3:
+                            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+                            break;
+                    }
+                    
                 }
                 catch (FileTooLargeException)
                 {
