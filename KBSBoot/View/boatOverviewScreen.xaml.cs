@@ -113,6 +113,11 @@ namespace KBSBoot.View
                             }
                         }
                     }
+
+                    //Do not show boats in maintenance
+                    if (boat.CheckIfTodayBoatIsInMaintenance() == true)
+                        continue;
+
                     boats.Add(boat);
                 }
                 return boats;

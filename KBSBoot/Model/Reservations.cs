@@ -30,6 +30,7 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+
         [NotMapped]
         public string memberName { get; set; }
         [NotMapped]

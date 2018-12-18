@@ -42,17 +42,27 @@ namespace KBSBoot.View
                                boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
                                boatDamageReportAmount = (from bd2 in context.BoatDamages where bd2.boatId == b.boatId select bd2).Count(),
                            };
-
+                
                 //add all boats with damage reports to list
                 foreach (var d in data)
                 {
-                    boats.Add(new Boat
+                    Boat nextBoat = new Boat
                     {
                         boatId = d.boatId,
                         boatName = d.boatName,
                         boatTypeDescription = d.boatDesc,
                         boatDamageReportAmount = d.boatDamageReportAmount
-                    });
+                    };
+
+                    boats.Add(nextBoat);
+
+
+                    //check if boat is in maintenance
+                    if (nextBoat.CheckIfBoatInMaintenance() == true)
+                    {
+                        //hide button in overview
+                        nextBoat.IsInMaintenance = true;
+                    }
                 }
             }
             //add list with boats to the grid
@@ -132,3 +142,4 @@ namespace KBSBoot.View
         
     }
 }
+ 
