@@ -34,7 +34,7 @@
         </ComboBox>
         <Label Content="Youtube url" HorizontalAlignment="Left" Margin="58,426,0,0" VerticalAlignment="Top" FontSize="30"/>
         <TextBox x:Name="YoutubeUrlBox" HorizontalAlignment="Left" Height="50" Margin="254,413,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30"/>
-        <Button Content="Toevoegen" HorizontalAlignment="Left" Margin="453,524,0,0" VerticalAlignment="Top" Width="101" Click="AddBoat_Click"/>
+        <Button Content="Toevoegen" HorizontalAlignment="Left" Margin="453,524,0,0" VerticalAlignment="Top" Width="101" Click="AddBoat_Click" IsDefault="True"/>
         <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="636,392,0,0" VerticalAlignment="Top" Width="152" Click="ImageSelect_Click" />
 
         <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="636,366,0,0" VerticalAlignment="Top"/>

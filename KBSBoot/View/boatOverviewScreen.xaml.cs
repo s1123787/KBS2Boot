@@ -71,6 +71,7 @@ namespace KBSBoot.View
                                  on b.boatTypeId equals bt.boatTypeId
                                  join r in context.Rowlevel
                                  on bt.boatRowLevel equals r.rowLevelId
+                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -115,6 +116,11 @@ namespace KBSBoot.View
                             }
                         }
                     }
+
+                    //Do not show boats in maintenance
+                    if (boat.CheckIfTodayBoatIsInMaintenance() == true)
+                        continue;
+
                     boats.Add(boat);
                 }
                 return boats;
@@ -131,6 +137,7 @@ namespace KBSBoot.View
                     var tableData = (from b in context.Boats
                                      join bt in context.BoatTypes
                                      on b.boatTypeId equals bt.boatTypeId
+                                     where b.boatOutOfService == 0
                                      select new
                                      {
                                          boatNames = bt.boatTypeName
@@ -165,6 +172,7 @@ namespace KBSBoot.View
                     var tableData = (from b in context.Boats
                                      join bt in context.BoatTypes
                                      on b.boatTypeId equals bt.boatTypeId
+                                     where b.boatOutOfService == 0
                                      select new
                                      {
                                          boatAmountSpaces = bt.boatAmountSpaces

@@ -20,7 +20,7 @@ namespace KBSBoot.View
     /// <summary>
     /// Interaction logic for MakingReservationSelectBoat.xaml
     /// </summary>
-    public partial class MakingReservationSelectBoat : UserControl
+    public partial class BatchReservationBoatSelect : UserControl
     {
         public string FullName;
         public int AccessLevel;
@@ -30,8 +30,9 @@ namespace KBSBoot.View
         private int bootplek;
         private int RowLevelId;
         private string RowLevelName;
+        private List<Boat> ReservationSelection = new List<Boat>();
 
-        public MakingReservationSelectBoat(string FullName, int AccessLevel, int MemberId)
+        public BatchReservationBoatSelect(string FullName, int AccessLevel, int MemberId)
         {
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
@@ -40,7 +41,7 @@ namespace KBSBoot.View
             Bootplekken.ItemsSource = LoadBoatSeatsSelection();
             Bootnamen.ItemsSource = LoadBoatNamesSelection();
         }
-        
+
         private List<BoatTypes> LoadBoatNamesSelection()
         {
             List<BoatTypes> boatnames = new List<BoatTypes>();
@@ -49,7 +50,6 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
-                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatNames = bt.boatTypeName
@@ -75,7 +75,6 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
-                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatAmountSpaces = bt.boatAmountSpaces
@@ -173,39 +172,7 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-
-
-            //check if there are 2 (or more) reservation on the name
-            DateTime DateNow = DateTime.Now.Date;
-            TimeSpan TimeNow = DateTime.Now.TimeOfDay;
-
-            using(var context = new BootDB())
-            {
-                var data = (from r in context.Reservations
-                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
-                            select r.reservationId).ToList();
-                if (data.Count >= 2) //when it is not possible to make a reservation
-                {
-                    ScrollViewer.Visibility = Visibility.Hidden;
-                    FilterStackPanel.Visibility = Visibility.Hidden;                    
-                } else //when it is possible to make a reservation
-                {
-                    var data = (from r in context.Reservations
-                                where r.date > DateTime.Now && r.memberId == MemberId && (int)r.reservationBatch == 0
-                                select r.reservationId).ToList();
-                    if (data.Count >= 2) //when it is not possible to make a reservation
-                    {
-                        ScrollViewer.Visibility = Visibility.Hidden;
-                        FilterStackPanel.Visibility = Visibility.Hidden;
-                    }
-                    else //when it is possible to make a reservation
-                    {
-                        label1.Visibility = Visibility.Hidden;
-                        label2.Visibility = Visibility.Hidden;
-                        label.Visibility = Visibility.Hidden;
-                        LoadBoats();
-                    }
-                }
+            LoadBoats();
         }
 
         private void Hl_Click(object sender, RoutedEventArgs e)
@@ -213,30 +180,18 @@ namespace KBSBoot.View
             //when "klik hier" is pressed
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
-        
+
         public void LoadBoats()
         {
             using (var context = new BootDB())
             {
                 List<Boat> boats = new List<Boat>();
                 List<BoatTypes> boatTypes = new List<BoatTypes>();
-                //getting rowlevel id
-                RowLevelId = int.Parse((from b in context.Members
-                                                where b.memberId == MemberId
-                                                select b.memberRowLevelId).First().ToString());
-                //getting rowlevel name
-                RowLevelName = (from b in context.Rowlevel
-                                where b.rowLevelId == RowLevelId
-                                select b.description).First().ToString();
-
-                //show row level name on the screen
-                RowLevelNameLabel.Content = $"Roeiniveau: {RowLevelName}"; 
-
-                //get all data from the boats that are able for a reservation
+                
+                //Gets boats from database
                 var data = (from b in context.Boats
                         join bt in context.BoatTypes
                         on b.boatTypeId equals bt.boatTypeId
-                        where bt.boatRowLevel <= RowLevelId
                         select new
                         {
                             boatId = b.boatId,
@@ -247,7 +202,8 @@ namespace KBSBoot.View
                             boatTypeDescription = bt.boatTypeDescription,
                             boatAmountSpaces = bt.boatAmountSpaces,
                             boatSteer = bt.boatSteer,
-                        });                
+                        });
+
                 foreach (var d in data)
                 {
                     //Filters selection based on chosen options
@@ -282,11 +238,21 @@ namespace KBSBoot.View
 
         private void ReservationButtonIsPressed(object sender, RoutedEventArgs e)
         {
-            //to make it possible to make a reservation for the selected boat
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-            SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.SelectBoatScreen;
-            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeDescription, AccessLevel, FullName, MemberId));
+
+            Switcher.Switch(new BatchReservationMatchCommissioner(ReservationSelection, AccessLevel, FullName, MemberId));
         }
-       
+
+        //Adds the boat to the selection if it is selected
+        private void ReservationCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            ReservationSelection.Add(boat);
+        }
+
+        //Removes boat from the selection if it is unselectd
+        private void ReservationCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ReservationSelection.Remove(((FrameworkElement)sender).DataContext as Boat);
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace KBSBoot.Model
         public DateTime date { get; set; }
         public TimeSpan beginTime { get; set; }
         public TimeSpan endTime { get; set; }
+        public int reservationBatch { get; set; }
         [NotMapped]
         public int boatId { get; set; }
         [NotMapped]
@@ -30,6 +31,7 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+
         [NotMapped]
         public string memberName { get; set; }
         [NotMapped]
@@ -87,7 +89,20 @@ namespace KBSBoot.Model
             this.endTimeString = endTime.ToString(@"hh\:mm");
             this.boatId = boatId;
         }
-        
+  
+        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int reservationBatch)
+        {
+            this.reservationId = reservationId;
+            this.boatName = boatName;
+            this.boatType = boatType;
+            this.resdate = resdate;
+            this.beginTime = beginTime;
+            this.endTime = endTime;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
+            this.boatId = boatId;
+            this.reservationBatch = reservationBatch;
+        }
 
         public Reservations()
         {
