@@ -248,5 +248,18 @@ namespace KBSBoot.Model
                 return data.Count;
             }
         }
+
+        //for unittests
+        public static void RemoveLastAddedMember()
+        {
+            using (var context = new BootDB())
+            {
+                var data = (from m in context.Members
+                            select m).ToList().Last();
+                context.Members.Attach(data);
+                context.Members.Remove(data);
+                context.SaveChanges();
+            }
+        }
     }
 }

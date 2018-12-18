@@ -30,6 +30,10 @@ namespace KBSBoot.Model
         public string beginTimeString { get; set; }
         [NotMapped]
         public string endTimeString { get; set; }
+        [NotMapped]
+        public string memberName { get; set; }
+        [NotMapped]
+        public string memberUserName { get; set; }
         public bool valid = false;
         public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
@@ -47,6 +51,16 @@ namespace KBSBoot.Model
             this.date = date;
             this.beginTime = beginTime;
             this.endTime = endTime;
+        }
+
+        public Reservations(string memberName, string memberUserName, int reservationId, string resdate, TimeSpan beginTime, TimeSpan endTime)
+        {
+            this.reservationId = reservationId;
+            this.memberName = memberName;
+            this.memberUserName = memberUserName;
+            this.resdate = resdate;
+            this.beginTimeString = beginTime.ToString(@"hh\:mm");
+            this.endTimeString = endTime.ToString(@"hh\:mm");
         }
 
         public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime)
@@ -73,6 +87,7 @@ namespace KBSBoot.Model
             this.endTimeString = endTime.ToString(@"hh\:mm");
             this.boatId = boatId;
         }
+        
 
         public Reservations()
         {
@@ -224,7 +239,7 @@ namespace KBSBoot.Model
             else if (selectedEndTime - selectedBeginTime < new TimeSpan(1, 0, 0)) //check if reservation is less then hour
             {
                 return false;
-            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now && selectedBeginTime < DateTime.Now.TimeOfDay){
+            } else if (SelectDateOfReservation.SelectedDateTime == DateTime.Now.Date && selectedBeginTime < DateTime.Now.TimeOfDay){
                 return false;
             } else //if endtime is after begin time and reservation is more then 1 hour
             {
