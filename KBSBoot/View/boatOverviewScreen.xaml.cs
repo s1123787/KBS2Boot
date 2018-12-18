@@ -87,7 +87,8 @@ namespace KBSBoot.View
                         boatId = b.boatId,
                         boatTypeName = b.boatTypeName,
                         boatAmountOfSpaces = b.boatAmountSpaces,
-                        boatName = b.boatName
+                        boatName = b.boatName,
+                        RowLevel = b.boatRowLevel
                     };
                     //Filters selection based on chosen options
                     if (FilterEnabled)
@@ -205,9 +206,17 @@ namespace KBSBoot.View
             // Get current boat from click row
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
 
-            // Switch screen to reservation page on click
-            SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.BoatOverview;
-            Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+            if(Reservations.CheckAmountReservations(MemberId) < 2)
+            {
+                // Switch screen to reservation page on click
+                SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.BoatOverview;
+                Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeName, AccessLevel, FullName, MemberId));
+            }
+            else
+            {
+                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         private void EditBoat_Click(object sender, RoutedEventArgs e)
