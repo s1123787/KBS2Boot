@@ -146,7 +146,7 @@ namespace KBSBoot.View
             endTime.Clear();
 
             //reservation button is visible
-            ReservationButton.Visibility = Visibility.Visible;
+            ReservationButton.Visibility = Visibility.Visible;            
 
             //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
@@ -171,7 +171,8 @@ namespace KBSBoot.View
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
 
-            InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
@@ -233,9 +234,8 @@ namespace KBSBoot.View
                 selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
             } catch (Exception)
             {
-                ErrorLabel.Content = "geen geldige invoer!";
+                ErrorLabel.Content = "geen geldige invoer";
                 return;
-
             }
             //check if selected times are possible
             var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);

@@ -39,5 +39,6 @@
         </StackPanel>
         <Button x:Name="ReservationButton" Visibility="Hidden" Content="Reserveren" HorizontalAlignment="Left" Margin="638,663,0,0" VerticalAlignment="Top" Width="249" Height="38" Click="ReservationButton_Click"/>
         <Label x:Name="ErrorLabel" Foreground="Red" HorizontalAlignment="Left" Margin="150,470,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="ReservationMinHour" HorizontalAlignment="Left" Margin="140,420,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </UserControl>
