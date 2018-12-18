@@ -223,7 +223,7 @@ namespace KBSBoot.View
 
                 
 
-                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}.\n LET OP: alle reserveringen voor deze boot op deze dagen zijn verwijderd!");
+                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}.");
                 Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
             }
             
