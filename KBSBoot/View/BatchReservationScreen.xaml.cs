@@ -140,7 +140,6 @@ namespace KBSBoot.View
                         reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.reservationBatch));
                     }
 
-                Console.WriteLine(reservationsdistinct.Count());
                     foreach (var d in reservationsdistinct)
                     {
                     reservationsDistinct.Add(d);
@@ -217,7 +216,6 @@ namespace KBSBoot.View
                     Binding endtimeStringBinding = new Binding("endTimeString");
                     endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
-
                     gv.Columns.Add(reserveringsnr);
                     gv.Columns.Add(boatName);
                     gv.Columns.Add(boatType);
@@ -235,11 +233,8 @@ namespace KBSBoot.View
                         }
                     }
                     ListGroup.Children.Add(lv);
-
                 }
-            }
-
-           
+            }         
         }
 
         //load reservation history 
@@ -278,94 +273,101 @@ namespace KBSBoot.View
                      where x.reservationBatch > 0 && x.date < date
                      select x.reservationBatch).Distinct();
 
-                foreach(var br in BatchReservationHistory)
-                {
-                    ListView listv = new ListView();
-
-                    Label l = new Label();
-                    l.FontSize = 18;
-                    l.HorizontalAlignment = HorizontalAlignment.Left;
-                    l.Content = $"Wedstrijdreservering {br}";
-
-                    HistoryListGroup.Children.Add(l);
-
-                    GridView gv = new GridView();
-                    gv.AllowsColumnReorder = false;
-
-                    GridViewColumn reserveringsnr = new GridViewColumn();
-                    reserveringsnr.Header = "Reserveringsnr";
-                    reserveringsnr.Width = 140;
-                    Binding reservationidbinding = new Binding("reservationId");
-                    reserveringsnr.DisplayMemberBinding = reservationidbinding;
-
-                    GridViewColumn boatName = new GridViewColumn();
-                    boatName.Header = "Boot naam";
-                    Binding boatNameBinding = new Binding("boatName");
-                    boatName.DisplayMemberBinding = boatNameBinding;
-
-                    GridViewColumn boatType = new GridViewColumn();
-                    boatType.Header = "Boot Type";
-                    Binding boatTypeBinding = new Binding("boatType");
-                    boatType.DisplayMemberBinding = boatTypeBinding;
-
-                    GridViewColumn resDate = new GridViewColumn();
-                    resDate.Header = "Datum";
-                    Binding resDateBinding = new Binding("date");
-                    resDate.DisplayMemberBinding = resDateBinding;
-
-                    GridViewColumn beginTimeString = new GridViewColumn();
-                    beginTimeString.Header = "Begintijd";
-                    Binding beginTimeStringbinding = new Binding("beginTime");
-                    beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
-
-                    GridViewColumn endtimeString = new GridViewColumn();
-                    endtimeString.Header = "Eindtijd";
-                    Binding endtimeStringBinding = new Binding("endTime");
-                    endtimeString.DisplayMemberBinding = endtimeStringBinding;
-
-                    GridViewColumn reportDamageButton = new GridViewColumn();
-                    reportDamageButton.Header = "Meld schade";
-
-                    FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
-                    stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
-
-                    FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
-                    DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
-                    DamageButton.SetValue(Button.ContentProperty, "Meld schade");
-                    stackPanelFactory.AppendChild(DamageButton);
-
-                    DataTemplate template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
-
-                    reportDamageButton.CellTemplate = template;
-
-                    gv.Columns.Add(reserveringsnr);
-                    gv.Columns.Add(boatName);
-                    gv.Columns.Add(boatType);
-                    gv.Columns.Add(resDate);
-                    gv.Columns.Add(beginTimeString);
-                    gv.Columns.Add(endtimeString);
-                    gv.Columns.Add(reportDamageButton);
-
-                    listv.View = gv;
-
-                    foreach (var r in data)
+                //Fils the scrollviewer with reservationhistory
+              
+                    foreach (var br in BatchReservationHistory)
                     {
-                        if (r.reservationBatch == br)
+                        ListView listv = new ListView();
+
+                        Label l = new Label();
+                        l.FontSize = 18;
+                        l.HorizontalAlignment = HorizontalAlignment.Left;
+                        l.Content = $"Wedstrijdreservering {br}";
+
+                        HistoryListGroup.Children.Add(l);
+
+                        GridView gv = new GridView();
+                        gv.AllowsColumnReorder = false;
+
+                        GridViewColumn reserveringsnr = new GridViewColumn();
+                        reserveringsnr.Header = "Reserveringsnr";
+                        reserveringsnr.Width = 140;
+                        Binding reservationidbinding = new Binding("reservationId");
+                        reserveringsnr.DisplayMemberBinding = reservationidbinding;
+
+                        GridViewColumn boatName = new GridViewColumn();
+                        boatName.Header = "Boot naam";
+                        Binding boatNameBinding = new Binding("boatName");
+                        boatName.DisplayMemberBinding = boatNameBinding;
+
+                        GridViewColumn boatType = new GridViewColumn();
+                        boatType.Header = "Boot Type";
+                        Binding boatTypeBinding = new Binding("boatType");
+                        boatType.DisplayMemberBinding = boatTypeBinding;
+
+                        GridViewColumn resDate = new GridViewColumn();
+                        resDate.Header = "Datum";
+                        Binding resDateBinding = new Binding("date");
+                        resDate.DisplayMemberBinding = resDateBinding;
+
+                        GridViewColumn beginTimeString = new GridViewColumn();
+                        beginTimeString.Header = "Begintijd";
+                        Binding beginTimeStringbinding = new Binding("beginTime");
+                        beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
+
+                        GridViewColumn endtimeString = new GridViewColumn();
+                        endtimeString.Header = "Eindtijd";
+                        Binding endtimeStringBinding = new Binding("endTime");
+                        endtimeString.DisplayMemberBinding = endtimeStringBinding;
+
+                        GridViewColumn reportDamageButton = new GridViewColumn();
+                        reportDamageButton.Header = "Meld schade";
+
+                        FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
+                        stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
+
+                        FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
+                        DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
+                        DamageButton.SetValue(Button.ContentProperty, "Meld schade");
+                        stackPanelFactory.AppendChild(DamageButton);
+
+                        DataTemplate template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
+
+                        reportDamageButton.CellTemplate = template;
+
+                        gv.Columns.Add(reserveringsnr);
+                        gv.Columns.Add(boatName);
+                        gv.Columns.Add(boatType);
+                        gv.Columns.Add(resDate);
+                        gv.Columns.Add(beginTimeString);
+                        gv.Columns.Add(endtimeString);
+                        gv.Columns.Add(reportDamageButton);
+
+                        listv.View = gv;
+
+                        foreach (var r in data)
                         {
-                            listv.Items.Add(r);
+                            if (r.reservationBatch == br)
+                            {
+                                listv.Items.Add(r);
+                            }
                         }
+                        HistoryListGroup.Children.Add(listv);
                     }
-                    HistoryListGroup.Children.Add(listv);
-                    
+                if (BatchReservationHistory.Count() == 0)
+                {
+                    Label noreservations = new Label();
+                    noreservations.Content = "Er zijn nog geen reserveringen plaatsgevonden";
+                    noreservations.FontSize = 18;
+                    HistoryListGroup.Children.Add(noreservations);
                 }
             }
-
         }
+
 
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
         {
-
             //Get the reservationId from a toString because other methods did not work for unknown reasons
             string str = ((FrameworkElement)sender).DataContext.ToString();
             StringBuilder sb = new StringBuilder();

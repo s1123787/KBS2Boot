@@ -72,15 +72,6 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
-
-        <Label x:Name="RowLevelNameLabel" Content="" HorizontalAlignment="Left" Margin="50,198,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
-        <Label x:Name="label" Content="Je hebt teveel reserveringen op je naam staan." HorizontalAlignment="Left" Margin="200,200,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <Label x:Name="label1" HorizontalAlignment="Left" Margin="200,240,0,0" VerticalAlignment="Top" FontSize="30">
-            <Hyperlink Click="Hl_Click">
-                Klik hier
-            </Hyperlink>
-        </Label>
-        <Label x:Name="label2" Content="om een reservering te annuleren." HorizontalAlignment="Left" Margin="315,240,0,0" VerticalAlignment="Top" FontSize="30"/>
         <Button Width="180" 
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Center" 
