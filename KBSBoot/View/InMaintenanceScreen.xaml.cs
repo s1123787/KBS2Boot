@@ -81,6 +81,31 @@ namespace KBSBoot.View
 
             //set boat text
             SetBoatDetailsOnView();
+
+            //disable the dates that are not possible to take a boat into maintenance
+            DisableDatePickerDates();
+        }
+
+        private void DisableDatePickerDates()
+        {
+            //select all disabled dates from boat
+            using (var context = new BootDB())
+            {
+                var tableData = (from bm in context.BoatInMaintenances
+                                 where bm.boatId == BoatID
+                                 select new
+                                 {
+                                     boatId = bm.boatId,
+                                     startDate = bm.startDate,
+                                     endDate = bm.endDate
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    //disable dates in datepicker
+                    DatePicker.BlackoutDates.Add(new CalendarDateRange((DateTime) b.startDate, (DateTime) b.endDate));
+                }
+            }
         }
 
         private void SetBoatDetailsOnView()
