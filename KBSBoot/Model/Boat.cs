@@ -1,6 +1,7 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.View;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
@@ -22,7 +23,8 @@ namespace KBSBoot.Model
 
         public BitmapImage boatPhotoBitmap;
         private string returnImageBlob;
-        
+
+        [NotMapped] public bool IsInMaintenance { get; set; }
         [NotMapped] public string boatTypeName { get; set; }
         [NotMapped] public string boatTypeDescription { get; set; }
         [NotMapped] public int boatAmountSpaces { get; set; }
@@ -204,6 +206,50 @@ namespace KBSBoot.Model
 
             }
             return SelectedBoatTypeId;
+        }
+
+        public bool CheckIfBoatInMaintenance()
+        {
+            bool returnValue = false;
+            List<BoatInMaintenances> boatItems = new List<BoatInMaintenances>();
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId
+                            orderby b.boatInMaintenanceId descending
+                            select b;
+
+                DateTime now = DateTime.Now.Date;
+                foreach (BoatInMaintenances bb in boats)
+                {
+                    boatItems.Add(bb);
+                }
+
+                //if all db items are before today
+                if (boatItems.Count == boats.ToList().Count)
+                    returnValue = true;
+
+            }
+
+            return returnValue;
+        }
+
+        public bool CheckIfTodayBoatIsInMaintenance()
+        {
+            bool returnValue = false;
+            DateTime today = DateTime.Now;
+
+            using (var context = new BootDB())
+            {
+                var boats = from b in context.BoatInMaintenances
+                            where b.boatId == this.boatId && (b.startDate <= today && b.endDate >= today)
+                            select b;
+                if (boats.ToList().Count > 0)
+                    returnValue = true;
+            }
+
+            return returnValue;
         }
     }
 }
