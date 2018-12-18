@@ -30,23 +30,23 @@
         </materialDesign:ColorZone>
         <!--<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="194,26,0,0" VerticalAlignment="Top" Width="150">
             <Image Width="150" Height="150" Stretch="Fill" VerticalAlignment="Top"/>
-        </Border>-->
-        <StackPanel Orientation="Horizontal"  x:Name="nameWrap" Margin="491,113,0,610">
-            <materialDesign:PackIcon Kind="Anchor" Width="40" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Foreground="#FF5722" />
-            <Label FontSize="22"  x:Name="boatViewName" Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Foreground="#FF5722"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="descrWrap" Margin="491,158,0,580" Height="30">
-            <Label FontSize="16"  x:Name="boatViewDescription" Content="Omschrijving" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="typeWrap" Margin="491,193,0,545" Height="30">
-            <materialDesign:PackIcon Kind="Boat" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
-            <Label FontSize="16"  x:Name="boatViewType" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="steerWrap" Margin="491,228,0,511" Height="29">
-            <materialDesign:PackIcon Kind="Steering" Width="20" Height="20" Margin="10,0,5,0" Foreground="#FF5722" VerticalAlignment="Center" />
-            <Label FontSize="16"  x:Name="boatViewSteer" Content="Stuur" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" x:Name="niveauWrap"  Margin="491,262,0,476" Height="30">
+        </Border>-->        
+            <StackPanel Orientation="Horizontal" x:Name="nameWrap" Margin="400,113,0,610">
+                <materialDesign:PackIcon Kind="Anchor" Width="40" HorizontalAlignment="Left" Height="40" VerticalAlignment="Center" Foreground="#FF5722" />
+                <Label FontSize="22"  x:Name="boatViewName" Content="Naam" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Foreground="#FF5722"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" x:Name="descrWrap" Margin="400,158,0,580" Height="30">
+                <Label FontSize="16"  x:Name="boatViewDescription" Content="Omschrijving" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" x:Name="typeWrap" Margin="400,193,0,545" Height="30">
+                <materialDesign:PackIcon Kind="Boat" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
+                <Label FontSize="16"  x:Name="boatViewType" Content="Type" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" x:Name="steerWrap" Margin="400,228,0,511" Height="29">
+                <materialDesign:PackIcon Kind="Steering" Width="20" Height="20" Margin="10,0,5,0" Foreground="#FF5722" VerticalAlignment="Center" />
+                <Label FontSize="16"  x:Name="boatViewSteer" Content="Stuur" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="niveauWrap"  Margin="400,262,0,476" Height="30">
             <materialDesign:PackIcon Kind="LockOpen" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
             <Label FontSize="16"  x:Name="boatViewNiveau" Content="Niveau" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>

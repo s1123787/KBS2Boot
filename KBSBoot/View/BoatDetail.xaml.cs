@@ -35,8 +35,8 @@ namespace KBSBoot.View
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
-        private int videoWidth = 500;
-        private int videoHeight = 320;
+        private int videoWidth = 889;
+        private int videoHeight = 500;
         private string boatName;
         private string boatDescription;
         private int rowLevelMember;
@@ -196,7 +196,7 @@ namespace KBSBoot.View
                         Height = 200,
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Top,
-                        Margin = new Thickness(270, 120, 0, 0),
+                        Margin = new Thickness(50, 120, 0, 0),
                         BorderBrush = brushAppOrange,
                         BorderThickness = new Thickness(1)
                     };
@@ -210,11 +210,11 @@ namespace KBSBoot.View
                 else //Image Blob is null
                 {
                     //Reset label margins
-                    nameWrap.Margin = new Thickness(270, 113, 0, 610);
-                    descrWrap.Margin = new Thickness(270, 153, 0, 580);
-                    typeWrap.Margin = new Thickness(270, 193, 0, 545);
-                    steerWrap.Margin = new Thickness(270, 223, 0, 511);
-                    niveauWrap.Margin = new Thickness(270, 253, 0, 476);
+                    nameWrap.Margin = new Thickness(50, 113, 0, 610);
+                    descrWrap.Margin = new Thickness(50, 153, 0, 580);
+                    typeWrap.Margin = new Thickness(50, 193, 0, 545);
+                    steerWrap.Margin = new Thickness(50, 223, 0, 511);
+                    niveauWrap.Margin = new Thickness(50, 253, 0, 476);
                 }
             }
         }
@@ -241,7 +241,8 @@ namespace KBSBoot.View
                     Height = videoHeight,
                     Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(20, 360, 0, 0)
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(400, 360, 0, 0)
                 };
 
                 webBrowser.NavigateToString(page);
