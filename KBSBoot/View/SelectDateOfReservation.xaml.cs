@@ -227,8 +227,16 @@ namespace KBSBoot.View
         private void ReservationButton_Click(object sender, RoutedEventArgs e)
         {
             //getting the selected begin and end time
-            selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
-            selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            try
+            {
+                selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
+                selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            } catch (Exception)
+            {
+                ErrorLabel.Content = "geen geldige invoer!";
+                return;
+
+            }
             //check if selected times are possible
             var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
             //this will be executed when the selected times are not correct
