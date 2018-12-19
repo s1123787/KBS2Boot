@@ -49,7 +49,7 @@
             <materialDesign:PackIcon Kind="LockOpen" Width="20" Height="20" VerticalAlignment="Center" Margin="10,0,5,0" Foreground="#FF5722" />
             <Label FontSize="16"  x:Name="boatViewNiveau" Content="Niveau" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
-        <ScrollViewer Height="auto" MaxHeight="400" Margin="100, 340, 100, 40">
+        <ScrollViewer Height="auto" MaxHeight="400" Margin="100, 340, 100, 40" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <StackPanel Width="auto" Height="auto">
                 <Label Content="Aankomende reserveringen" FontSize="24" FontStyle="Italic" Margin="0,20,0,-18" Width="auto" Height="auto"></Label>
                 <ListView Name="ReservationList" FontSize="20" HorizontalAlignment="Center" Height="auto" Margin="0, 20, 0,0" VerticalAlignment="Top" Width="auto">
