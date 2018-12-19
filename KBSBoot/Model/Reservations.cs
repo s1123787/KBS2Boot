@@ -90,7 +90,7 @@ namespace KBSBoot.Model
             this.boatId = boatId;
         }
   
-        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int reservationBatch)
+        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int boatId, int reservationBatch)
         {
             this.reservationId = reservationId;
             this.boatName = boatName;

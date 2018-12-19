@@ -28,13 +28,12 @@ namespace KBSBoot.View
         public Image SelectedImageForConversion;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId, int ReservationId)
+        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
         {
             this.AccessLevel = AccessLevel;
             this.FullName = FullName;
             this.BoatId = boatId;
             this.MemberId = MemberId;
-            this.ReservationId = ReservationId;
             InitializeComponent();
         }
 
