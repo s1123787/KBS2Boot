@@ -8,7 +8,7 @@ namespace UnitTestsKBSBoot
 {
     [TestFixture]
     public class MakingReservationUnitTests
-    {                
+    {   
         [Test]
         public void CheckTimes_BeginTimeAfterEndTime_ReturnFalse()
         {

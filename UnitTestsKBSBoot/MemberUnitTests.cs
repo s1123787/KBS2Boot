@@ -13,7 +13,7 @@ namespace UnitTestsKBSBoot
 
 
         [Test]
-        public void OnLoginButtonISPressed_MemberLogedInCorrect_ReturnTrue()
+        public void OnLoginButtonIsPressed_MemberLogedInCorrect_ReturnTrue()
         {
             //Arrange
             Member m = new Member();
@@ -57,7 +57,7 @@ namespace UnitTestsKBSBoot
                 Member m1 = new Member
                 {
                     memberName = "unittest",
-                    memberUsername = "unittest1",
+                    memberUsername = "unittest2",
                     memberAccessLevelId = 4,
                     memberRowLevelId = 1,
                     memberSubscribedUntill = new DateTime(2019, 2, 2)
@@ -66,7 +66,7 @@ namespace UnitTestsKBSBoot
                 context.SaveChanges();
 
                 // Act
-                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest1"));
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest2"));
                 result = m.SortUser;
 
                 context.Members.Attach(m1);
@@ -75,33 +75,37 @@ namespace UnitTestsKBSBoot
             }
             // Assert
             Assert.AreEqual(4, result);
-        }
-        [Test]
-        public void OnLoginButtonIsPressed_AdminLogedInCorrect_ReturnTrue()
-        {
-            // Arrange
-            Member m = new Member();
-            MainWindow mw = new MainWindow();
-
-            // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("rubenwezep"));
-            var result = m.SortUser;
-
-            // Assert
-            Assert.AreEqual(4, result);
-        }
+        }       
 
         [Test]
         public void OnLoginButtonIsPressed_MaterialCommissionerLogedInCorrect_ReturnTrue()
         {
-            // Arrange
+            //Arrange
             Member m = new Member();
             MainWindow mw = new MainWindow();
+            int result;
 
-            // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("mikavandenbrink"));
-            var result = m.SortUser;
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest3",
+                    memberAccessLevelId = 3,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
 
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest3"));
+                result = m.SortUser;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();
+            }
             // Assert
             Assert.AreEqual(3, result);
         }
@@ -109,14 +113,32 @@ namespace UnitTestsKBSBoot
         [Test]
         public void OnLoginButtonIsPressed_MatchCommissionerLogedInCorrect_ReturnTrue()
         {
-            // Arrange
+            //Arrange
             Member m = new Member();
             MainWindow mw = new MainWindow();
+            int result;
 
-            // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("wilcorook"));
-            var result = m.SortUser;
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest4",
+                    memberAccessLevelId = 2,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
 
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest4"));
+                result = m.SortUser;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();
+            }
             // Assert
             Assert.AreEqual(2, result);
         }
@@ -129,7 +151,7 @@ namespace UnitTestsKBSBoot
             MainWindow mw = new MainWindow();
 
             // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("nietcorrect"));
+            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("lkasdjflkjasdlkfjalsdkjf"));
             var result = m.Correct;
 
             // Assert
@@ -143,14 +165,32 @@ namespace UnitTestsKBSBoot
         [Test]
         public void OnLoginButtonIsPressed_UserNameCapital_ReturnFalse()
         {
-            // Arrange
+            //Arrange
             Member m = new Member();
             MainWindow mw = new MainWindow();
+            bool result;
 
-            // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("RubenWezep"));
-            var result = m.Correct;
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest5",
+                    memberAccessLevelId = 1,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
 
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("Unittest5"));
+                result = m.Correct;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();
+            }
             // Assert
             Assert.IsFalse(result);
         }
