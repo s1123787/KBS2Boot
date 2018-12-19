@@ -1,5 +1,6 @@
 ﻿using System;
 using KBSBoot;
+using KBSBoot.DAL;
 using KBSBoot.Model;
 using KBSBoot.View;
 using NUnit.Framework;
@@ -9,17 +10,71 @@ namespace UnitTestsKBSBoot
     [TestFixture, Apartment(System.Threading.ApartmentState.STA)] 
     public class MemberUnitTests
     {
+
+
         [Test]
-        public void OnLoginButtonIsPressed_MemberLogedInCorrect_ReturnTrue()
+        public void OnLoginButtonISPressed_MemberLogedInCorrect_ReturnTrue()
         {
-            // Arrange
+            //Arrange
             Member m = new Member();
             MainWindow mw = new MainWindow();
-            // Act
-            m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("yourideker"));
-            var result = m.SortUser;
+            int result;
+
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest1",
+                    memberAccessLevelId = 1,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
+                
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest1"));
+                result = m.SortUser;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();                
+            }
             // Assert
             Assert.AreEqual(1, result);
+        }
+        [Test]
+        public void OnLoginButtonIsPressed_AdminLogedInCorrect_ReturnTest()
+        {
+            //Arrange
+            Member m = new Member();
+            MainWindow mw = new MainWindow();
+            int result;
+
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest1",
+                    memberAccessLevelId = 4,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
+
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest1"));
+                result = m.SortUser;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();
+            }
+            // Assert
+            Assert.AreEqual(4, result);
         }
         [Test]
         public void OnLoginButtonIsPressed_AdminLogedInCorrect_ReturnTrue()
