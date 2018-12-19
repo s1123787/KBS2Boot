@@ -8,24 +8,7 @@ namespace UnitTestsKBSBoot
 {
     [TestFixture]
     public class MakingReservationUnitTests
-    {
-        [Test]
-        public void CheckDates_DateIsDisabled_ReturnTrue()
-        {
-            // Arrange
-            
-            // Act
-
-            // Assert
-        }
-
-        [Test]
-        public void CheckDates_DateIsNotDisabled_ReturnTrue()
-        {
-
-        }
-
-
+    {        
         [Test]
         public void CheckTimes_BeginTimeAfterEndTime_ReturnFalse()
         {

@@ -35,8 +35,12 @@ namespace KBSBoot.View
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
-        private int videoWidth = 500;
-        private int videoHeight = 320;
+        private int videoWidth = 889;
+        private int videoHeight = 500;
+        private string boatName;
+        private string boatDescription;
+        private int rowLevelMember;
+        private int rowLevelBoat;
 
         public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
         {
@@ -69,6 +73,16 @@ namespace KBSBoot.View
 
             //Load Boat Photo
             DisplayPhoto(this.BoatID);
+
+            //check if member has the needed rowlevel to make a reservation for the boat
+            if (rowLevelMember >= rowLevelBoat)
+            {
+                ReservationBoatButton.IsEnabled = true;
+            }
+            else
+            {
+                ReservationBoatButton.IsEnabled = false;
+            }
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -96,7 +110,10 @@ namespace KBSBoot.View
                                      boatAmountSpaces = bt.boatAmountSpaces,
                                      boatYoutubeUrl = b.boatYoutubeUrl
                                  });
-
+                //getting the rowlevel of the user
+                rowLevelMember = int.Parse((from b in context.Members
+                                            where b.memberId == MemberId
+                                            select b.memberRowLevelId).First().ToString());
                 foreach (var b in tableData)
                 {
                     // Loop through record and add to new BoatType
@@ -108,7 +125,9 @@ namespace KBSBoot.View
                         boatAmountSpaces = b.boatAmountSpaces,
                         boatRowLevel = b.boatRowLevel
                     };
-
+                    boatName = b.boatName;
+                    boatDescription = b.boatTypeDescription;
+                    rowLevelBoat = b.boatRowLevel;
                     // Loop through record and add to new Boat
                     boatData = new Boat()
                     {
@@ -177,7 +196,7 @@ namespace KBSBoot.View
                         Height = 200,
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Top,
-                        Margin = new Thickness(270, 120, 0, 0),
+                        Margin = new Thickness(50, 120, 0, 0),
                         BorderBrush = brushAppOrange,
                         BorderThickness = new Thickness(1)
                     };
@@ -191,11 +210,11 @@ namespace KBSBoot.View
                 else //Image Blob is null
                 {
                     //Reset label margins
-                    nameWrap.Margin = new Thickness(270, 113, 0, 610);
-                    descrWrap.Margin = new Thickness(270, 153, 0, 580);
-                    typeWrap.Margin = new Thickness(270, 193, 0, 545);
-                    steerWrap.Margin = new Thickness(270, 223, 0, 511);
-                    niveauWrap.Margin = new Thickness(270, 253, 0, 476);
+                    nameWrap.Margin = new Thickness(50, 113, 0, 610);
+                    descrWrap.Margin = new Thickness(50, 153, 0, 580);
+                    typeWrap.Margin = new Thickness(50, 193, 0, 545);
+                    steerWrap.Margin = new Thickness(50, 223, 0, 511);
+                    niveauWrap.Margin = new Thickness(50, 253, 0, 476);
                 }
             }
         }
@@ -222,7 +241,8 @@ namespace KBSBoot.View
                     Height = videoHeight,
                     Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(20, 360, 0, 0)
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(400, 360, 0, 0)
                 };
 
                 webBrowser.NavigateToString(page);
@@ -265,6 +285,34 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
-        
+
+        private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+            List<Reservations> reservations = new List<Reservations>();
+
+            //getting reservations of user from database
+            using (var context = new BootDB())
+            {
+                DateTime DateNow = DateTime.Now.Date;
+                TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+                var data = (from r in context.Reservations
+                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
+                            select r.reservationId);
+                foreach (var d in data)
+                {
+                    reservations.Add(new Reservations());
+                }
+            }
+            //check if member has more then two reservations
+            if (reservations.Count < 2)
+            {
+                Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
+            }
+            else
+            {
+                MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }

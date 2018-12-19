@@ -26,8 +26,9 @@ namespace KBSBoot.View
         public int AccessLevel;
         public int MemberId;
         private bool FilterEnabled = false;
-        private string bootnaam;
-        private int bootplek;
+        private string boatname;
+        private int boatseat;
+        private int boatlevel;
         private int RowLevelId;
         private string RowLevelName;
 
@@ -37,8 +38,8 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
             InitializeComponent();
-            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
-            Bootnamen.ItemsSource = LoadBoatNamesSelection();
+            Boatseats.ItemsSource = LoadBoatSeatsSelection();
+            Boatnames.ItemsSource = LoadBoatNamesSelection();
         }
         
         private List<BoatTypes> LoadBoatNamesSelection()
@@ -103,29 +104,39 @@ namespace KBSBoot.View
             //Reload the screen
             FilterEnabled = false;
             LoadBoats();
-            //BoatList.ItemsSource = LoadCollectionData();
             //Resets the filteroptions
-            Bootplekken.IsEnabled = true;
-            Bootnamen.IsEnabled = true;
-            Bootnamen.SelectedItem = null;
-            Bootplekken.SelectedItem = null;
+            Boatseats.IsEnabled = true;
+            Boatnames.IsEnabled = true;
+            Boatlevels.IsEnabled = true;
+            Boatnames.SelectedItem = null;
+            Boatseats.SelectedItem = null;
+            Boatlevels.SelectedItem = null;
         }
 
-        private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootnamen.SelectedItem != null)
+            if (Boatnames.SelectedItem != null)
             {
 
-                Bootplekken.IsEnabled = false;
+                Boatseats.IsEnabled = false;
             }
         }
-        private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Boatseats_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootplekken.SelectedItem != null)
+            if (Boatseats.SelectedItem != null)
             {
                 //Assigns value to chosen option
-                bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
-                Bootnamen.IsEnabled = false;
+                boatseat = Int32.Parse(Boatseats.SelectedItem.ToString());
+                Boatnames.IsEnabled = false;
+            }
+        }
+        private void Boatlevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Boatlevels.SelectedItem != null)
+            {
+                //Put chosen option in variable, plus 1 because index starts at 0 while levels start at 1
+                boatlevel = (Boatlevels.SelectedIndex + 1);
+                Boatnames.IsEnabled = false;
             }
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -179,10 +190,11 @@ namespace KBSBoot.View
 
             using (var context = new BootDB())
             {
-                var resdata = (from r in context.Reservations
+                var data = (from r in context.Reservations
                             where r.memberId == MemberId && r.reservationBatch == 0 && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId).ToList();
-                if (resdata.Count >= 2) //when it is not possible to make a reservation
+                            
+                if (data.Count >= 2) //when it is not possible to make a reservation
                 {
                     ScrollViewer.Visibility = Visibility.Hidden;
                     FilterStackPanel.Visibility = Visibility.Hidden;
@@ -247,23 +259,31 @@ namespace KBSBoot.View
                             boatTypeDescription = bt.boatTypeDescription,
                             boatAmountSpaces = bt.boatAmountSpaces,
                             boatSteer = bt.boatSteer,
+                            boatRowLevel = bt.boatRowLevel
                         });                
                 foreach (var d in data)
                 {
                     //Filters selection based on chosen options
                     if (FilterEnabled)
                     {
-                        if (Bootnamen.SelectedItem != null)
+                        if (Boatnames.SelectedItem != null)
                         {
-                            bootnaam = Bootnamen.SelectedItem.ToString();
-                            if (d.boatType != bootnaam)
+                            boatname = Boatseats.SelectedItem.ToString();
+                            if (d.boatType != boatname)
                             {
                                 continue;
                             }
                         }
-                        if (Bootplekken.SelectedItem != null)
+                        if (Boatseats.SelectedItem != null)
                         {
-                            if (d.boatAmountSpaces != bootplek)
+                            if (d.boatAmountSpaces != boatseat)
+                            {
+                                continue;
+                            }
+                        }
+                        if (Boatlevels.SelectedItem != null)
+                        {
+                            if (d.boatRowLevel != boatlevel)
                             {
                                 continue;
                             }

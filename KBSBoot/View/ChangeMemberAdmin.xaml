@@ -30,10 +30,10 @@
         <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="50" Margin="350,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="30" MaxLength="45"/>
         <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top" FontSize="30"/>
         <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,270,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60">
-            <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
-            <ComboBoxItem>Amateur</ComboBoxItem>
-            <ComboBoxItem>Gevorderd</ComboBoxItem>
-            <ComboBoxItem>Professional</ComboBoxItem>
+                <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
+                <ComboBoxItem>Amateur</ComboBoxItem>
+                <ComboBoxItem>Gevorderd</ComboBoxItem>
+                <ComboBoxItem>Professional</ComboBoxItem>
         </ComboBox>
         <Label Content="Rol" HorizontalAlignment="Left" Margin="80,340,0,0" VerticalAlignment="Top" FontSize="30"/>
         <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Width="300" FontSize="30" Height="60">
