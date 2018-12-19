@@ -24,7 +24,7 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wijzigen van leden</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView Name="memberList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -35,6 +35,11 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>

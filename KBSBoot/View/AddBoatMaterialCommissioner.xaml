@@ -25,7 +25,7 @@
             </DockPanel>
         </materialDesign:ColorZone>
         <Label Content="Boot naam" HorizontalAlignment="Left" Margin="66,143,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="50" Margin="254,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30"/>
+        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="50" Margin="254,130,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30" MaxLength="45"/>
         <Label Content="Aantal pers." HorizontalAlignment="Left" Margin="58,237,0,0" VerticalAlignment="Top" FontSize="30"/>
         <ComboBox x:Name="BoatCapacityBox" HorizontalAlignment="Left" Margin="254,222,0,0" VerticalAlignment="Top" Width="300" SelectionChanged="BoatCapacityBox_SelectionChanged" FontSize="30"/>
         <Label Content="Type" HorizontalAlignment="Left" Margin="148,331,0,0" VerticalAlignment="Top" FontSize="30"/>
@@ -33,11 +33,11 @@
             <ComboBoxItem>-</ComboBoxItem>
         </ComboBox>
         <Label Content="Youtube url" HorizontalAlignment="Left" Margin="58,426,0,0" VerticalAlignment="Top" FontSize="30"/>
-        <TextBox x:Name="YoutubeUrlBox" HorizontalAlignment="Left" Height="50" Margin="254,413,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30"/>
-        <Button Content="Toevoegen" HorizontalAlignment="Left" Margin="453,524,0,0" VerticalAlignment="Top" Width="101" Click="AddBoat_Click"/>
+        <TextBox x:Name="YoutubeUrlBox" HorizontalAlignment="Left" Height="50" Margin="254,413,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" FontSize="30" MaxLength="125"/>
+        <Button Content="Toevoegen" HorizontalAlignment="Left" Margin="453,524,0,0" VerticalAlignment="Top" Width="101" Click="AddBoat_Click" IsDefault="True"/>
         <Button x:Name="ImageSelect" Content="Afbeelding kiezen" HorizontalAlignment="Left" Margin="636,392,0,0" VerticalAlignment="Top" Width="152" Click="ImageSelect_Click" />
 
-        <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="636,366,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ImageFileName" Content="" HorizontalAlignment="Left" Margin="636,366,0,0" VerticalAlignment="Top" MaxWidth="250"/>
         <Label Content="*Alleen PNG formaat" HorizontalAlignment="Left" Margin="648,423,0,0" VerticalAlignment="Top"/>
         <Label Content="*Max. 256KB" HorizontalAlignment="Left" Margin="648,449,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.558,0.266"/>
 

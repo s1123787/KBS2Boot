@@ -31,7 +31,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
-        public List<DateTime> datum = new List<DateTime>();
+        public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
         public List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
         public int x = 300;
@@ -40,7 +40,7 @@ namespace KBSBoot.View
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-        public bool geldig = false;
+        public bool valid = false;
         public Reservations reservation;
         public static DateTime SelectedDateTime;
         public enum PreviousScreen {BoatOverview, ReservationsScreen, SelectBoatScreen};
@@ -66,7 +66,22 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            backToHomeScreen();
+            if (AccessLevel == 1)
+            {
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            }
         }
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
@@ -112,14 +127,22 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-
-
+           
             //check which dates are not possible to reservate
-            datum = reservation.checkDates(boatId);
+            dates = reservation.checkDates(boatId);
 
-            foreach (var date in datum)
+            //getting dates when boat is in maintances
+            BoatInMaintenances bm = new BoatInMaintenances();
+            List<DateTime> maintancesDates = bm.checkMaintenancesDates(boatId);
+            foreach(var d in maintancesDates)
             {
+                //adding dates to list
+                dates.Add(d);
+            }
+            
 
+            foreach (var date in dates)
+            {
                 //disable the dates that are not possible to reservate
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
             }
@@ -131,8 +154,9 @@ namespace KBSBoot.View
             endTime.Clear();
 
             //reservation button is visible
+            ReservationButton.Visibility = Visibility.Visible;            
             ReservationButton.Visibility = Visibility.Visible;
-
+            
             //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
 
@@ -156,7 +180,8 @@ namespace KBSBoot.View
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
 
-            InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
@@ -212,14 +237,21 @@ namespace KBSBoot.View
         private void ReservationButton_Click(object sender, RoutedEventArgs e)
         {
             //getting the selected begin and end time
-            selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
-            selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            try
+            {
+                selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
+                selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            } catch (Exception)
+            {
+                ErrorLabel.Content = "Geen geldige invoer";
+                return;
+            }
             //check if selected times are possible
             var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
             //this will be executed when the selected times are not correct
             if (!check)
             {
-                ErrorLabel.Content = "deze tijden zijn niet beschikbaar";
+                ErrorLabel.Content = "Deze tijden zijn niet mogelijk";
             }
             else //when it is possible to add reservation
             {
@@ -255,28 +287,9 @@ namespace KBSBoot.View
                 //show message when reservation is added to screen
                 MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                backToHomeScreen();
+                Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
             }
         }
-
-        public void backToHomeScreen()
-        {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
-        }
+        
     }
 }

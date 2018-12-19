@@ -36,6 +36,11 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
                     <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
                     <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
@@ -59,7 +64,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Left" MinWidth="850" Width="auto">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -73,6 +78,11 @@
 
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>

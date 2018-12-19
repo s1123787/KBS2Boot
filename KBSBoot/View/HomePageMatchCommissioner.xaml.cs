@@ -61,5 +61,15 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
+
+        private void BatchReservation_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new BatchReservationBoatSelect(FullName, AccessLevel, MemberId));
+        }
+
+        private void BatchReservationScreen_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new BatchReservationScreen(FullName, AccessLevel, MemberId));
+        }
     }
 }

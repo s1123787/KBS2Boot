@@ -77,6 +77,7 @@
     <Compile Include="RegisterUnitTests.cs" />
     <Compile Include="AddMemberUnitTests.cs" />
     <Compile Include="DamageReportUnitTests.cs" />
+    <Compile Include="BoatInMaintenanceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

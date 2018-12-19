@@ -19,8 +19,8 @@
         <Button IsDefault="True" Name="OKbtn" Content="OK" FontSize="20" HorizontalAlignment="Left" Margin="561,418,0,0" VerticalAlignment="Top" Width="210" Height="42" Click="OKbtn_Click"/>
         <Label Content="Volledige naam:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="161,202,0,0"/>
         <Label Content="Gebruikersnaam:" FontSize="20" HorizontalAlignment="Left" Margin="161,285,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="Name" HorizontalAlignment="Left" Height="37" Margin="416,202,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367"/>
-        <TextBox Name="Username" HorizontalAlignment="Left" Height="48" Margin="416,274,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367"/>
+        <TextBox Name="Name" HorizontalAlignment="Left" Height="37" Margin="416,202,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367" MaxLength="45"/>
+        <TextBox Name="Username" HorizontalAlignment="Left" Height="48" Margin="416,274,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367" MaxLength="45"/>
 
     </Grid>
 </UserControl>

@@ -105,7 +105,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId && (r.date > date || (r.date == date && r.endTime > endTime))
+                            where (r.memberId == MemberId && r.date > date || (r.date == date && r.endTime > endTime)) && r.reservationBatch == 0
                             orderby r.date ascending, r.beginTime ascending
                             select new
                             {
@@ -158,7 +158,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId && (r.date < date || (r.date == date && r.endTime < endTime))
+                            where r.memberId == MemberId && (r.date < date || (r.date == date && r.endTime < endTime) && r.reservationBatch == 0)
                             orderby r.date descending, r.beginTime descending
                             select new
                             {
@@ -195,6 +195,7 @@ namespace KBSBoot.View
         //get boatId from the report demage button
         private void ReportDemage_Click(object sender, RoutedEventArgs e)
         {
+            ReportDamage.getPage = ReportDamage.Page.ReservationsScreen;
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
             Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }

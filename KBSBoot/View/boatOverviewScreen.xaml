@@ -24,12 +24,12 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boten bekijken</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <StackPanel Margin="222,113,180,591" Background="#F8F8F8">
+        <StackPanel Margin="110,113,110,591" Background="#F8F8F8">
             <Canvas Background="White">
-                <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="413" Canvas.Top="18" Click="SelectionFilteren_Click"/>
-                <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="517" Canvas.Top="18" Click="ResetSelection_Click"/>
-                <Label Content="Boot type" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootnamen" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
+                <Button x:Name="SelectionFilteren" Content="Filteren" Width="78" Canvas.Left="608" Canvas.Top="18" Click="SelectionFilteren_Click"/>
+                <Button x:Name="ResetSelection" Content="Reset" Width="78" Canvas.Left="701" Canvas.Top="18" Click="ResetSelection_Click"/>
+                <Label Content="Boottype" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Boatnames" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Boatnames_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -39,7 +39,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Content="Aantal plekken" Canvas.Left="198" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootplekken" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                <ComboBox x:Name="Boatseats" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Boatseats_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -48,9 +48,17 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <Label Content="Bootniveau" Canvas.Left="382" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Boatlevels" Canvas.Left="479" Canvas.Top="17" Width="93" SelectionChanged="Boatlevel_SelectionChanged">
+                    <ComboBoxItem>Beginner</ComboBoxItem>
+                    <ComboBoxItem>Amateur</ComboBoxItem>
+                    <ComboBoxItem>Gevorderd</ComboBoxItem>
+                    <ComboBoxItem>Professional</ComboBoxItem>
+                </ComboBox>
             </Canvas>
         </StackPanel>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="10,190,0,0" VerticalAlignment="Top" Width="1004" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto">
+        <Label x:Name="RowLevelNameLabel" Content="" HorizontalAlignment="Left" Margin="40,190,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="10,240,0,0" VerticalAlignment="Top" Width="1004" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.Resources>
                     <GridViewColumn x:Key="gridViewColumnResource" Header="Status" Width="200" x:Name="statusColumn">
@@ -63,14 +71,20 @@
                 </ListView.Resources>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
                         <Setter Property="BorderBrush" Value="LightGray" />
-                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
                         <Setter Property="Focusable" Value="false"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView AllowsColumnReorder="False" x:Name="BoatGridView">
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Width="130" Header="Foto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -79,8 +93,9 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="180"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="180"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatAmountOfSpaces}" Header="Aantal personen" Width="150"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding RowlevelDescription}" Header="Niveau" Width="auto"/>
                         <GridViewColumn Width="80">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -91,7 +106,7 @@
                         <GridViewColumn Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Reserveren" Click="Reservation_Click" />
+                                    <Button Name="ReservationButton" Content="Reserveren" Click="Reservation_Click" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

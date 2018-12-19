@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="KBSBoot.View.BatchReservationScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+    <UserControl.Resources>
+        <Style x:Key="GVColumnReOrder" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
+            <DockPanel>
+                <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToHomePage_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Height="40" Width="54"/>
+                </Button>
+                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="86">
+                    <StackPanel>
+                        <Button x:Name="AccessLevelButton" Content="Lid" IsEnabled="False" />
+                        <Separator/>
+                        <Button Click="BackToHomePage_Click" Content="Dashboard" />
+                        <Button Content="Uitloggen" Click="LogoutButton_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wedstrijd reserveringen</TextBlock>
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <StackPanel Margin="70,120,70,50">
+            
+            <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="ListGroup">
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <Label Name="historyLabel" Content="Verlopen reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="HistoryListGroup">
+
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+        
+
+    </Grid>
+</UserControl>

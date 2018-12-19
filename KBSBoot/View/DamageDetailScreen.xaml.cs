@@ -46,7 +46,6 @@ namespace KBSBoot.View
                                boatDamageLevel = bd.boatDamageLevel,
                                boatDamageLocation = bd.boatDamageLocation,
                                boatDamageReason = bd.boatDamageReason,
-                               //boatDamageReportDate = (from r in context.Reservations where r.reservationId == bd.reservationId select r.date).FirstOrDefault(),
                                boatDamageReportDate = bd.reportDate,
                                boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
                            };
@@ -60,7 +59,6 @@ namespace KBSBoot.View
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
-                        boatDamageReportDate = d.boatDamageReportDate.ToString("dd-MM-yyyy"),
                         boatDamageReporter = d.boatDamageReporter.ToString()
                     });
 
