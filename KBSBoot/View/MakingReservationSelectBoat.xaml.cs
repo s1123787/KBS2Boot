@@ -179,10 +179,10 @@ namespace KBSBoot.View
 
             using (var context = new BootDB())
             {
-                var data = (from r in context.Reservations
+                var resdata = (from r in context.Reservations
                             where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId).ToList();
-                if (data.Count >= 2) //when it is not possible to make a reservation
+                if (resdata.Count >= 2) //when it is not possible to make a reservation
                 {
                     ScrollViewer.Visibility = Visibility.Hidden;
                     FilterStackPanel.Visibility = Visibility.Hidden;

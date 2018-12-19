@@ -15,7 +15,6 @@ namespace KBSBoot.View
     {
         public string FullName;
         public int AccessLevel;
-        public int ReservationId;
         public int BoatId;
         public int MemberId;
         public enum Page
@@ -57,7 +56,6 @@ namespace KBSBoot.View
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
                     {
-                        reservationId = ReservationId,
                         boatId = BoatId,
                         memberId = MemberId,
                         boatDamageLevel = damageLevel,
