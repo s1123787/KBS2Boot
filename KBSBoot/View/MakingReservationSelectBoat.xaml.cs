@@ -189,10 +189,10 @@ namespace KBSBoot.View
                 }
                 else //when it is possible to make a reservation
                 {
-                    var data = (from r in context.Reservations
+                    var data2 = (from r in context.Reservations
                                 where r.date > DateTime.Now && r.memberId == MemberId && (int)r.reservationBatch == 0
                                 select r.reservationId).ToList();
-                    if (data.Count >= 2) //when it is not possible to make a reservation
+                    if (data2.Count >= 2) //when it is not possible to make a reservation
                     {
                         ScrollViewer.Visibility = Visibility.Hidden;
                         FilterStackPanel.Visibility = Visibility.Hidden;

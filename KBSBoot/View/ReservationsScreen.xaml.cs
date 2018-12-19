@@ -165,7 +165,6 @@ namespace KBSBoot.View
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
-                                reservationBatch = r.reservationBatch,
                                 boatId = b.boatId
                             });
                 //add all reservations to reservation list
