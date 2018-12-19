@@ -327,10 +327,6 @@ namespace KBSBoot.View
             }
             else
             {
-                if (webBrowser != null)
-                {
-                    webBrowser.Dispose();
-                }
                 MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
