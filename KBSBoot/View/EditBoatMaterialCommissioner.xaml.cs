@@ -24,13 +24,14 @@ namespace KBSBoot.View
         private int boatId;
         System.Drawing.Image SelectedImageForConversion;
 
-        public EditBoatMaterialCommissioner(string FullName, int AccessLevel, int boatId)
+        public EditBoatMaterialCommissioner(string FullName, int AccessLevel, int memberId, int boatId)
         {
             InitializeComponent();
             FillCapacityBox();
 
             this.FullName = FullName;
             this.AccessLevel = AccessLevel;
+            this.MemberId = memberId;
             this.boatId = boatId;
 
             LoadBoatData(this.boatId);

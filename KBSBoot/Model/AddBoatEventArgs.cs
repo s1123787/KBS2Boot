@@ -33,7 +33,7 @@ namespace KBSBoot.Model
             this.boatTypeId = boattypeId;
             this.fullName = fullName;
             this.accessLevel = accessLevel;
-            this.memberId = memberId;
+            this.memberId = MemberId;
         }
     }
 }

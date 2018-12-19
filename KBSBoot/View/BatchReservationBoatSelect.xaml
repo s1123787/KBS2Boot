@@ -52,8 +52,18 @@
                 </ComboBox>
             </Canvas>
         </StackPanel>
-        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="350" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="BorderBrush" Value="LightGray" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        <Setter Property="Focusable" Value="false"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="50"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -61,7 +71,7 @@
                                 <Setter Property="IsHitTestVisible" Value="False"/>
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="220"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot Beschrijving" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatAmountSpaces}" Header="Hoeveelheid roeiers" Width="auto"/>
@@ -80,7 +90,7 @@
         <Button Width="180" 
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Center" 
-                Margin="0,0,0,150" 
+                Margin="0,0,0,60" 
                 Content="Reservering maken" 
                 Click="ReservationButtonIsPressed"/>
     </Grid>
