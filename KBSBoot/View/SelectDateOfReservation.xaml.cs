@@ -147,7 +147,8 @@ namespace KBSBoot.View
 
             //reservation button is visible
             ReservationButton.Visibility = Visibility.Visible;            
-
+            ReservationButton.Visibility = Visibility.Visible;
+            
             //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
 

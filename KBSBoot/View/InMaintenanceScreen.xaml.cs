@@ -81,6 +81,31 @@ namespace KBSBoot.View
 
             //set boat text
             SetBoatDetailsOnView();
+
+            //disable the dates that are not possible to take a boat into maintenance
+            DisableDatePickerDates();
+        }
+
+        private void DisableDatePickerDates()
+        {
+            //select all disabled dates from boat
+            using (var context = new BootDB())
+            {
+                var tableData = (from bm in context.BoatInMaintenances
+                                 where bm.boatId == BoatID
+                                 select new
+                                 {
+                                     boatId = bm.boatId,
+                                     startDate = bm.startDate,
+                                     endDate = bm.endDate
+                                 });
+
+                foreach (var b in tableData)
+                {
+                    //disable dates in datepicker
+                    DatePicker.BlackoutDates.Add(new CalendarDateRange((DateTime) b.startDate, (DateTime) b.endDate));
+                }
+            }
         }
 
         private void SetBoatDetailsOnView()
@@ -126,7 +151,7 @@ namespace KBSBoot.View
         {
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
-
+        
         private void InMaintenance_Click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
@@ -157,28 +182,51 @@ namespace KBSBoot.View
             {
                 int insertId;
 
+                //set enddate time to 23:59:59 from day
+                DateTime nu = (DateTime) untill;
+                DateTime newUntill = nu.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
                 using (var context = new BootDB())
                 {
                     var inmain = new BoatInMaintenances()
                     {
                         boatId = this.BoatID,
                         startDate = from,
-                        endDate = untill
+                        endDate = newUntill
                     };
 
+                    //save to boat in maintenances
                     context.BoatInMaintenances.Add(inmain);
                     context.SaveChanges();
 
                     insertId = inmain.boatInMaintenanceId;
+
+                    //find reservation id
+                    int reservId;
+                    var query = context.Reservations
+                       .Where(x => x.memberId == MemberId && x.date >= from && x.date <= newUntill)
+                       .FirstOrDefault<Reservations>();
+
+                    if(query != null)
+                    { 
+                        reservId = query.reservationId;
+                    
+                        //remove records from reservations
+                        context.Reservations.RemoveRange(context.Reservations.Where(x => x.reservationId == reservId && x.memberId == MemberId));
+
+                        //remove records from Resevervation_boats
+                        context.Reservation_Boats.RemoveRange(context.Reservation_Boats.Where(x => x.reservationId == reservId));
+                        context.SaveChanges();
+                    }
                 }
 
                 
 
-                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}");
+                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}.\n LET OP: alle reserveringen voor deze boot op deze dagen zijn verwijderd!");
                 Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
             }
-
-            //update boats, set boatMaintenanceId = boatMaintenance insertId
+            
         }
     }
 }
