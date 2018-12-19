@@ -136,20 +136,11 @@ namespace KBSBoot.View
                                      on b.boatTypeId equals bt.boatTypeId
                                      select new
                                      {
-                                         boatId = b.boatId,
                                          boatNames = bt.boatTypeName
                                      });
                     //Fills list with all the typename options
                     foreach (var b in tableData)
                     {
-                        Boat boat = new Boat()
-                        {
-                            boatId = b.boatId
-                        };
-                        if(boat.CheckIfTodayBoatIsInMaintenance() == true)
-                        {
-                            continue;
-                        }
                         boatnames.Add(new BoatTypes()
                         {
                             boatTypeName = b.boatNames
@@ -181,20 +172,11 @@ namespace KBSBoot.View
                                      on b.boatTypeId equals bt.boatTypeId
                                      select new
                                      {
-                                         boatId = b.boatId,
                                          boatAmountSpaces = bt.boatAmountSpaces
                                      });
                     //Fills list with all the seat options
                     foreach (var b in tableData)
                     {
-                        Boat boat = new Boat()
-                        {
-                            boatId = b.boatId
-                        };
-                        if (boat.CheckIfTodayBoatIsInMaintenance() == true)
-                        {
-                            continue;
-                        }
                         boatseats.Add(new BoatTypes()
                         {
                             boatAmountSpaces = b.boatAmountSpaces
