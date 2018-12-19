@@ -25,9 +25,9 @@
             </DockPanel>
         </materialDesign:ColorZone>
         <Label Content="Naam" HorizontalAlignment="Left" Margin="80,130,0,10" VerticalAlignment="Top" Height="50" Width="100" FontSize="24"/>
-        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="40" Margin="350,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24"/>
+        <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="40" Margin="350,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" MaxLength="45"/>
         <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="80,185,0,0" VerticalAlignment="Top" FontSize="24" Width="230" Height="50"/>
-        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="41" Margin="350,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24"/>
+        <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="41" Margin="350,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="24" MaxLength="45"/>
         <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,240,0,0" VerticalAlignment="Top" FontSize="24"/>
         <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,239,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="47">
             <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>

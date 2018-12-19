@@ -303,7 +303,7 @@ namespace KBSBoot.Model
             using (var context = new BootDB())
             {
                 var data = (from r in context.Reservations
-                            where r.memberId == MemberId && (r.date > date || (r.date == date && r.endTime > TimeNow))
+                            where r.memberId == MemberId && r.reservationBatch < 1 && (r.date > date || (r.date == date && r.endTime > TimeNow))
                             select r.reservationId).ToList();
 
                 return data.Count();

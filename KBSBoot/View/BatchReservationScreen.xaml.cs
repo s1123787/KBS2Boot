@@ -109,7 +109,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where (r.memberId == MemberId && r.date > date || (r.date == date && r.endTime > endTime)) && r.reservationBatch > 0
+                            where (r.date > date || (r.date == date && r.endTime > endTime)) && r.reservationBatch != 0
                             orderby r.date ascending, r.beginTime ascending
                             select new
                             {
@@ -127,8 +127,8 @@ namespace KBSBoot.View
                 var reservationcount = data.Distinct().Count();
 
                 var reservationsdistinct = (from r in context.Reservations
-                                            where r.date > date && r.reservationBatch != 0
-                                            select r.reservationBatch).Distinct();
+                                            where (r.date > date || (r.date == date && r.endTime > endTime)) && r.reservationBatch != 0
+                                            select r.reservationBatch).Distinct().ToList();
 
                 if (!HighestBatchCount.Equals(0))
                     maxReservationBatch = HighestBatchCount;
@@ -138,6 +138,7 @@ namespace KBSBoot.View
                     {
                         string resdate = d.date.ToString("d");
                         reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.reservationBatch, d.beginTime, d.endTime));
+                    
                     }
 
                     foreach (var d in reservationsdistinct)
@@ -255,7 +256,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where (r.memberId == MemberId && r.date <= date && r.reservationBatch > 0)
+                            where (r.date <= date && r.reservationBatch > 0)
                             orderby r.date descending, r.beginTime descending
                             select new
                             {
