@@ -80,6 +80,11 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView AllowsColumnReorder="False" x:Name="BoatGridView">
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn Width="130" Header="Foto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
