@@ -288,7 +288,7 @@ namespace KBSBoot.Model
                     }                    
                 }
                 //check if selected begin time or end time is in daylight
-                if (selectedBeginTime <= sunUp || selectedEndTime >= sunDown)
+                if (selectedBeginTime < sunUp || selectedEndTime > sunDown)
                 {
                     return false;
                 }
