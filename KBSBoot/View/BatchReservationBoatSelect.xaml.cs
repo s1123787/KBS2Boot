@@ -31,6 +31,7 @@ namespace KBSBoot.View
         private int RowLevelId;
         private string RowLevelName;
         private List<Boat> ReservationSelection = new List<Boat>();
+        private int selectionamount;
 
         public BatchReservationBoatSelect(string FullName, int AccessLevel, int MemberId)
         {
@@ -238,8 +239,10 @@ namespace KBSBoot.View
 
         private void ReservationButtonIsPressed(object sender, RoutedEventArgs e)
         {
-
+            if(selectionamount > 0)
             Switcher.Switch(new BatchReservationMatchCommissioner(ReservationSelection, AccessLevel, FullName, MemberId));
+            else
+            MessageBox.Show("U moet minstens 1 boot selecteren", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         //Adds the boat to the selection if it is selected
@@ -247,12 +250,14 @@ namespace KBSBoot.View
         {
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
             ReservationSelection.Add(boat);
+            selectionamount++;
         }
 
         //Removes boat from the selection if it is unselectd
         private void ReservationCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
             ReservationSelection.Remove(((FrameworkElement)sender).DataContext as Boat);
+            selectionamount--;
         }
     }
 }
