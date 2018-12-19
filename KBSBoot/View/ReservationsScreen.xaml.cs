@@ -165,7 +165,7 @@ namespace KBSBoot.View
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
-                                reservationBatch = r.reservationBatch
+                                reservationBatch = r.reservationBatch,
                                 boatId = b.boatId
                             });
                 //add all reservations to reservation list
@@ -186,7 +186,7 @@ namespace KBSBoot.View
         {
             ReportDamage.getPage = ReportDamage.Page.ReservationsScreen;
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId, reservation.reservationId));
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

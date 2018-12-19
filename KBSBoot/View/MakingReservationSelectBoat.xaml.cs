@@ -49,7 +49,6 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
-                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatNames = bt.boatTypeName
@@ -75,7 +74,6 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
-                                 where b.boatOutOfService == 0
                                  select new
                                  {
                                      boatAmountSpaces = bt.boatAmountSpaces
@@ -179,16 +177,17 @@ namespace KBSBoot.View
             DateTime DateNow = DateTime.Now.Date;
             TimeSpan TimeNow = DateTime.Now.TimeOfDay;
 
-            using(var context = new BootDB())
+            using (var context = new BootDB())
             {
-                var data = (from r in context.Reservations
+                var resdata = (from r in context.Reservations
                             where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
                             select r.reservationId).ToList();
-                if (data.Count >= 2) //when it is not possible to make a reservation
+                if (resdata.Count >= 2) //when it is not possible to make a reservation
                 {
                     ScrollViewer.Visibility = Visibility.Hidden;
-                    FilterStackPanel.Visibility = Visibility.Hidden;                    
-                } else //when it is possible to make a reservation
+                    FilterStackPanel.Visibility = Visibility.Hidden;
+                }
+                else //when it is possible to make a reservation
                 {
                     var data = (from r in context.Reservations
                                 where r.date > DateTime.Now && r.memberId == MemberId && (int)r.reservationBatch == 0
@@ -206,6 +205,7 @@ namespace KBSBoot.View
                         LoadBoats();
                     }
                 }
+            }
         }
 
         private void Hl_Click(object sender, RoutedEventArgs e)

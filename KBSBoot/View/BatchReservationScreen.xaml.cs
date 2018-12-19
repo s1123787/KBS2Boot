@@ -119,7 +119,7 @@ namespace KBSBoot.View
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
-                                reservationBatch = r.reservationBatch
+                                reservationBatch = r.reservationBatch,
                             });
 
                 int HighestBatchCount = context.Reservations.Where(c => c.reservationBatch != 0 && c.date > date || c.date == date && c.endTime > endTime).Max(x => (int?)x.reservationBatch) ?? 0;
@@ -137,7 +137,7 @@ namespace KBSBoot.View
                     foreach (var d in data)
                     {
                         string resdate = d.date.ToString("d");
-                        reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.reservationBatch));
+                        reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.reservationBatch, d.beginTime, d.endTime));
                     }
 
                     foreach (var d in reservationsdistinct)

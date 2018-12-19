@@ -90,7 +90,7 @@ namespace KBSBoot.Model
             this.boatId = boatId;
         }
   
-        public Reservations(int reservationId, string boatName, string boatType, string resdate, TimeSpan beginTime, TimeSpan endTime, int reservationBatch)
+        public Reservations(int reservationId, string boatName, string boatType, string resdate, int reservationBatch, TimeSpan beginTime, TimeSpan endTime)
         {
             this.reservationId = reservationId;
             this.boatName = boatName;
@@ -100,7 +100,6 @@ namespace KBSBoot.Model
             this.endTime = endTime;
             this.beginTimeString = beginTime.ToString(@"hh\:mm");
             this.endTimeString = endTime.ToString(@"hh\:mm");
-            this.boatId = boatId;
             this.reservationBatch = reservationBatch;
         }
 
