@@ -16,6 +16,7 @@ namespace KBSBoot.Model
         public string boatDamageReason { get; set; }
         public string boatImageBlob { get; set; }
         public int memberId { get; set; }
+        public DateTime reportDate { get; set; }
       
         //Properties for DamageDetailsScreen
         [NotMapped] public string boatDamageReportDate { get; set; }

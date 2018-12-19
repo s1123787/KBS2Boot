@@ -58,7 +58,7 @@
             </Canvas>
         </StackPanel>
         <Label x:Name="RowLevelNameLabel" Content="" HorizontalAlignment="Left" Margin="40,190,0,0" VerticalAlignment="Top" FontSize="16" FontStyle="Italic" FontWeight="Bold"/>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,240,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="10,240,0,0" VerticalAlignment="Top" Width="1004" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.Resources>
                     <GridViewColumn x:Key="gridViewColumnResource" Header="Status" Width="200" x:Name="statusColumn">

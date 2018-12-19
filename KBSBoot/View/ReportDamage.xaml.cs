@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using KBSBoot.Model;
 using Microsoft.Win32;
+using KBSBoot.DAL;
+using System.Linq;
 using Image = System.Drawing.Image;
 
 namespace KBSBoot.View
@@ -61,6 +63,7 @@ namespace KBSBoot.View
                         boatDamageLevel = damageLevel,
                         boatDamageLocation = location,
                         boatDamageReason = reason,
+                        reportDate = DateTime.Now,
                         boatImageBlob = SelectedImageInput
                     };
 
@@ -68,7 +71,19 @@ namespace KBSBoot.View
                     BoatDamage.AddReportToDB(boatDamage);
                     
                     MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                    switch (AccessLevel)
+                    {
+                        case 1:
+                            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+                            break;
+                        case 2:
+                            Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+                            break;
+                        case 3:
+                            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+                            break;
+                    }
+                    
                 }
                 catch (FileTooLargeException)
                 {
@@ -123,6 +138,28 @@ namespace KBSBoot.View
             else if (AccessLevel == 4)
             {
                 AccessLevelButton.Content = "Administrator";
+            }
+
+            //Load boat name
+            try
+            {
+                using (var context = new BootDB())
+                {
+                    var name = from b in context.Boats
+                               where BoatId == b.boatId
+                               select b.boatName;
+
+                    //Set the name label content to the boat's name
+                    foreach (var n in name)
+                    {
+                        BoatName.Content = n;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                //Error message for exception that could occur
+                MessageBox.Show(exception.Message, "Een fout is opgetreden", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

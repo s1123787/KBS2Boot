@@ -46,6 +46,7 @@ namespace KBSBoot.View
                                boatDamageLevel = bd.boatDamageLevel,
                                boatDamageLocation = bd.boatDamageLocation,
                                boatDamageReason = bd.boatDamageReason,
+                               boatDamageReportDate = bd.reportDate,
                                boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
                            };
 

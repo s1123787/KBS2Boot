@@ -109,5 +109,6 @@
         </ScrollViewer>
         <Label Name="historyLabel" Content="Verlopen reserveringen" FontSize="22" HorizontalAlignment="Left" Margin="78,280,0,0" VerticalAlignment="Top"/>
         <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" Margin="78,100,0,0" VerticalAlignment="Top"/>
+        <Label Name="NoHistoryReservationAvailable" Content="Er zijn nog geen verlopen reserveringen" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="350,342,350,0"/>
     </Grid>
 </UserControl>

@@ -125,6 +125,8 @@ namespace KBSBoot.View
                     reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
             }
+            //if there are no upcomming reservations make the list invisible.
+            //also moves the reservations history table etc.
             if(reservations.Count == 0)
             {
                 ReservationList.Visibility = Visibility.Collapsed;
@@ -132,6 +134,7 @@ namespace KBSBoot.View
 
                 historyLabel.Margin = new Thickness(78, 100, 0, 0);
                 historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
+                NoHistoryReservationAvailable.Margin = new Thickness(332,162,332,0);
             }
             //add list with reservation to the grid
             ReservationList.ItemsSource = reservations;
@@ -173,7 +176,16 @@ namespace KBSBoot.View
                     string resdate = d.date.ToString("d");
                     reservationsHistory.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.beginTime, d.endTime, d.boatId));
                 }
-
+                //if there is no reservation history make the table invisible
+                if(reservationsHistory.Count == 0)
+                {
+                    ReservationHistoryList.Visibility = Visibility.Collapsed;
+                }
+                //if there is a reservation history ser the label that says there is no history to invisible.
+                else
+                {
+                    NoHistoryReservationAvailable.Visibility = Visibility.Collapsed;
+                }
                 //add list with reservation to the grid
                 ReservationHistoryList.ItemsSource = reservationsHistory;
             }
