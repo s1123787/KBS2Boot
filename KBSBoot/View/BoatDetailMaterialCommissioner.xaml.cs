@@ -338,7 +338,7 @@ namespace KBSBoot.View
                     Height = videoHeight,
                     Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(700, 120, 0, 0)
+                    Margin = new Thickness(700, 120, 550, 0)
                 };
 
                 webBrowser.NavigateToString(page);
