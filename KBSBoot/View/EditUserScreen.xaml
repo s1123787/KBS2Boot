@@ -24,7 +24,7 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Wijzigen van leden</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel">
+        <ScrollViewer HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,170,0,0" VerticalAlignment="Top" Width="944" PreviewMouseWheel="MemberList_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView Name="memberList" FontSize="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

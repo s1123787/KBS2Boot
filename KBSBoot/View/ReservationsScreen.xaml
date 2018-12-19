@@ -64,7 +64,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto">
+        <ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="0,328,0,0" VerticalAlignment="Top" Width="auto" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Left" MinWidth="850" Width="auto">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
