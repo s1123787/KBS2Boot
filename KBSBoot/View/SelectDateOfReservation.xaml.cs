@@ -31,7 +31,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
-        public List<DateTime> datum = new List<DateTime>();
+        public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
         public List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
         public int x = 300;
@@ -40,7 +40,7 @@ namespace KBSBoot.View
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-        public bool geldig = false;
+        public bool valid = false;
         public Reservations reservation;
         public static DateTime SelectedDateTime;
         public enum PreviousScreen {BoatOverview, ReservationsScreen, SelectBoatScreen};
@@ -127,14 +127,22 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
-
-
+           
             //check which dates are not possible to reservate
-            datum = reservation.checkDates(boatId);
+            dates = reservation.checkDates(boatId);
 
-            foreach (var date in datum)
+            //getting dates when boat is in maintances
+            BoatInMaintenances bm = new BoatInMaintenances();
+            List<DateTime> maintancesDates = bm.checkMaintenancesDates(boatId);
+            foreach(var d in maintancesDates)
             {
+                //adding dates to list
+                dates.Add(d);
+            }
+            
 
+            foreach (var date in dates)
+            {
                 //disable the dates that are not possible to reservate
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
             }
@@ -235,7 +243,7 @@ namespace KBSBoot.View
                 selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
             } catch (Exception)
             {
-                ErrorLabel.Content = "geen geldige invoer";
+                ErrorLabel.Content = "Geen geldige invoer";
                 return;
             }
             //check if selected times are possible
@@ -243,7 +251,7 @@ namespace KBSBoot.View
             //this will be executed when the selected times are not correct
             if (!check)
             {
-                ErrorLabel.Content = "deze tijden zijn niet beschikbaar";
+                ErrorLabel.Content = "Deze tijden zijn niet mogelijk";
             }
             else //when it is possible to add reservation
             {
