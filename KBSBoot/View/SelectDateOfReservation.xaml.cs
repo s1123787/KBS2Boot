@@ -66,7 +66,22 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            backToHomeScreen();
+            if (AccessLevel == 1)
+            {
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 4)
+            {
+                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            }
         }
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
@@ -131,9 +146,9 @@ namespace KBSBoot.View
             endTime.Clear();
 
             //reservation button is visible
+            ReservationButton.Visibility = Visibility.Visible;            
             ReservationButton.Visibility = Visibility.Visible;
             
-
             //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
 
@@ -157,7 +172,8 @@ namespace KBSBoot.View
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
 
-            InformationSun.Content = $" Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
 
@@ -213,8 +229,15 @@ namespace KBSBoot.View
         private void ReservationButton_Click(object sender, RoutedEventArgs e)
         {
             //getting the selected begin and end time
-            selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
-            selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            try
+            {
+                selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
+                selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+            } catch (Exception)
+            {
+                ErrorLabel.Content = "geen geldige invoer";
+                return;
+            }
             //check if selected times are possible
             var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
             //this will be executed when the selected times are not correct
@@ -256,28 +279,9 @@ namespace KBSBoot.View
                 //show message when reservation is added to screen
                 MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                backToHomeScreen();
+                Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
             }
         }
-
-        public void backToHomeScreen()
-        {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
-        }
+        
     }
 }
