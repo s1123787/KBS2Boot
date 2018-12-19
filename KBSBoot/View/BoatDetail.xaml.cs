@@ -41,6 +41,7 @@ namespace KBSBoot.View
         private string boatDescription;
         private int rowLevelMember;
         private int rowLevelBoat;
+        private WebBrowser webBrowser;
 
         public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
         {
@@ -87,6 +88,10 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
+            if (webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
             Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
         }
 
@@ -235,7 +240,7 @@ namespace KBSBoot.View
                     + GetYouTubeScript(id)
                     + "</body></html>\r\n";
 
-                WebBrowser webBrowser = new WebBrowser()
+                webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
                     Height = videoHeight,
@@ -254,7 +259,7 @@ namespace KBSBoot.View
         //Generate Iframe for inside Webbrowser control
         private string GetYouTubeScript(string id)
         {
-            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
+            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1&mute=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
             return scr;
         }
 
@@ -279,10 +284,18 @@ namespace KBSBoot.View
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            if (webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
             Switcher.Switch(new LoginScreen());
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
+            if (webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
@@ -306,10 +319,18 @@ namespace KBSBoot.View
             //check if member has more then two reservations
             if (reservations.Count < 2)
             {
+                if (webBrowser != null)
+                {
+                    webBrowser.Dispose();
+                }
                 Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
             }
             else
             {
+                if (webBrowser != null)
+                {
+                    webBrowser.Dispose();
+                }
                 MessageBox.Show("U kunt geen nieuwe reservering plaatsen omdat u al 2 aankomende reserveringen heeft.", "Opnieuw reserveren", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
