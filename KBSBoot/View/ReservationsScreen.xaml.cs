@@ -196,7 +196,7 @@ namespace KBSBoot.View
         private void ReportDemage_Click(object sender, RoutedEventArgs e)
         {
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId, reservation.reservationId));
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)

@@ -15,7 +15,6 @@ namespace KBSBoot.Model
         public string boatDamageLocation { get; set; }
         public string boatDamageReason { get; set; }
         public string boatImageBlob { get; set; }
-        public int reservationId { get; set; }
         public int memberId { get; set; }
         public DateTime reportDate { get; set; }
       
