@@ -35,6 +35,11 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>

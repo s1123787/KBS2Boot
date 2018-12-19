@@ -7,6 +7,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+    <UserControl.Resources>
+        <Style x:Key="GVColumnReOrder" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -42,39 +47,6 @@
             </ScrollViewer>
         </StackPanel>
         
-
-
-        <!--<ScrollViewer Name="historyScollViewer" HorizontalAlignment="Center" MaxHeight="450" Height="auto" Margin="78,504,78,0" VerticalAlignment="Top" Width="auto">
-            <ListView Name="ReservationHistoryList" FontSize="16" HorizontalAlignment="Center" Width="850">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="BorderBrush" Value="LightGray" />
-                        <Setter Property="BorderThickness" Value="0,0,0,1" />
-                        <Setter Property="Focusable" Value="false"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-
-                <ListView.View>
-                    <GridView AllowsColumnReorder="False">
-                        <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Reserveringsnr" Width="140"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="         Boot type" Width="180"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
-                        <GridViewColumn Header="Meld schade" Width="auto">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="Meld Schade" HorizontalAlignment="Right" Click="ReportDemage_Click" Width="auto"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </ScrollViewer>-->
 
     </Grid>
 </UserControl>

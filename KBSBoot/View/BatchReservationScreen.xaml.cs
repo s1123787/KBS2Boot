@@ -224,6 +224,9 @@ namespace KBSBoot.View
                     gv.Columns.Add(beginTimeString);
                     gv.Columns.Add(endtimeString);
 
+                    Style style = this.FindResource("GVColumnReOrder") as Style;
+                    gv.ColumnHeaderContainerStyle = style;
+
                     lv.View = gv;
 
                     foreach (Reservations r in reservations)
@@ -234,6 +237,7 @@ namespace KBSBoot.View
                         }
                     }
                     ListGroup.Children.Add(lv);
+
                 }
             }         
         }
@@ -343,8 +347,11 @@ namespace KBSBoot.View
                         gv.Columns.Add(beginTimeString);
                         gv.Columns.Add(endtimeString);
                         gv.Columns.Add(reportDamageButton);
+                    
+                        Style style = this.FindResource("GVColumnReOrder") as Style;
+                        gv.ColumnHeaderContainerStyle = style;
 
-                        listv.View = gv;
+                    listv.View = gv;
 
                         foreach (var r in data)
                         {
@@ -435,3 +442,4 @@ namespace KBSBoot.View
 
     }
 }
+ 
