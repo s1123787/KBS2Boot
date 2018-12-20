@@ -268,7 +268,7 @@ namespace KBSBoot.View
                     {
                         if (Boatnames.SelectedItem != null)
                         {
-                            boatname = Boatseats.SelectedItem.ToString();
+                            boatname = Boatnames.SelectedItem.ToString();
                             if (d.boatType != boatname)
                             {
                                 continue;
