@@ -38,7 +38,8 @@ namespace KBSBoot.View
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
         private int videoWidth = 500;
-        private int videoHeight = 320;      
+        private int videoHeight = 320;
+        private WebBrowser webBrowser;
 
         public BoatDetailMaterialCommissioner(string FullName, int AccessLevel, int BoatId, int MemberId)
         {
@@ -187,7 +188,11 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            if(webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
+            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
 
         private void LoadBoatData(int boatID)
@@ -332,7 +337,7 @@ namespace KBSBoot.View
                     + GetYouTubeScript(id)
                     + "</body></html>\r\n";
 
-                WebBrowser webBrowser = new WebBrowser()
+                webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
                     Height = videoHeight - 120,
@@ -375,10 +380,18 @@ namespace KBSBoot.View
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            if (webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
             Switcher.Switch(new LoginScreen());
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
+            if (webBrowser != null)
+            {
+                webBrowser.Dispose();
+            }
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
@@ -402,6 +415,10 @@ namespace KBSBoot.View
             //check if member has more then two reservations
             if (reservations.Count < 2)
             {
+                if (webBrowser != null)
+                {
+                    webBrowser.Dispose();
+                }
                 Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
             } else
             {
