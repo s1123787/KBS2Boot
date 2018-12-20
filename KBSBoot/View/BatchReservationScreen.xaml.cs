@@ -288,91 +288,91 @@ namespace KBSBoot.View
                 //Fils the scrollviewer with reservationhistory
 
                 foreach (var br in BatchReservationHistory)
-                    {
-                        ListView listv = new ListView();
+                {
+                    ListView listv = new ListView();
 
-                        Label l = new Label();
-                        l.FontSize = 18;
-                        l.HorizontalAlignment = HorizontalAlignment.Left;
-                        l.Content = $"Wedstrijdreservering {br}";
+                    Label l = new Label();
+                    l.FontSize = 18;
+                    l.HorizontalAlignment = HorizontalAlignment.Left;
+                    l.Content = $"Wedstrijdreservering {br}";
 
-                        HistoryListGroup.Children.Add(l);
+                    HistoryListGroup.Children.Add(l);
 
-                        GridView gv = new GridView();
-                        gv.AllowsColumnReorder = false;
+                    GridView gv = new GridView();
+                    gv.AllowsColumnReorder = false;
 
-                        GridViewColumn reserveringsnr = new GridViewColumn();
-                        reserveringsnr.Header = "nr";
-                        reserveringsnr.Width = 70;
-                        Binding reservationidbinding = new Binding("reservationId");
-                        reserveringsnr.DisplayMemberBinding = reservationidbinding;
+                    GridViewColumn reserveringsnr = new GridViewColumn();
+                    reserveringsnr.Header = "nr";
+                    reserveringsnr.Width = 70;
+                    Binding reservationidbinding = new Binding("reservationId");
+                    reserveringsnr.DisplayMemberBinding = reservationidbinding;
 
-                        GridViewColumn boatName = new GridViewColumn();
-                        boatName.Header = "Boot naam";
-                        Binding boatNameBinding = new Binding("boatName");
-                        boatName.DisplayMemberBinding = boatNameBinding;
-                        boatName.Width = 220;
+                    GridViewColumn boatName = new GridViewColumn();
+                    boatName.Header = "Boot naam";
+                    Binding boatNameBinding = new Binding("boatName");
+                    boatName.DisplayMemberBinding = boatNameBinding;
+                    boatName.Width = 220;
 
-                        GridViewColumn boatType = new GridViewColumn();
-                        boatType.Header = "Boot Type";
-                        Binding boatTypeBinding = new Binding("boatType");
-                        boatType.DisplayMemberBinding = boatTypeBinding;
-                        boatType.Width = 150;
+                    GridViewColumn boatType = new GridViewColumn();
+                    boatType.Header = "Boot Type";
+                    Binding boatTypeBinding = new Binding("boatType");
+                    boatType.DisplayMemberBinding = boatTypeBinding;
+                    boatType.Width = 150;
 
-                        GridViewColumn resDate = new GridViewColumn();
-                        resDate.Header = "Datum";
-                        Binding resDateBinding = new Binding("resdate");
-                        resDate.DisplayMemberBinding = resDateBinding;
+                    GridViewColumn resDate = new GridViewColumn();
+                    resDate.Header = "Datum";
+                    Binding resDateBinding = new Binding("resdate");
+                    resDate.DisplayMemberBinding = resDateBinding;
 
-                        GridViewColumn beginTimeString = new GridViewColumn();
-                        beginTimeString.Header = "Begintijd";
-                        Binding beginTimeStringbinding = new Binding("beginTimeString");
-                        beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
+                    GridViewColumn beginTimeString = new GridViewColumn();
+                    beginTimeString.Header = "Begintijd";
+                    Binding beginTimeStringbinding = new Binding("beginTimeString");
+                    beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
 
-                        GridViewColumn endtimeString = new GridViewColumn();
-                        endtimeString.Header = "Eindtijd";
-                        Binding endtimeStringBinding = new Binding("endTimeString");
-                        endtimeString.DisplayMemberBinding = endtimeStringBinding;
+                    GridViewColumn endtimeString = new GridViewColumn();
+                    endtimeString.Header = "Eindtijd";
+                    Binding endtimeStringBinding = new Binding("endTimeString");
+                    endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
-                        GridViewColumn reportDamageButton = new GridViewColumn();
-                        reportDamageButton.Header = "Meld schade";
+                    GridViewColumn reportDamageButton = new GridViewColumn();
+                    reportDamageButton.Header = "Meld schade";
 
-                        FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
-                        stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
+                    FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
+                    stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
 
-                        FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
-                        DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
-                        DamageButton.SetValue(Button.ContentProperty, "Meld schade");
-                        stackPanelFactory.AppendChild(DamageButton);
+                    FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
+                    DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
+                    DamageButton.SetValue(Button.ContentProperty, "Meld schade");
+                    stackPanelFactory.AppendChild(DamageButton);
 
-                        DataTemplate template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
+                    DataTemplate template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
 
-                        reportDamageButton.CellTemplate = template;
+                    reportDamageButton.CellTemplate = template;
 
-                        gv.Columns.Add(reserveringsnr);
-                        gv.Columns.Add(boatName);
-                        gv.Columns.Add(boatType);
-                        gv.Columns.Add(resDate);
-                        gv.Columns.Add(beginTimeString);
-                        gv.Columns.Add(endtimeString);
-                        gv.Columns.Add(reportDamageButton);
-                    
-                        Style style = this.FindResource("GVColumnReOrder") as Style;
-                        gv.ColumnHeaderContainerStyle = style;
+                    gv.Columns.Add(reserveringsnr);
+                    gv.Columns.Add(boatName);
+                    gv.Columns.Add(boatType);
+                    gv.Columns.Add(resDate);
+                    gv.Columns.Add(beginTimeString);
+                    gv.Columns.Add(endtimeString);
+                    gv.Columns.Add(reportDamageButton);
+
+                    Style style = this.FindResource("GVColumnReOrder") as Style;
+                    gv.ColumnHeaderContainerStyle = style;
 
                     listv.View = gv;
 
                     foreach (var r in data)
                     {
                         Reservations reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
-                            if (r.reservationBatch == br)
-                            {
-                                listv.Items.Add(reservation);
-                            }
-                      }
-                  }
-                   HistoryListGroup.Children.Add(listv);
+                        if (r.reservationBatch == br)
+                        {
+                            listv.Items.Add(reservation);
+                        }
                     }
+                
+                HistoryListGroup.Children.Add(listv);
+            }
                 if (BatchReservationHistory.Count() == 0)
                 {
                     Label noreservations = new Label();
