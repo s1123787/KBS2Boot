@@ -26,8 +26,8 @@ namespace KBSBoot.View
         public int AccessLevel;
         public int MemberId;
         private bool FilterEnabled = false;
-        private string bootnaam;
-        private int bootplek;
+        private string Boatname;
+        private int Boatspace;
         private int RowLevelId;
         private string RowLevelName;
         private List<Boat> ReservationSelection = new List<Boat>();
@@ -126,7 +126,7 @@ namespace KBSBoot.View
             if (BoatSpaces.SelectedItem != null)
             {
                 //Assigns value to chosen option
-                bootplek = Int32.Parse(BoatSpaces.SelectedItem.ToString());
+                Boatspace = Int32.Parse(BoatSpaces.SelectedItem.ToString());
                 BoatNames.IsEnabled = false;
             }
         }
@@ -212,15 +212,15 @@ namespace KBSBoot.View
                     {
                         if (BoatNames.SelectedItem != null)
                         {
-                            bootnaam = BoatNames.SelectedItem.ToString();
-                            if (d.boatType != bootnaam)
+                            Boatname = BoatNames.SelectedItem.ToString();
+                            if (d.boatType != Boatname)
                             {
                                 continue;
                             }
                         }
                         if (BoatSpaces.SelectedItem != null)
                         {
-                            if (d.boatAmountSpaces != bootplek)
+                            if (d.boatAmountSpaces != Boatspace)
                             {
                                 continue;
                             }
