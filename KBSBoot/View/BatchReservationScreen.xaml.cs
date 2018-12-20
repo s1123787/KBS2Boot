@@ -379,26 +379,10 @@ namespace KBSBoot.View
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
         {    
-            ////Get the reservationId from a toString because other methods did not work for unknown reasons
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            //string[] numbers = Regex.Split(tostring, @"\D+");
 
             ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
             Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
-            /*
-            int reservationid = int.Parse(numbers[1]);
-            using (var context = new BootDB())
-            {
-                var boatid = (from r in context.Reservations
-                              join rb in context.Reservation_Boats
-                              on r.reservationId equals rb.reservationId
-                              where rb.reservationId == reservationid
-                              select rb.boatId).FirstOrDefault();
-
-                ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
-                Switcher.Switch(new ReportDamage(FullName, boatid, AccessLevel, MemberId));
-            }*/
-
         }
 
 
