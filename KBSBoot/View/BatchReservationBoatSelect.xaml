@@ -41,7 +41,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Content="Aantal plekken" Canvas.Left="198" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootplekken" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                <ComboBox x:Name="BoatSpaces" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

@@ -107,10 +107,10 @@ namespace KBSBoot.View
             LoadBoats();
             //BoatList.ItemsSource = LoadCollectionData();
             //Resets the filteroptions
-            Bootplekken.IsEnabled = true;
+            BoatSpaces.IsEnabled = true;
             BoatNames.IsEnabled = true;
             BoatNames.SelectedItem = null;
-            Bootplekken.SelectedItem = null;
+            BoatSpaces.SelectedItem = null;
         }
 
         private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -118,15 +118,15 @@ namespace KBSBoot.View
             if (BoatNames.SelectedItem != null)
             {
 
-                Bootplekken.IsEnabled = false;
+                BoatSpaces.IsEnabled = false;
             }
         }
         private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootplekken.SelectedItem != null)
+            if (BoatSpaces.SelectedItem != null)
             {
                 //Assigns value to chosen option
-                bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
+                bootplek = Int32.Parse(BoatSpaces.SelectedItem.ToString());
                 BoatNames.IsEnabled = false;
             }
         }
@@ -218,7 +218,7 @@ namespace KBSBoot.View
                                 continue;
                             }
                         }
-                        if (Bootplekken.SelectedItem != null)
+                        if (BoatSpaces.SelectedItem != null)
                         {
                             if (d.boatAmountSpaces != bootplek)
                             {
