@@ -123,6 +123,10 @@ namespace KBSBoot.View
 
                     boats.Add(boat);
                 }
+                if (!boats.Any())
+                {
+                    NoBoatsLabel.Visibility = Visibility.Visible;
+                }
                 return boats;
             }
         }
@@ -325,6 +329,7 @@ namespace KBSBoot.View
             Boatnames.SelectedItem = null;
             Boatseats.SelectedItem = null;
             Boatlevels.SelectedItem = null;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
         }
 
         private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
