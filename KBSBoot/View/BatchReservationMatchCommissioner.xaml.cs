@@ -30,7 +30,7 @@ namespace KBSBoot.View
         public string FullName;
         public int AccessLevel;
         public int MemberId;
-        public List<DateTime> datum = new List<DateTime>();
+        public List<DateTime> dates = new List<DateTime>();
         public List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
         public List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
         public int x = 300;
@@ -98,12 +98,22 @@ namespace KBSBoot.View
             }
 
 
-            //check which dates are not possible to reserve
+            //check which dates are not possible to reserve because of maintenance or other reservations
             foreach(var boat in SelectionList)
             {
-                datum = reservation.checkDates(boat.boatId);
+                dates = reservation.checkDates(boat.boatId);
 
-                foreach (var date in datum)
+                BoatInMaintenances bm = new BoatInMaintenances();
+                //Get dates when boat is in maintenance
+                List<DateTime> maintenancesDates = bm.checkMaintenancesDates(boat.boatId);
+                foreach (var d in maintenancesDates)
+                {
+                    //adding dates to list
+                    if(!dates.Contains(d))
+                    dates.Add(d);
+                }
+
+                foreach (var date in dates)
                 {
 
                     //disable the dates that are not possible to reserve
@@ -152,6 +162,7 @@ namespace KBSBoot.View
             {
                 ScrollViewer sv = new ScrollViewer();
                 sv.Height = 250;
+                sv.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                 Thickness margin = sv.Margin;
                 margin.Right = 30;
                 sv.Margin = margin;

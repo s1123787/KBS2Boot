@@ -245,7 +245,7 @@ namespace KBSBoot.View
         {
             //Carry selected boatdata over to new screen
             Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-            Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, boat.boatId));
+            Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, MemberId, boat.boatId));
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)

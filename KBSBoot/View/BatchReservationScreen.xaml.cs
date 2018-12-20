@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -375,19 +376,24 @@ namespace KBSBoot.View
 
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
-        {
-            //Get the reservationId from a toString because other methods did not work for unknown reasons
-            string str = ((FrameworkElement)sender).DataContext.ToString();
-            StringBuilder sb = new StringBuilder();
-            foreach (char c in str)
+        {    
+            ////Get the reservationId from a toString because other methods did not work for unknown reasons
+            string tostring = ((FrameworkElement)sender).DataContext.ToString();
+            string[] numbers = Regex.Split(tostring, @"\D+");
+
+            int reservationid = int.Parse(numbers[1]);
+            using (var context = new BootDB())
             {
-                if ((c >= '0' && c <= '9' && sb.Length < 2))
-                {
-                    sb.Append(c);
-                }
+                var boatid = (from r in context.Reservations
+                              join rb in context.Reservation_Boats
+                              on r.reservationId equals rb.reservationId
+                              where rb.reservationId == reservationid
+                              select rb.boatId).FirstOrDefault();
+
+                ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
+                Switcher.Switch(new ReportDamage(FullName, boatid, AccessLevel, MemberId));
             }
-            ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
-            Switcher.Switch(new ReportDamage(FullName, int.Parse(sb.ToString()), AccessLevel, MemberId));
+
         }
 
 
