@@ -35,7 +35,7 @@ namespace KBSBoot.View
             InitializeComponent();
             memberList.ItemsSource = LoadCollectionData();
         }
-
+                
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new LoginScreen());
