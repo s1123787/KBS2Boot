@@ -114,5 +114,6 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+        <Label x:Name="NoBoatsLabel" Content="Er zijn geen boten gevonden!" Margin="314,384,314,335" FontSize="30" Visibility="Hidden"/>
     </Grid>
 </UserControl>

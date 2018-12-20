@@ -111,6 +111,7 @@ namespace KBSBoot.View
             Boatnames.SelectedItem = null;
             Boatseats.SelectedItem = null;
             Boatlevels.SelectedItem = null;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
         }
 
         private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -268,7 +269,7 @@ namespace KBSBoot.View
                     {
                         if (Boatnames.SelectedItem != null)
                         {
-                            boatname = Boatseats.SelectedItem.ToString();
+                            boatname = Boatnames.SelectedItem.ToString();
                             if (d.boatType != boatname)
                             {
                                 continue;
@@ -295,6 +296,10 @@ namespace KBSBoot.View
 
                     //add data to the table
                     boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatYoutubeUrl = null });
+                }
+                if (!boats.Any())
+                {
+                    NoBoatsLabel.Visibility = Visibility.Visible;
                 }
                 BoatList.ItemsSource = boats;
             }
