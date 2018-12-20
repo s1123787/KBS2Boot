@@ -175,15 +175,15 @@ namespace KBSBoot.View
 
             //getting the information when sun is coming up and is going down
             SelectedDateTime = DatePicker.SelectedDate.Value;
-            var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
+            var SunInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
 
-            var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
-            var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
+            var DateSunUp = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunrise));
+            var DateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunset));
 
-            InformationSun.Content = $"Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {DateSunUp.TimeOfDay} tot {DateSunDown.TimeOfDay} worden gereserveerd";
             ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
-            sunUp = test1.TimeOfDay;
-            sunDown = test2.TimeOfDay;
+            sunUp = DateSunUp.TimeOfDay;
+            sunDown = DateSunDown.TimeOfDay;
 
             using (var context = new BootDB())
             {
