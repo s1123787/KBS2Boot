@@ -154,7 +154,7 @@ namespace KBSBoot.View
                 ListGroup.Visibility = Visibility.Collapsed;
                 reservationsLabel.Visibility = Visibility.Collapsed;
 
-                HistoryListGroup.MaxHeight = 600;
+                HistoryScrollViewer.MaxHeight = 550;
                 //historyLabel.Margin = new Thickness(78, 100, 0, 0);
                 //historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
             }
@@ -166,6 +166,8 @@ namespace KBSBoot.View
                     ListView lv = new ListView();
                     Grid LabelAndButton = new Grid();
                     LabelAndButton.Width = 850;
+                    Style lvstyle = this.FindResource("LVItemStyle") as Style;
+                    lv.ItemContainerStyle = lvstyle;
 
                     Label l = new Label();
                     l.FontSize = 18;
@@ -290,6 +292,8 @@ namespace KBSBoot.View
                 foreach (var br in BatchReservationHistory)
                 {
                     ListView listv = new ListView();
+                    Style lvstyle = this.FindResource("LVItemStyle") as Style;
+                    listv.ItemContainerStyle = lvstyle;
 
                     Label l = new Label();
                     l.FontSize = 18;
