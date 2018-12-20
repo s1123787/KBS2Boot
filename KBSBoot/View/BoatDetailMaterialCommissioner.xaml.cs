@@ -37,8 +37,8 @@ namespace KBSBoot.View
         private BoatImages boatImageData;
         private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
         public bool IsYoutubeEnabled = false;
-        private int videoWidth = 500;
-        private int videoHeight = 320;
+        private int videoWidth = 300;
+        private int videoHeight = 169;      
         private WebBrowser webBrowser;
 
         public BoatDetailMaterialCommissioner(string FullName, int AccessLevel, int BoatId, int MemberId)

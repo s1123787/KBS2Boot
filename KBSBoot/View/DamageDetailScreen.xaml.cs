@@ -59,6 +59,7 @@ namespace KBSBoot.View
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
+                        boatDamageReportDate = d.boatDamageReportDate.ToString("dd-MM-yyyy"),
                         boatDamageReporter = d.boatDamageReporter.ToString()
                     });
 
