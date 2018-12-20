@@ -180,7 +180,7 @@ namespace KBSBoot.View
             var DateSunUp = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunrise));
             var DateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunset));
 
-            InformationSun.Content = $"Er kan van {DateSunUp.ToString(@"HH\:mm")} tot {DateSunDown.ToString(@"HH\:mm")} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {DateSunUp.ToString(@"hh\:mm")} tot {DateSunDown.ToString(@"hh\:mm")} worden gereserveerd";
             ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
             sunUp = DateSunUp.TimeOfDay;
             sunDown = DateSunDown.TimeOfDay;
