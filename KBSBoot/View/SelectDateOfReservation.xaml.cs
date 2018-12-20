@@ -180,7 +180,7 @@ namespace KBSBoot.View
             var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
             var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
 
-            InformationSun.Content = $"Er kan van {test1.TimeOfDay} tot {test2.TimeOfDay} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {test1.ToString(@"hh\:mm")} tot {test2.ToString(@"hh\:mm")} worden gereserveerd";
             ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
             sunUp = test1.TimeOfDay;
             sunDown = test2.TimeOfDay;
@@ -209,7 +209,7 @@ namespace KBSBoot.View
                     endTime.Add(d1.endTime);
                     StackPanel sp = new StackPanel();
                     Label l = new Label();
-                    l.Content = $"- van {d1.beginTime} tot {d1.endTime}";
+                    l.Content = $"- van {d1.beginTime.ToString(@"hh\:mm")} tot {d1.endTime.ToString(@"hh\:mm")}";
                     l.Width = 400;
                     l.Height = 40;
                     l.FontSize = 14;
