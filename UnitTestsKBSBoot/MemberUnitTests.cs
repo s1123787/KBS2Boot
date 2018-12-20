@@ -28,7 +28,7 @@ namespace UnitTestsKBSBoot
                     memberUsername = "unittest1",
                     memberAccessLevelId = 1,
                     memberRowLevelId = 1,
-                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                    memberSubscribedUntill = DateTime.Now.AddYears(1)
                 };
                 context.Members.Add(m1);
                 context.SaveChanges();
@@ -60,7 +60,7 @@ namespace UnitTestsKBSBoot
                     memberUsername = "unittest2",
                     memberAccessLevelId = 4,
                     memberRowLevelId = 1,
-                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                    memberSubscribedUntill = DateTime.Now.AddYears(1)
                 };
                 context.Members.Add(m1);
                 context.SaveChanges();
@@ -93,7 +93,7 @@ namespace UnitTestsKBSBoot
                     memberUsername = "unittest3",
                     memberAccessLevelId = 3,
                     memberRowLevelId = 1,
-                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                    memberSubscribedUntill = DateTime.Now.AddYears(1)
                 };
                 context.Members.Add(m1);
                 context.SaveChanges();
@@ -126,7 +126,7 @@ namespace UnitTestsKBSBoot
                     memberUsername = "unittest4",
                     memberAccessLevelId = 2,
                     memberRowLevelId = 1,
-                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                    memberSubscribedUntill = DateTime.Now.AddYears(1)
                 };
                 context.Members.Add(m1);
                 context.SaveChanges();
@@ -158,10 +158,6 @@ namespace UnitTestsKBSBoot
             Assert.IsFalse(result);
         }
 
-        /* 
-         * geen geldige gebruiker meer tijd is verlopen
-        */
-
         [Test]
         public void OnLoginButtonIsPressed_UserNameCapital_ReturnFalse()
         {
@@ -178,7 +174,7 @@ namespace UnitTestsKBSBoot
                     memberUsername = "unittest5",
                     memberAccessLevelId = 1,
                     memberRowLevelId = 1,
-                    memberSubscribedUntill = new DateTime(2019, 2, 2)
+                    memberSubscribedUntill = DateTime.Now.AddYears(1)
                 };
                 context.Members.Add(m1);
                 context.SaveChanges();
@@ -196,7 +192,7 @@ namespace UnitTestsKBSBoot
         }
 
         [Test]
-        public void OnLoginButtonIsPressed_NouserNameInserted_ReturnFalse()
+        public void OnLoginButtonIsPressed_NoUserNameInserted_ReturnFalse()
         {
             // Arrange
             Member m = new Member();
