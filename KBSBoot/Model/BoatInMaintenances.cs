@@ -26,7 +26,7 @@ namespace KBSBoot.Model
         {
             //this where all dates getting stored
             List<DateTime> returningDates = new List<DateTime>();
-            DateTime DateNow = DateTime.Now;
+            DateTime DateNow = DateTime.Now.Date;
 
             using (var context = new BootDB())
             {

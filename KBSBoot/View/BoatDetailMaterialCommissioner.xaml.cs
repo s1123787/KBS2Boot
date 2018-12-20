@@ -340,10 +340,10 @@ namespace KBSBoot.View
                 webBrowser = new WebBrowser()
                 {
                     Name = "webBrowser",
-                    Height = videoHeight - 120,
+                    Height = videoHeight,
                     Width = videoWidth,
                     VerticalAlignment = VerticalAlignment.Top,
-                    Margin = new Thickness(700, 120, 0, 0)
+                    Margin = new Thickness(700, 120, 550, 0)
                 };
 
                 webBrowser.NavigateToString(page);
