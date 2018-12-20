@@ -71,6 +71,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddBoatUnitTests.cs" />
     <Compile Include="MakingReservationUnitTests.cs" />
     <Compile Include="MemberUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

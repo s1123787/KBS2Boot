@@ -36,6 +36,7 @@ namespace KBSBoot.View
             this.BoatId = boatId;
             this.MemberId = MemberId;
             InitializeComponent();
+            Console.WriteLine(boatId);
         }
 
         //Method to execute when AddUser button is clicked
