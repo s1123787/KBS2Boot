@@ -271,7 +271,8 @@ namespace KBSBoot.View
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
-                                reservationBatch = r.reservationBatch
+                                reservationBatch = r.reservationBatch,
+                                boatId = b.boatId
                             });
 
                 var BatchReservationHistory =
@@ -313,17 +314,17 @@ namespace KBSBoot.View
 
                         GridViewColumn resDate = new GridViewColumn();
                         resDate.Header = "Datum";
-                        Binding resDateBinding = new Binding("date");
+                        Binding resDateBinding = new Binding("resdate");
                         resDate.DisplayMemberBinding = resDateBinding;
 
                         GridViewColumn beginTimeString = new GridViewColumn();
                         beginTimeString.Header = "Begintijd";
-                        Binding beginTimeStringbinding = new Binding("beginTime");
+                        Binding beginTimeStringbinding = new Binding("beginTimeString");
                         beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
 
                         GridViewColumn endtimeString = new GridViewColumn();
                         endtimeString.Header = "Eindtijd";
-                        Binding endtimeStringBinding = new Binding("endTime");
+                        Binding endtimeStringBinding = new Binding("endTimeString");
                         endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
                         GridViewColumn reportDamageButton = new GridViewColumn();
@@ -356,9 +357,10 @@ namespace KBSBoot.View
 
                         foreach (var r in data)
                         {
+                        Reservations reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
                             if (r.reservationBatch == br)
                             {
-                                listv.Items.Add(r);
+                                listv.Items.Add(reservation);
                             }
                         }
                         HistoryListGroup.Children.Add(listv);
@@ -377,23 +379,10 @@ namespace KBSBoot.View
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
         {    
-            ////Get the reservationId from a toString because other methods did not work for unknown reasons
-            string tostring = ((FrameworkElement)sender).DataContext.ToString();
-            string[] numbers = Regex.Split(tostring, @"\D+");
+            Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
 
-            int reservationid = int.Parse(numbers[1]);
-            using (var context = new BootDB())
-            {
-                var boatid = (from r in context.Reservations
-                              join rb in context.Reservation_Boats
-                              on r.reservationId equals rb.reservationId
-                              where rb.reservationId == reservationid
-                              select rb.boatId).FirstOrDefault();
-
-                ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
-                Switcher.Switch(new ReportDamage(FullName, boatid, AccessLevel, MemberId));
-            }
-
+            ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }
 
 
