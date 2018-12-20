@@ -276,7 +276,8 @@ namespace KBSBoot.View
                                 date = r.date,
                                 beginTime = r.beginTime,
                                 endTime = r.endTime,
-                                reservationBatch = r.reservationBatch
+                                reservationBatch = r.reservationBatch,
+                                boatId = b.boatId
                             });
 
                 var BatchReservationHistory =
@@ -361,24 +362,16 @@ namespace KBSBoot.View
 
                     listv.View = gv;
 
-                    //foreach (var r in data)
-                    //{
-                    //    if (r.reservationBatch == br)
-                    //    {
-                    //        listv.Items.Add(r);
-                    //    }
-                    //}
-
-                    var testList = data.ToList();
-                    for (int i = 0; i < testList.Count(); i++)
+                    foreach (var r in data)
                     {
-                    //    testList[i].beginTimeString = testList[i].beginTime.ToString(@"hh\:mm");
-                        if (testList[i].reservationBatch == br)
-                        {
-                            listv.Items.Add(testList[i]);
-                        }
-                    }
-                        HistoryListGroup.Children.Add(listv);
+                        Reservations reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
+                            if (r.reservationBatch == br)
+                            {
+                                listv.Items.Add(reservation);
+                            }
+                      }
+                  }
+                   HistoryListGroup.Children.Add(listv);
                     }
                 if (BatchReservationHistory.Count() == 0)
                 {
@@ -394,25 +387,10 @@ namespace KBSBoot.View
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
         {    
-            ////Get the reservationId from a toString because other methods did not work for unknown reasons
-            string tostring = ((FrameworkElement)sender).DataContext.ToString();
             Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
-            string[] numbers = Regex.Split(tostring, @"\D+");
-            Console.WriteLine(tostring);
-            Console.WriteLine(numbers[1]);
-            int reservationid = int.Parse(numbers[1]);
-            using (var context = new BootDB())
-            {
-                var boatid = (from r in context.Reservations
-                              join rb in context.Reservation_Boats
-                              on r.reservationId equals rb.reservationId
-                              where rb.reservationId == reservationid
-                              select rb.boatId).FirstOrDefault();
 
-                ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
-                Switcher.Switch(new ReportDamage(FullName, boatid, AccessLevel, MemberId));
-            }
-
+            ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
+            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
         }
 
 
