@@ -39,8 +39,8 @@ namespace KBSBoot.View
             this.AccessLevel = AccessLevel;
             this.MemberId = MemberId;
             InitializeComponent();
-            Bootplekken.ItemsSource = LoadBoatSeatsSelection();
-            Bootnamen.ItemsSource = LoadBoatNamesSelection();
+            BoatSpaces.ItemsSource = LoadBoatSeatsSelection();
+            BoatNames.ItemsSource = LoadBoatNamesSelection();
         }
 
         private List<BoatTypes> LoadBoatNamesSelection()
@@ -108,14 +108,14 @@ namespace KBSBoot.View
             //BoatList.ItemsSource = LoadCollectionData();
             //Resets the filteroptions
             Bootplekken.IsEnabled = true;
-            Bootnamen.IsEnabled = true;
-            Bootnamen.SelectedItem = null;
+            BoatNames.IsEnabled = true;
+            BoatNames.SelectedItem = null;
             Bootplekken.SelectedItem = null;
         }
 
         private void Bootnamen_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Bootnamen.SelectedItem != null)
+            if (BoatNames.SelectedItem != null)
             {
 
                 Bootplekken.IsEnabled = false;
@@ -127,7 +127,7 @@ namespace KBSBoot.View
             {
                 //Assigns value to chosen option
                 bootplek = Int32.Parse(Bootplekken.SelectedItem.ToString());
-                Bootnamen.IsEnabled = false;
+                BoatNames.IsEnabled = false;
             }
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
@@ -210,9 +210,9 @@ namespace KBSBoot.View
                     //Filters selection based on chosen options
                     if (FilterEnabled)
                     {
-                        if (Bootnamen.SelectedItem != null)
+                        if (BoatNames.SelectedItem != null)
                         {
-                            bootnaam = Bootnamen.SelectedItem.ToString();
+                            bootnaam = BoatNames.SelectedItem.ToString();
                             if (d.boatType != bootnaam)
                             {
                                 continue;
