@@ -259,5 +259,12 @@ namespace KBSBoot.View
             ReservationSelection.Remove(((FrameworkElement)sender).DataContext as Boat);
             selectionamount--;
         }
+
+        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
     }
 }

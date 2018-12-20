@@ -166,6 +166,7 @@ namespace KBSBoot.View
                 Thickness margin = sv.Margin;
                 margin.Right = 30;
                 sv.Margin = margin;
+                sv.MouseWheel += sv_MouseWheel;
 
                 StackPanel sp = new StackPanel();
                 foreach (var boat in SelectionList)
@@ -193,7 +194,7 @@ namespace KBSBoot.View
                         Label l2 = new Label();
                         l.Content = $"{boat.boatName}:";
                         l.Background = new SolidColorBrush(Colors.LightGray);
-                        l.FontSize = 14;
+                        l.FontSize = 16;
                         l2.Content = $"- van {d1.beginTime} tot {d1.endTime}";
                         l2.Width = 400;
                         l2.FontSize = 14;
@@ -238,17 +239,17 @@ namespace KBSBoot.View
                     BatchCount = 1;     
             }
 
-            foreach(var boat in SelectionList)
+            //check if selected times are possible
+            var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+            foreach (var boat in SelectionList)
             {
                 //getting the selected begin and end time
                 selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
                 selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
-                //check if selected times are possible
-                var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
                 //this will be executed when the selected times are not correct
                 if (!check)
                 {
-                    ErrorLabel.Content = "deze tijden zijn niet beschikbaar";
+                    ErrorLabel.Content = "Deze tijden zijn niet beschikbaar.";
                 }
                 else //when it is possible to add reservation
                 {
@@ -285,10 +286,21 @@ namespace KBSBoot.View
                 }
 
             }
-            //show message when reservation is added to screen
-            MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
+            if(check)
+            {
+                //show message when reservation is added to screen
+                MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            backToHomeScreen();
+                backToHomeScreen();
+            }
+
+        }
+
+        private void sv_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         public void backToHomeScreen()
