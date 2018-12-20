@@ -19,7 +19,9 @@ namespace UnitTestsKBSBoot
                 memberId = 1,
                 boatDamageLevel = 2,
                 boatDamageLocation = "Voor",
-                boatDamageReason = "Sawwy"
+                boatDamageReason = "Sawwy",
+                reportDate = DateTime.Now,
+                boatImageBlob = ""
             };
             var result = false;
             //Act
@@ -32,7 +34,7 @@ namespace UnitTestsKBSBoot
                 using (var context = new BootDB())
                 {
                     var Damages = from d in context.BoatDamages
-                        where d.boatId == report.boatId && d.boatDamageLevel == report.boatDamageLevel && d.boatDamageLocation == report.boatDamageLocation && d.boatDamageReason == report.boatDamageReason
+                        where d.boatId == report.boatId && d.memberId == report.memberId && d.boatDamageLevel == report.boatDamageLevel && d.boatDamageLocation == report.boatDamageLocation && d.boatDamageReason == report.boatDamageReason
                         select d;
 
                     if (Damages.ToList().Count > 0)
