@@ -50,6 +50,7 @@ namespace KBSBoot.Model
                     //homepage is made and switch to so user can do something with the app
                     OnNewHomePageMade(AccessLevel, FullName, id);
                     SortUser = AccessLevel;
+                    Correct = true;
                 }
                 else //username doesn't exist
                 {

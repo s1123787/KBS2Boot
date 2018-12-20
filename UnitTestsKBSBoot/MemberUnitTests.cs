@@ -44,6 +44,7 @@ namespace UnitTestsKBSBoot
             // Assert
             Assert.AreEqual(1, result);
         }
+
         [Test]
         public void OnLoginButtonIsPressed_AdminLogedInCorrect_ReturnTest()
         {
@@ -217,6 +218,39 @@ namespace UnitTestsKBSBoot
             m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("123456"));
             var result = m.Correct;
 
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void OnLoginButtonIsPressed_UserSubscribtionExpired_ReturnFalse()
+        {
+            //Arrange
+            Member m = new Member();
+            MainWindow mw = new MainWindow();
+            bool result;
+
+            using (var context = new BootDB())
+            {
+                Member m1 = new Member
+                {
+                    memberName = "unittest",
+                    memberUsername = "unittest6",
+                    memberAccessLevelId = 1,
+                    memberRowLevelId = 1,
+                    memberSubscribedUntill = DateTime.Now.AddYears(-1)
+                };
+                context.Members.Add(m1);
+                context.SaveChanges();
+
+                // Act
+                m.OnLoginButtonIsPressed(new LoginScreen(), new LoginEventArgs("unittest6"));
+                result = m.Correct;
+
+                context.Members.Attach(m1);
+                context.Members.Remove(m1);
+                context.SaveChanges();
+            }
             // Assert
             Assert.IsFalse(result);
         }
