@@ -33,7 +33,8 @@ namespace KBSBoot.Model
             using (var context = new BootDB())
             {
                 //all usernames of members who are active in database in a list
-                var members = (from m in context.Members where m.memberSubscribedUntill > DateTime.Now || m.memberAccessLevelId == 4 select m).ToList<Member>();
+                var today = DateTime.Now.Date;
+                var members = (from m in context.Members where m.memberSubscribedUntill >= today || m.memberAccessLevelId == 4 select m).ToList<Member>();
 
                 //check if username exist in list from database
                 if (members.Any(i => i.memberUsername == InputUserName))
