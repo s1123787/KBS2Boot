@@ -52,7 +52,7 @@
                 </ComboBox>
             </Canvas>
         </StackPanel>
-        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="350" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="350" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

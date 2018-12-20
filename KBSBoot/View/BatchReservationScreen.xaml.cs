@@ -2,6 +2,7 @@
 using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -153,6 +154,7 @@ namespace KBSBoot.View
                 ListGroup.Visibility = Visibility.Collapsed;
                 reservationsLabel.Visibility = Visibility.Collapsed;
 
+                HistoryListGroup.MaxHeight = 600;
                 //historyLabel.Margin = new Thickness(78, 100, 0, 0);
                 //historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
             }
@@ -188,8 +190,8 @@ namespace KBSBoot.View
                     gv.AllowsColumnReorder = false;
 
                     GridViewColumn reserveringsnr = new GridViewColumn();
-                    reserveringsnr.Header = "Reserveringsnr";
-                    reserveringsnr.Width = 140;
+                    reserveringsnr.Header = "nr";
+                    reserveringsnr.Width = 70;
                     Binding reservationidbinding = new Binding("reservationId");
                     reserveringsnr.DisplayMemberBinding = reservationidbinding;
 
@@ -197,11 +199,13 @@ namespace KBSBoot.View
                     boatName.Header = "Boot naam";
                     Binding boatNameBinding = new Binding("boatName");
                     boatName.DisplayMemberBinding = boatNameBinding;
+                    boatName.Width = 220;
 
                     GridViewColumn boatType = new GridViewColumn();
                     boatType.Header = "Boot Type";
                     Binding boatTypeBinding = new Binding("boatType");
                     boatType.DisplayMemberBinding = boatTypeBinding;
+                    boatType.Width = 150;
 
                     GridViewColumn resDate = new GridViewColumn();
                     resDate.Header = "Datum";
@@ -266,6 +270,7 @@ namespace KBSBoot.View
                             select new
                             {
                                 reservationId = r.reservationId,
+                                memberId = r.memberId,
                                 boatName = b.boatName,
                                 boatType = bt.boatTypeDescription,
                                 date = r.date,
@@ -280,8 +285,8 @@ namespace KBSBoot.View
                      select x.reservationBatch).Distinct();
 
                 //Fils the scrollviewer with reservationhistory
-              
-                    foreach (var br in BatchReservationHistory)
+
+                foreach (var br in BatchReservationHistory)
                     {
                         ListView listv = new ListView();
 
@@ -296,8 +301,8 @@ namespace KBSBoot.View
                         gv.AllowsColumnReorder = false;
 
                         GridViewColumn reserveringsnr = new GridViewColumn();
-                        reserveringsnr.Header = "Reserveringsnr";
-                        reserveringsnr.Width = 140;
+                        reserveringsnr.Header = "nr";
+                        reserveringsnr.Width = 70;
                         Binding reservationidbinding = new Binding("reservationId");
                         reserveringsnr.DisplayMemberBinding = reservationidbinding;
 
@@ -305,25 +310,27 @@ namespace KBSBoot.View
                         boatName.Header = "Boot naam";
                         Binding boatNameBinding = new Binding("boatName");
                         boatName.DisplayMemberBinding = boatNameBinding;
+                        boatName.Width = 220;
 
                         GridViewColumn boatType = new GridViewColumn();
                         boatType.Header = "Boot Type";
                         Binding boatTypeBinding = new Binding("boatType");
                         boatType.DisplayMemberBinding = boatTypeBinding;
+                        boatType.Width = 150;
 
                         GridViewColumn resDate = new GridViewColumn();
                         resDate.Header = "Datum";
-                        Binding resDateBinding = new Binding("date");
+                        Binding resDateBinding = new Binding("resdate");
                         resDate.DisplayMemberBinding = resDateBinding;
 
                         GridViewColumn beginTimeString = new GridViewColumn();
                         beginTimeString.Header = "Begintijd";
-                        Binding beginTimeStringbinding = new Binding("beginTime");
+                        Binding beginTimeStringbinding = new Binding("beginTimeString");
                         beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
 
                         GridViewColumn endtimeString = new GridViewColumn();
                         endtimeString.Header = "Eindtijd";
-                        Binding endtimeStringBinding = new Binding("endTime");
+                        Binding endtimeStringBinding = new Binding("endTimeString");
                         endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
                         GridViewColumn reportDamageButton = new GridViewColumn();
@@ -354,13 +361,23 @@ namespace KBSBoot.View
 
                     listv.View = gv;
 
-                        foreach (var r in data)
+                    //foreach (var r in data)
+                    //{
+                    //    if (r.reservationBatch == br)
+                    //    {
+                    //        listv.Items.Add(r);
+                    //    }
+                    //}
+
+                    var testList = data.ToList();
+                    for (int i = 0; i < testList.Count(); i++)
+                    {
+                    //    testList[i].beginTimeString = testList[i].beginTime.ToString(@"hh\:mm");
+                        if (testList[i].reservationBatch == br)
                         {
-                            if (r.reservationBatch == br)
-                            {
-                                listv.Items.Add(r);
-                            }
+                            listv.Items.Add(testList[i]);
                         }
+                    }
                         HistoryListGroup.Children.Add(listv);
                     }
                 if (BatchReservationHistory.Count() == 0)
@@ -379,8 +396,10 @@ namespace KBSBoot.View
         {    
             ////Get the reservationId from a toString because other methods did not work for unknown reasons
             string tostring = ((FrameworkElement)sender).DataContext.ToString();
+            Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
             string[] numbers = Regex.Split(tostring, @"\D+");
-
+            Console.WriteLine(tostring);
+            Console.WriteLine(numbers[1]);
             int reservationid = int.Parse(numbers[1]);
             using (var context = new BootDB())
             {
@@ -413,16 +432,13 @@ namespace KBSBoot.View
 
                 var ReservationsToUpdate = from r in context.Reservations
                                            where r.reservationBatch != 0 && r.reservationBatch > batchReservationId
-                  
+                                           select r;
 
+                var reservationdate = ReservationsToDelete.First().date.Date.ToString("dd-MM-yyyy");
+                var beginTimeString = ReservationsToDelete.First().beginTime.ToString(@"hh\:mm");
+                var endTimeString = ReservationsToDelete.First().endTime.ToString(@"hh\:mm");
 
-                         select r;
-
-                var resdate = ReservationsToDelete.First().date;
-                var beginTimeString = ReservationsToDelete.First().beginTime;
-                var endTimeString = ReservationsToDelete.First().endTime;
-
-                var result = MessageBox.Show($"Weet u zeker dat u wedstrijdreservering {batchReservationId} op {resdate.Date} van {beginTimeString} uur tot {endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+                var result = MessageBox.Show($"Weet u zeker dat u wedstrijdreservering {batchReservationId} op {reservationdate} van {beginTimeString} uur tot {endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
 
 
                 if(result == MessageBoxResult.Yes)
@@ -446,6 +462,12 @@ namespace KBSBoot.View
             }
         }
 
+        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
     }
 }
  

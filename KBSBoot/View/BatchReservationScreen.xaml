@@ -33,14 +33,14 @@
         <StackPanel Margin="70,120,70,50">
             
             <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
-            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
                 <StackPanel x:Name="ListGroup">
 
                 </StackPanel>
             </ScrollViewer>
 
             <Label Name="historyLabel" Content="Verlopen reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
-            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
                 <StackPanel x:Name="HistoryListGroup">
 
                 </StackPanel>
