@@ -211,12 +211,12 @@ namespace KBSBoot.Model
                         {
                             //getting all the neccessary information
                             var Etime = data2[i].endTime;
-                            var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
+                            var SunInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, d.date);
 
-                            var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
-                            var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
-                            sunUp = test1.TimeOfDay;
-                            sunDown = test2.TimeOfDay;
+                            var DateSunUp = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunrise));
+                            var DateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunset));
+                            sunUp = DateSunUp.TimeOfDay;
+                            sunDown = DateSunDown.TimeOfDay;
 
                             //check if difference between sun is going down and last end time is more then an hour
                             if (sunDown - Etime >= new TimeSpan(1, 0, 0))
