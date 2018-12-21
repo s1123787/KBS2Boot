@@ -188,6 +188,8 @@ namespace KBSBoot.View
                     //adding all reservations for selected date to screen
                     foreach (var d1 in data1)
                     {
+                        beginTime.Add(d1.beginTime);
+                        endTime.Add(d1.endTime);
                         TextBlock nameTextBlock = new TextBlock();
                         nameTextBlock.Name = "txt";
                         nameTextBlock.Text = $"{boat.boatName}:";
