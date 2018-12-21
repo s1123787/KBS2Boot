@@ -35,7 +35,7 @@
             <materialDesign:TimePicker Name="beginTimePicker" Is24Hours="True" materialDesign:HintAssist.Hint="Van" FontSize="20" HorizontalAlignment="Left" Width="175"/>
             <materialDesign:TimePicker Name="endTimePicker" Is24Hours="True"  materialDesign:HintAssist.Hint="Tot" FontSize="20" HorizontalAlignment="Left" Width="175" Margin="50,12,0,0" />
         </StackPanel>
-        <Button x:Name="ReservationButton" Visibility="Hidden" Content="Reserveren" HorizontalAlignment="Left" Margin="638,663,0,0" VerticalAlignment="Top" Width="249" Height="38" Click="ReservationButton_Click"/>
+        <Button x:Name="ReservationButton" Visibility="Hidden" Content="Reserveren" HorizontalAlignment="Left" Margin="624,663,0,0" VerticalAlignment="Top" Width="200" Height="38" Click="ReservationButton_Click"/>
         <Label x:Name="ErrorLabel" Foreground="Red" HorizontalAlignment="Left" Margin="150,470,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </UserControl>

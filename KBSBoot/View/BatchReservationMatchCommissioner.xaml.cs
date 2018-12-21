@@ -188,17 +188,19 @@ namespace KBSBoot.View
                     //adding all reservations for selected date to screen
                     foreach (var d1 in data1)
                     {
-                        beginTime.Add(d1.beginTime);
-                        endTime.Add(d1.endTime);
-                        Label l = new Label();
+                        TextBlock nameTextBlock = new TextBlock();
+                        nameTextBlock.Name = "txt";
+                        nameTextBlock.Text = $"{boat.boatName}:";
+                        nameTextBlock.TextWrapping = TextWrapping.Wrap;
+                        nameTextBlock.FontSize = 14;
+                        nameTextBlock.Background = new SolidColorBrush(Colors.LightGray);
+                        nameTextBlock.FontStyle = FontStyles.Italic;
+
                         Label l2 = new Label();
-                        l.Content = $"{boat.boatName}:";
-                        l.Background = new SolidColorBrush(Colors.LightGray);
-                        l.FontSize = 16;
                         l2.Content = $"- van {d1.beginTime} tot {d1.endTime}";
                         l2.Width = 400;
                         l2.FontSize = 14;
-                        sp.Children.Add(l);
+                        sp.Children.Add(nameTextBlock);
                         sp.Children.Add(l2);
                         dateTrue = true;
                     }
@@ -206,16 +208,19 @@ namespace KBSBoot.View
                     //this will be executed when there are no reservation for selected date
                     if (dateTrue == false)
                     {
-                       
-                        Label l = new Label();
-                        l.Content = $"{boat.boatName}:";
-                        l.FontSize = 14;
-                        l.Background = new SolidColorBrush(Colors.LightGray);
+                        TextBlock nameTextBlock = new TextBlock();
+                        nameTextBlock.Name = "txt";
+                        nameTextBlock.Text = $"{boat.boatName}:";
+                        nameTextBlock.TextWrapping = TextWrapping.Wrap;
+                        nameTextBlock.FontSize = 14;
+                        nameTextBlock.Background = new SolidColorBrush(Colors.LightGray);
+                        nameTextBlock.FontStyle = FontStyles.Italic;
+
                         Label l2 = new Label();
                         l2.Content = $"Er zijn nog geen reserveringen";
                         l2.Width = 400;
                         l2.FontSize = 14;
-                        sp.Children.Add(l);
+                        sp.Children.Add(nameTextBlock);
                         sp.Children.Add(l2);
 
                         dateTrue = true;
@@ -246,14 +251,22 @@ namespace KBSBoot.View
             foreach (var boat in SelectionList)
             {
                 //getting the selected begin and end time
-                selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
-                selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+                try
+                {
+                    selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
+                    selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+                }
+                catch (Exception)
+                {
+                    ErrorLabel.Content = "Geen geldige invoer";
+                    return;
+                }
                 var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
 
                 //this will be executed when the selected times are not correct
                 if (!check)
                 {
-                    ErrorLabel.Content = "Deze tijden zijn niet beschikbaar.";
+                    ErrorLabel.Content = "Deze tijden zijn niet mogelijk";
                 }
                 else //when it is possible to add reservation
                 {
