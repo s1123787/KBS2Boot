@@ -62,6 +62,7 @@
                         <Setter Property="Focusable" Value="false"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="Height" Value="50"/>
+                        <Setter Property="MaxHeight" Value= "Auto"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
