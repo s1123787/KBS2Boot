@@ -61,8 +61,8 @@
                         <Setter Property="BorderThickness" Value="0,0,0,1"/>
                         <Setter Property="Focusable" Value="false"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="Height" Value="50"/>
-                        <Setter Property="MaxHeight" Value= "Auto"/>
+                        <Setter Property="MinHeight" Value="50"/>
+                        <Setter Property="MaxHeight" Value="100"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.View>
