@@ -29,14 +29,14 @@
         <Label Content="Gebruikersnaam" HorizontalAlignment="Left" Margin="80,200,0,0" VerticalAlignment="Top" FontSize="24" Width="230" Height="50"/>
         <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="50" Margin="350,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontSize="22" MaxLength="45"/>
         <Label Content="Niveau" HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,270,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="60">
+        <ComboBox x:Name="RowLevelBox" HorizontalAlignment="Left" Margin="350,270,0,0" VerticalAlignment="Top" Width="300" FontSize="24" Height="50">
                 <ComboBoxItem IsSelected="True">Beginner</ComboBoxItem>
                 <ComboBoxItem>Amateur</ComboBoxItem>
                 <ComboBoxItem>Gevorderd</ComboBoxItem>
                 <ComboBoxItem>Professional</ComboBoxItem>
         </ComboBox>
         <Label Content="Rol" HorizontalAlignment="Left" Margin="80,340,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Width="300" FontSize="22" Height="60">
+        <ComboBox x:Name="AccesslevelBox" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Width="300" FontSize="22" Height="50">
             <ComboBoxItem IsSelected="True">Lid</ComboBoxItem>
             <ComboBoxItem>Wedstrijdcommissaris</ComboBoxItem>
             <ComboBoxItem>Materiaalcommissaris</ComboBoxItem>
@@ -46,6 +46,6 @@
         <Button x:Name="ChangeUser" Content="Wijzig" HorizontalAlignment="Left" Margin="350,563,0,0" VerticalAlignment="Top" Width="230" Click="ChangeUser_Click" FontSize="30" Height="50"/>
         <Label Content="Lid actief" HorizontalAlignment="Left" Margin="80,482,0,0" VerticalAlignment="Top" FontSize="24"/>
         <ToggleButton x:Name="ActivityToggle" Margin="-148,121,148,-121" Checked="ActivityToggle_Checked" Unchecked="ActivityToggle_Unchecked"></ToggleButton>
-        <DatePicker x:Name="DatePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="22" Height="60"/>
+        <DatePicker x:Name="DatePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="22" Height="50"/>
     </Grid>
 </UserControl>
