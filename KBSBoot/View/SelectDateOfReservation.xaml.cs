@@ -209,7 +209,7 @@ namespace KBSBoot.View
                     endTime.Add(d1.endTime);
                     StackPanel sp = new StackPanel();
                     Label l = new Label();
-                    l.Content = $"- van {d1.beginTime.ToString(@"HH\:mm")} tot {d1.endTime.ToString(@"HH\:mm")}";
+                    l.Content = $"- van {d1.beginTime.ToString(@"hh\:mm")} tot {d1.endTime.ToString(@"hh\:mm")}";
                     l.Width = 400;
                     l.Height = 40;
                     l.FontSize = 14;
