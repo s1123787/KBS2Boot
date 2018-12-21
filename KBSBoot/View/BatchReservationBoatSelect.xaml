@@ -71,7 +71,13 @@
                                 <Setter Property="IsHitTestVisible" Value="False"/>
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="220"/>
+                        <GridViewColumn Header="Boot naam" Width="220">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding boatName}" TextAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot Beschrijving" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatAmountSpaces}" Header="Hoeveelheid roeiers" Width="auto"/>

@@ -159,10 +159,12 @@ namespace KBSBoot.View
                 //historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
             }
 
+            //Make a block for each reservation
             foreach(var x in reservationsDistinct)
             {
                 if(x > 0)
                 {
+                    //Create a listview
                     ListView lv = new ListView();
                     Grid LabelAndButton = new Grid();
                     LabelAndButton.Width = 850;
@@ -191,39 +193,52 @@ namespace KBSBoot.View
                     GridView gv = new GridView();
                     gv.AllowsColumnReorder = false;
 
+                    //Make column for reservationId
                     GridViewColumn reserveringsnr = new GridViewColumn();
                     reserveringsnr.Header = "nr";
                     reserveringsnr.Width = 70;
                     Binding reservationidbinding = new Binding("reservationId");
                     reserveringsnr.DisplayMemberBinding = reservationidbinding;
 
+                    //Make column for boatname
                     GridViewColumn boatName = new GridViewColumn();
                     boatName.Header = "Boot naam";
-                    Binding boatNameBinding = new Binding("boatName");
-                    boatName.DisplayMemberBinding = boatNameBinding;
                     boatName.Width = 220;
 
+                    //Add textblock with textwrapping to the column
+                    var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock));
+                    nameTextBlock.Name = "txt";
+                    nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("boatName"));
+                    nameTextBlock.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
+                    DataTemplate nameDataTemplate = new DataTemplate() { VisualTree = nameTextBlock };
+                    boatName.CellTemplate = nameDataTemplate;
+
+                    //Make column for boattype
                     GridViewColumn boatType = new GridViewColumn();
                     boatType.Header = "Boot Type";
                     Binding boatTypeBinding = new Binding("boatType");
                     boatType.DisplayMemberBinding = boatTypeBinding;
                     boatType.Width = 150;
 
+                    //Make column for reservationdate
                     GridViewColumn resDate = new GridViewColumn();
                     resDate.Header = "Datum";
                     Binding resDateBinding = new Binding("resdate");
                     resDate.DisplayMemberBinding = resDateBinding;
 
+                    //Make column for begin time
                     GridViewColumn beginTimeString = new GridViewColumn();
                     beginTimeString.Header = "Begintijd";
                     Binding beginTimeStringbinding = new Binding("beginTimeString");
                     beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
 
+                    //Make column for endtime
                     GridViewColumn endtimeString = new GridViewColumn();
                     endtimeString.Header = "Eindtijd";
                     Binding endtimeStringBinding = new Binding("endTimeString");
                     endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
+                    //Add columns to the gridview
                     gv.Columns.Add(reserveringsnr);
                     gv.Columns.Add(boatName);
                     gv.Columns.Add(boatType);
@@ -236,6 +251,7 @@ namespace KBSBoot.View
 
                     lv.View = gv;
 
+                    //Add reservations to the listview
                     foreach (Reservations r in reservations)
                     {
                         if (r.reservationBatch == x)
@@ -243,6 +259,7 @@ namespace KBSBoot.View
                             lv.Items.Add(r);
                         }
                     }
+                    //Add the listview to the scrollviewer
                     ListGroup.Children.Add(lv);
 
                 }
@@ -291,6 +308,7 @@ namespace KBSBoot.View
 
                 foreach (var br in BatchReservationHistory)
                 {
+                    //Create a listview
                     ListView listv = new ListView();
                     Style lvstyle = this.FindResource("LVItemStyle") as Style;
                     listv.ItemContainerStyle = lvstyle;
@@ -305,45 +323,60 @@ namespace KBSBoot.View
                     GridView gv = new GridView();
                     gv.AllowsColumnReorder = false;
 
+                    //Make column for reservationId
                     GridViewColumn reserveringsnr = new GridViewColumn();
                     reserveringsnr.Header = "nr";
                     reserveringsnr.Width = 70;
                     Binding reservationidbinding = new Binding("reservationId");
                     reserveringsnr.DisplayMemberBinding = reservationidbinding;
 
+                    //Make column for boatname
                     GridViewColumn boatName = new GridViewColumn();
                     boatName.Header = "Boot naam";
-                    Binding boatNameBinding = new Binding("boatName");
-                    boatName.DisplayMemberBinding = boatNameBinding;
                     boatName.Width = 220;
 
+                    //Add textblock with textwrapping to the column
+                    var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock));
+                    nameTextBlock.Name = "txt";
+                    nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("boatName"));
+                    nameTextBlock.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
+                    DataTemplate nameDataTemplate = new DataTemplate() { VisualTree = nameTextBlock };
+                    boatName.CellTemplate = nameDataTemplate;
+
+                    //Make column for boatType
                     GridViewColumn boatType = new GridViewColumn();
                     boatType.Header = "Boot Type";
                     Binding boatTypeBinding = new Binding("boatType");
                     boatType.DisplayMemberBinding = boatTypeBinding;
                     boatType.Width = 150;
 
+                    //Make column for reservation date
                     GridViewColumn resDate = new GridViewColumn();
                     resDate.Header = "Datum";
                     Binding resDateBinding = new Binding("resdate");
                     resDate.DisplayMemberBinding = resDateBinding;
 
+                    //Make column for begintime
                     GridViewColumn beginTimeString = new GridViewColumn();
                     beginTimeString.Header = "Begintijd";
                     Binding beginTimeStringbinding = new Binding("beginTimeString");
                     beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
 
+                    //Make column for endtime
                     GridViewColumn endtimeString = new GridViewColumn();
                     endtimeString.Header = "Eindtijd";
                     Binding endtimeStringBinding = new Binding("endTimeString");
                     endtimeString.DisplayMemberBinding = endtimeStringBinding;
 
+                    //Make column for the report damage button
                     GridViewColumn reportDamageButton = new GridViewColumn();
                     reportDamageButton.Header = "Meld schade";
 
+                    //Create button
                     FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
                     stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
 
+                    //Define button
                     FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
                     DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
                     DamageButton.SetValue(Button.ContentProperty, "Meld schade");
@@ -353,6 +386,7 @@ namespace KBSBoot.View
 
                     reportDamageButton.CellTemplate = template;
 
+                    //Add the columns to the gridview
                     gv.Columns.Add(reserveringsnr);
                     gv.Columns.Add(boatName);
                     gv.Columns.Add(boatType);
@@ -366,6 +400,7 @@ namespace KBSBoot.View
 
                     listv.View = gv;
 
+                    //Add all reservations to the listview
                     foreach (var r in data)
                     {
                         Reservations reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
@@ -375,8 +410,10 @@ namespace KBSBoot.View
                         }
                     }
                 
+                    //Add the listview to the scrollviewer
                 HistoryListGroup.Children.Add(listv);
             }
+                //If there are no reservations show message
                 if (BatchReservationHistory.Count() == 0)
                 {
                     Label noreservations = new Label();

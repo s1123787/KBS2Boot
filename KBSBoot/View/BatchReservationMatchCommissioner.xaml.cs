@@ -239,13 +239,17 @@ namespace KBSBoot.View
                     BatchCount = 1;     
             }
 
+
+
             //check if selected times are possible
-            var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+            
             foreach (var boat in SelectionList)
             {
                 //getting the selected begin and end time
                 selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
                 selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+                var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+
                 //this will be executed when the selected times are not correct
                 if (!check)
                 {
@@ -286,7 +290,7 @@ namespace KBSBoot.View
                 }
 
             }
-            if(check)
+            if(reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown))
             {
                 //show message when reservation is added to screen
                 MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
