@@ -75,7 +75,7 @@
                     </ListView.View>
                 </ListView>
                 <Label x:Name="NoReservationAvailable" Content="Er zijn geen aankomende reserveringen" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" FontSize="20"/>
-                <Label Content="Plaatsgevonden reserveringen" FontSize="24" FontStyle="Italic" Margin="80,20,0,-18" Width="auto" Height="auto"></Label>
+                <Label Content="Verlopen reserveringen" FontSize="24" FontStyle="Italic" Margin="80,20,0,-18" Width="auto" Height="auto"></Label>
                 <ListView Name="ReservationHistoryList" FontSize="20" HorizontalAlignment="Center" Height="auto" Margin="0,20,0,0" VerticalAlignment="Top" Width="auto">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">

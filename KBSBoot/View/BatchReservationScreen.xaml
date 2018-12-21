@@ -43,7 +43,7 @@
         <StackPanel Margin="70,120,70,50">
             
             <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
-            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,40" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,25" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
                 <StackPanel x:Name="ListGroup">
 
                 </StackPanel>

@@ -284,6 +284,11 @@ namespace KBSBoot.Model
                         {
                             return false;
                         }
+
+                        if (selectedBeginTime == BeginTimes[i] || selectedEndTime == endTimes[i])
+                        {
+                            return false;
+                        }
                     }                    
                 }
                 //check if selected begin time or end time is in daylight
