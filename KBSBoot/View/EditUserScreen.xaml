@@ -41,8 +41,20 @@
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn DisplayMemberBinding="{Binding memberId}" Header="Id" Width="100"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberUsername}" Header="Gebruikersnaam" Width="150"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding memberName}" Header="Naam" Width="150"/>
+                        <GridViewColumn Header="Gebruikersnaam" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding memberUsername}" MaxWidth="150"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Naam" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding memberName}" MaxWidth="150"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding memberRowLevelId}" Header="Roeiniveau" Width="150"/>
                         <GridViewColumn DisplayMemberBinding="{Binding memberAccessLevelId}" Header="Toegangsniveau" Width="150"/>
                         <GridViewColumn Header="Abonnement" Width="150">
