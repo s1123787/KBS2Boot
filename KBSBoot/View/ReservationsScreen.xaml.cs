@@ -158,7 +158,7 @@ namespace KBSBoot.View
                             on rb.boatId equals b.boatId
                             join bt in context.BoatTypes
                             on b.boatTypeId equals bt.boatTypeId
-                            where r.memberId == MemberId && r.reservationBatch == 0 && (r.date < date || (r.date == date && r.endTime < endTime))
+                            where r.memberId == MemberId && r.reservationBatch < 1 && (r.date < date || (r.date == date && r.endTime < endTime))
                             orderby r.date descending, r.beginTime descending
                             select new
                             {

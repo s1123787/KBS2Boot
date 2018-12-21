@@ -111,6 +111,7 @@ namespace KBSBoot.View
             Boatnames.SelectedItem = null;
             Boatseats.SelectedItem = null;
             Boatlevels.SelectedItem = null;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
         }
 
         private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -201,8 +202,9 @@ namespace KBSBoot.View
                 }
                 else //when it is possible to make a reservation
                 {
+                    TimeSpan time = DateTime.Now.TimeOfDay;
                     var data2 = (from r in context.Reservations
-                                where r.date > DateTime.Now && r.memberId == MemberId && r.reservationBatch == 0
+                                where (r.date > DateTime.Now || r.endTime < time) && r.memberId == MemberId && r.reservationBatch == 0
                                 select r.reservationId).ToList();
                     if (data2.Count >= 2) //when it is not possible to make a reservation
                     {
@@ -268,7 +270,7 @@ namespace KBSBoot.View
                     {
                         if (Boatnames.SelectedItem != null)
                         {
-                            boatname = Boatseats.SelectedItem.ToString();
+                            boatname = Boatnames.SelectedItem.ToString();
                             if (d.boatType != boatname)
                             {
                                 continue;
@@ -295,6 +297,10 @@ namespace KBSBoot.View
 
                     //add data to the table
                     boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatYoutubeUrl = null });
+                }
+                if (!boats.Any())
+                {
+                    NoBoatsLabel.Visibility = Visibility.Visible;
                 }
                 BoatList.ItemsSource = boats;
             }

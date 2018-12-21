@@ -11,6 +11,16 @@
         <Style x:Key="GVColumnReOrder" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
+        
+        <Style x:Key="LVItemStyle" TargetType="ListViewItem">
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Margin" Value="9,0,0,1"/>
+            <Setter Property="Focusable" Value="false"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="Height" Value="50"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
@@ -33,14 +43,14 @@
         <StackPanel Margin="70,120,70,50">
             
             <Label Name="reservationsLabel" Content="Aankomende reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
-            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
+            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,25" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
                 <StackPanel x:Name="ListGroup">
 
                 </StackPanel>
             </ScrollViewer>
 
             <Label Name="historyLabel" Content="Verlopen reserveringen" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" FontStyle="Italic"/>
-            <ScrollViewer HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
+            <ScrollViewer x:Name="HistoryScrollViewer" HorizontalAlignment="Center" Height="auto" MaxHeight="250" Width="850" VerticalAlignment="Top" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_MouseWheel">
                 <StackPanel x:Name="HistoryListGroup">
 
                 </StackPanel>

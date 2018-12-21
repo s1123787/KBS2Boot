@@ -92,7 +92,20 @@ namespace KBSBoot.View
             {
                 webBrowser.Dispose();
             }
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+
+            if(AccessLevel == 1)
+            {
+                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 2)
+            {
+                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
+            }
+            else if (AccessLevel == 3)
+            {
+                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            }
+
         }
 
         private void LoadBoatData(int boatID)

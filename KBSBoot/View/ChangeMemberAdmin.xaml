@@ -43,7 +43,7 @@
             <ComboBoxItem>Administrator</ComboBoxItem>
         </ComboBox>
         <Label Content="Lid tot" HorizontalAlignment="Left" Margin="80,408,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <Button x:Name="ChangeUser" Content="Wijzig" HorizontalAlignment="Left" Margin="350,563,0,0" VerticalAlignment="Top" Width="230" Click="ChangeUser_Click" FontSize="30" Height="50"/>
+        <Button x:Name="ChangeUser" Content="Wijzig" HorizontalAlignment="Left" Margin="350,563,0,0" VerticalAlignment="Top" Width="230" Click="ChangeUser_Click" FontSize="30" Height="50" IsDefault="True"/>
         <Label Content="Lid actief" HorizontalAlignment="Left" Margin="80,482,0,0" VerticalAlignment="Top" FontSize="24"/>
         <ToggleButton x:Name="ActivityToggle" Margin="-148,121,148,-121" Checked="ActivityToggle_Checked" Unchecked="ActivityToggle_Unchecked"></ToggleButton>
         <DatePicker x:Name="DatePicker" SelectedDateChanged="DatePicker_SelectedDateChanged" HorizontalAlignment="Left" Margin="350,410,0,0" VerticalAlignment="Top" Width="300" FontSize="22" Height="50"/>

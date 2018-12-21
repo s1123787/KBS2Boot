@@ -41,9 +41,9 @@ namespace KBSBoot.View
         }
 
         //Adds the boat to the database when the ok button is pressed
-        protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid, string fullName, int accessLevel, int memberId)
+        protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, Image boatImage, int boattypeid, string fullName, int accessLevel, int memberId)
         {
-            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid, FullName, AccessLevel, MemberId));
+            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boattype, boatyoutubeurl, boatImage, boattypeid, FullName, AccessLevel, MemberId));
         }
 
             
@@ -115,7 +115,7 @@ namespace KBSBoot.View
             var boatyoutubeurlinput = YoutubeUrlBox.Text;
             var boatTypeIdInput = SelectedBoatTypeId;
 
-            OnAddBoatOkButtonIsPressed(boatnameinput, (string)BoatTypeBox.SelectedValue, boatyoutubeurlinput, 0, SelectedImageForConversion, boatTypeIdInput, FullName, AccessLevel, MemberId);
+            OnAddBoatOkButtonIsPressed(boatnameinput, (string)BoatTypeBox.SelectedValue, boatyoutubeurlinput, SelectedImageForConversion, boatTypeIdInput, FullName, AccessLevel, MemberId);
         }
 
         //Method that opens the file select dialog for selecting an image
