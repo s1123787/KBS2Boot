@@ -26,7 +26,7 @@
             </DockPanel>
         </materialDesign:ColorZone>
         <Label Content="Boot naam" HorizontalAlignment="Left" Margin="133,149,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="30" Margin="254,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250" FontSize="16" MaxLength="45"/>
+        <TextBox x:Name="BoatNameBox" HorizontalAlignment="Left" Height="auto" Margin="254,0,0,595" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Width="250" MaxWidth="250" FontSize="16" MaxLength="45"/>
         <Label Content="Aantal pers." HorizontalAlignment="Left" Margin="127,214,0,0" VerticalAlignment="Top" FontSize="16"/>
         <ComboBox x:Name="BoatCapacityBox" HorizontalAlignment="Left" Margin="254,212,0,0" VerticalAlignment="Top" Width="250" SelectionChanged="BoatCapacityBox_SelectionChanged" FontSize="16"/>
         <Label Content="Type" HorizontalAlignment="Left" Margin="177,282,0,0" VerticalAlignment="Top" FontSize="16"/>

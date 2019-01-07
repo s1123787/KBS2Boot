@@ -39,7 +39,7 @@ namespace KBSBoot.View
         public DateTime selectedDate;
         public TimeSpan selectedBeginTime;
         public TimeSpan selectedEndTime;
-        public bool geldig = false;
+        public bool valid = false;
         public Reservations reservation;
         public static DateTime SelectedDateTime;
         public int BatchCount;
