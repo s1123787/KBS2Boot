@@ -55,18 +55,6 @@ namespace KBSBoot.Model
             EndTimeString = endTime.ToString(@"hh\:mm");
         }
 
-        //public Reservations(int reservationId, string boatName, string boatType, string resDate, TimeSpan beginTime, TimeSpan endTime)
-        //{
-        //    this.reservationId = reservationId;
-        //    BoatName = boatName;
-        //    BoatType = boatType;
-        //    ResDate = resDate;
-        //    this.beginTime = beginTime;
-        //    this.endTime = endTime;
-        //    BeginTimeString = beginTime.ToString(@"hh\:mm");
-        //    EndTimeString = endTime.ToString(@"hh\:mm");
-        //}
-
         public Reservations(int reservationId, string boatName, string boatType, string resDate, TimeSpan beginTime, TimeSpan endTime, int boatId)
         {
             this.reservationId = reservationId;
