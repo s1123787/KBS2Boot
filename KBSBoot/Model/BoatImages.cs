@@ -1,12 +1,9 @@
 ﻿using KBSBoot.DAL;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -19,28 +16,24 @@ namespace KBSBoot.Model
         public string boatImageBlob { get; set; }
 
         //Method for converting the selected image to a string
-        public static string ImageToBase64(Image image,
-        System.Drawing.Imaging.ImageFormat format)
+        public static string ImageToBase64(Image image, System.Drawing.Imaging.ImageFormat format)
         {
-            if (image != null)
+            if (image == null) return null;
+            using (var ms = new MemoryStream())
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    // Convert Image to byte array
-                    image.Save(ms, format);
-                    byte[] imageBytes = ms.ToArray();
-                    InputValidation.CheckImageFileSize(imageBytes, 469986);
+                // Convert Image to byte array
+                image.Save(ms, format);
+                var imageBytes = ms.ToArray();
+                InputValidation.CheckImageFileSize(imageBytes, 469986);
 
-                    // Convert byte array to Base64 String
-                    string base64String = Convert.ToBase64String(imageBytes);
-                    return base64String;
-                }
+                // Convert byte array to Base64 String
+                var base64String = Convert.ToBase64String(imageBytes);
+                return base64String;
             }
-            return null;
         }
 
         //Method that inserts the associated image into the database
-        public static void AddImageToDB(BoatImages boatImage)
+        public static void AddImageToDb(BoatImages boatImage)
         {
             using (var context = new BootDB())
             {

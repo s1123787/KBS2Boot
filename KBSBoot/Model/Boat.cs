@@ -40,43 +40,35 @@ namespace KBSBoot.Model
 
         public Boat()
         {
-            string boatPhotoBlob;
-            
             //Load image blob from boat
-            boatPhotoBlob = LoadBoatImageBlob();
+            var boatPhotoBlob = LoadBoatImageBlob();
 
             //Convert BLOB to Bitmap Image
-            this.boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
-
-
+            boatPhotoBitmap = ConvertBlobToBitmap(boatPhotoBlob);
         }
 
-        public Boat(string TypeName, string TypeDescription, int AmountSpaces, string Steer)
+        public Boat(string typeName, string typeDescription, int amountSpaces, string steer)
         {
-            this.boatTypeName = TypeName;
-            this.boatTypeDescription = TypeDescription;
-            this.boatAmountSpaces = AmountSpaces;
-            this.boatSteer = Steer;
+            boatTypeName = typeName;
+            boatTypeDescription = typeDescription;
+            boatAmountSpaces = amountSpaces;
+            boatSteer = steer;
         }
 
         public object ImageSource
         {
             get
             {
-                string boatPhotoBlob = LoadBoatImageBlob();
-                if(boatPhotoBlob != null && boatPhotoBlob != "") { 
-                    byte[] ib = Convert.FromBase64String(boatPhotoBlob);
-                    //Convert it to BitmapImage
-                    BitmapImage image = new BitmapImage();
-                    image.BeginInit();
-                    image.StreamSource = new MemoryStream(ib);
-                    image.EndInit();
-                    //Return the image
-                    return image;
-                } else
-                {
-                    return false;
-                }
+                var boatPhotoBlob = LoadBoatImageBlob();
+                if (string.IsNullOrEmpty(boatPhotoBlob)) return false;
+                var ib = Convert.FromBase64String(boatPhotoBlob);
+                //Convert it to BitmapImage
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = new MemoryStream(ib);
+                image.EndInit();
+                //Return the image
+                return image;
             }
         }
 
@@ -87,7 +79,7 @@ namespace KBSBoot.Model
                 var tableData = (from b in context.Boats
                                  join bi in context.BoatImages
                                  on b.boatId equals bi.boatId
-                                 where b.boatId == this.boatId
+                                 where b.boatId == boatId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -105,45 +97,45 @@ namespace KBSBoot.Model
 
         public BitmapImage ConvertBlobToBitmap(string blob)
         {
-            BitmapImage bitmapimg = new BitmapImage();
+            var bitmapImg = new BitmapImage();
             if (blob != null) {
-                byte[] binaryData = Convert.FromBase64String(blob);
-                bitmapimg.BeginInit();
-                bitmapimg.StreamSource = new MemoryStream(binaryData);
-                bitmapimg.EndInit();
+                var binaryData = Convert.FromBase64String(blob);
+                bitmapImg.BeginInit();
+                bitmapImg.StreamSource = new MemoryStream(binaryData);
+                bitmapImg.EndInit();
             }
-            return bitmapimg;
+            return bitmapImg;
         }
 
-        public static void OnAddBoatIsPressed(Object source, AddBoatEventArgs e)
+        public static void OnAddBoatIsPressed(object source, AddBoatEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(e.boatName) && e.boatType != null)
+            if (!string.IsNullOrWhiteSpace(e.BoatName) && e.BoatType != null)
             {
                 try
                 {
-                    InputValidation.CheckForInvalidCharacters(e.boatName);
-                    InputValidation.IsYoutubeUrl(e.boatYoutubeUrl);
+                    InputValidation.CheckForInvalidCharacters(e.BoatName);
+                    InputValidation.IsYoutubeUrl(e.BoatYoutubeUrl);
                     var boat = new Boat
                     {
-                        boatName = e.boatName,
-                        boatTypeId = e.boatTypeId,
-                        boatYoutubeUrl = (e.boatYoutubeUrl == "")? null : e.boatYoutubeUrl
+                        boatName = e.BoatName,
+                        boatTypeId = e.BoatTypeId,
+                        boatYoutubeUrl = (e.BoatYoutubeUrl == "")? null : e.BoatYoutubeUrl
                     };
 
-                    var SelectedImageString = BoatImages.ImageToBase64(e.BoatImage, System.Drawing.Imaging.ImageFormat.Png);
-                    String SelectedImageInput = SelectedImageString;
+                    var selectedImageString = BoatImages.ImageToBase64(e.BoatImage, System.Drawing.Imaging.ImageFormat.Png);
+                    var selectedImageInput = selectedImageString;
 
                     var boatImage = new BoatImages
                     {
-                        boatImageBlob = SelectedImageInput,
+                        boatImageBlob = selectedImageInput,
                     };
 
                     //Check if a boat with this name already exists
-                    Boat.CheckIfBoatExists(boat);
+                    CheckIfBoatExists(boat);
                     //Add the boat to the database
-                    Boat.AddBoatToDB(boat);
-                    BoatImages.AddImageToDB(boatImage);
-                    Switcher.Switch(new boatOverviewScreen(e.fullName, e.accessLevel, e.memberId));
+                    AddBoatToDb(boat);
+                    BoatImages.AddImageToDb(boatImage);
+                    Switcher.Switch(new boatOverviewScreen(e.FullName, e.AccessLevel, e.MemberId));
                 }
                 catch (FormatException)
                 {
@@ -172,13 +164,12 @@ namespace KBSBoot.Model
         }
 
         //Method that inserts the boat into the database
-        public static void AddBoatToDB(Boat boat)
+        public static void AddBoatToDb(Boat boat)
         {
             using (var context = new BootDB())
             {
                 context.Boats.Add(boat);
                 context.SaveChanges();
-
                 MessageBox.Show("Boot is succesvol toegevoegd.", "Boot toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -199,31 +190,31 @@ namespace KBSBoot.Model
         //Method that finds out what to put into the "boatTypeId" field in the database based on the selected type
         public static int AssignSelectedType(string selectedType)
         {
-            var SelectedBoatTypeId = 0;
+            int selectedBoatTypeId;
             using (var context = new BootDB())
             {
-                SelectedBoatTypeId = (from i in context.BoatTypes
+                selectedBoatTypeId = (from i in context.BoatTypes
                                       where i.boatTypeName == selectedType
                                       select i.boatTypeId).FirstOrDefault();
 
             }
-            return SelectedBoatTypeId;
+            return selectedBoatTypeId;
         }
 
         public bool CheckIfBoatInMaintenance()
         {
-            bool returnValue = false;
-            List<BoatInMaintenances> boatItems = new List<BoatInMaintenances>();
+            var returnValue = false;
+            var boatItems = new List<BoatInMaintenances>();
 
             using (var context = new BootDB())
             {
                 var boats = from b in context.BoatInMaintenances
-                            where b.boatId == this.boatId
+                            where b.boatId == boatId
                             orderby b.boatInMaintenanceId descending
                             select b;
 
-                DateTime now = DateTime.Now.Date;
-                foreach (BoatInMaintenances bb in boats)
+                var now = DateTime.Now.Date;
+                foreach (var bb in boats)
                 {
                     boatItems.Add(bb);
                 }
@@ -239,13 +230,13 @@ namespace KBSBoot.Model
 
         public bool CheckIfTodayBoatIsInMaintenance()
         {
-            bool returnValue = false;
-            DateTime today = DateTime.Now;
+            var returnValue = false;
+            var today = DateTime.Now;
 
             using (var context = new BootDB())
             {
                 var boats = from b in context.BoatInMaintenances
-                            where b.boatId == this.boatId && (b.startDate <= today && b.endDate >= today)
+                            where b.boatId == boatId && (b.startDate <= today && b.endDate >= today)
                             select b;
                 if (boats.ToList().Count > 0)
                     returnValue = true;
@@ -261,8 +252,8 @@ namespace KBSBoot.Model
 
         public bool CheckBoatInMaintenance(int boatId)
         {
-            bool returnValue = false;
-            List<BoatInMaintenances> boatItems = new List<BoatInMaintenances>();
+            var returnValue = false;
+            var boatItems = new List<BoatInMaintenances>();
 
             using (var context = new BootDB())
             {
@@ -271,8 +262,8 @@ namespace KBSBoot.Model
                             orderby b.boatInMaintenanceId descending
                             select b;
 
-                DateTime now = DateTime.Now.Date;
-                foreach (BoatInMaintenances bb in boats)
+                var now = DateTime.Now.Date;
+                foreach (var bb in boats)
                 {
                     boatItems.Add(bb);
                 }

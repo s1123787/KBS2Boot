@@ -1,20 +1,9 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -23,29 +12,29 @@ namespace KBSBoot.View
     /// </summary>
     public partial class ChangeMemberAdmin : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        private int MemberID;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
 
-        public ChangeMemberAdmin(string FullName, int AccessLevel, int MemberID)
+        public ChangeMemberAdmin(string fullName, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberID = MemberID;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberID));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
         private void ChangeUser_Click(object sender, RoutedEventArgs e)
         {
-            //Save textbox content to variables
+            //Save textBox content to variables
             var name = NameBox.Text;
             var userName = UserNameBox.Text;
             var rowLevel = RowLevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 4
@@ -55,31 +44,25 @@ namespace KBSBoot.View
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(userName))
             {
                 try
-                    {
+                {
                     using (var context = new BootDB())
                     {
-                        var origin = context.Members.Find(MemberID);
+                        var origin = context.Members.Find(MemberId);
                         var mU = new DateTime?();
                         mU = DatePicker.SelectedDate;
 
                         //If DatePicker hasn't got a value, value null
-                        var memberUntil = (mU != null) ? mU : null;                        
+                        var memberUntil = mU;
 
                         //Check for invalid characters in the strings
                         Member.CheckForInvalidCharacters(name);
                         Member.CheckForInvalidCharacters(userName);
 
-                        //Check if the member aleady exists
-                        foreach (Member value in context.Members)
+                        //Check if the member already exists
+                        if (Enumerable.Any(context.Members.Where(value => userName == value.memberUsername), value => origin.memberUsername != userName))
                         {
-                            if (userName == value.memberUsername)
-                            {
-                                if (origin.memberUsername != userName)
-                                {
-                                    MessageBox.Show("Kan niet al een bestaande gebruikersnaam invoeren!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    return;
-                                }
-                            }
+                            MessageBox.Show("Kan niet al een bestaande gebruikersnaam invoeren!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
                         }
                         //Update database with selected changes
                         origin.memberUsername = userName;
@@ -89,7 +72,7 @@ namespace KBSBoot.View
                         origin.memberSubscribedUntill = memberUntil;
                         context.SaveChanges();
                         MessageBox.Show("Gebruiker is succesvol gewijzigd.", "Gebruiker gewijzigd", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberID));
+                        Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
                     }
                 }
                 catch (FormatException)
@@ -115,7 +98,7 @@ namespace KBSBoot.View
         }
         private void ActivityToggle_Checked(object sender, RoutedEventArgs e)
         {
-            //Sets datefield to today if toggle is checked
+            //Sets date field to today if toggle is checked
             if (DatePicker.SelectedDate == null)
             {
                 DatePicker.SelectedDate = DateTime.Today;
@@ -123,21 +106,15 @@ namespace KBSBoot.View
         }
         private void ActivityToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            //Sets datefield to null if toggle is unchecked
+            //Sets date field to null if toggle is unchecked
             DatePicker.SelectedDate = null;
         }
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Sets toggle to either checked or unchecked based on if the Datefield is emptied or filled
-            if(DatePicker.SelectedDate == null)
-            {
-                ActivityToggle.IsChecked = false;
-            } else
-            {
-                ActivityToggle.IsChecked = true;
-            }
+            //Sets toggle to either checked or unchecked based on if the date field is emptied or filled
+            ActivityToggle.IsChecked = DatePicker.SelectedDate != null;
         }
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
@@ -155,12 +132,13 @@ namespace KBSBoot.View
             {
                 AccessLevelButton.Content = "Administrator";
             }
+
             try
             {
                 using (var context = new BootDB())
                 {
                     var tableData = (from m in context.Members
-                                     where m.memberId == MemberID
+                                     where m.memberId == MemberId
                                      select new
                                      {
                                          memberUsername = m.memberUsername,
@@ -205,13 +183,7 @@ namespace KBSBoot.View
                                 break;
                         }
                         DatePicker.SelectedDate = m.memberSubscribedUntill;
-                        if(m.memberSubscribedUntill == null)
-                        {
-                            ActivityToggle.IsChecked = false;
-                        } else
-                        {
-                            ActivityToggle.IsChecked = true;
-                        }
+                        ActivityToggle.IsChecked = m.memberSubscribedUntill != null;
                     }
                 }
             }

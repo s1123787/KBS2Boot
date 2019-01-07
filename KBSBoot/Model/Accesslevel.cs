@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KBSBoot.Model
+﻿namespace KBSBoot.Model
 {
-    public class Accesslevel
+    public class AccessLevel
     {
-        public int accessLevelId { get; set; }
-        public string description { get; set; }
+        public int AccessLevelId { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Resources
 {
@@ -15,29 +11,20 @@ namespace KBSBoot.Resources
 
         public static int GetInternetExplorerMajorVersion()
         {
-            int result;
-
-            result = 0;
+            var result = 0;
 
             try
             {
-                RegistryKey key;
-
-                key = Registry.LocalMachine.OpenSubKey(InternetExplorerRootKey);
+                var key = Registry.LocalMachine.OpenSubKey(InternetExplorerRootKey);
 
                 if (key != null)
                 {
-                    object value;
-
-                    value = key.GetValue("svcVersion", null) ?? key.GetValue("Version", null);
+                    var value = key.GetValue("svcVersion", null) ?? key.GetValue("Version", null);
 
                     if (value != null)
                     {
-                        string version;
-                        int separator;
-
-                        version = value.ToString();
-                        separator = version.IndexOf('.');
+                        var version = value.ToString();
+                        var separator = version.IndexOf('.');
                         if (separator != -1)
                         {
                             int.TryParse(version.Substring(0, separator), out result);
@@ -75,22 +62,15 @@ namespace KBSBoot.Resources
 
         public static BrowserEmulationVersion GetBrowserEmulationVersion()
         {
-            BrowserEmulationVersion result;
-
-            result = BrowserEmulationVersion.Default;
+            var result = BrowserEmulationVersion.Default;
 
             try
             {
-                RegistryKey key;
-
-                key = Registry.CurrentUser.OpenSubKey(BrowserEmulationKey, true);
+                var key = Registry.CurrentUser.OpenSubKey(BrowserEmulationKey, true);
                 if (key != null)
                 {
-                    string programName;
-                    object value;
-
-                    programName = Path.GetFileName(Environment.GetCommandLineArgs()[0]);
-                    value = key.GetValue(programName, null);
+                    var programName = Path.GetFileName(Environment.GetCommandLineArgs()[0]);
+                    var value = key.GetValue(programName, null);
 
                     if (value != null)
                     {
@@ -117,21 +97,15 @@ namespace KBSBoot.Resources
 
         public static bool SetBrowserEmulationVersion(BrowserEmulationVersion browserEmulationVersion)
         {
-            bool result;
-
-            result = false;
+            var result = false;
 
             try
             {
-                RegistryKey key;
-
-                key = Registry.CurrentUser.OpenSubKey(BrowserEmulationKey, true);
+                var key = Registry.CurrentUser.OpenSubKey(BrowserEmulationKey, true);
 
                 if (key != null)
                 {
-                    string programName;
-
-                    programName = Path.GetFileName(Environment.GetCommandLineArgs()[0]);
+                    var programName = Path.GetFileName(Environment.GetCommandLineArgs()[0]);
 
                     if (browserEmulationVersion != BrowserEmulationVersion.Default)
                     {
@@ -161,10 +135,9 @@ namespace KBSBoot.Resources
 
         public static bool SetBrowserEmulationVersion()
         {
-            int ieVersion;
             BrowserEmulationVersion emulationCode;
 
-            ieVersion = GetInternetExplorerMajorVersion();
+            var ieVersion = GetInternetExplorerMajorVersion();
 
             if (ieVersion >= 11)
             {

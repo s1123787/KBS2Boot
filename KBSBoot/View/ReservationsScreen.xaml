@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
     <Grid>
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
@@ -42,11 +41,11 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BoatName}" Header="Boot naam" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BoatType}" Header="Boot type" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ResDate}" Header="Datum" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding BeginTimeString}" Header="Begin tijd" Width="auto"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding EndTimeString}" Header="Eind tijd" Width="auto"/>
                     <GridViewColumn Header="Reserveer opnieuw" Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -84,11 +83,11 @@
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
                         <GridViewColumn DisplayMemberBinding="{Binding reservationId}" Header="Nr." Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatType}" Header="Boot type" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding resdate}" Header="Datum" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding beginTimeString}" Header="Begin tijd" Width="auto"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding endTimeString}" Header="Eind tijd" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding BoatName}" Header="Boot naam" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding BoatType}" Header="Boot type" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ResDate}" Header="Datum" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding BeginTimeString}" Header="Begin tijd" Width="auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding EndTimeString}" Header="Eind tijd" Width="auto"/>
                         <GridViewColumn Header="Reserveer opnieuw" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -99,7 +98,7 @@
                         <GridViewColumn Header="Meld schade" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Meld Schade" HorizontalAlignment="Right" Click="ReportDemage_Click" Width="auto"/>
+                                    <Button Content="Meld Schade" HorizontalAlignment="Right" Click="ReportDamage_Click" Width="auto"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

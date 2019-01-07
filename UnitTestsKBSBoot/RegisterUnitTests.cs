@@ -129,7 +129,7 @@ namespace UnitTestsKBSBoot
         {
             //Arrange
             Member m = new Member();
-            m.AddNewUserToDB("youri dekker", "youridekker");
+            m.AddNewUserToDb("youri dekker", "youridekker");
 
             //Act
             bool result1 = m.CheckUsername("youridekker");
@@ -149,7 +149,7 @@ namespace UnitTestsKBSBoot
             string name = "unit test";
             string username = "unittest";
             //Act
-            m.AddNewUserToDB(name, username);
+            m.AddNewUserToDb(name, username);
 
             //Assert
             Assert.IsTrue(m.UsernameExists(username));

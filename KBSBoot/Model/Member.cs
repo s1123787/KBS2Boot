@@ -1,11 +1,8 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace KBSBoot.Model
@@ -27,30 +24,30 @@ namespace KBSBoot.Model
         public void OnLoginButtonIsPressed(object source, LoginEventArgs e)
         {
             InputUserName = e.Name;
-            LoginScreen Source = (LoginScreen)source;
+            var Source = (LoginScreen)source;
 
             OnNewHomePage += Source.OnNewHomePage;
             using (var context = new BootDB())
             {
                 //all usernames of members who are active in database in a list
                 var today = DateTime.Now.Date;
-                var members = (from m in context.Members where m.memberSubscribedUntill >= today || m.memberAccessLevelId == 4 select m).ToList<Member>();
+                var members = (from m in context.Members where m.memberSubscribedUntill >= today || m.memberAccessLevelId == 4 select m).ToList();
 
                 //check if username exist in list from database
                 if (members.Any(i => i.memberUsername == InputUserName))
                 {
-                    //getting all data from database that usefull for logging in
-                    var AccessLevelCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberAccessLevelId).ToList<int>();
-                    var AccessLevel = AccessLevelCollection[0];
-                    var AccessDiscriptionCollection = (from a in context.Accesslevel where a.accessLevelId == AccessLevel select a.description).ToList<string>();
-                    var AccessDiscription = AccessDiscriptionCollection[0];
+                    //getting all data from database that is useful for logging in
+                    var accessLevelCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberAccessLevelId).ToList<int>();
+                    var accessLevel = accessLevelCollection[0];
+                    var accessDescriptionCollection = (from a in context.Accesslevel where a.AccessLevelId == accessLevel select a.Description).ToList<string>();
+                    var accessDescription = accessDescriptionCollection[0];
                     var idCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberId).ToList<int>();
                     var id = idCollection[0];
-                    var FullNameCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberName).ToList<string>();
-                    var FullName = FullNameCollection[0];
+                    var fullNameCollection = (from m in context.Members where m.memberUsername == InputUserName select m.memberName).ToList<string>();
+                    var fullName = fullNameCollection[0];
                     //homepage is made and switch to so user can do something with the app
-                    OnNewHomePageMade(AccessLevel, FullName, id);
-                    SortUser = AccessLevel;
+                    OnNewHomePageMade(accessLevel, fullName, id);
+                    SortUser = accessLevel;
                     Correct = true;
                 }
                 else //username doesn't exist
@@ -62,28 +59,25 @@ namespace KBSBoot.Model
             }
         }
 
-        public void OnRegisterOKButtonIsPressed(Object source, RegisterEventArgs e)
+        public void OnRegisterOkButtonIsPressed(object source, RegisterEventArgs e)
         {
-            string NameInput = e.Name;
-            string UsernameInput = e.Username;
+            var nameInput = e.Name;
+            var usernameInput = e.Username;
 
             //check all textboxes are filled
-            if (!IsNullOrWhiteSpace(NameInput, UsernameInput))
+            if (!IsNullOrWhiteSpace(nameInput, usernameInput))
             {
-
                 //check if name has special characters
-                if (!NameHasSpecialChars(NameInput))
+                if (!NameHasSpecialChars(nameInput))
                 {
-
                     //if username doesn't exists and a correct username is filled in, add user to database
-                    if (CheckUsername(UsernameInput))
-                    {
-                        AddNewUserToDB(NameInput, UsernameInput);
+                    if (!CheckUsername(usernameInput)) return;
+                    AddNewUserToDb(nameInput, usernameInput);
 
-                        MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Switcher.Switch(new LoginScreen());
-                    }
-                }//if name has special chars, error message
+                    MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Switcher.Switch(new LoginScreen());
+                }
+                //if name has special chars, error message
                 else
                 {
                     MessageBox.Show("De naam kan alleen bestaan uit letters!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -95,14 +89,14 @@ namespace KBSBoot.Model
             }
         }
 
-        public void AddNewUserToDB(string NameInput, string UsernameInput)
+        public void AddNewUserToDb(string nameInput, string usernameInput)
         {
             //add user as member, but not active yet
             if (CheckAmountUsers() != 0)
             {
                 using (var context = new BootDB())
                 {
-                    var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 1, memberRowLevelId = 1 };
+                    var member = new Member { memberUsername = usernameInput, memberName = nameInput, memberAccessLevelId = 1, memberRowLevelId = 1 };
                     context.Members.Add(member);
                     context.SaveChanges();
                 }
@@ -111,66 +105,47 @@ namespace KBSBoot.Model
             {
                 using (var context = new BootDB())
                 {
-                    var member = new Member { memberUsername = UsernameInput, memberName = NameInput, memberAccessLevelId = 4, memberRowLevelId = 1 };
+                    var member = new Member { memberUsername = usernameInput, memberName = nameInput, memberAccessLevelId = 4, memberRowLevelId = 1 };
                     context.Members.Add(member);
                     context.SaveChanges();
                 }
             }
         }
 
-        public bool IsNullOrWhiteSpace(string Name, string Username)
+        public bool IsNullOrWhiteSpace(string name, string username)
         {
-            if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Username))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(username);
         }
 
-        public bool CheckUsername(string Username)
+        public bool CheckUsername(string username)
         {
             //check if it only has letters                
-            if (!HasSpecialChars(Username))
+            if (!HasSpecialChars(username))
             {
                 //check if username already exists
-                if (!UsernameExists(Username))
+                if (!UsernameExists(username))
                 {
                     return true;
-                } //if it has special characters 
-                else
-                {
-                    MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik!", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-            } // if username already exists 
-            else
-            {
-                MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters en cijfers!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                } 
+                //if it has special characters 
+                MessageBox.Show("De ingevoerde gebruikersnaam is al in gebruik!", "Gebruikersnaam bestaat al", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            // if username already exists
+            MessageBox.Show("De gebruikersnaam kan alleen bestaan uit letters en cijfers!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
         }
 
         //check if username exists
-        public bool UsernameExists(string Username)
+        public bool UsernameExists(string username)
         {
             using (var context = new BootDB())
             {
                 var usernames = from u in context.Members
-                                where u.memberUsername == Username
+                                where u.memberUsername == username
                                 select u;
 
-                if (usernames.Count() > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return usernames.Any();
             }
         }
         
@@ -189,7 +164,7 @@ namespace KBSBoot.Model
         }
 
         //Method to add member to the database
-        public static void AddMemberToDB(Member member)
+        public static void AddMemberToDb(Member member)
         {
             using (var context = new BootDB())
             {
@@ -210,38 +185,24 @@ namespace KBSBoot.Model
         //check for special characters, digits are allowed
         public static bool HasSpecialChars(string stString)
         {
-            if (stString.Any(ch => !Char.IsLetterOrDigit(ch)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return stString.Any(ch => !char.IsLetterOrDigit(ch));
         }
 
         //check if name has spacial chars
         public static bool NameHasSpecialChars(string stString)
         {
-            string s = stString.Replace(" ", string.Empty);
-            if (s.Any(ch => !Char.IsLetter(ch)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var s = stString.Replace(" ", string.Empty);
+            return s.Any(ch => !char.IsLetter(ch));
         }
         #endregion
 
 
-        protected virtual void OnNewHomePageMade(int type, string FullName, int memberId)
+        protected virtual void OnNewHomePageMade(int type, string fullName, int memberId)
         {
-            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, FullName, memberId));
+            OnNewHomePage?.Invoke(this, new HomePageEventArgs(type, fullName, memberId));
         }
 
-        private int CheckAmountUsers()
+        private static int CheckAmountUsers()
         {
             using (var context = new BootDB())
             {
@@ -251,7 +212,7 @@ namespace KBSBoot.Model
             }
         }
 
-        //for unittests
+        //for unit tests
         public static void RemoveLastAddedMember()
         {
             using (var context = new BootDB())

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -12,12 +8,11 @@ namespace KBSBoot.Model
         public string FullName { get; set; }
         public int MemberId { get; set; }
 
-        public HomePageEventArgs(int TypeMember, string FullName, int MemberId)
+        public HomePageEventArgs(int typeMember, string fullName, int memberId)
         {
-            this.TypeMember = TypeMember;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
+            TypeMember = typeMember;
+            FullName = fullName;
+            MemberId = memberId;
         }
-
     }
 }

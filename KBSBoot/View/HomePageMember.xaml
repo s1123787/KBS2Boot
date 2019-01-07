@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KBSBoot.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768" Loaded="ViewDidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768" Loaded="DidLoad">
     <Grid x:Name="MemberGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1024" Height="768">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

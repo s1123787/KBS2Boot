@@ -4,19 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Globalization;
 using KBSBoot.Resources;
 
 namespace KBSBoot.View
@@ -26,96 +18,71 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BoatDetail : UserControl
     {
-        private int BoatID;
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        private Boat boatData;
-        private BoatTypes boatType;
-        private BoatImages boatImageData;
-        private Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
-        public bool IsYoutubeEnabled = false;
-        private int videoWidth = 676;
-        private int videoHeight = 380;
-        private string boatName;
-        private string boatDescription;
-        private int rowLevelMember;
-        private int rowLevelBoat;
-        private WebBrowser webBrowser;
+        private readonly int BoatID;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private Boat BoatData;
+        private BoatTypes BoatType;
+        private BoatImages BoatImageData;
+        private readonly Regex YouTubeURLIDRegex = new Regex(@"[\?&]v=(?<v>[^&]+)");
+        private bool IsYoutubeEnabled = false;
+        private const int VideoWidth = 676;
+        private const int VideoHeight = 380;
+        private string BoatName;
+        private string BoatDescription;
+        private int RowLevelMember;
+        private int RowLevelBoat;
+        private WebBrowser WebBrowser;
 
-        public BoatDetail(string FullName, int AccessLevel, int BoatId, int MemberId)
+        public BoatDetail(string fullName, int accessLevel, int boatId, int memberId)
         {
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
-            this.BoatID = BoatId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
+            BoatID = boatId;
             InitializeComponent();
 
-            //Update Webbrowser IE version to latest for emulation
+            //Update Web browser IE version to latest for emulation
             if (!InternetExplorerBrowserEmulation.IsBrowserEmulationSet())
-            {
                 InternetExplorerBrowserEmulation.SetBrowserEmulationVersion();
-            }
         }
 
-        private void ViewDidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             //Load Boat data from database
-            LoadBoatData(this.BoatID);
+            LoadBoatData(BoatID);
 
-            boatViewName.Content = $"{boatData.boatName}";
-            boatViewDescription.Content = $"{boatType.boatTypeDescription}";
-            boatViewType.Content = $"type: {boatType.boatTypeName}";
-            boatViewSteer.Content = $"{boatType.boatSteerString}";
-            boatViewNiveau.Content = $"niveau: {boatType.boatRowLevel}";
+            boatViewName.Content = $"{BoatData.boatName}";
+            boatViewDescription.Content = $"{BoatType.boatTypeDescription}";
+            boatViewType.Content = $"type: {BoatType.boatTypeName}";
+            boatViewSteer.Content = $"{BoatType.boatSteerString}";
+            boatViewNiveau.Content = $"niveau: {BoatType.boatRowLevel}";
             
             //Load Youtube video
-            DisplayVideo(boatData.boatYoutubeUrl);
+            DisplayVideo(BoatData.boatYoutubeUrl);
 
             //Load Boat Photo
-            DisplayPhoto(this.BoatID);
+            DisplayPhoto(BoatID);
 
-            //check if member has the needed rowlevel to make a reservation for the boat
-            if (rowLevelMember >= rowLevelBoat)
-            {
-                ReservationBoatButton.IsEnabled = true;
-            }
-            else
-            {
-                ReservationBoatButton.IsEnabled = false;
-            }
+            //check if member has the needed rowLevel to make a reservation for the boat
+            ReservationBoatButton.IsEnabled = RowLevelMember >= RowLevelBoat;
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            if (webBrowser != null)
-            {
-                webBrowser.Dispose();
-            }
-
-            if(AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-
+            WebBrowser?.Dispose();
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
-        private void LoadBoatData(int boatID)
+        private void LoadBoatData(int boatId)
         {
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
-                                 where b.boatId == boatID
+                                 where b.boatId == boatId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -128,14 +95,14 @@ namespace KBSBoot.View
                                      boatAmountSpaces = bt.boatAmountSpaces,
                                      boatYoutubeUrl = b.boatYoutubeUrl
                                  });
-                //getting the rowlevel of the user
-                rowLevelMember = int.Parse((from b in context.Members
+                //getting the rowLevel of the user
+                RowLevelMember = int.Parse((from b in context.Members
                                             where b.memberId == MemberId
                                             select b.memberRowLevelId).First().ToString());
                 foreach (var b in tableData)
                 {
                     // Loop through record and add to new BoatType
-                    boatType = new BoatTypes()
+                    BoatType = new BoatTypes()
                     {
                         boatTypeName = b.boatTypeName,
                         boatTypeDescription = b.boatTypeDescription,
@@ -143,11 +110,11 @@ namespace KBSBoot.View
                         boatAmountSpaces = b.boatAmountSpaces,
                         boatRowLevel = b.boatRowLevel
                     };
-                    boatName = b.boatName;
-                    boatDescription = b.boatTypeDescription;
-                    rowLevelBoat = b.boatRowLevel;
+                    BoatName = b.boatName;
+                    BoatDescription = b.boatTypeDescription;
+                    RowLevelBoat = b.boatRowLevel;
                     // Loop through record and add to new Boat
-                    boatData = new Boat()
+                    BoatData = new Boat()
                     {
                         boatId = b.boatId,
                         boatTypeId = b.boatTypeId,
@@ -158,7 +125,7 @@ namespace KBSBoot.View
             }
         }
 
-        public void DisplayPhoto(int boatID)
+        public void DisplayPhoto(int boatId)
         {
             //Retrieve image blob from database
             using (var context = new BootDB())
@@ -166,7 +133,7 @@ namespace KBSBoot.View
                 var tableData = (from b in context.Boats
                                  join bi in context.BoatImages
                                  on b.boatId equals bi.boatId
-                                 where b.boatId == boatID
+                                 where b.boatId == boatId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -175,7 +142,7 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    boatImageData = new BoatImages()
+                    BoatImageData = new BoatImages()
                     {
                         boatImageBlob = b.boatImageBlob
                     };
@@ -183,96 +150,89 @@ namespace KBSBoot.View
             }
 
 
-            if(boatImageData != null)
+            if (BoatImageData == null) return;
+            if (!string.IsNullOrEmpty(BoatImageData.boatImageBlob))
             {
-                if (boatImageData.boatImageBlob != "" && boatImageData.boatImageBlob != null)
+                //Convert Base64 encoded string to Bitmap Image
+                var binaryData = Convert.FromBase64String(BoatImageData.boatImageBlob);
+                var bitmapImg = new BitmapImage();
+                bitmapImg.BeginInit();
+                bitmapImg.StreamSource = new MemoryStream(binaryData);
+                bitmapImg.EndInit();
+
+                //Create new image
+                var boatPhoto = new Image
                 {
-                    //Convert Base64 encoded string to Bitmap Image
-                    byte[] binaryData = Convert.FromBase64String(boatImageData.boatImageBlob);
-                    BitmapImage bitmapimg = new BitmapImage();
-                    bitmapimg.BeginInit();
-                    bitmapimg.StreamSource = new MemoryStream(binaryData);
-                    bitmapimg.EndInit();
+                    Width = 200,
+                    Height = 200,
+                    Source = bitmapImg,
+                };
 
-                    //Create new image
-                    Image boatPhoto = new Image()
-                    {
-                        Width = 200,
-                        Height = 200,
+                var bc = new BrushConverter();
+                var brushAppOrange = (Brush)bc.ConvertFrom("#FF5722");
+                brushAppOrange.Freeze();
 
-                    };
-                    boatPhoto.Source = bitmapimg;
-
-                    BrushConverter bc = new BrushConverter();
-                    Brush brushAppOrange = (Brush)bc.ConvertFrom("#FF5722");
-                    brushAppOrange.Freeze();
-
-                    //Create new border
-                    Border border1 = new Border()
-                    {
-                        Width = 200,
-                        Height = 200,
-                        HorizontalAlignment = HorizontalAlignment.Left,
-                        VerticalAlignment = VerticalAlignment.Top,
-                        Margin = new Thickness(50, 120, 0, 0),
-                        BorderBrush = brushAppOrange,
-                        BorderThickness = new Thickness(1)
-                    };
-
-                    //Append Image to Border
-                    border1.Child = boatPhoto;
-
-                    //Add border with Image to view
-                    ViewGrid.Children.Add(border1);
-                }
-                else //Image Blob is null
+                //Create new border
+                var border1 = new Border
                 {
-                    //Reset label margins
-                    nameWrap.Margin = new Thickness(50, 113, 0, 610);
-                    descrWrap.Margin = new Thickness(50, 153, 0, 580);
-                    typeWrap.Margin = new Thickness(50, 193, 0, 545);
-                    steerWrap.Margin = new Thickness(50, 223, 0, 511);
-                    niveauWrap.Margin = new Thickness(50, 253, 0, 476);
-                }
+                    Width = 200,
+                    Height = 200,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Margin = new Thickness(50, 120, 0, 0),
+                    BorderBrush = brushAppOrange,
+                    BorderThickness = new Thickness(1),
+                    Child = boatPhoto
+                };
+
+                //Add border with Image to view
+                ViewGrid.Children.Add(border1);
+            }
+            else //Image Blob is null
+            {
+                //Reset label margins
+                nameWrap.Margin = new Thickness(50, 113, 0, 610);
+                descrWrap.Margin = new Thickness(50, 153, 0, 580);
+                typeWrap.Margin = new Thickness(50, 193, 0, 545);
+                steerWrap.Margin = new Thickness(50, 223, 0, 511);
+                niveauWrap.Margin = new Thickness(50, 253, 0, 476);
             }
         }
 
-        // Function to generate html for inside webbrowser control
+        // Function to generate html for inside web browser control
         public void DisplayVideo(string url)
         {
             //Check if a boat has a Youtube Video Url, then show WebBrowser
-            if (boatData.boatYoutubeUrl != null && boatData.boatYoutubeUrl != "")
-            {
-                Match m = YouTubeURLIDRegex.Match(url);
-                String id = m.Groups["v"].Value;
+            if (string.IsNullOrEmpty(BoatData.boatYoutubeUrl)) return;
+            var m = YouTubeURLIDRegex.Match(url);
+            var id = m.Groups["v"].Value;
 
-                string page =
+            var page =
                 "<!DOCTYPE html PUBLIC \" -//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\" >\r\n"
                 + @"<!-- saved from url=(0022)http://www.youtube.com -->" + "\r\n"
                 + "<html><head><meta http-equiv='X - UA - Compatible' content='IE = 10'></ head><body scroll=\"no\" leftmargin=\"0px\" topmargin=\"0px\" marginwidth=\"0px\" marginheight=\"0px\" >" + "\r\n"
-                    + GetYouTubeScript(id)
-                    + "</body></html>\r\n";
+                + GetYouTubeScript(id)
+                + "</body></html>\r\n";
 
-                webBrowser = new WebBrowser()
-                {
-                    Name = "webBrowser",
-                    Height = videoHeight,
-                    Width = videoWidth,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    Margin = new Thickness(0, 360, 0, 0)
-                };
+            WebBrowser = new WebBrowser()
+            {
+                Name = "webBrowser",
+                Height = VideoHeight,
+                Width = VideoWidth,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 360, 0, 0)
+            };
 
-                webBrowser.NavigateToString(page);
+            WebBrowser.NavigateToString(page);
 
-                ViewGrid.Children.Add(webBrowser);
-            }
+            ViewGrid.Children.Add(WebBrowser);
         }
 
-        //Generate Iframe for inside Webbrowser control
+        //Generate Iframe for inside web browser control
         private string GetYouTubeScript(string id)
         {
-            string scr = @"<iframe width='"+ videoWidth +"' height='"+ videoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1&mute=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
+            var scr = @"<iframe width='"+ VideoWidth +"' height='"+ VideoHeight + "' src='http://www.youtube.com/embed/" + id + "?autoplay=1&VQ=480&modestbranding=1&mute=1' frameborder='0' allow='autoplay; encrypted-media; picture-in-picture'></iframe>" + "\r\n";
             return scr;
         }
 
@@ -297,32 +257,26 @@ namespace KBSBoot.View
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            if (webBrowser != null)
-            {
-                webBrowser.Dispose();
-            }
-            Switcher.Switch(new LoginScreen());
+            WebBrowser?.Dispose();
+            Switcher.Logout();
         }
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            if (webBrowser != null)
-            {
-                webBrowser.Dispose();
-            }
+            WebBrowser?.Dispose();
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
-            List<Reservations> reservations = new List<Reservations>();
+            var reservations = new List<Reservations>();
 
             //getting reservations of user from database
             using (var context = new BootDB())
             {
-                DateTime DateNow = DateTime.Now.Date;
-                TimeSpan TimeNow = DateTime.Now.TimeOfDay;
+                var dateNow = DateTime.Now.Date;
+                var timeNow = DateTime.Now.TimeOfDay;
                 var data = (from r in context.Reservations
-                            where r.memberId == MemberId && r.date > DateNow || (r.date == DateNow && r.endTime > TimeNow)
+                            where r.memberId == MemberId && r.date > dateNow || (r.date == dateNow && r.endTime > timeNow)
                             select r.reservationId);
                 foreach (var d in data)
                 {
@@ -332,11 +286,8 @@ namespace KBSBoot.View
             //check if member has more then two reservations
             if (reservations.Count < 2)
             {
-                if (webBrowser != null)
-                {
-                    webBrowser.Dispose();
-                }
-                Switcher.Switch(new SelectDateOfReservation(BoatID, boatName, boatDescription, AccessLevel, FullName, MemberId));
+                WebBrowser?.Dispose();
+                Switcher.Switch(new SelectDateOfReservation(BoatID, BoatName, BoatDescription, AccessLevel, FullName, MemberId));
             }
             else
             {

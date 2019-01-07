@@ -1,19 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using KBSBoot.DAL;
 using KBSBoot.Model;
 
 namespace KBSBoot.View
@@ -23,18 +10,18 @@ namespace KBSBoot.View
     /// </summary>
     public partial class AddMemberAdmin : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        private bool IsDashboard;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private readonly bool IsDashboard;
 
         //Constructor for AddMemberAdmin class
-        public AddMemberAdmin(string FullName, int AccessLevel, int MemberId, bool IsDashboard=false)
+        public AddMemberAdmin(string fullName, int accessLevel, int memberId, bool isDashboard=false)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
-            this.IsDashboard = IsDashboard;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
+            IsDashboard = isDashboard;
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
@@ -42,7 +29,7 @@ namespace KBSBoot.View
         //Method to execute when AddUser button is clicked
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            //Save textbox content to variables for easy access
+            //Save TextBox content to variables for easy access
             var name = NameBox.Text;
             var userName = UserNameBox.Text;
             var rowLevel = RowLevelBox.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 4
@@ -53,12 +40,12 @@ namespace KBSBoot.View
             {
                 try
                 {
-                    var memberUntil = new DateTime?();
+                    DateTime? memberUntil;
                     try
                     {
                         memberUntil = DatePicker.SelectedDate.Value;
                     }
-                    catch (InvalidOperationException IOE)
+                    catch (InvalidOperationException)
                     {
                         throw new InvalidDateException("Selecteer een datum");
                     }
@@ -80,7 +67,7 @@ namespace KBSBoot.View
                     //Check if the member aleady exists
                     Member.CheckIfMemberExists(member);
                     //Add new member to database
-                    Member.AddMemberToDB(member);
+                    Member.AddMemberToDb(member);
                     
                     MessageBox.Show("Gebruiker is succesvol toegevoegd.", "Gebruiker toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
                     Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
@@ -121,15 +108,15 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if(AccessLevel == 1)
             {

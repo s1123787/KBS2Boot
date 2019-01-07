@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using KBSBoot.DAL;
 using KBSBoot.Model;
@@ -18,37 +17,36 @@ namespace KBSBoot.View
     /// </summary>
     public partial class EditBoatMaterialCommissioner : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        private int MemberId;
-        private int boatId;
-        System.Drawing.Image SelectedImageForConversion;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private readonly int BoatId;
+        private Image SelectedImageForConversion;
 
-        public EditBoatMaterialCommissioner(string FullName, int AccessLevel, int memberId, int boatId)
+        public EditBoatMaterialCommissioner(string fullName, int accessLevel, int memberId, int boatId)
         {
             InitializeComponent();
             FillCapacityBox();
 
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = memberId;
-            this.boatId = boatId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
+            BoatId = boatId;
 
-            LoadBoatData(this.boatId);
-
+            LoadBoatData(BoatId);
         }
 
-        //Pulls all boattype information needed for filling the comboboxes from the database
-        private List<BoatTypes> GetBoatTypes()
+        //Pulls all boatType information needed for filling the comboBoxes from the database
+        private static List<BoatTypes> GetBoatTypes()
         {
-            List<BoatTypes> boatTypes = new List<BoatTypes>();
+            var boatTypes = new List<BoatTypes>();
 
             using (var context = new BootDB())
             {
-                var typedata = from t in context.BoatTypes
+                var typeData = from t in context.BoatTypes
                                select t;
 
-                foreach (var b in typedata)
+                foreach (var b in typeData)
                 {
                     boatTypes.Add(new BoatTypes()
                     {
@@ -58,13 +56,12 @@ namespace KBSBoot.View
                 }
             }
             return boatTypes;
-
         }
 
-        //Fills the capacitybox with boatcapacity records from the database
+        //Fills the capacityBox with boat capacity records from the database
         private void FillCapacityBox()
         {
-            List<BoatTypes> boatTypes = GetBoatTypes();
+            var boatTypes = GetBoatTypes();
             foreach (var bt in boatTypes)
             {
                 if (!BoatCapacityBox.Items.Contains(bt.boatAmountSpaces))
@@ -72,10 +69,10 @@ namespace KBSBoot.View
             }
         }
 
-        //Changes options in the type selectionbox based on the selected capacity
+        //Changes options in the type selectionBox based on the selected capacity
         private void BoatCapacityBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!this.IsLoaded)
+            if (!IsLoaded)
                 return;
             FillBoatTypeBox();
         }
@@ -83,7 +80,7 @@ namespace KBSBoot.View
         private void FillBoatTypeBox()
         {
             BoatTypeBox.Items.Clear();
-            List<BoatTypes> boatTypes = GetBoatTypes();
+            var boatTypes = GetBoatTypes();
 
             foreach (var b in boatTypes)
             {
@@ -91,7 +88,8 @@ namespace KBSBoot.View
                     BoatTypeBox.Items.Add(b.boatTypeName);
             }
         }
-        private void LoadBoatData(int boatID)
+
+        private void LoadBoatData(int boatId)
         {
             using (var context = new BootDB())
             {
@@ -99,9 +97,8 @@ namespace KBSBoot.View
                                  join bt in context.BoatTypes
                                  on b.boatTypeId equals bt.boatTypeId
                                  join bi in context.BoatImages
-                                 on boatID equals bi.boatId
-                                 where b.boatId == boatID
-                                 
+                                 on boatId equals bi.boatId
+                                 where b.boatId == boatId
                                  select new
                                  {
                                      boatId = b.boatId,
@@ -121,16 +118,16 @@ namespace KBSBoot.View
                     BoatTypeBox.SelectedValue = b.boatTypeName;
                     YoutubeUrlBox.Text = b.boatYoutubeUrl;
 
-                    if (b.boatImageBlob != "" && b.boatImageBlob != null)
+                    if (!string.IsNullOrEmpty(b.boatImageBlob))
                     {
                         //Convert Base64 encoded string to Bitmap Image
-                        byte[] binaryData = Convert.FromBase64String(b.boatImageBlob);
-                        BitmapImage bitmapimg = new BitmapImage();
-                        bitmapimg.BeginInit();
-                        bitmapimg.StreamSource = new MemoryStream(binaryData);
-                        bitmapimg.EndInit();
+                        var binaryData = Convert.FromBase64String(b.boatImageBlob);
+                        var bitmapImg = new BitmapImage();
+                        bitmapImg.BeginInit();
+                        bitmapImg.StreamSource = new MemoryStream(binaryData);
+                        bitmapImg.EndInit();
 
-                        SelectedImageBox.Source = bitmapimg;
+                        SelectedImageBox.Source = bitmapImg;
                     };
                 }   
             }
@@ -149,28 +146,27 @@ namespace KBSBoot.View
                     InputValidation.CheckForInvalidCharacters(boatNameInput);
                     InputValidation.IsYoutubeUrl(boatYoutubeUrlInput);
 
-                    var SelectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
-                    String SelectedImageInput = SelectedImageString;
+                    var selectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
+                    var selectedImageInput = selectedImageString;
 
 
-                    if ((System.Windows.Forms.MessageBox.Show("Weet u zeker dat u deze wijzigingen wil toepassen?", "Bevestiging",
-                    System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question,
-                    System.Windows.Forms.MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes))
+                    if (System.Windows.Forms.MessageBox.Show("Weet u zeker dat u deze wijzigingen wil toepassen?", "Bevestiging",
+                            System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Question,
+                            System.Windows.Forms.MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
 
-                        using (var context = new BootDB())
+                    using (var context = new BootDB())
                     {
-                        var boot = context.Boats.SingleOrDefault(b => b.boatId == boatId);
-                        var image = context.BoatImages.SingleOrDefault(i => i.boatId == boatId);
+                        var boot = context.Boats.SingleOrDefault(b => b.boatId == BoatId);
+                        var image = context.BoatImages.SingleOrDefault(i => i.boatId == BoatId);
 
                         boot.boatName = boatNameInput;
                         boot.boatTypeId = boatTypeInput;
                         boot.boatYoutubeUrl = YoutubeUrlBox.Text;
 
-                        if (!string.IsNullOrWhiteSpace(SelectedImageInput))
+                        if (!string.IsNullOrWhiteSpace(selectedImageInput))
                         {
-                            image.boatImageBlob = SelectedImageInput;
+                            image.boatImageBlob = selectedImageInput;
                         }
-
 
                         context.SaveChanges();
                     }
@@ -204,35 +200,32 @@ namespace KBSBoot.View
 
         private void ImageSelectButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Kies een afbeelding";
-            op.Filter = "PNG| *.png";
+            var op = new OpenFileDialog
+            {
+                Title = "Kies een afbeelding",
+                Filter = "PNG| *.png"
+            };
 
             //Shows a preview for the selected image
-            if (op.ShowDialog() == true)
-            {
-                SelectedImageBox.Source = new BitmapImage(new Uri(op.FileName));
-                ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
-
-                SelectedImageForConversion = System.Drawing.Image.FromFile(op.FileName);
-            }
+            if (op.ShowDialog() != true) return;
+            SelectedImageBox.Source = new BitmapImage(new Uri(op.FileName));
+            ImageFileName.Content = Path.GetFileName(op.FileName);
+            SelectedImageForConversion = Image.FromFile(op.FileName);
         }
 
         private void SubmitChanges_Click(object sender, RoutedEventArgs e)
         {
-                UpdateBoat();
-            
-
+            UpdateBoat();
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -240,7 +233,7 @@ namespace KBSBoot.View
             Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {

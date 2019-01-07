@@ -1,37 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace KBSBoot.Model
 {
     public class AddBoatEventArgs
     {
-        public string boatType { get; set; }
+        public string BoatType { get; set; }
+        public string BoatName { get; set; }
+        public string BoatYoutubeUrl { get; set; }
+        public Image BoatImage { get; set; }
+        public int BoatTypeId { get; set; }
+        public string FullName { get; set; }
+        public int AccessLevel { get; set; }
+        public int MemberId { get; set; }
 
-        public string boatName { get; set; }
-
-
-        public string boatYoutubeUrl { get; set; }
-        public System.Drawing.Image BoatImage { get; set; }
-
-        public int boatTypeId { get; set; }
-
-        public string fullName { get; set; }
-        public int accessLevel { get; set; }
-        public int memberId { get; set; }
-
-        public AddBoatEventArgs(string boatName, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boattypeId, string fullName, int accessLevel, int MemberId)
+        public AddBoatEventArgs(string boatName, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boatTypeId, string fullName, int accessLevel, int memberId)
         {
-            this.boatType = boatType;
-            this.boatName = boatName;
-            this.boatYoutubeUrl = boatYoutubeUrl;
-            this.BoatImage = boatImage;
-            this.boatTypeId = boattypeId;
-            this.fullName = fullName;
-            this.accessLevel = accessLevel;
-            this.memberId = MemberId;
+            BoatType = boatType;
+            BoatName = boatName;
+            BoatYoutubeUrl = boatYoutubeUrl;
+            BoatImage = boatImage;
+            BoatTypeId = boatTypeId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
         }
     }
 }
