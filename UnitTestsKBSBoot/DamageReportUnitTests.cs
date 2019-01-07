@@ -28,7 +28,7 @@ namespace UnitTestsKBSBoot
             //Method is placed inside a try block, so if it cant connect the result is set to false
             try
             {
-                BoatDamage.AddReportToDB(report);
+                BoatDamage.AddReportToDb(report);
                 
                 //Check if the member is actually in the database
                 using (var context = new BootDB())
@@ -49,7 +49,7 @@ namespace UnitTestsKBSBoot
                     context.SaveChanges();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 result = false;
             }

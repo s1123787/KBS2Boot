@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.Model;
 
 namespace KBSBoot.View
@@ -31,11 +19,11 @@ namespace KBSBoot.View
 
         private void LoginBtn_click(object sender, RoutedEventArgs e)
         {
-            Member m = new Member();
+            var m = new Member();
             OnLogin += m.OnLoginButtonIsPressed;
-            var textvalue = usernametxt.Text;
+            var textValue = usernametxt.Text;
 
-            OnLoginButtonPressed(textvalue);
+            OnLoginButtonPressed(textValue);
             OnLogin -= m.OnLoginButtonIsPressed;
         }
 
@@ -66,7 +54,7 @@ namespace KBSBoot.View
             }
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             this.usernametxt.Focus();
         }

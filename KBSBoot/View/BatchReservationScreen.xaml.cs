@@ -2,20 +2,12 @@
 using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -24,52 +16,37 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BatchReservationScreen : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        public int maxReservationBatch;
-        public int ReservationBatchForDeletion;
-        public int reservationcount;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private int MaxReservationBatch;
+        private int ReservationBatchForDeletion;
+        private int ReservationCount;
 
-        public BatchReservationScreen(string FullName, int AccessLevel, int MemberId)
+        public BatchReservationScreen(string fullName, int accessLevel, int memberId)
         {
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
             InitializeComponent();
         }
 
-        //Home button --> check accesslevel for which homepage to open
+        //Home button
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         //logout
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         //when the page is loaded 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
-            //check acceslevel 
+            //check accessLevel 
             if (AccessLevel == 1)
             {
                 AccessLevelButton.Content = "Lid";
@@ -95,15 +72,15 @@ namespace KBSBoot.View
         //load upcoming reservations
         private void LoadReservations()
         {
-            List<Reservations> reservations = new List<Reservations>();
-            DateTime date = DateTime.Now.Date;
-            TimeSpan endTime = DateTime.Now.TimeOfDay;
-            List<int> reservationsDistinct = new List<int>();
+            var reservations = new List<Reservations>();
+            var date = DateTime.Now.Date;
+            var endTime = DateTime.Now.TimeOfDay;
+            var reservationsDistinct = new List<int>();
 
             using (var context = new BootDB())
             {
                 //tables used: Reservation - Reservation_Boats - Boats - BoatTypes
-                //selected reservationId, BoatName, BoatTypeDiscription, date, beginTime, endTime 
+                //selected reservationId, BoatName, BoatTypeDescription, date, beginTime, endTime 
                 var data = (from r in context.Reservations
                             join rb in context.Reservation_Boats
                             on r.reservationId equals rb.reservationId
@@ -124,29 +101,28 @@ namespace KBSBoot.View
                                 reservationBatch = r.reservationBatch,
                             });
 
-                int HighestBatchCount = context.Reservations.Where(c => c.reservationBatch != 0 && c.date > date || c.date == date && c.endTime > endTime).Max(x => (int?)x.reservationBatch) ?? 0;
+                var highestBatchCount = context.Reservations.Where(c => c.reservationBatch != 0 && c.date > date || c.date == date && c.endTime > endTime).Max(x => (int?)x.reservationBatch) ?? 0;
 
-                var reservationcount = data.Distinct().Count();
+                var reservationCount = data.Distinct().Count();
 
                 var reservationsdistinct = (from r in context.Reservations
                                             where (r.date > date || (r.date == date && r.endTime > endTime)) && r.reservationBatch != 0
                                             select r.reservationBatch).Distinct().ToList();
 
-                if (!HighestBatchCount.Equals(0))
-                    maxReservationBatch = HighestBatchCount;
+                if (!highestBatchCount.Equals(0))
+                    MaxReservationBatch = highestBatchCount;
 
-                    //add all reservations to reservation list
-                    foreach (var d in data)
-                    {
-                        string resdate = d.date.ToString("d");
-                        reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resdate, d.reservationBatch, d.beginTime, d.endTime));
-                    
-                    }
+                //add all reservations to reservation list
+                foreach (var d in data)
+                {
+                    var resDate = d.date.ToString("d");
+                    reservations.Add(new Reservations(d.reservationId, d.boatName, d.boatType, resDate, d.reservationBatch, d.beginTime, d.endTime));
+                }
 
-                    foreach (var d in reservationsdistinct)
-                    {
+                foreach (var d in reservationsdistinct)
+                {
                     reservationsDistinct.Add(d);
-                    }
+                }
             }
 
             if (reservations.Count == 0)
@@ -156,127 +132,147 @@ namespace KBSBoot.View
 
                 HistoryScrollViewer.MaxHeight = 550;
                 //historyLabel.Margin = new Thickness(78, 100, 0, 0);
-                //historyScollViewer.Margin = new Thickness(0, 148, 0, 0);
+                //historyScrollViewer.Margin = new Thickness(0, 148, 0, 0);
             }
 
             //Make a block for each reservation
-            foreach(var x in reservationsDistinct)
+            foreach (var x in reservationsDistinct)
             {
-                if(x > 0)
+                if (x <= 0) continue;
+                //Create a listView
+                var lv = new ListView();
+                var labelAndButton = new Grid
                 {
-                    //Create a listview
-                    ListView lv = new ListView();
-                    Grid LabelAndButton = new Grid();
-                    LabelAndButton.Width = 850;
-                    Style lvstyle = this.FindResource("LVItemStyle") as Style;
-                    lv.ItemContainerStyle = lvstyle;
+                    Width = 850
+                };
+                var lvStyle = FindResource("LVItemStyle") as Style;
+                lv.ItemContainerStyle = lvStyle;
 
-                    Label l = new Label();
-                    l.FontSize = 18;
-                    l.HorizontalAlignment = HorizontalAlignment.Left;
-                    l.Content = $"Wedstrijdreservering {x}";
+                var l = new Label
+                {
+                    FontSize = 18,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Content = $"Wedstrijdreservering {x}"
+                };
 
-                    Button bt = new Button();
-                    bt.Click += (sender, RoutedEventArgs) => { Cancel_Click(sender, RoutedEventArgs, x); };
-                    bt.Content = "Annuleren";
-                    bt.Width = 100;
-                    bt.HorizontalAlignment = HorizontalAlignment.Right;
+                var bt = new Button();
+                bt.Click += (sender, RoutedEventArgs) => { Cancel_Click(sender, RoutedEventArgs, x); };
+                bt.Content = "Annuleren";
+                bt.Width = 100;
+                bt.HorizontalAlignment = HorizontalAlignment.Right;
 
-                    Thickness margin = bt.Margin;
-                    margin.Right = 25;
-                    bt.Margin = margin;
+                var margin = bt.Margin;
+                margin.Right = 25;
+                bt.Margin = margin;
 
-                    LabelAndButton.Children.Add(l);
-                    LabelAndButton.Children.Add(bt);
-                    ListGroup.Children.Add(LabelAndButton);
+                labelAndButton.Children.Add(l);
+                labelAndButton.Children.Add(bt);
+                ListGroup.Children.Add(labelAndButton);
 
-                    GridView gv = new GridView();
-                    gv.AllowsColumnReorder = false;
+                var gv = new GridView
+                {
+                    AllowsColumnReorder = false
+                };
 
-                    //Make column for reservationId
-                    GridViewColumn reserveringsnr = new GridViewColumn();
-                    reserveringsnr.Header = "nr";
-                    reserveringsnr.Width = 70;
-                    Binding reservationidbinding = new Binding("reservationId");
-                    reserveringsnr.DisplayMemberBinding = reservationidbinding;
+                //Make column for reservationId
+                var reservationNr = new GridViewColumn
+                {
+                    Header = "nr",
+                    Width = 70
+                };
+                var reservationIdBinding = new Binding("reservationId");
+                reservationNr.DisplayMemberBinding = reservationIdBinding;
 
-                    //Make column for boatname
-                    GridViewColumn boatName = new GridViewColumn();
-                    boatName.Header = "Boot naam";
-                    boatName.Width = 220;
+                //Make column for boatName
+                var boatName = new GridViewColumn
+                {
+                    Header = "Boot naam",
+                    Width = 220
+                };
 
-                    //Add textblock with textwrapping to the column
-                    var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock));
-                    nameTextBlock.Name = "txt";
-                    nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("boatName"));
-                    nameTextBlock.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
-                    DataTemplate nameDataTemplate = new DataTemplate() { VisualTree = nameTextBlock };
-                    boatName.CellTemplate = nameDataTemplate;
+                //Add textBlock with textWrapping to the column
+                var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock))
+                {
+                    Name = "txt"
+                };
+                nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("BoatName"));
+                nameTextBlock.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
+                var nameDataTemplate = new DataTemplate
+                {
+                    VisualTree = nameTextBlock
+                };
+                boatName.CellTemplate = nameDataTemplate;
 
-                    //Make column for boattype
-                    GridViewColumn boatType = new GridViewColumn();
-                    boatType.Header = "Boot Type";
-                    Binding boatTypeBinding = new Binding("boatType");
-                    boatType.DisplayMemberBinding = boatTypeBinding;
-                    boatType.Width = 150;
+                //Make column for boatType
+                var boatType = new GridViewColumn
+                {
+                    Header = "Boot Type"
+                };
+                var boatTypeBinding = new Binding("BoatType");
+                boatType.DisplayMemberBinding = boatTypeBinding;
+                boatType.Width = 150;
 
-                    //Make column for reservationdate
-                    GridViewColumn resDate = new GridViewColumn();
-                    resDate.Header = "Datum";
-                    Binding resDateBinding = new Binding("resdate");
-                    resDate.DisplayMemberBinding = resDateBinding;
+                //Make column for reservationDate
+                var resDate = new GridViewColumn
+                {
+                    Header = "Datum"
+                };
+                var resDateBinding = new Binding("ResDate");
+                resDate.DisplayMemberBinding = resDateBinding;
 
-                    //Make column for begin time
-                    GridViewColumn beginTimeString = new GridViewColumn();
-                    beginTimeString.Header = "Begintijd";
-                    Binding beginTimeStringbinding = new Binding("beginTimeString");
-                    beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
+                //Make column for begin time
+                var beginTimeString = new GridViewColumn
+                {
+                    Header = "Begintijd"
+                };
+                var beginTimeStringBinding = new Binding("BeginTimeString");
+                beginTimeString.DisplayMemberBinding = beginTimeStringBinding;
 
-                    //Make column for endtime
-                    GridViewColumn endtimeString = new GridViewColumn();
-                    endtimeString.Header = "Eindtijd";
-                    Binding endtimeStringBinding = new Binding("endTimeString");
-                    endtimeString.DisplayMemberBinding = endtimeStringBinding;
+                //Make column for endTime
+                var endTimeString = new GridViewColumn
+                {
+                    Header = "Eindtijd"
+                };
+                var endTimeStringBinding = new Binding("EndTimeString");
+                endTimeString.DisplayMemberBinding = endTimeStringBinding;
 
-                    //Add columns to the gridview
-                    gv.Columns.Add(reserveringsnr);
-                    gv.Columns.Add(boatName);
-                    gv.Columns.Add(boatType);
-                    gv.Columns.Add(resDate);
-                    gv.Columns.Add(beginTimeString);
-                    gv.Columns.Add(endtimeString);
+                //Add columns to the gridView
+                gv.Columns.Add(reservationNr);
+                gv.Columns.Add(boatName);
+                gv.Columns.Add(boatType);
+                gv.Columns.Add(resDate);
+                gv.Columns.Add(beginTimeString);
+                gv.Columns.Add(endTimeString);
 
-                    Style style = this.FindResource("GVColumnReOrder") as Style;
-                    gv.ColumnHeaderContainerStyle = style;
+                var style = FindResource("GVColumnReOrder") as Style;
+                gv.ColumnHeaderContainerStyle = style;
 
-                    lv.View = gv;
+                lv.View = gv;
 
-                    //Add reservations to the listview
-                    foreach (Reservations r in reservations)
+                //Add reservations to the listView
+                foreach (var r in reservations)
+                {
+                    if (r.reservationBatch == x)
                     {
-                        if (r.reservationBatch == x)
-                        {
-                            lv.Items.Add(r);
-                        }
+                        lv.Items.Add(r);
                     }
-                    //Add the listview to the scrollviewer
-                    ListGroup.Children.Add(lv);
-
                 }
-            }         
+                //Add the listView to the scrollViewer
+                ListGroup.Children.Add(lv);
+            }
         }
 
         //load reservation history 
         private void LoadReservationsHistory()
         {
-            List<Reservations> reservationsHistory = new List<Reservations>();
-            DateTime date = DateTime.Now.Date;
-            TimeSpan endTime = DateTime.Now.TimeOfDay;
+            var reservationsHistory = new List<Reservations>();
+            var date = DateTime.Now.Date;
+            var endTime = DateTime.Now.TimeOfDay;
 
             using (var context = new BootDB())
             {
                 //tables used: Reservation - Reservation_Boats - Boats - BoatTypes
-                //selected reservationId, BoatName, BoatTypeDiscription, date, beginTime, endTime 
+                //selected reservationId, BoatName, BoatTypeDescription, date, beginTime, endTime 
                 var data = (from r in context.Reservations
                             join rb in context.Reservation_Boats
                             on r.reservationId equals rb.reservationId
@@ -299,139 +295,162 @@ namespace KBSBoot.View
                                 boatId = b.boatId
                             });
 
-                var BatchReservationHistory =
+                var batchReservationHistory =
                     (from x in context.Reservations
                      where x.reservationBatch > 0 && x.date < date
                      select x.reservationBatch).Distinct();
 
-                //Fils the scrollviewer with reservationhistory
+                //Fills the scrollViewer with reservation history
 
-                foreach (var br in BatchReservationHistory)
+                foreach (var br in batchReservationHistory)
                 {
-                    //Create a listview
-                    ListView listv = new ListView();
-                    Style lvstyle = this.FindResource("LVItemStyle") as Style;
-                    listv.ItemContainerStyle = lvstyle;
+                    //Create a listView
+                    var listView = new ListView();
+                    var listViewStyle = FindResource("LVItemStyle") as Style;
+                    listView.ItemContainerStyle = listViewStyle;
 
-                    Label l = new Label();
-                    l.FontSize = 18;
-                    l.HorizontalAlignment = HorizontalAlignment.Left;
-                    l.Content = $"Wedstrijdreservering {br}";
+                    var label = new Label
+                    {
+                        FontSize = 18,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        Content = $"Wedstrijdreservering {br}"
+                    };
 
-                    HistoryListGroup.Children.Add(l);
+                    HistoryListGroup.Children.Add(label);
 
-                    GridView gv = new GridView();
-                    gv.AllowsColumnReorder = false;
+                    var gv = new GridView
+                    {
+                        AllowsColumnReorder = false
+                    };
 
                     //Make column for reservationId
-                    GridViewColumn reserveringsnr = new GridViewColumn();
-                    reserveringsnr.Header = "nr";
-                    reserveringsnr.Width = 70;
-                    Binding reservationidbinding = new Binding("reservationId");
-                    reserveringsnr.DisplayMemberBinding = reservationidbinding;
+                    var reservationNr = new GridViewColumn
+                    {
+                        Header = "nr",
+                        Width = 70
+                    };
+                    var reservationIdBinding = new Binding("reservationId");
+                    reservationNr.DisplayMemberBinding = reservationIdBinding;
 
-                    //Make column for boatname
-                    GridViewColumn boatName = new GridViewColumn();
-                    boatName.Header = "Boot naam";
-                    boatName.Width = 220;
+                    //Make column for boatName
+                    var boatName = new GridViewColumn
+                    {
+                        Header = "Boot naam",
+                        Width = 220
+                    };
 
-                    //Add textblock with textwrapping to the column
-                    var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock));
-                    nameTextBlock.Name = "txt";
-                    nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("boatName"));
+                    //Add textBlock with textWrapping to the column
+                    var nameTextBlock = new FrameworkElementFactory(typeof(TextBlock))
+                    {
+                        Name = "txt"
+                    };
+                    nameTextBlock.SetBinding(TextBlock.TextProperty, new Binding("BoatName"));
                     nameTextBlock.SetValue(TextBlock.TextWrappingProperty, TextWrapping.Wrap);
-                    DataTemplate nameDataTemplate = new DataTemplate() { VisualTree = nameTextBlock };
+                    var nameDataTemplate = new DataTemplate
+                    {
+                        VisualTree = nameTextBlock
+                    };
                     boatName.CellTemplate = nameDataTemplate;
 
                     //Make column for boatType
-                    GridViewColumn boatType = new GridViewColumn();
-                    boatType.Header = "Boot Type";
-                    Binding boatTypeBinding = new Binding("boatType");
+                    var boatType = new GridViewColumn
+                    {
+                        Header = "Boot Type"
+                    };
+                    var boatTypeBinding = new Binding("BoatType");
                     boatType.DisplayMemberBinding = boatTypeBinding;
                     boatType.Width = 150;
 
                     //Make column for reservation date
-                    GridViewColumn resDate = new GridViewColumn();
-                    resDate.Header = "Datum";
-                    Binding resDateBinding = new Binding("resdate");
+                    var resDate = new GridViewColumn
+                    {
+                        Header = "Datum"
+                    };
+                    var resDateBinding = new Binding("ResDate");
                     resDate.DisplayMemberBinding = resDateBinding;
 
-                    //Make column for begintime
-                    GridViewColumn beginTimeString = new GridViewColumn();
-                    beginTimeString.Header = "Begintijd";
-                    Binding beginTimeStringbinding = new Binding("beginTimeString");
-                    beginTimeString.DisplayMemberBinding = beginTimeStringbinding;
+                    //Make column for beginTime
+                    var beginTimeString = new GridViewColumn
+                    {
+                        Header = "Begintijd"
+                    };
+                    var beginTimeStringBinding = new Binding("BeginTimeString");
+                    beginTimeString.DisplayMemberBinding = beginTimeStringBinding;
 
-                    //Make column for endtime
-                    GridViewColumn endtimeString = new GridViewColumn();
-                    endtimeString.Header = "Eindtijd";
-                    Binding endtimeStringBinding = new Binding("endTimeString");
-                    endtimeString.DisplayMemberBinding = endtimeStringBinding;
+                    //Make column for endTime
+                    var endTimeString = new GridViewColumn
+                    {
+                        Header = "Eindtijd"
+                    };
+                    var endTimeStringBinding = new Binding("EndTimeString");
+                    endTimeString.DisplayMemberBinding = endTimeStringBinding;
 
                     //Make column for the report damage button
-                    GridViewColumn reportDamageButton = new GridViewColumn();
-                    reportDamageButton.Header = "Meld schade";
+                    var reportDamageButton = new GridViewColumn
+                    {
+                        Header = "Meld schade"
+                    };
 
                     //Create button
-                    FrameworkElementFactory stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
+                    var stackPanelFactory = new FrameworkElementFactory(typeof(StackPanel));
                     stackPanelFactory.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);
 
                     //Define button
-                    FrameworkElementFactory DamageButton = new FrameworkElementFactory(typeof(Button));
-                    DamageButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
-                    DamageButton.SetValue(Button.ContentProperty, "Meld schade");
-                    stackPanelFactory.AppendChild(DamageButton);
+                    var damageButton = new FrameworkElementFactory(typeof(Button));
+                    damageButton.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ReportDamage_Click));
+                    damageButton.SetValue(ContentProperty, "Meld schade");
+                    stackPanelFactory.AppendChild(damageButton);
 
-                    DataTemplate template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
+                    var template = new DataTemplate { DataType = typeof(Button), VisualTree = stackPanelFactory };
 
                     reportDamageButton.CellTemplate = template;
 
-                    //Add the columns to the gridview
-                    gv.Columns.Add(reserveringsnr);
+                    //Add the columns to the gridView
+                    gv.Columns.Add(reservationNr);
                     gv.Columns.Add(boatName);
                     gv.Columns.Add(boatType);
                     gv.Columns.Add(resDate);
                     gv.Columns.Add(beginTimeString);
-                    gv.Columns.Add(endtimeString);
+                    gv.Columns.Add(endTimeString);
                     gv.Columns.Add(reportDamageButton);
 
-                    Style style = this.FindResource("GVColumnReOrder") as Style;
+                    var style = FindResource("GVColumnReOrder") as Style;
                     gv.ColumnHeaderContainerStyle = style;
 
-                    listv.View = gv;
+                    listView.View = gv;
 
-                    //Add all reservations to the listview
+                    //Add all reservations to the listView
                     foreach (var r in data)
                     {
-                        Reservations reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
+                        var reservation = new Reservations(r.reservationId, r.boatName, r.boatType, r.date.ToString("d"), r.beginTime, r.endTime, r.boatId);
                         if (r.reservationBatch == br)
                         {
-                            listv.Items.Add(reservation);
+                            listView.Items.Add(reservation);
                         }
                     }
-                
-                    //Add the listview to the scrollviewer
-                HistoryListGroup.Children.Add(listv);
-            }
-                //If there are no reservations show message
-                if (BatchReservationHistory.Count() == 0)
-                {
-                    Label noreservations = new Label();
-                    noreservations.Content = "Er zijn nog geen reserveringen plaatsgevonden";
-                    noreservations.FontSize = 18;
-                    HistoryListGroup.Children.Add(noreservations);
+
+                    //Add the listView to the scrollViewer
+                    HistoryListGroup.Children.Add(listView);
                 }
+                //If there are no reservations show message
+                if (batchReservationHistory.Count() != 0) return;
+                var noReservations = new Label
+                {
+                    Content = "Er zijn nog geen reserveringen plaatsgevonden",
+                    FontSize = 18
+                };
+                HistoryListGroup.Children.Add(noReservations);
             }
         }
 
 
         //get boatId from the report damage button
         private void ReportDamage_Click(object sender, RoutedEventArgs e)
-        {    
-            Reservations reservation = ((FrameworkElement)sender).DataContext as Reservations;
+        {
+            var reservation = ((FrameworkElement)sender).DataContext as Reservations;
 
-            ReportDamage.getPage = ReportDamage.Page.BatchReservationScreen;
-            Switcher.Switch(new ReportDamage(FullName, reservation.boatId, AccessLevel, MemberId));
+            ReportDamage.GetPage = ReportDamage.Page.BatchReservationScreen;
+            Switcher.Switch(new ReportDamage(FullName, reservation.BoatId, AccessLevel, MemberId));
         }
 
 
@@ -443,50 +462,47 @@ namespace KBSBoot.View
         //method for deleting a reservation and updating the indexes accordingly
         private void CancelMatchReservation(int batchReservationId)
         {
-            using(var context = new BootDB())
+            using (var context = new BootDB())
             {
-                var ReservationsToDelete = from r in context.Reservations
+                var reservationsToDelete = from r in context.Reservations
                                            where r.reservationBatch == batchReservationId
                                            select r;
 
-                var ReservationsToUpdate = from r in context.Reservations
+                var reservationsToUpdate = from r in context.Reservations
                                            where r.reservationBatch != 0 && r.reservationBatch > batchReservationId
                                            select r;
 
-                var reservationdate = ReservationsToDelete.First().date.Date.ToString("dd-MM-yyyy");
-                var beginTimeString = ReservationsToDelete.First().beginTime.ToString(@"hh\:mm");
-                var endTimeString = ReservationsToDelete.First().endTime.ToString(@"hh\:mm");
+                var reservationDate = reservationsToDelete.First().date.Date.ToString("dd-MM-yyyy");
+                var beginTimeString = reservationsToDelete.First().beginTime.ToString(@"hh\:mm");
+                var endTimeString = reservationsToDelete.First().endTime.ToString(@"hh\:mm");
 
-                var result = MessageBox.Show($"Weet u zeker dat u wedstrijdreservering {batchReservationId} op {reservationdate} van {beginTimeString} uur tot {endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+                var result = MessageBox.Show($"Weet u zeker dat u wedstrijdreservering {batchReservationId} op {reservationDate} van {beginTimeString} uur tot {endTimeString} uur wilt annuleren?", "Annuleren", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
 
 
-                if(result == MessageBoxResult.Yes)
+                if (result != MessageBoxResult.Yes) return;
+                //Removes the batchReservation from the database
+                foreach (var res in reservationsToDelete)
                 {
-                    //Removes the batchreservation from the database
-                    foreach (Reservations res in ReservationsToDelete)
-                    {
-                        context.Reservations.Remove(res);
-                    }
-                    context.SaveChanges();
-
-                    //Lowers the value of all the other batchreservations above it by 1 so that the indexes stay consistent
-                    foreach (Reservations res in ReservationsToUpdate)
-                    {
-                            res.reservationBatch = res.reservationBatch - 1;
-                    }
-                    context.SaveChanges();
-                    Switcher.Switch(new BatchReservationScreen(FullName, AccessLevel, MemberId));
+                    context.Reservations.Remove(res);
                 }
-                
+                context.SaveChanges();
+
+                //Lowers the value of all the other batchReservations above it by 1 so that the indexes stay consistent
+                foreach (var res in reservationsToUpdate)
+                {
+                    res.reservationBatch = res.reservationBatch - 1;
+                }
+                context.SaveChanges();
+                Switcher.Switch(new BatchReservationScreen(FullName, AccessLevel, MemberId));
+
             }
         }
 
         private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scroll = (ScrollViewer)sender;
+            var scroll = (ScrollViewer)sender;
             scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }
     }
 }
- 

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -22,33 +19,33 @@ namespace KBSBoot.Model
 
         }
 
-        public List<DateTime> checkMaintenancesDates(int boatId)
+        public List<DateTime> CheckMaintenanceDates(int boatId)
         {
             //this where all dates getting stored
-            List<DateTime> returningDates = new List<DateTime>();
-            DateTime DateNow = DateTime.Now.Date;
+            var returningDates = new List<DateTime>();
+            var dateNow = DateTime.Now.Date;
 
             using (var context = new BootDB())
             {
                 //getting all dates out of the database
                 var data = (from m in context.BoatInMaintenances
-                            where m.boatId == boatId && m.endDate > DateNow
+                            where m.boatId == boatId && m.endDate > dateNow
                             select new
                             {
                                 beginDate = m.startDate,
                                 endDate = m.endDate
                             });
-                foreach(var AllDates in data)
+                foreach(var allDates in data)
                 {
                     //to make sure the begindate and enddate are DateTimes
-                    DateTime beginDate = (DateTime) AllDates.beginDate;
-                    DateTime endDate = (DateTime) AllDates.endDate;
+                    var beginDate = (DateTime) allDates.beginDate;
+                    var endDate = (DateTime) allDates.endDate;
                     //difference in days between the begin and enddate maintenance
-                    int difference = (endDate - beginDate).Days;
-                    for (int i = 0; i <= difference; i++)
+                    var difference = (endDate - beginDate).Days;
+                    for (var i = 0; i <= difference; i++)
                     {
                         //check if the date is today or later
-                        if (beginDate.AddDays(i) >= DateNow)
+                        if (beginDate.AddDays(i) >= dateNow)
                         {
                             //adding date to list
                             returningDates.Add(beginDate.AddDays(i));
@@ -57,7 +54,6 @@ namespace KBSBoot.Model
                 }
             }
             return returningDates;
-
         }
     }
 }

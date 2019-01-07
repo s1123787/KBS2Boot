@@ -13,7 +13,7 @@ namespace UnitTestsKBSBoot
 
 
         [Test]
-        public void OnLoginButtonIsPressed_MemberLogedInCorrect_ReturnTrue()
+        public void OnLoginButtonIsPressed_MemberLoggedInCorrect_ReturnTrue()
         {
             //Arrange
             Member m = new Member();
@@ -46,7 +46,7 @@ namespace UnitTestsKBSBoot
         }
 
         [Test]
-        public void OnLoginButtonIsPressed_AdminLogedInCorrect_ReturnTest()
+        public void OnLoginButtonIsPressed_AdminLoggedInCorrect_ReturnTest()
         {
             //Arrange
             Member m = new Member();
@@ -79,7 +79,7 @@ namespace UnitTestsKBSBoot
         }       
 
         [Test]
-        public void OnLoginButtonIsPressed_MaterialCommissionerLogedInCorrect_ReturnTrue()
+        public void OnLoginButtonIsPressed_MaterialCommissionerLoggedInCorrect_ReturnTrue()
         {
             //Arrange
             Member m = new Member();
@@ -112,7 +112,7 @@ namespace UnitTestsKBSBoot
         }
 
         [Test]
-        public void OnLoginButtonIsPressed_MatchCommissionerLogedInCorrect_ReturnTrue()
+        public void OnLoginButtonIsPressed_MatchCommissionerLoggedInCorrect_ReturnTrue()
         {
             //Arrange
             Member m = new Member();
@@ -223,7 +223,7 @@ namespace UnitTestsKBSBoot
         }
 
         [Test]
-        public void OnLoginButtonIsPressed_UserSubscribtionExpired_ReturnFalse()
+        public void OnLoginButtonIsPressed_UserSubscriptionExpired_ReturnFalse()
         {
             //Arrange
             Member m = new Member();

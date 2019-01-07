@@ -15,33 +15,34 @@ namespace KBSBoot.View
     /// </summary>
     public partial class ReportDamage : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int BoatId;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int BoatId;
+        private readonly int MemberId;
+
         public enum Page
         {
             BatchReservationScreen,
             ReservationsScreen
         };
-        public static Page getPage;
+        public static Page GetPage;
 
-        public Image SelectedImageForConversion;
+        private Image SelectedImageForConversion;
 
         //Constructor for ReportDamage class
-        public ReportDamage(string FullName, int boatId, int AccessLevel, int MemberId)
+        public ReportDamage(string fullName, int boatId, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.BoatId = boatId;
-            this.MemberId = MemberId;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            BoatId = boatId;
+            MemberId = memberId;
             InitializeComponent();
         }
 
         //Method to execute when AddUser button is clicked
         private void ReportDamageButton_Click(object sender, RoutedEventArgs e)
         {
-            //Save textbox content to variables for easy access
+            //Save textBox content to variables for easy access
             var damageLevel = DamageLevel.SelectedIndex + 1; //Add 1 because combobox index start at 0 and values in database vary from 1 to 3
             var location = LocationBox.Text;
             var reason = ReasonBox.Text;
@@ -52,8 +53,8 @@ namespace KBSBoot.View
                 try
                 {
                     //Convert image to blob
-                    var SelectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
-                    string SelectedImageInput = SelectedImageString;
+                    var selectedImageString = BoatImages.ImageToBase64(SelectedImageForConversion, System.Drawing.Imaging.ImageFormat.Png);
+                    var selectedImageInput = selectedImageString;
 
                     //Create new report to add to the DB
                     var boatDamage = new BoatDamage
@@ -64,11 +65,11 @@ namespace KBSBoot.View
                         boatDamageLocation = location,
                         boatDamageReason = reason,
                         reportDate = DateTime.Now,
-                        boatImageBlob = SelectedImageInput
+                        boatImageBlob = selectedImageInput
                     };
 
                     //Add report to database
-                    BoatDamage.AddReportToDB(boatDamage);
+                    BoatDamage.AddReportToDb(boatDamage);
                     
                     MessageBox.Show("Schade melding is succesvol toegevoegd.", "Melding toegevoegd", MessageBoxButton.OK, MessageBoxImage.Information);
                     switch (AccessLevel)
@@ -103,22 +104,17 @@ namespace KBSBoot.View
 
         private void ImageSelect_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
-            op.Title = "Kies een afbeelding";
-            op.Filter = "PNG| *.png";
+            var op = new OpenFileDialog
+            {
+                Title = "Kies een afbeelding",
+                Filter = "PNG| *.png"
+            };
 
             //Shows a preview for the selected image
-            if (op.ShowDialog() == true)
-            {
-                SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
-                ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
-                SelectedImageForConversion = System.Drawing.Image.FromFile(op.FileName);
-            }
-        }
-
-        public void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            if (op.ShowDialog() != true) return;
+            SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
+            ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
+            SelectedImageForConversion = Image.FromFile(op.FileName);
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)
@@ -165,12 +161,12 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
         {
-            switch (getPage)
+            switch (GetPage)
             {
                 case Page.BatchReservationScreen:
                     Switcher.Switch(new BatchReservationScreen(FullName, AccessLevel, MemberId));
@@ -183,7 +179,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
     }
 }

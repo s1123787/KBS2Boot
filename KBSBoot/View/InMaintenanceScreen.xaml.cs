@@ -1,19 +1,9 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -22,39 +12,39 @@ namespace KBSBoot.View
     /// </summary>
     public partial class InMaintenanceScreen : UserControl
     {
-        private int BoatID;
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        public DateTime selectedDateFrom;
-        public DateTime selectedDateUntill;
-        private string boatName;
+        private readonly int BoatID;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private DateTime SelectedDateFrom;
+        private DateTime SelectedDateUntil;
+        private string BoatName;
 
 
-        public InMaintenanceScreen(string FullName, int AccessLevel, int BoatId, int MemberId)
+        public InMaintenanceScreen(string fullName, int accessLevel, int boatId, int memberId)
         {
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
-            this.BoatID = BoatId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
+            BoatID = boatId;
             InitializeComponent();
         }
 
-        private void DatePickerUntill_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void DatePickerUntil_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            //check if untill date is before start date, then clear untill date
-            if(DatePickerUntill.SelectedDate <= DatePicker.SelectedDate)
-                DatePickerUntill.SelectedDate = null;
+            //check if until date is before start date, then clear until date
+            if(DatePickerUntil.SelectedDate <= DatePicker.SelectedDate)
+                DatePickerUntil.SelectedDate = null;
 
             //datepicker starts from today
-            selectedDateFrom = DatePicker.SelectedDate.Value;
-            DatePickerUntill.DisplayDateStart = selectedDateFrom;
-            DatePickerUntill.IsEnabled = true;
+            SelectedDateFrom = DatePicker.SelectedDate.Value;
+            DatePickerUntil.DisplayDateStart = SelectedDateFrom;
+            DatePickerUntil.IsEnabled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)
@@ -110,8 +100,8 @@ namespace KBSBoot.View
 
         private void SetBoatDetailsOnView()
         {
-            string boatName = "";
-            string boatDescr = "";
+            var boatName = "";
+            var boatDescription = "";
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -128,18 +118,18 @@ namespace KBSBoot.View
                 foreach (var b in tableData)
                 {
                     boatName = b.boatName;
-                    boatDescr = b.boatTypeDescription;
+                    boatDescription = b.boatTypeDescription;
                 }
             }
 
-            this.boatName = boatName;
+            BoatName = boatName;
             boatIdLabel.Content = boatName;
-            boatDescrLabel.Content = boatDescr;
+            boatDescrLabel.Content = boatDescription;
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
@@ -149,14 +139,14 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
         
         private void InMaintenance_Click(object sender, RoutedEventArgs e)
         {
-            bool valid = true;
-            DateTime? from = DatePicker.SelectedDate;
-            DateTime? untill = DatePickerUntill.SelectedDate;
+            var valid = true;
+            var from = DatePicker.SelectedDate;
+            var until = DatePickerUntil.SelectedDate;
             
             //start date is not empty
             if (from == null)
@@ -164,12 +154,12 @@ namespace KBSBoot.View
                 valid = false;
                 MessageBox.Show("Vult u de start datum in.");
             }
-            else if (untill == null) //end date is not empty
+            else if (until == null) //end date is not empty
             {
                 valid = false;
                 MessageBox.Show("Vult u de eind datum in.");
             }
-            else if (from > untill) //startdate > enddates
+            else if (from > until) //startDate > endDates
             {
                 valid = false;
                 MessageBox.Show("Start datum mag niet voorbij eind datum zijn.");
@@ -178,55 +168,48 @@ namespace KBSBoot.View
             
 
             //save to boatMaintenance
-            if (valid == true)
+            if (!valid) return;
+            int insertId;
+
+            //set endDate time to 23:59:59 from day
+            var now = (DateTime) until;
+            var newUntil = now.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
+            using (var context = new BootDB())
             {
-                int insertId;
-
-                //set enddate time to 23:59:59 from day
-                DateTime nu = (DateTime) untill;
-                DateTime newUntill = nu.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-
-                using (var context = new BootDB())
+                var inmain = new BoatInMaintenances()
                 {
-                    var inmain = new BoatInMaintenances()
-                    {
-                        boatId = this.BoatID,
-                        startDate = from,
-                        endDate = newUntill
-                    };
+                    boatId = this.BoatID,
+                    startDate = @from,
+                    endDate = newUntil
+                };
 
-                    //save to boat in maintenances
-                    context.BoatInMaintenances.Add(inmain);
-                    context.SaveChanges();
+                //save to boat in maintenances
+                context.BoatInMaintenances.Add(inmain);
+                context.SaveChanges();
 
-                    insertId = inmain.boatInMaintenanceId;
+                insertId = inmain.boatInMaintenanceId;
 
-                    //find reservation id
-                    int reservId;
-                    var query = context.Reservations
-                       .Where(x => x.memberId == MemberId && x.date >= from && x.date <= newUntill)
-                       .FirstOrDefault<Reservations>();
+                //find reservation id
+                int reservId;
+                var query = context.Reservations
+                    .FirstOrDefault(x => x.memberId == MemberId && x.date >= @from && x.date <= newUntil);
 
-                    if(query != null)
-                    { 
-                        reservId = query.reservationId;
+                if(query != null)
+                { 
+                    reservId = query.reservationId;
                     
-                        //remove records from reservations
-                        context.Reservations.RemoveRange(context.Reservations.Where(x => x.reservationId == reservId && x.memberId == MemberId));
+                    //remove records from reservations
+                    context.Reservations.RemoveRange(context.Reservations.Where(x => x.reservationId == reservId && x.memberId == MemberId));
 
-                        //remove records from Resevervation_boats
-                        context.Reservation_Boats.RemoveRange(context.Reservation_Boats.Where(x => x.reservationId == reservId));
-                        context.SaveChanges();
-                    }
+                    //remove records from Resevervation_boats
+                    context.Reservation_Boats.RemoveRange(context.Reservation_Boats.Where(x => x.reservationId == reservId));
+                    context.SaveChanges();
                 }
-
-                
-
-                MessageBox.Show($"Boot \"{this.boatName}\" is in onderhoud genomen van {from?.ToString("dd-MM-yyyy")} t/m {untill?.ToString("dd-MM-yyyy")}.");
-                Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
             }
-            
+            MessageBox.Show($"Boot \"{BoatName}\" is in onderhoud genomen van {@from?.ToString("dd-MM-yyyy")} t/m {until?.ToString("dd-MM-yyyy")}.");
+            Switcher.Switch(new DamageReportsScreen(FullName, AccessLevel, MemberId));
         }
     }
 }

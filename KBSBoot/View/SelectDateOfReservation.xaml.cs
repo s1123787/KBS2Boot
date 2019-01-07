@@ -1,21 +1,9 @@
 ﻿using KBSBoot.DAL;
-using KBSBoot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using RestSharp;
 using KBSBoot.Model;
 
 namespace KBSBoot.View
@@ -25,63 +13,52 @@ namespace KBSBoot.View
     /// </summary>
     public partial class SelectDateOfReservation : UserControl
     {
-        public int boatId;
-        private string boatName;
-        private string boatTypeDescription;
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        public List<DateTime> dates = new List<DateTime>();
-        public List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
-        public List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
-        public int x = 300;
-        public TimeSpan sunUp;
-        public TimeSpan sunDown;
-        public DateTime selectedDate;
-        public TimeSpan selectedBeginTime;
-        public TimeSpan selectedEndTime;
-        public bool valid = false;
-        public Reservations reservation;
+        private readonly int BoatId;
+        private readonly string boatName;
+        private readonly string BoatTypeDescription;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private List<DateTime> Dates = new List<DateTime>();
+        private readonly List<TimeSpan> BeginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
+        private readonly List<TimeSpan> EndTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
+        private int x = 300;
+        private TimeSpan SunUp;
+        private TimeSpan SunDown;
+        private DateTime SelectedDate;
+        private TimeSpan SelectedBeginTime;
+        private TimeSpan SelectedEndTime;
+        private bool Valid = false;
+        private readonly Reservations Reservation;
         public static DateTime SelectedDateTime;
-        public enum PreviousScreen {BoatOverview, ReservationsScreen, SelectBoatScreen};
+        public enum PreviousScreen
+        {
+            BoatOverview,
+            ReservationsScreen,
+            SelectBoatScreen
+        };
         public static PreviousScreen Screen;
 
-
-        public SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int AccessLevel, string FullName, int MemberId)
+        public SelectDateOfReservation(int boatId, string boatName, string boatTypeDescription, int accessLevel, string fullName, int memberId)
         {
-            this.boatId = boatId;
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
+            BoatId = boatId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
             this.boatName = boatName;
-            this.boatTypeDescription = boatTypeDescription;
+            BoatTypeDescription = boatTypeDescription;
             InitializeComponent();
 
             //datepicker starts from today
             DatePicker.DisplayDateStart = DateTime.Today;
             //only possible to select dates 2 weeks from now
             DatePicker.DisplayDateEnd = DateTime.Now.AddDays(14);
-            reservation = new Reservations();
+            Reservation = new Reservations();
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
@@ -102,15 +79,14 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
-
             //show the boat information
             BoatName.Content = $"  {boatName}";
-            BoatDescription.Content = $" {boatTypeDescription}";
+            BoatDescription.Content = $" {BoatTypeDescription}";
             if (AccessLevel == 1)
             {
                 AccessLevelButton.Content = "Lid";
@@ -128,30 +104,29 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
            
-            //check which dates are not possible to reservate
-            dates = reservation.checkDates(boatId);
+            //check which dates are not possible to reserve
+            Dates = Reservation.CheckDates(BoatId);
 
-            //getting dates when boat is in maintances
-            BoatInMaintenances bm = new BoatInMaintenances();
-            List<DateTime> maintancesDates = bm.checkMaintenancesDates(boatId);
+            //getting dates when boat is in maintenance
+            var bm = new BoatInMaintenances();
+            var maintancesDates = bm.CheckMaintenanceDates(BoatId);
             foreach(var d in maintancesDates)
             {
                 //adding dates to list
-                dates.Add(d);
+                Dates.Add(d);
             }
-            
 
-            foreach (var date in dates)
+            foreach (var date in Dates)
             {
-                //disable the dates that are not possible to reservate
+                //disable the dates that are not possible to reserve
                 DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
             }
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            beginTime.Clear();
-            endTime.Clear();
+            BeginTime.Clear();
+            EndTime.Clear();
 
             //reservation button is visible
             ReservationButton.Visibility = Visibility.Visible;            
@@ -160,30 +135,30 @@ namespace KBSBoot.View
             //clear all data in mainstackpanel where the reservations where stored
             mainStackPanel.Children.Clear();
 
-            StackPanel sp1 = new StackPanel();
-            TextBlock tb = new TextBlock();
+            var sp1 = new StackPanel();
+            var tb = new TextBlock();
             tb.Text = "Dit zijn de reservering die die dag al zijn geplaatst";
             tb.FontSize = 16;
             sp1.Children.Add(tb);
             mainStackPanel.Children.Add(sp1);
 
             //getting the selected date
-            selectedDate = DatePicker.SelectedDate.Value;
+            SelectedDate = DatePicker.SelectedDate.Value;
 
-            //make the timepicker visible
+            //make the timePicker visible
             TimePicker.Visibility = Visibility.Visible;
 
             //getting the information when sun is coming up and is going down
             SelectedDateTime = DatePicker.SelectedDate.Value;
-            var SunInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
+            var sunInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
 
-            var DateSunUp = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunrise));
-            var DateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(SunInfo.results.sunset));
+            var dateSunUp = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(sunInfo.results.sunrise));
+            var dateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(sunInfo.results.sunset));
 
-            InformationSun.Content = $"Er kan van {DateSunUp.ToString(@"HH\:mm")} tot {DateSunDown.ToString(@"HH\:mm")} worden gereserveerd";
+            InformationSun.Content = $"Er kan van {dateSunUp.ToString(@"HH\:mm")} tot {dateSunDown.ToString(@"HH\:mm")} worden gereserveerd";
             ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
-            sunUp = DateSunUp.TimeOfDay;
-            sunDown = DateSunDown.TimeOfDay;
+            SunUp = dateSunUp.TimeOfDay;
+            SunDown = dateSunDown.TimeOfDay;
 
             using (var context = new BootDB())
             {
@@ -194,25 +169,27 @@ namespace KBSBoot.View
                              on b.boatId equals rb.boatId
                              join r in context.Reservations
                              on rb.reservationId equals r.reservationId
-                             where b.boatId == boatId && r.date == selectedDate
+                             where b.boatId == BoatId && r.date == SelectedDate
                              select new
                              {
                                  beginTime = r.beginTime,
                                  endTime = r.endTime,
                              });
-                bool dateTrue = false;
+                var dateTrue = false;
 
                 //adding all reservations for selected date to screen
                 foreach (var d1 in data1)
                 {
-                    beginTime.Add(d1.beginTime);
-                    endTime.Add(d1.endTime);
-                    StackPanel sp = new StackPanel();
-                    Label l = new Label();
-                    l.Content = $"- van {d1.beginTime.ToString(@"hh\:mm")} tot {d1.endTime.ToString(@"hh\:mm")}";
-                    l.Width = 400;
-                    l.Height = 40;
-                    l.FontSize = 14;
+                    BeginTime.Add(d1.beginTime);
+                    EndTime.Add(d1.endTime);
+                    var sp = new StackPanel();
+                    var l = new Label
+                    {
+                        Content = $"- van {d1.beginTime.ToString(@"hh\:mm")} tot {d1.endTime.ToString(@"hh\:mm")}",
+                        Width = 400,
+                        Height = 40,
+                        FontSize = 14
+                    };
                     sp.Children.Add(l);
                     mainStackPanel.Children.Add(sp);
                     dateTrue = true;
@@ -221,12 +198,14 @@ namespace KBSBoot.View
                 //this will be executed when there are no reservation for selected date
                 if (dateTrue == false)
                 {
-                    StackPanel sp = new StackPanel();
-                    Label l = new Label();
-                    l.Content = $"Er zijn nog geen reserveringen";
+                    var sp = new StackPanel();
+                    var l = new Label
+                    {
+                        Content = $"Er zijn nog geen reserveringen",
+                        Width = 400,
+                        FontSize = 14
+                    };
 
-                    l.Width = 400;
-                    l.FontSize = 14;
                     sp.Children.Add(l);
                     mainStackPanel.Children.Add(sp);
                     dateTrue = true;
@@ -239,15 +218,15 @@ namespace KBSBoot.View
             //getting the selected begin and end time
             try
             {
-                selectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
-                selectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
+                SelectedBeginTime = (beginTimePicker.SelectedTime.Value).TimeOfDay;
+                SelectedEndTime = (endTimePicker.SelectedTime.Value).TimeOfDay;
             } catch (Exception)
             {
                 ErrorLabel.Content = "Geen geldige invoer";
                 return;
             }
             //check if selected times are possible
-            var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+            var check = Reservation.CheckTime(SelectedBeginTime, SelectedEndTime, BeginTime, EndTime, SunUp, SunDown);
             //this will be executed when the selected times are not correct
             if (!check)
             {
@@ -260,9 +239,9 @@ namespace KBSBoot.View
                     var reservation = new Reservations
                     {
                         memberId = MemberId,
-                        date = selectedDate,
-                        beginTime = selectedBeginTime,
-                        endTime = selectedEndTime,
+                        date = SelectedDate,
+                        beginTime = SelectedBeginTime,
+                        endTime = SelectedEndTime,
                     };
 
                     context.Reservations.Add(reservation);
@@ -278,7 +257,7 @@ namespace KBSBoot.View
                     var reservation_boat = new Reservation_Boats
                     {
                         reservationId = id,
-                        boatId = boatId
+                        boatId = BoatId
                     };
 
                     context.Reservation_Boats.Add(reservation_boat);
@@ -290,6 +269,5 @@ namespace KBSBoot.View
                 Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
             }
         }
-        
     }
 }

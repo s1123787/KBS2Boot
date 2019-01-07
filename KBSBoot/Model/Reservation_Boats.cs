@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -24,8 +19,6 @@ namespace KBSBoot.Model
             this.boatId = boatId;
         }
 
-        public Reservation_Boats()
-        {
-        }
+        public Reservation_Boats() {}
     }
 }

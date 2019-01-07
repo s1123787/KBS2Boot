@@ -2,20 +2,10 @@ using KBSBoot.DAL;
 using KBSBoot.Model;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -24,22 +14,21 @@ namespace KBSBoot.View
     /// </summary>
     public partial class boatOverviewScreen : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
         private bool FilterEnabled = false;
-        private string boatname;
-        private int boatseat;
-        private int boatlevel;
-        public int MemberId;
-        public int MemberRowlevel;
-        public string MemberRowlevelDescription;
+        private string BoatName;
+        private int BoatSeat;
+        private int BoatLevel;
+        private int MemberRowLevel;
+        private string MemberRowLevelDescription;
 
-
-        public boatOverviewScreen(string FullName, int AccessLevel, int MemberId)
+        public boatOverviewScreen(string fullName, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
             InitializeComponent();
             BoatList.ItemsSource = LoadCollectionData();
             Boatseats.ItemsSource = LoadBoatSeatsSelection();
@@ -48,20 +37,20 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         //Enable scrolling on ListView
-        private void MemberList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void BoatList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scroll = (ScrollViewer)sender;
+            var scroll = (ScrollViewer)sender;
             scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }
 
         private List<Boat> LoadCollectionData()
         {
-            List<Boat> boats = new List<Boat>();
+            var boats = new List<Boat>();
 
             // Retrieve Boat data from database
             using (var context = new BootDB())
@@ -87,7 +76,7 @@ namespace KBSBoot.View
                 foreach (var b in tableData)
                 {
                     // Add boat to boats list
-                    Boat boat = new Boat()
+                    var boat = new Boat()
                     {
                         boatId = b.boatId,
                         boatTypeName = b.boatTypeName,
@@ -101,20 +90,20 @@ namespace KBSBoot.View
                     {
                         if (Boatnames.SelectedItem != null)
                         {
-                            if (b.boatTypeName != boatname)
+                            if (b.boatTypeName != BoatName)
                             {
                                 continue;
                             }
                         }
                         if (Boatseats.SelectedItem != null)
                         {
-                            if (b.boatAmountSpaces != boatseat)
+                            if (b.boatAmountSpaces != BoatSeat)
                             {
                                 continue;
                             }
                         }
                         if(Boatlevels.SelectedItem != null) {
-                            if(b.boatRowLevel != boatlevel)
+                            if(b.boatRowLevel != BoatLevel)
                             {
                                 continue;
                             }
@@ -131,11 +120,11 @@ namespace KBSBoot.View
             }
         }
 
-        private List<BoatTypes> LoadBoatNamesSelection()
+        private static List<BoatTypes> LoadBoatNamesSelection()
         {
             try
             {
-                List<BoatTypes> boatnames = new List<BoatTypes>();
+                var boatNames = new List<BoatTypes>();
                 using (var context = new BootDB())
                 {
                     var tableData = (from b in context.Boats
@@ -148,16 +137,16 @@ namespace KBSBoot.View
                     //Fills list with all the typename options
                     foreach (var b in tableData)
                     {
-                        boatnames.Add(new BoatTypes()
+                        boatNames.Add(new BoatTypes()
                         {
                             boatTypeName = b.boatNames
                         });
                     }
                 }
-                List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+
                 //Removes duplicates from list
-                DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
-                return DistinctBoatSeats;
+                var distinctBoatSeats = boatNames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+                return distinctBoatSeats;
             }
             catch (Exception ex)
             {
@@ -167,11 +156,11 @@ namespace KBSBoot.View
             }
         }
         
-        private List<BoatTypes> LoadBoatSeatsSelection()
+        private static List<BoatTypes> LoadBoatSeatsSelection()
         {
             try
             {
-                List<BoatTypes> boatseats = new List<BoatTypes>();
+                var boatSeats = new List<BoatTypes>();
                 using (var context = new BootDB())
                 {
                     var tableData = (from b in context.Boats
@@ -184,16 +173,16 @@ namespace KBSBoot.View
                     //Fills list with all the seat options
                     foreach (var b in tableData)
                     {
-                        boatseats.Add(new BoatTypes()
+                        boatSeats.Add(new BoatTypes()
                         {
                             boatAmountSpaces = b.boatAmountSpaces
                         });
                     }
                 }
-                List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
+
                 //Removes duplicates from list
-                DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
-                return DistinctBoatSeats;
+                var distinctBoatSeats = boatSeats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
+                return distinctBoatSeats;
             }
             catch (Exception ex)
             {
@@ -207,9 +196,9 @@ namespace KBSBoot.View
         private void ViewBoat_Click(object sender, RoutedEventArgs e)
         {
             // Get current boat from click row
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            var boat = ((FrameworkElement)sender).DataContext as Boat;
 
-            // Switch screen to detailpage on click
+            // Switch screen to detail page on click
             if (AccessLevel == 3)
             {
                 Switcher.Switch(new BoatDetailMaterialCommissioner(FullName, AccessLevel, boat.boatId, MemberId));
@@ -222,10 +211,9 @@ namespace KBSBoot.View
         //Go to reservation screen
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
-   
-                // Get current boat from click row
-                Boat boat = ((FrameworkElement)sender).DataContext as Boat;
-            if (boat.RowLevel <= MemberRowlevel)
+            // Get current boat from click row
+            var boat = ((FrameworkElement)sender).DataContext as Boat;
+            if (boat.RowLevel <= MemberRowLevel)
             {
                 if (Reservations.CheckAmountReservations(MemberId) < 2)
                 {
@@ -247,26 +235,14 @@ namespace KBSBoot.View
 
         private void EditBoat_Click(object sender, RoutedEventArgs e)
         {
-            //Carry selected boatdata over to new screen
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            //Carry selected boat data over to new screen
+            var boat = ((FrameworkElement)sender).DataContext as Boat;
             Switcher.Switch(new EditBoatMaterialCommissioner(FullName, AccessLevel, MemberId, boat.boatId));
         }
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            switch(AccessLevel)
-            {
-                case 1:
-                    Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-                    break;
-                case 2:
-                    Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-                    break;
-                case 3:
-                    Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-                    break;
-            }
-            
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void DidLoaded(object sender, RoutedEventArgs e)
@@ -284,7 +260,7 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Materiaalcommissaris";
 
                 //Edit button in overview
-                GridViewColumn myGridViewColumn = BoatList.TryFindResource("gridViewColumnResource") as GridViewColumn;
+                var myGridViewColumn = BoatList.TryFindResource("gridViewColumnResource") as GridViewColumn;
                 BoatGridView.Columns.Add(myGridViewColumn);
             }
             else if (AccessLevel == 4)
@@ -292,25 +268,25 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
-            //get rowlevel from member
+            //get rowLevel from member
             using (var context = new BootDB())
             {
                 var data = (from m in context.Members
                             where m.memberId == MemberId
                             select m.memberRowLevelId).First();
-                MemberRowlevel = data;
+                MemberRowLevel = data;
 
                 var desc = (from r in context.Rowlevel
-                            where r.rowLevelId == MemberRowlevel
+                            where r.rowLevelId == MemberRowLevel
                             select r.description).First();
-                MemberRowlevelDescription = desc;
+                MemberRowLevelDescription = desc;
             }
 
             //set label content
-            RowLevelNameLabel.Content = $"Roeiniveau: {MemberRowlevelDescription}";
+            RowLevelNameLabel.Content = $"Roeiniveau: {MemberRowLevelDescription}";
         }
 
-        private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
+        private void FilterSelection_Click(object sender, RoutedEventArgs e)
         {
             //Reload the screen
             FilterEnabled = true;
@@ -322,7 +298,7 @@ namespace KBSBoot.View
             //Reload the screen
             FilterEnabled = false;
             BoatList.ItemsSource = LoadCollectionData();
-            //Resets the filteroptions
+            //Resets the filter options
             Boatseats.IsEnabled = true;
             Boatnames.IsEnabled = true;
             Boatlevels.IsEnabled = true;
@@ -332,34 +308,28 @@ namespace KBSBoot.View
             NoBoatsLabel.Visibility = Visibility.Hidden;
         }
 
-        private void Boatnames_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BoatNames_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Boatnames.SelectedItem != null)
-            {
-                //Put chosen option in variable
-                boatname = Boatnames.SelectedItem.ToString();
-                Boatseats.IsEnabled = false;
-                Boatlevels.IsEnabled = false;
-            }
+            if (Boatnames.SelectedItem == null) return;
+            //Put chosen option in variable
+            BoatName = Boatnames.SelectedItem.ToString();
+            Boatseats.IsEnabled = false;
+            Boatlevels.IsEnabled = false;
         }
-        private void Boatseats_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BoatSeats_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Boatseats.SelectedItem != null)
-            {
-                //Put chosen option in variable
-                boatseat = Int32.Parse(Boatseats.SelectedItem.ToString());
-                Boatnames.IsEnabled = false;
-            }
+            if (Boatseats.SelectedItem == null) return;
+            //Put chosen option in variable
+            BoatSeat = int.Parse(Boatseats.SelectedItem.ToString());
+            Boatnames.IsEnabled = false;
         }
 
-        private void Boatlevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BoatLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Boatlevels.SelectedItem != null)
-            {
-                //Put chosen option in variable, plus 1 because index starts at 0 while levels start at 1
-                boatlevel = (Boatlevels.SelectedIndex + 1);
-                Boatnames.IsEnabled = false;
-            }
+            if (Boatlevels.SelectedItem == null) return;
+            //Put chosen option in variable, plus 1 because index starts at 0 while levels start at 1
+            BoatLevel = (Boatlevels.SelectedIndex + 1);
+            Boatnames.IsEnabled = false;
         }
     }
 }
