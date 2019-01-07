@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace KBSBoot.View
 {
@@ -89,6 +90,7 @@ namespace KBSBoot.View
         {
             //Reload the screen
             FilterEnabled = true;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
             LoadBoats();
         }
 
@@ -96,6 +98,7 @@ namespace KBSBoot.View
         {
             //Reload the screen
             FilterEnabled = false;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
             LoadBoats();
             //Resets the filter options
             Boatseats.IsEnabled = true;
@@ -104,7 +107,6 @@ namespace KBSBoot.View
             Boatnames.SelectedItem = null;
             Boatseats.SelectedItem = null;
             Boatlevels.SelectedItem = null;
-            NoBoatsLabel.Visibility = Visibility.Hidden;
         }
 
         private void BoatNames_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -277,6 +279,12 @@ namespace KBSBoot.View
             SelectDateOfReservation.Screen = SelectDateOfReservation.PreviousScreen.SelectBoatScreen;
             Switcher.Switch(new SelectDateOfReservation(boat.boatId, boat.boatName, boat.boatTypeDescription, AccessLevel, FullName, MemberId));
         }
-       
+
+        private void BoatList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
+        }
     }
 }

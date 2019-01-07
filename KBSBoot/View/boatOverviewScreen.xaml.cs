@@ -290,6 +290,7 @@ namespace KBSBoot.View
         {
             //Reload the screen
             FilterEnabled = true;
+            NoBoatsLabel.Visibility = Visibility.Hidden;
             BoatList.ItemsSource = LoadCollectionData();
         }
 
