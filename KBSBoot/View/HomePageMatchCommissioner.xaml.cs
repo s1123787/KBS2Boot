@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -20,31 +8,26 @@ namespace KBSBoot.View
     /// </summary>
     public partial class HomePageMatchCommissioner : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
 
-        public HomePageMatchCommissioner(string FullName, int AccessLevel, int MemberId)
+        public HomePageMatchCommissioner(string fullName, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
             InitializeComponent();
         }
 
-        private void ViewDidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             FullNameLabel.Text = $"Welkom {FullName}";
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
-        }
-
-        private void PlaceReservationMultipleBoats_Click(object sender, RoutedEventArgs e)
-        {
-
+            Switcher.Logout();
         }
 
         private void Boats_Click(object sender, RoutedEventArgs e)

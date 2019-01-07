@@ -28,7 +28,7 @@
         <Label Content="Bootomschrijving" FontSize="16" x:Name="boatDescrLabel" HorizontalAlignment="Left" Margin="219,197,0,0" VerticalAlignment="Top"/>
         <Label Content="Van" FontSize="12" HorizontalAlignment="Left" Margin="219,255,0,0" VerticalAlignment="Top"/>
         <DatePicker x:Name="DatePicker" HorizontalAlignment="Left" Margin="219,286,0,0" VerticalAlignment="Top" Width="300" FontSize="16" Height="30" materialDesign:HintAssist.Hint="Kies een datum" SelectedDateChanged="DatePicker_SelectedDateChanged" />
-        <DatePicker IsEnabled="False" x:Name="DatePickerUntill" HorizontalAlignment="Left" Margin="546,286,0,0" VerticalAlignment="Top" Width="300" FontSize="16" Height="30" materialDesign:HintAssist.Hint="Kies een datum" SelectedDateChanged="DatePickerUntill_SelectedDateChanged" />
+        <DatePicker IsEnabled="False" x:Name="DatePickerUntil" HorizontalAlignment="Left" Margin="546,286,0,0" VerticalAlignment="Top" Width="300" FontSize="16" Height="30" materialDesign:HintAssist.Hint="Kies een datum" SelectedDateChanged="DatePickerUntil_SelectedDateChanged" />
         <Button Content="In onderhoud nemen" HorizontalAlignment="Left" Margin="674,531,0,0" VerticalAlignment="Top" Width="172" Click="InMaintenance_Click"/>
         <Label Content="Tot" FontSize="12" HorizontalAlignment="Left" Margin="546,255,0,0" VerticalAlignment="Top"/>
         <Label Content="Let op: alle reserveringen worden verwijderd tussen de geselecteerde datums." HorizontalAlignment="Left" Margin="219,402,0,0" VerticalAlignment="Top"/>

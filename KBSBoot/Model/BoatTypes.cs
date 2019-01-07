@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -27,13 +22,8 @@ namespace KBSBoot.Model
             if(boatAmountSpaces != 0)
             {
                 return boatAmountSpaces.ToString();
-            } else if (boatTypeName != null)
-            {
-                return boatTypeName;
-            } else
-            {
-                return base.ToString();
             }
+            return boatTypeName ?? base.ToString();
         }
     }
 }

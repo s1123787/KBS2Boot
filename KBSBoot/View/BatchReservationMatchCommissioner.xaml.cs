@@ -1,23 +1,12 @@
 ﻿using KBSBoot.DAL;
-using KBSBoot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
-using RestSharp;
 using KBSBoot.Model;
-using System.Data;
 
 namespace KBSBoot.View
 {
@@ -26,31 +15,31 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BatchReservationMatchCommissioner : UserControl
     {
-        public List<Boat> SelectionList;
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
-        public List<DateTime> dates = new List<DateTime>();
-        public List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
-        public List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
-        public int x = 300;
-        public TimeSpan sunUp;
-        public TimeSpan sunDown;
-        public DateTime selectedDate;
-        public TimeSpan selectedBeginTime;
-        public TimeSpan selectedEndTime;
-        public bool valid = false;
-        public Reservations reservation;
-        public static DateTime SelectedDateTime;
-        public int BatchCount;
+        private readonly List<Boat> SelectionList;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
+        private List<DateTime> dates = new List<DateTime>();
+        private readonly List<TimeSpan> beginTime = new List<TimeSpan>(); //the begin times of the reservations of the selected date
+        private readonly List<TimeSpan> endTime = new List<TimeSpan>(); // the end times of the reservations of the selected date
+        private int x = 300;
+        private TimeSpan sunUp;
+        private TimeSpan sunDown;
+        private DateTime selectedDate;
+        private TimeSpan selectedBeginTime;
+        private TimeSpan selectedEndTime;
+        private bool valid = false;
+        private readonly Reservations reservation;
+        private static DateTime SelectedDateTime;
+        private int BatchCount;
 
 
-        public BatchReservationMatchCommissioner(List<Boat> SelectionList, int AccessLevel, string FullName, int MemberId)
+        public BatchReservationMatchCommissioner(List<Boat> selectionList, int accessLevel, string fullName, int memberId)
         {
-            this.SelectionList = SelectionList;
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
+            SelectionList = selectionList;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
             InitializeComponent();
 
             //datepicker starts from today
@@ -62,7 +51,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            backToHomeScreen();
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void BackToPreviousPage_Click(object sender, RoutedEventArgs e)
@@ -72,14 +61,14 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
-
             //show the boat information
             BoatAmount.Content = $"  {SelectionList.Count}";
+
             if (AccessLevel == 1)
             {
                 AccessLevelButton.Content = "Lid";
@@ -97,30 +86,27 @@ namespace KBSBoot.View
                 AccessLevelButton.Content = "Administrator";
             }
 
-
             //check which dates are not possible to reserve because of maintenance or other reservations
-            foreach(var boat in SelectionList)
+            foreach (var boat in SelectionList)
             {
-                dates = reservation.checkDates(boat.boatId);
+                dates = reservation.CheckDates(boat.boatId);
 
-                BoatInMaintenances bm = new BoatInMaintenances();
+                var bm = new BoatInMaintenances();
                 //Get dates when boat is in maintenance
-                List<DateTime> maintenancesDates = bm.checkMaintenancesDates(boat.boatId);
-                foreach (var d in maintenancesDates)
+                var maintenanceDates = bm.CheckMaintenanceDates(boat.boatId);
+                foreach (var d in maintenanceDates)
                 {
                     //adding dates to list
-                    if(!dates.Contains(d))
-                    dates.Add(d);
+                    if (!dates.Contains(d))
+                        dates.Add(d);
                 }
 
                 foreach (var date in dates)
                 {
-
                     //disable the dates that are not possible to reserve
                     DatePicker.BlackoutDates.Add(new CalendarDateRange(date));
                 }
             }
-
         }
 
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -131,13 +117,15 @@ namespace KBSBoot.View
             //reservation button is visible
             ReservationButton.Visibility = Visibility.Visible;
 
-            //clear all data in mainstackpanel where the reservations where stored
+            //clear all data in main stackPanel where the reservations where stored
             mainStackPanel.Children.Clear();
 
-            StackPanel sp1 = new StackPanel();
-            TextBlock tb = new TextBlock();
-            tb.Text = "Dit zijn de reservering die die dag al zijn geplaatst";
-            tb.FontSize = 16;
+            var sp1 = new StackPanel();
+            var tb = new TextBlock
+            {
+                Text = "Dit zijn de reservering die die dag al zijn geplaatst",
+                FontSize = 16
+            };
             sp1.Children.Add(tb);
             mainStackPanel.Children.Add(sp1);
 
@@ -149,26 +137,28 @@ namespace KBSBoot.View
 
             //getting the information when sun is coming up and is going down
             SelectedDateTime = DatePicker.SelectedDate.Value;
-            var testInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
+            var sunInfo = FindSunInfo.GetSunInfo(52.51695742, 6.08367229, SelectedDateTime);
 
-            var test1 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunrise));
-            var test2 = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(testInfo.results.sunset));
+            var sunRise = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(sunInfo.results.sunrise));
+            var sunSet = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(sunInfo.results.sunset));
 
-            InformationSun.Content = $" Er kan van {test1.TimeOfDay.ToString(@"hh\:mm")} tot {test2.TimeOfDay.ToString((@"hh\:mm"))} worden gereserveerd";
-            sunUp = test1.TimeOfDay;
-            sunDown = test2.TimeOfDay;
+            InformationSun.Content = $" Er kan van {sunRise.TimeOfDay:hh\\:mm} tot {sunSet.TimeOfDay:hh\\:mm} worden gereserveerd";
+            sunUp = sunRise.TimeOfDay;
+            sunDown = sunSet.TimeOfDay;
 
             using (var context = new BootDB())
             {
-                ScrollViewer sv = new ScrollViewer();
-                sv.Height = 250;
-                sv.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-                Thickness margin = sv.Margin;
+                var sv = new ScrollViewer
+                {
+                    Height = 250,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                };
+                var margin = sv.Margin;
                 margin.Right = 30;
                 sv.Margin = margin;
-                sv.MouseWheel += sv_MouseWheel;
+                sv.MouseWheel += Sv_MouseWheel;
 
-                StackPanel sp = new StackPanel();
+                var sp = new StackPanel();
                 foreach (var boat in SelectionList)
                 {
                     //getting all reservations for selected date
@@ -183,47 +173,55 @@ namespace KBSBoot.View
                                      beginTime = r.beginTime,
                                      endTime = r.endTime,
                                  });
-                    bool dateTrue = false;
+                    var dateTrue = false;
 
                     //adding all reservations for selected date to screen
                     foreach (var d1 in data1)
                     {
-                        TextBlock nameTextBlock = new TextBlock();
-                        nameTextBlock.Name = "txt";
-                        nameTextBlock.Text = $"{boat.boatName}:";
-                        nameTextBlock.TextWrapping = TextWrapping.Wrap;
-                        nameTextBlock.FontSize = 14;
-                        nameTextBlock.Background = new SolidColorBrush(Colors.LightGray);
-                        nameTextBlock.FontStyle = FontStyles.Italic;
+                        beginTime.Add(d1.beginTime);
+                        endTime.Add(d1.endTime);
+                        var nameTextBlock = new TextBlock
+                        {
+                            Name = "txt",
+                            Text = $"{boat.boatName}:",
+                            TextWrapping = TextWrapping.Wrap,
+                            FontSize = 14,
+                            Background = new SolidColorBrush(Colors.LightGray),
+                            FontStyle = FontStyles.Italic
+                        };
 
-                        Label l2 = new Label();
-                        l2.Content = $"- van {d1.beginTime} tot {d1.endTime}";
-                        l2.Width = 400;
-                        l2.FontSize = 14;
+                        var l2 = new Label
+                        {
+                            Content = $"- van {d1.beginTime} tot {d1.endTime}",
+                            Width = 400,
+                            FontSize = 14
+                        };
                         sp.Children.Add(nameTextBlock);
                         sp.Children.Add(l2);
                         dateTrue = true;
                     }
 
                     //this will be executed when there are no reservation for selected date
-                    if (dateTrue == false)
+                    if (dateTrue) continue;
                     {
-                        TextBlock nameTextBlock = new TextBlock();
-                        nameTextBlock.Name = "txt";
-                        nameTextBlock.Text = $"{boat.boatName}:";
-                        nameTextBlock.TextWrapping = TextWrapping.Wrap;
-                        nameTextBlock.FontSize = 14;
-                        nameTextBlock.Background = new SolidColorBrush(Colors.LightGray);
-                        nameTextBlock.FontStyle = FontStyles.Italic;
+                        var nameTextBlock = new TextBlock
+                        {
+                            Name = "txt",
+                            Text = $"{boat.boatName}:",
+                            TextWrapping = TextWrapping.Wrap,
+                            FontSize = 14,
+                            Background = new SolidColorBrush(Colors.LightGray),
+                            FontStyle = FontStyles.Italic
+                        };
 
-                        Label l2 = new Label();
-                        l2.Content = $"Er zijn nog geen reserveringen";
-                        l2.Width = 400;
-                        l2.FontSize = 14;
+                        var l2 = new Label
+                        {
+                            Content = $"Er zijn nog geen reserveringen",
+                            Width = 400,
+                            FontSize = 14
+                        };
                         sp.Children.Add(nameTextBlock);
                         sp.Children.Add(l2);
-
-                        dateTrue = true;
                     }
                 }
                 sv.Content = sp;
@@ -236,18 +234,15 @@ namespace KBSBoot.View
             //Check if there is already a batchreservation in the database. If not, assign 1 to reservationbatch number.
             using (var context = new BootDB())
             {
-                int HighestBatchCount = context.Reservations.Where(c => c.reservationBatch != 0).Max(x => (int?)x.reservationBatch) ?? 0;
+                var highestBatchCount = context.Reservations.Where(c => c.reservationBatch != 0).Max(x => (int?)x.reservationBatch) ?? 0;
 
-                if (!HighestBatchCount.Equals(0))
-                    BatchCount = HighestBatchCount + 1;
+                if (!highestBatchCount.Equals(0))
+                    BatchCount = highestBatchCount + 1;
                 else
-                    BatchCount = 1;     
+                    BatchCount = 1;
             }
 
-
-
             //check if selected times are possible
-            
             foreach (var boat in SelectionList)
             {
                 //getting the selected begin and end time
@@ -291,54 +286,30 @@ namespace KBSBoot.View
 
                         var id = int.Parse(data);
 
-                        var reservation_boat = new Reservation_Boats
+                        var reservationBoat = new Reservation_Boats
                         {
                             reservationId = id,
                             boatId = boat.boatId
                         };
 
-                        context.Reservation_Boats.Add(reservation_boat);
+                        context.Reservation_Boats.Add(reservationBoat);
                         context.SaveChanges();
                     }
                 }
-
-            }
-            if(reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown))
-            {
-                //show message when reservation is added to screen
-                MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                backToHomeScreen();
             }
 
+            if (!reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown)) return;
+            //show message when reservation is added to screen
+            MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
-        private void sv_MouseWheel(object sender, MouseWheelEventArgs e)
+        private static void Sv_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scroll = (ScrollViewer)sender;
+            var scroll = (ScrollViewer)sender;
             scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }
-
-        public void backToHomeScreen()
-        {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
-        }
     }
 }
-

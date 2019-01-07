@@ -1,19 +1,10 @@
 ﻿using KBSBoot.DAL;
 using KBSBoot.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -22,30 +13,30 @@ namespace KBSBoot.View
     /// </summary>
     public partial class BatchReservationBoatSelect : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
         private bool FilterEnabled = false;
-        private string Boatname;
-        private int Boatspace;
+        private string BoatName;
+        private int BoatSpace;
         private int RowLevelId;
         private string RowLevelName;
-        private List<Boat> ReservationSelection = new List<Boat>();
-        private int selectionamount;
+        private readonly List<Boat> ReservationSelection = new List<Boat>();
+        private int SelectionAmount;
 
-        public BatchReservationBoatSelect(string FullName, int AccessLevel, int MemberId)
+        public BatchReservationBoatSelect(string fullName, int accessLevel, int memberId)
         {
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
             InitializeComponent();
             BoatSpaces.ItemsSource = LoadBoatSeatsSelection();
             BoatNames.ItemsSource = LoadBoatNamesSelection();
         }
 
-        private List<BoatTypes> LoadBoatNamesSelection()
+        private static List<BoatTypes> LoadBoatNamesSelection()
         {
-            List<BoatTypes> boatnames = new List<BoatTypes>();
+            var boatNames = new List<BoatTypes>();
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -58,19 +49,18 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    boatnames.Add(new BoatTypes()
+                    boatNames.Add(new BoatTypes()
                     {
                         boatTypeName = b.boatNames
                     });
                 }
             }
-            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
-            DistinctBoatSeats = boatnames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
-            return DistinctBoatSeats;
+            var distinctBoatNames = boatNames.GroupBy(elem => elem.boatTypeName).Select(g => g.First()).ToList();
+            return distinctBoatNames;
         }
-        private List<BoatTypes> LoadBoatSeatsSelection()
+        private static List<BoatTypes> LoadBoatSeatsSelection()
         {
-            List<BoatTypes> boatseats = new List<BoatTypes>();
+            var boatSeats = new List<BoatTypes>();
             using (var context = new BootDB())
             {
                 var tableData = (from b in context.Boats
@@ -83,17 +73,16 @@ namespace KBSBoot.View
 
                 foreach (var b in tableData)
                 {
-                    boatseats.Add(new BoatTypes()
+                    boatSeats.Add(new BoatTypes()
                     {
                         boatAmountSpaces = b.boatAmountSpaces
                     });
                 }
             }
-            List<BoatTypes> DistinctBoatSeats = new List<BoatTypes>();
-            DistinctBoatSeats = boatseats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
-            return DistinctBoatSeats;
+            var distinctBoatSeats = boatSeats.GroupBy(elem => elem.boatAmountSpaces).Select(g => g.First()).ToList();
+            return distinctBoatSeats;
         }
-        private void SelectionFilteren_Click(object sender, RoutedEventArgs e)
+        private void FilterSelection_Click(object sender, RoutedEventArgs e)
         {
             //Reload the screen
             FilterEnabled = true;
@@ -106,7 +95,7 @@ namespace KBSBoot.View
             FilterEnabled = false;
             LoadBoats();
             //BoatList.ItemsSource = LoadCollectionData();
-            //Resets the filteroptions
+            //Resets the filter options
             BoatSpaces.IsEnabled = true;
             BoatNames.IsEnabled = true;
             BoatNames.SelectedItem = null;
@@ -124,39 +113,22 @@ namespace KBSBoot.View
         }
         private void Bootplekken_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (BoatSpaces.SelectedItem != null)
-            {
-                //Assigns value to chosen option
-                Boatspace = Int32.Parse(BoatSpaces.SelectedItem.ToString());
-                BoatNames.IsEnabled = false;
-            }
+            if (BoatSpaces.SelectedItem == null) return;
+            //Assigns value to chosen option
+            BoatSpace = int.Parse(BoatSpaces.SelectedItem.ToString());
+            BoatNames.IsEnabled = false;
         }
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            if (AccessLevel == 1)
-            {
-                Switcher.Switch(new HomePageMember(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 2)
-            {
-                Switcher.Switch(new HomePageMatchCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 3)
-            {
-                Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
-            }
-            else if (AccessLevel == 4)
-            {
-                Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
-            }
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
@@ -187,8 +159,8 @@ namespace KBSBoot.View
         {
             using (var context = new BootDB())
             {
-                List<Boat> boats = new List<Boat>();
-                List<BoatTypes> boatTypes = new List<BoatTypes>();
+                var boats = new List<Boat>();
+                var boatTypes = new List<BoatTypes>();
                 
                 //Gets boats from database
                 var data = (from b in context.Boats
@@ -213,15 +185,15 @@ namespace KBSBoot.View
                     {
                         if (BoatNames.SelectedItem != null)
                         {
-                            Boatname = BoatNames.SelectedItem.ToString();
-                            if (d.boatType != Boatname)
+                            BoatName = BoatNames.SelectedItem.ToString();
+                            if (d.boatType != BoatName)
                             {
                                 continue;
                             }
                         }
                         if (BoatSpaces.SelectedItem != null)
                         {
-                            if (d.boatAmountSpaces != Boatspace)
+                            if (d.boatAmountSpaces != BoatSpace)
                             {
                                 continue;
                             }
@@ -229,7 +201,7 @@ namespace KBSBoot.View
                     }
 
                     //to show a yes or no on the screen
-                    string steer = (d.boatSteer == 0) ? "nee" : "ja";
+                    var steer = (d.boatSteer == 0) ? "nee" : "ja";
 
                     //add data to the table
                     boats.Add(new Boat(d.boatType, d.boatTypeDescription, d.boatAmountSpaces, steer) { boatId = d.boatId, boatName = d.boatName, boatTypeId = 1, boatYoutubeUrl = null });
@@ -244,7 +216,7 @@ namespace KBSBoot.View
 
         private void ReservationButtonIsPressed(object sender, RoutedEventArgs e)
         {
-            if(selectionamount > 0)
+            if(SelectionAmount > 0)
             Switcher.Switch(new BatchReservationMatchCommissioner(ReservationSelection, AccessLevel, FullName, MemberId));
             else
             MessageBox.Show("U moet minstens 1 boot selecteren", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -253,21 +225,21 @@ namespace KBSBoot.View
         //Adds the boat to the selection if it is selected
         private void ReservationCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            Boat boat = ((FrameworkElement)sender).DataContext as Boat;
+            var boat = ((FrameworkElement)sender).DataContext as Boat;
             ReservationSelection.Add(boat);
-            selectionamount++;
+            SelectionAmount++;
         }
 
         //Removes boat from the selection if it is unselectd
         private void ReservationCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
             ReservationSelection.Remove(((FrameworkElement)sender).DataContext as Boat);
-            selectionamount--;
+            SelectionAmount--;
         }
 
         private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scroll = (ScrollViewer)sender;
+            var scroll = (ScrollViewer)sender;
             scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
             e.Handled = true;
         }

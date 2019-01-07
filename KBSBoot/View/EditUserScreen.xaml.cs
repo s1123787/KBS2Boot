@@ -1,56 +1,40 @@
 ﻿using KBSBoot.DAL;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Configuration;
 using KBSBoot.Model;
 using System.Windows.Controls;
-using System.ComponentModel;
 
 namespace KBSBoot.View
 {
     /// Interaction logic for editUserScreen.xaml
     public partial class EditUserScreen : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
 
-        public EditUserScreen(string FullName, int AccessLevel, int MemberId)
+        public EditUserScreen(string fullName, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
             InitializeComponent();
             memberList.ItemsSource = LoadCollectionData();
         }
-                
-        private void LogoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new LoginScreen());
-        }
 
-        private List<Member> LoadCollectionData()
+        private static List<Member> LoadCollectionData()
         {
-            List<Member> members = new List<Member>();
+            var members = new List<Member>();
             try
             {
                 using (var context = new BootDB())
                 {
                     var tableData = (from m in context.Members select m);
 
-                    foreach (Member m in tableData)
+                    foreach (var m in tableData)
                     {
                         // Adds table columns with items from database
                         members.Add(new Member()
@@ -73,22 +57,29 @@ namespace KBSBoot.View
                 return null;
             }
         }
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageAdministrator(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void AddMember_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId));
         }
+
         private void ChangeMember_Click(object sender, RoutedEventArgs e)
         {
-            Member member = ((FrameworkElement)sender).DataContext as Member;
+            var member = ((FrameworkElement)sender).DataContext as Member;
             Switcher.Switch(new ChangeMemberAdmin(FullName, AccessLevel, member.memberId));
         }
-        
-        //Allows for scrolling in the Memberlist
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Logout();
+        }
+
+        //Allows for scrolling in the MemberList
         private void MemberList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scroll = (ScrollViewer)sender;
@@ -96,7 +87,7 @@ namespace KBSBoot.View
             e.Handled = true;
         }
         
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {

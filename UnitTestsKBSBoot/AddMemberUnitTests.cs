@@ -168,7 +168,7 @@ namespace UnitTestsKBSBoot
             //Method is placed inside a try block, so if it cant connect the result is set to false
             try
             {
-                Member.AddMemberToDB(member);
+                Member.AddMemberToDb(member);
             }
             catch (Exception e)
             {
@@ -221,7 +221,7 @@ namespace UnitTestsKBSBoot
             var result = false;
 
             //Act
-            Member.AddMemberToDB(member1);
+            Member.AddMemberToDb(member1);
 
             try
             {
@@ -261,7 +261,7 @@ namespace UnitTestsKBSBoot
             var result = false;
 
             //Act
-            Member.AddMemberToDB(member);
+            Member.AddMemberToDb(member);
 
             try
             {

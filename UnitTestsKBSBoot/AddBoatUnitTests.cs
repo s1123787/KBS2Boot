@@ -1,10 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using NUnit.Framework;
-using KBSBoot.View;
 using KBSBoot.Model;
-using KBSBoot.DAL;
 
 namespace UnitTestsKBSBoot
 {
