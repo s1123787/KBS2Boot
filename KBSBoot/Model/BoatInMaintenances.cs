@@ -19,7 +19,7 @@ namespace KBSBoot.Model
 
         }
 
-        public List<DateTime> CheckMaintenanceDates(int boatId)
+        public static List<DateTime> CheckMaintenanceDates(int boatId)
         {
             //this where all dates getting stored
             var returningDates = new List<DateTime>();

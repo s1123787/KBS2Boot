@@ -93,7 +93,7 @@ namespace KBSBoot.View
 
                 var bm = new BoatInMaintenances();
                 //Get dates when boat is in maintenance
-                var maintenanceDates = bm.CheckMaintenanceDates(boat.boatId);
+                var maintenanceDates = BoatInMaintenances.CheckMaintenanceDates(boat.boatId);
                 foreach (var d in maintenanceDates)
                 {
                     //adding dates to list

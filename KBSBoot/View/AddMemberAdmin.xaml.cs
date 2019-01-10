@@ -51,8 +51,11 @@ namespace KBSBoot.View
                     }
 
                     //CHeck for invalid characters in the strings
-                    Member.NameHasSpecialChars(name);
-                    Member.HasSpecialChars(userName);
+                    if (Member.NameHasSpecialChars(name))
+                        throw new FormatException();
+
+                    if (Member.HasSpecialChars(userName))
+                        throw new FormatException();
 
                     //Create new member to add to the DB
                     var member = new Member

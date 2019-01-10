@@ -14,7 +14,7 @@ namespace UnitTestsKBSBoot
             Boat boat = new Boat();
 
             // Act
-            var result = boat.CheckIfStartDateBeforeEndDate(DateTime.Now.AddDays(1), DateTime.Now);
+            var result = Boat.CheckIfStartDateBeforeEndDate(DateTime.Now.AddDays(1), DateTime.Now);
 
             // Assert
             Assert.IsFalse(result);
@@ -27,7 +27,7 @@ namespace UnitTestsKBSBoot
             Boat boat = new Boat();
 
             // Act
-            var result = boat.CheckIfStartDateBeforeEndDate(DateTime.Now, DateTime.Now.AddDays(1));
+            var result = Boat.CheckIfStartDateBeforeEndDate(DateTime.Now, DateTime.Now.AddDays(1));
 
             // Assert
             Assert.IsTrue(result);
@@ -41,7 +41,7 @@ namespace UnitTestsKBSBoot
             Boat boat = new Boat();
 
             // Act
-            var result = boat.CheckBoatInMaintenance(boatTestId);
+            var result = Boat.CheckBoatInMaintenance(boatTestId);
 
             // Assert
             Assert.IsFalse(result);

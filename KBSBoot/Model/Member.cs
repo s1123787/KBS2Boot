@@ -15,7 +15,7 @@ namespace KBSBoot.Model
         public int memberAccessLevelId { get; set; }
         public int memberRowLevelId { get; set; }
         public DateTime? memberSubscribedUntill { get; set; }
-        public string InputUserName;
+        private string InputUserName;
         public int SortUser;
         public delegate void NewHomePage(object source, HomePageEventArgs e);
         public event NewHomePage OnNewHomePage;
@@ -59,7 +59,7 @@ namespace KBSBoot.Model
             }
         }
 
-        public void OnRegisterOkButtonIsPressed(object source, RegisterEventArgs e)
+        public static void OnRegisterOkButtonIsPressed(object source, RegisterEventArgs e)
         {
             var nameInput = e.Name;
             var usernameInput = e.Username;
@@ -89,7 +89,7 @@ namespace KBSBoot.Model
             }
         }
 
-        public void AddNewUserToDb(string nameInput, string usernameInput)
+        public static void AddNewUserToDb(string nameInput, string usernameInput)
         {
             //add user as member, but not active yet
             if (CheckAmountUsers() != 0)
@@ -112,12 +112,12 @@ namespace KBSBoot.Model
             }
         }
 
-        public bool IsNullOrWhiteSpace(string name, string username)
+        public static bool IsNullOrWhiteSpace(string name, string username)
         {
             return string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(username);
         }
 
-        public bool CheckUsername(string username)
+        public static bool CheckUsername(string username)
         {
             //check if it only has letters                
             if (!HasSpecialChars(username))
@@ -137,7 +137,7 @@ namespace KBSBoot.Model
         }
 
         //check if username exists
-        public bool UsernameExists(string username)
+        public static bool UsernameExists(string username)
         {
             using (var context = new BootDB())
             {

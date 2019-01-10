@@ -2,13 +2,13 @@
 {
     public class RegisterEventArgs
     {
-        public string Name { get; set; }
-        public string Username { get; set; }
+        public string Name { get; }
+        public string Username { get; }
 
-        public RegisterEventArgs(string Name, string Username)
+        public RegisterEventArgs(string name, string username)
         {
-            this.Name = Name;
-            this.Username = Username;
+            Name = name;
+            Username = username;
         }
     }
 }

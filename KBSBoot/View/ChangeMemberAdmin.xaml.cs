@@ -24,14 +24,22 @@ namespace KBSBoot.View
             InitializeComponent();
             DatePicker.DisplayDateStart = DateTime.Today;
         }
+
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             Switcher.Logout();
         }
+
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
             Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            Switcher.Switch(new EditUserScreen(FullName, AccessLevel, MemberId));
+        }
+
         private void ChangeUser_Click(object sender, RoutedEventArgs e)
         {
             //Save textBox content to variables
