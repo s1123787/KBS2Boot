@@ -16,7 +16,7 @@ namespace KBSBoot.View
         {
             InitializeComponent();
             var member = new Member();
-            OnRegister += member.OnRegisterOkButtonIsPressed;
+            OnRegister += Member.OnRegisterOkButtonIsPressed;
         }
 
         private void OKbtn_Click(object sender, RoutedEventArgs e)

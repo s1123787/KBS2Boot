@@ -56,7 +56,7 @@ namespace KBSBoot.View
             boatViewName.Content = $"{BoatData.boatName}";
             boatViewDescription.Content = $"{BoatType.boatTypeDescription}";
             boatViewType.Content = $"type: {BoatType.boatTypeName}";
-            boatViewSteer.Content = $"{BoatType.boatSteerString}";
+            boatViewSteer.Content = $"{BoatType.BoatSteerString}";
             boatViewNiveau.Content = $"niveau: {BoatType.boatRowLevel}";
             
             //Load Youtube video
@@ -106,7 +106,7 @@ namespace KBSBoot.View
                     {
                         boatTypeName = b.boatTypeName,
                         boatTypeDescription = b.boatTypeDescription,
-                        boatSteerString = (b.boatSteer == 0) ? "zonder stuur" : "met stuur",
+                        BoatSteerString = (b.boatSteer == 0) ? "zonder stuur" : "met stuur",
                         boatAmountSpaces = b.boatAmountSpaces,
                         boatRowLevel = b.boatRowLevel
                     };

@@ -4,9 +4,9 @@ namespace KBSBoot.Model
 {
     public class HomePageEventArgs : EventArgs
     {
-        public int TypeMember { get; set; }
-        public string FullName { get; set; }
-        public int MemberId { get; set; }
+        public int TypeMember { get; }
+        public string FullName { get; }
+        public int MemberId { get; }
 
         public HomePageEventArgs(int typeMember, string fullName, int memberId)
         {

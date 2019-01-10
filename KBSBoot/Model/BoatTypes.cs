@@ -15,7 +15,7 @@ namespace KBSBoot.Model
         public int boatAmountSpaces { get; set; }
         
         [NotMapped]
-        public string boatSteerString { get; set; }
+        public string BoatSteerString { get; set; }
 
         public override string ToString()
         {

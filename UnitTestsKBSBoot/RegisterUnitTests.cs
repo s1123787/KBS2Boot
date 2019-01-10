@@ -58,8 +58,8 @@ namespace UnitTestsKBSBoot
             string username2 = " ";
 
             //Act
-            bool return1 = m.IsNullOrWhiteSpace(name, username);
-            bool return2 = m.IsNullOrWhiteSpace(name, username2);
+            bool return1 = Member.IsNullOrWhiteSpace(name, username);
+            bool return2 = Member.IsNullOrWhiteSpace(name, username2);
 
             //Assert
             Assert.IsTrue(return1);
@@ -116,8 +116,8 @@ namespace UnitTestsKBSBoot
 
 
             //Act
-            bool return1 = m.IsNullOrWhiteSpace(name, username);
-            bool return2 = m.IsNullOrWhiteSpace(name2, username);
+            bool return1 = Member.IsNullOrWhiteSpace(name, username);
+            bool return2 = Member.IsNullOrWhiteSpace(name2, username);
 
             //Assert
             Assert.IsTrue(return1);
@@ -129,10 +129,10 @@ namespace UnitTestsKBSBoot
         {
             //Arrange
             Member m = new Member();
-            m.AddNewUserToDb("youri dekker", "youridekker");
+            Member.AddNewUserToDb("youri dekker", "youridekker");
 
             //Act
-            bool result1 = m.CheckUsername("youridekker");
+            bool result1 = Member.CheckUsername("youridekker");
 
             //Assert
             Assert.IsFalse(result1);
@@ -149,10 +149,10 @@ namespace UnitTestsKBSBoot
             string name = "unit test";
             string username = "unittest";
             //Act
-            m.AddNewUserToDb(name, username);
+            Member.AddNewUserToDb(name, username);
 
             //Assert
-            Assert.IsTrue(m.UsernameExists(username));
+            Assert.IsTrue(Member.UsernameExists(username));
 
             //remove added record
             Member.RemoveLastAddedMember();

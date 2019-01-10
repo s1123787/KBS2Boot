@@ -18,25 +18,25 @@ namespace KBSBoot.Model
         public TimeSpan endTime { get; set; }
         public int reservationBatch { get; set; }
 
-        [NotMapped] public int BoatId { get; set; }
-        [NotMapped] public string BoatName { get; set; }
-        [NotMapped] public string BoatType { get; set; }
-        [NotMapped] public string ResDate { get; set; }
-        [NotMapped] public string BeginTimeString { get; set; }
-        [NotMapped] public string EndTimeString { get; set; }
+        [NotMapped] public int BoatId { get; }
+        [NotMapped] public string BoatName { get; }
+        [NotMapped] public string BoatType { get; }
+        [NotMapped] public string ResDate { get; }
+        [NotMapped] public string BeginTimeString { get; }
+        [NotMapped] public string EndTimeString { get; }
         [NotMapped] public string MemberName { get; set; }
         [NotMapped] public string MemberUserName { get; set; }
-        [NotMapped] public bool Valid = false;
-        [NotMapped] public List<DateTime> Dates = new List<DateTime>();
-        [NotMapped] public List<TimeSpan> BeginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
-        [NotMapped] public List<TimeSpan> EndTimes = new List<TimeSpan>(); // the end times of the reservations of the selected date
-        [NotMapped] public TimeSpan SunUp;
-        [NotMapped] public TimeSpan SunDown;
-        [NotMapped] public TimeSpan SelectedBeginTime;
-        [NotMapped] public TimeSpan SelectedEndTime;
+        [NotMapped] private bool Valid = false;
+        [NotMapped] private List<DateTime> Dates = new List<DateTime>();
+        [NotMapped] private List<TimeSpan> BeginTimes = new List<TimeSpan>(); //the begin times of the reservations of the selected date
+        [NotMapped] private List<TimeSpan> EndTimes = new List<TimeSpan>(); // the end times of the reservations of the selected date
+        [NotMapped] private TimeSpan SunUp;
+        [NotMapped] private TimeSpan SunDown;
+        [NotMapped] private TimeSpan SelectedBeginTime;
+        [NotMapped] private TimeSpan SelectedEndTime;
         //[NotMapped] public DateTime SelectedDate;
 
-        public Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
+        private Reservations(int reservationId, int memberId, DateTime date, TimeSpan beginTime, TimeSpan endTime)
         {
             this.reservationId = reservationId;
             this.memberId = memberId;
@@ -54,18 +54,6 @@ namespace KBSBoot.Model
             BeginTimeString = beginTime.ToString(@"hh\:mm");
             EndTimeString = endTime.ToString(@"hh\:mm");
         }
-
-        //public Reservations(int reservationId, string boatName, string boatType, string resDate, TimeSpan beginTime, TimeSpan endTime)
-        //{
-        //    this.reservationId = reservationId;
-        //    BoatName = boatName;
-        //    BoatType = boatType;
-        //    ResDate = resDate;
-        //    this.beginTime = beginTime;
-        //    this.endTime = endTime;
-        //    BeginTimeString = beginTime.ToString(@"hh\:mm");
-        //    EndTimeString = endTime.ToString(@"hh\:mm");
-        //}
 
         public Reservations(int reservationId, string boatName, string boatType, string resDate, TimeSpan beginTime, TimeSpan endTime, int boatId)
         {
@@ -97,7 +85,7 @@ namespace KBSBoot.Model
         {
         }
 
-        public void DeleteReservation(int reservationId)
+        public static void DeleteReservation(int reservationId)
         {
             //delete row in reservations table
             using (var context = new BootDB())
@@ -245,30 +233,28 @@ namespace KBSBoot.Model
                 return false;
 
             //check if there are any reservations on the selected date
-            if (BeginTimes.Count != 0)
+            if (BeginTimes.Count == 0) return SelectedBeginTime >= SunUp && SelectedEndTime <= SunDown;
+            //get all the reservations that are made that day
+            for (var i = 0; i < BeginTimes.Count; i++)
             {
-                //get all the reservations that are made that day
-                for (var i = 0; i < BeginTimes.Count; i++)
-                {
-                    //check if selected beginTime is between the begin and endTime of reservation
-                    if (SelectedBeginTime > BeginTimes[i] && SelectedBeginTime < EndTimes[i])
-                        return false;
+                //check if selected beginTime is between the begin and endTime of reservation
+                if (SelectedBeginTime > BeginTimes[i] && SelectedBeginTime < EndTimes[i])
+                    return false;
 
-                    //check if endTime is between the begin and endTime of another reservation
-                    if (SelectedEndTime > BeginTimes[i] && SelectedEndTime < EndTimes[i])                          
-                        return false;
+                //check if endTime is between the begin and endTime of another reservation
+                if (SelectedEndTime > BeginTimes[i] && SelectedEndTime < EndTimes[i])                          
+                    return false;
 
-                    //check if there are any beginTimes between the selected begin and endTime
-                    if (BeginTimes[i] > SelectedBeginTime && BeginTimes[i] < SelectedEndTime)
-                        return false;
+                //check if there are any beginTimes between the selected begin and endTime
+                if (BeginTimes[i] > SelectedBeginTime && BeginTimes[i] < SelectedEndTime)
+                    return false;
 
-                    //check if there are any endTimes between the selected begin and endTime
-                    if (EndTimes[i] > SelectedEndTime && EndTimes[i] < SelectedEndTime)
-                        return false;
+                //check if there are any endTimes between the selected begin and endTime
+                if (EndTimes[i] > SelectedEndTime && EndTimes[i] < SelectedEndTime)
+                    return false;
 
-                    if (SelectedBeginTime == beginTimes[i] || SelectedEndTime == EndTimes[i])
-                        return false;
-                }                    
+                if (SelectedBeginTime == beginTimes[i] || SelectedEndTime == EndTimes[i])
+                    return false;
             }
             //check if selected begin time or end time is in daylight
             return SelectedBeginTime >= SunUp && SelectedEndTime <= SunDown;

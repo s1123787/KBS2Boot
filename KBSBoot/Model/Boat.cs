@@ -21,7 +21,7 @@ namespace KBSBoot.Model
         public string boatName { get; set; }
         public string boatYoutubeUrl { get; set; }
 
-        public BitmapImage boatPhotoBitmap;
+        private BitmapImage boatPhotoBitmap;
         private string returnImageBlob;
 
         [NotMapped] public bool IsInMaintenance { get; set; }
@@ -95,15 +95,14 @@ namespace KBSBoot.Model
             }
         }
 
-        public BitmapImage ConvertBlobToBitmap(string blob)
+        private static BitmapImage ConvertBlobToBitmap(string blob)
         {
             var bitmapImg = new BitmapImage();
-            if (blob != null) {
-                var binaryData = Convert.FromBase64String(blob);
-                bitmapImg.BeginInit();
-                bitmapImg.StreamSource = new MemoryStream(binaryData);
-                bitmapImg.EndInit();
-            }
+            if (blob == null) return bitmapImg;
+            var binaryData = Convert.FromBase64String(blob);
+            bitmapImg.BeginInit();
+            bitmapImg.StreamSource = new MemoryStream(binaryData);
+            bitmapImg.EndInit();
             return bitmapImg;
         }
 
@@ -164,7 +163,7 @@ namespace KBSBoot.Model
         }
 
         //Method that inserts the boat into the database
-        public static void AddBoatToDb(Boat boat)
+        private static void AddBoatToDb(Boat boat)
         {
             using (var context = new BootDB())
             {
@@ -175,7 +174,7 @@ namespace KBSBoot.Model
         }
 
         //Method to check if a boat with the same name already exists in the database
-        public static void CheckIfBoatExists(Boat boat)
+        private static void CheckIfBoatExists(Boat boat)
         {
             using (var context = new BootDB())
             {
@@ -214,10 +213,7 @@ namespace KBSBoot.Model
                             select b;
 
                 var now = DateTime.Now.Date;
-                foreach (var bb in boats)
-                {
-                    boatItems.Add(bb);
-                }
+                boatItems.AddRange(boats);
 
                 //if all db items are before today
                 if (boatItems.Count == boats.ToList().Count)
@@ -245,12 +241,12 @@ namespace KBSBoot.Model
             return returnValue;
         }
 
-        public bool CheckIfStartDateBeforeEndDate(DateTime startDate, DateTime endDate)
+        public static bool CheckIfStartDateBeforeEndDate(DateTime startDate, DateTime endDate)
         {
             return startDate <= endDate;
         }
 
-        public bool CheckBoatInMaintenance(int boatId)
+        public static bool CheckBoatInMaintenance(int boatId)
         {
             var returnValue = false;
             var boatItems = new List<BoatInMaintenances>();
@@ -263,10 +259,7 @@ namespace KBSBoot.Model
                             select b;
 
                 var now = DateTime.Now.Date;
-                foreach (var bb in boats)
-                {
-                    boatItems.Add(bb);
-                }
+                boatItems.AddRange(boats);
 
                 //if all db items are before today
                 if (boatItems.Count > 0)

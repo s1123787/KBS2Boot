@@ -2,7 +2,7 @@
 {
     public class ReservationEventArgs
     {
-        public int MemberId { get; set; }
+        private int MemberId { get; }
 
         public ReservationEventArgs(int MemberId)
         {

@@ -182,7 +182,7 @@ namespace KBSBoot.View
 
             //check messageBox result
             if (result != MessageBoxResult.Yes) return;
-            reservation.DeleteReservation(reservation.reservationId);
+            Reservations.DeleteReservation(reservation.reservationId);
             Switcher.Switch(new ReservationsScreen(FullName, AccessLevel, MemberId));
         }
 
