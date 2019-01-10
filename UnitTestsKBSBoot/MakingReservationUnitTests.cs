@@ -20,7 +20,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(11, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(10, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -37,7 +37,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(10, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(11, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsTrue(result);
         }
@@ -54,7 +54,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(10, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(10, 30, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -72,7 +72,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(13, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(15, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -90,7 +90,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(13, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(15, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -108,7 +108,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(11, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(15, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -124,7 +124,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(7, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(15, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }
@@ -140,7 +140,7 @@ namespace UnitTestsKBSBoot
             TimeSpan selectedBeginTime = new TimeSpan(12, 0, 0);
             TimeSpan selectedEndTime = new TimeSpan(17, 0, 0);
             // Act
-            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown);
+            var result = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTimes, endTimes, sunUp, sunDown, true);
             // Assert
             Assert.IsFalse(result);
         }

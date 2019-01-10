@@ -214,7 +214,7 @@ namespace KBSBoot.Model
             return invalidDates;
         }
 
-        public bool CheckTime(TimeSpan beginTime, TimeSpan endTime, List<TimeSpan> beginTimes, List<TimeSpan> endTimes, TimeSpan sunUp, TimeSpan sunDown)
+        public bool CheckTime(TimeSpan beginTime, TimeSpan endTime, List<TimeSpan> beginTimes, List<TimeSpan> endTimes, TimeSpan sunUp, TimeSpan sunDown, bool singleReservation)
         {
             SunUp = sunUp;
             SunDown = sunDown;
@@ -222,6 +222,11 @@ namespace KBSBoot.Model
             SelectedEndTime = endTime;
             BeginTimes = beginTimes;
             EndTimes = endTimes;
+
+            //check if reservationtime is longer than 2 hours
+            if ((SelectedEndTime - SelectedBeginTime) > new TimeSpan(2,0,0) && singleReservation)
+                return false;
+
             //check if endTime is after beginTime
             if (SelectedBeginTime > SelectedEndTime)
                 return false;
@@ -234,6 +239,7 @@ namespace KBSBoot.Model
 
             //check if there are any reservations on the selected date
             if (BeginTimes.Count == 0) return SelectedBeginTime >= SunUp && SelectedEndTime <= SunDown;
+
             //get all the reservations that are made that day
             for (var i = 0; i < BeginTimes.Count; i++)
             {
@@ -256,6 +262,7 @@ namespace KBSBoot.Model
                 if (SelectedBeginTime == beginTimes[i] || SelectedEndTime == EndTimes[i])
                     return false;
             }
+
             //check if selected begin time or end time is in daylight
             return SelectedBeginTime >= SunUp && SelectedEndTime <= SunDown;
         }
