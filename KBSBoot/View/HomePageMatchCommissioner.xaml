@@ -56,13 +56,13 @@
         </Button>
         <Button x:Name="BatchReservation" Grid.Row="2" Grid.Column="0" Margin="12,14,12,10" Click="BatchReservation_Click" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
-                <Image Source="/KBSBoot;component/Resources/Flag.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
+                <Image Source="/KBSBoot;component/Resources/multipleboats.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock FontSize="30" Height="72" TextAlignment="Center"><Run Text="Wedstrijd boeken"/><LineBreak/><Run/></TextBlock>
             </StackPanel>
         </Button>
         <Button x:Name="BatchReservationScreen" Grid.Row="2" Grid.Column="1" Margin="12,14,12,10" Click="BatchReservationScreen_Click" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
-                <Image Source="/KBSBoot;component/Resources/reservation.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
+                <Image Source="/KBSBoot;component/Resources/Flag.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock FontSize="30" Height="72" TextAlignment="Center"><Run Text="Wedstrijden"/><LineBreak/><Run/></TextBlock>
             </StackPanel>
         </Button>
