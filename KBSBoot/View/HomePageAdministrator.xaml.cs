@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KBSBoot.View
 {
@@ -20,19 +8,19 @@ namespace KBSBoot.View
     /// </summary>
     public partial class HomePageAdministrator : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
 
-        public HomePageAdministrator(string FullName, int AccessLevel, int MemberId)
+        public HomePageAdministrator(string fullName, int accessLevel, int memberId)
         {
-            this.AccessLevel = AccessLevel;
-            this.FullName = FullName;
-            this.MemberId = MemberId;
+            AccessLevel = accessLevel;
+            FullName = fullName;
+            MemberId = memberId;
             InitializeComponent();
         }
 
-        private void ViewDidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             FullNameLabel.Text = $"Welkom {FullName}";
             if (AccessLevel == 1)
@@ -60,23 +48,12 @@ namespace KBSBoot.View
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            bool IsDashboard = true;
-            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId, IsDashboard));
+            Switcher.Switch(new AddMemberAdmin(FullName, AccessLevel, MemberId, true));
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
-        }
-
-        private void OverviewBoats_Click(object sender, RoutedEventArgs e)
-        {
-            Switcher.Switch(new boatOverviewScreen(FullName, AccessLevel, MemberId));
-        }
-
-        private void Clicked(object sender, MouseButtonEventArgs e)
-        {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
     }
 }

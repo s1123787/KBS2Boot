@@ -37,6 +37,9 @@
   <PropertyGroup>
     <StartupObject>KBSBoot.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>rowboat.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -44,12 +47,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -88,6 +92,7 @@
     <Compile Include="Model\FileTooLargeException.cs" />
     <Compile Include="Model\FindSunInfo.cs" />
     <Compile Include="Model\HomePageEventArgs.cs" />
+    <Compile Include="Model\BoatInMaintenances.cs" />
     <Compile Include="Model\InputValidation.cs" />
     <Compile Include="Model\InvalidDateException.cs" />
     <Compile Include="Model\InvalidYoutubeUrlException.cs" />
@@ -105,8 +110,21 @@
     <Compile Include="View\AddMemberAdmin.xaml.cs">
       <DependentUpon>AddMemberAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BatchReservationBoatSelect.xaml.cs">
+      <DependentUpon>BatchReservationBoatSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BatchReservationMatchCommissioner.xaml.cs">
+      <DependentUpon>BatchReservationMatchCommissioner.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\BatchReservationScreen.xaml.cs">
+      <DependentUpon>BatchReservationScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BoatDetail.xaml.cs">
       <DependentUpon>BoatDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BoatDetailMaterialCommissioner.xaml.cs">
+      <DependentUpon>BoatDetailMaterialCommissioner.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\boatOverviewScreen.xaml.cs">
       <DependentUpon>boatOverviewScreen.xaml</DependentUpon>
@@ -131,6 +149,9 @@
     </Compile>
     <Compile Include="View\HomePageMember.xaml.cs">
       <DependentUpon>HomePageMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InMaintenanceScreen.xaml.cs">
+      <DependentUpon>InMaintenanceScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
@@ -161,7 +182,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\BatchReservationBoatSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatchReservationMatchCommissioner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BatchReservationScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\BoatDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BoatDetailMaterialCommissioner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DamageDetailScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InMaintenanceScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -248,9 +289,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Accesslevel.cs" />
+    <Compile Include="Model\AccessLevel.cs" />
     <Compile Include="Model\Member.cs" />
-    <Compile Include="Model\Rowlevel.cs" />
+    <Compile Include="Model\RowLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -302,6 +343,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\multipleboats.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="rowboat.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Flag.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

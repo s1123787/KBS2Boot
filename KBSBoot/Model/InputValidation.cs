@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace KBSBoot.Model
 {
@@ -35,19 +31,18 @@ namespace KBSBoot.Model
         //Method used to check if a youtube url is valid IF one is entered
         public static void IsYoutubeUrl(string url)
         {
-            string pattern = @"^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$";
+            const string pattern = @"^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$";
 
-            if (url == null || url == "")
-            {
+            if (string.IsNullOrEmpty(url))
                 return;
-            }
-            else if (!Regex.IsMatch(url, pattern))
+
+            if (!Regex.IsMatch(url, pattern))
                 throw new InvalidYoutubeUrlException();
         }
 
-        public static void CheckImageFileSize(byte[] bytearray, int MaxSizeInBytes)
+        public static void CheckImageFileSize(byte[] bytearray, int maxSizeInBytes)
         {
-            if (bytearray.Length > MaxSizeInBytes)
+            if (bytearray.Length > maxSizeInBytes)
                 throw new FileTooLargeException();
         }
     }

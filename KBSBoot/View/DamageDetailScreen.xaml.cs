@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using KBSBoot.DAL;
 using KBSBoot.Model;
 
@@ -11,15 +11,15 @@ namespace KBSBoot.View
 {
     public partial class DamageDetailsScreen : UserControl
     {
-        public string FullName;
-        public int AccessLevel;
-        public int BoatId;
-        public int MemberId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int BoatId;
+        private readonly int MemberId;
 
-        public DamageDetailsScreen(string fullName, int accesslevel, int boatId, int memberId)
+        public DamageDetailsScreen(string fullName, int accessLevel, int boatId, int memberId)
         {
             FullName = fullName;
-            AccessLevel = accesslevel;
+            AccessLevel = accessLevel;
             BoatId = boatId;
             MemberId = memberId;
             InitializeComponent();
@@ -28,25 +28,30 @@ namespace KBSBoot.View
         //Method to load a list of damage reports
         private void LoadDamageReports()
         {
-            List<BoatDamage> reports = new List<BoatDamage>();
+            var reports = new List<BoatDamage>();
 
             using (var context = new BootDB())
             {
-                //tables used: Boats- BoatsTypes - BoatDamages - Reservations- Members
+                //tables used: Boats - BoatsTypes - BoatDamages - Reservations- Members
                 //selected boat name, boat type description, damage level, damage location, reason the boat is damaged, date teh report was made, who reported the damage
-                var data = from bd in context.BoatDamages
+                var data = from m in context.Members
+                           join bd in context.BoatDamages
+                           on m.memberId equals bd.memberId
                            join b in context.Boats
                            on bd.boatId equals b.boatId
+                           join bt in context.BoatTypes
+                           on b.boatTypeId equals bt.boatTypeId
                            where bd.boatId == BoatId
                            select new
                            {
+                               boatImageBlob = bd.boatImageBlob,
                                boatName = b.boatName,
-                               boatDesc = (from bt in context.BoatTypes where bt.boatTypeId == b.boatTypeId select bt.boatTypeDescription).FirstOrDefault(),
+                               boatDesc = bt.boatTypeDescription,
                                boatDamageLevel = bd.boatDamageLevel,
                                boatDamageLocation = bd.boatDamageLocation,
                                boatDamageReason = bd.boatDamageReason,
-                               boatDamageReportDate = (from r in context.Reservations where r.reservationId == bd.reservationId select r.date).FirstOrDefault(),
-                               boatDamageReporter = (from m in context.Members where m.memberId == bd.memberId select m.memberName).FirstOrDefault()
+                               boatDamageReportDate = bd.reportDate,
+                               boatDamageReporter = m.memberName
                            };
 
                 //add all reports to list
@@ -54,11 +59,12 @@ namespace KBSBoot.View
                 {
                     reports.Add(new BoatDamage
                     {
+                        boatImageBlob = d.boatImageBlob,
                         boatDamageLevelText = BoatDamage.DamageLevelToString(d.boatDamageLevel),
                         boatDamageLocation = d.boatDamageLocation,
                         boatDamageReason = d.boatDamageReason,
                         boatDamageReportDate = d.boatDamageReportDate.ToString("dd-MM-yyyy"),
-                        boatDamageReporter = d.boatDamageReporter.ToString()
+                        boatDamageReporter = d.boatDamageReporter
                     });
 
                     nameLabel.Content = d.boatName;
@@ -67,6 +73,13 @@ namespace KBSBoot.View
             }
             //add list with reports to the grid
             ReportList.ItemsSource = reports;
+        }
+
+        private void ScrollView_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scroll = (ScrollViewer)sender;
+            scroll.ScrollToVerticalOffset(scroll.VerticalOffset - (e.Delta / 5));
+            e.Handled = true;
         }
 
         private void DidLoad(object sender, RoutedEventArgs e)
@@ -102,7 +115,7 @@ namespace KBSBoot.View
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void PreviousPage_Click(object sender, RoutedEventArgs e)
@@ -112,7 +125,7 @@ namespace KBSBoot.View
 
         private void BackToHomePage_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
     }
 }

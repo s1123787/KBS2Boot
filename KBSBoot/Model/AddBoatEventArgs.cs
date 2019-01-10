@@ -1,39 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace KBSBoot.Model
 {
     public class AddBoatEventArgs
     {
-        public string boatType { get; set; }
+        public string BoatType { get; }
+        public string BoatName { get; }
+        public string BoatYoutubeUrl { get; }
+        public Image BoatImage { get; }
+        public int BoatTypeId { get; }
+        public string FullName { get; }
+        public int AccessLevel { get; }
+        public int MemberId { get; }
 
-        public string boatName { get; set; }
-
-
-        public int boatOutOfService { get; set; }
-        public string boatYoutubeUrl { get; set; }
-        public System.Drawing.Image BoatImage { get; set; }
-
-        public int boatTypeId { get; set; }
-
-        public string fullName { get; set; }
-        public int accessLevel { get; set; }
-        public int memberId { get; set; }
-
-        public AddBoatEventArgs(string boatName, int boatOutOfService, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boattypeId, string fullName, int accessLevel, int MemberId)
+        public AddBoatEventArgs(string boatName, string boatType, string boatYoutubeUrl, System.Drawing.Image boatImage, int boatTypeId, string fullName, int accessLevel, int memberId)
         {
-            this.boatType = boatType;
-            this.boatName = boatName;
-            this.boatOutOfService = boatOutOfService;
-            this.boatYoutubeUrl = boatYoutubeUrl;
-            this.BoatImage = boatImage;
-            this.boatTypeId = boattypeId;
-            this.fullName = fullName;
-            this.accessLevel = accessLevel;
-            this.memberId = memberId;
+            BoatType = boatType;
+            BoatName = boatName;
+            BoatYoutubeUrl = boatYoutubeUrl;
+            BoatImage = boatImage;
+            BoatTypeId = boatTypeId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
         }
     }
 }

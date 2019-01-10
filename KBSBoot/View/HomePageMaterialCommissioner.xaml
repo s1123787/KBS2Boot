@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768" Loaded="ViewDidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Width="1024" Height="768" Loaded="DidLoad">
     <Grid x:Name="MemberGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1024" Height="768">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -36,25 +35,25 @@
                 <TextBlock Text="Bekijk boten" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Button x:Name="Damage" Grid.Row="1" Grid.Column="1" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="Damage_Click">
+        <Button x:Name="Damage" Grid.Row="2" Grid.Column="1" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="Damage_Click">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source="../Resources/Boat-Damage.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock Text="Beheren schade" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Button x:Name="AddBoat" Grid.Row="1" Grid.Column="2" Margin="12,12,12,12" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="AddBoat_Click" >
+        <Button x:Name="AddBoat" Grid.Row="2" Margin="14,10,9.6,14" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="AddBoat_Click" >
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source="/KBSBoot;component/Resources/Boat-Plus.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock Text="Boot toevoegen" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Button x:Name="PlaceReservation" Grid.Row="2" Grid.Column="0" Margin="12,12,12,12"  Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="PlaceReservation_Click">
+        <Button x:Name="PlaceReservation" Grid.Row="1" Grid.Column="1" Margin="12,12,12,12"  Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5" Click="PlaceReservation_Click">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source= "../Resources/placereservation.png" Stretch="Uniform" Height="152" Margin="0,0,10.143,0"/>
                 <TextBlock Text="Plaats reservering" FontSize="30" Height="72" TextAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Button x:Name="Reservations" Grid.Row="2" Grid.Column="1" Margin="12,12,12,12" Click="MyReservations_Click" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5">
+        <Button x:Name="Reservations" Grid.Row="1" Grid.Column="2" Margin="12,12,12,12" Click="MyReservations_Click" Height="Auto"  Style="{DynamicResource MaterialDesignRaisedButton}" materialDesign:ShadowAssist.ShadowDepth="Depth5">
             <StackPanel Orientation="Vertical" Width="269" Height="235">
                 <Image Source="../Resources/reservation.png" Stretch="Uniform" Height="152" Margin="0,0,0,0"/>
                 <TextBlock Text="Mijn reserveringen" FontSize="30" Height="72" TextAlignment="Center"/>

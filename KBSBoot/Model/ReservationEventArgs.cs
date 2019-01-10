@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KBSBoot.Model
+﻿namespace KBSBoot.Model
 {
     public class ReservationEventArgs
     {
-        public int MemberId { get; set; }
+        private int MemberId { get; }
 
         public ReservationEventArgs(int MemberId)
         {

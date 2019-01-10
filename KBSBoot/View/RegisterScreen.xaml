@@ -2,12 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid Background="White">
+    <Grid Background="White" Loaded="DidLoad">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
             <DockPanel>
                 <Button Height="Auto" Margin="0,10,0,0" Width="86" Click="BackToLogin_Click">
@@ -19,8 +18,8 @@
         <Button IsDefault="True" Name="OKbtn" Content="OK" FontSize="20" HorizontalAlignment="Left" Margin="561,418,0,0" VerticalAlignment="Top" Width="210" Height="42" Click="OKbtn_Click"/>
         <Label Content="Volledige naam:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="161,202,0,0"/>
         <Label Content="Gebruikersnaam:" FontSize="20" HorizontalAlignment="Left" Margin="161,285,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="Name" HorizontalAlignment="Left" Height="37" Margin="416,202,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367"/>
-        <TextBox Name="Username" HorizontalAlignment="Left" Height="48" Margin="416,274,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="367"/>
+        <TextBox Name="Name" HorizontalAlignment="Left" Height="Auto" Margin="416,0,0,529" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Bottom" Width="367" MaxWidth="367" MaxLength="45"/>
+        <TextBox Name="Username" HorizontalAlignment="Left" Height="Auto" Margin="416,0,0,446" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Bottom" Width="367" MaxWidth="367" MaxLength="45"/>
 
     </Grid>
 </UserControl>

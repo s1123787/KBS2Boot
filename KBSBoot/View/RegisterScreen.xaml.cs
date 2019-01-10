@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using KBSBoot.Model;
 
 namespace KBSBoot.View
@@ -27,18 +15,16 @@ namespace KBSBoot.View
         public RegisterScreen()
         {
             InitializeComponent();
-            Member member = new Member();
-            OnRegister += member.OnRegisterOKButtonIsPressed;
-            //Name.Focus();
+            var member = new Member();
+            OnRegister += Member.OnRegisterOkButtonIsPressed;
         }
 
         private void OKbtn_Click(object sender, RoutedEventArgs e)
         {
+            var nameText = Name.Text;
+            var usernameText = Username.Text;
 
-            var NameText = Name.Text;
-            var UsernameText = Username.Text;
-
-            OnRegisterOKButtonIsPressed(NameText, UsernameText);
+            OnRegisterOKButtonIsPressed(nameText, usernameText);
         }
 
         protected virtual void OnRegisterOKButtonIsPressed(string name, string username)
@@ -51,14 +37,9 @@ namespace KBSBoot.View
             Switcher.Switch(new LoginScreen());
         }
 
-        private void Clicked(object sender, MouseButtonEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
-        }
-
-        private void Click(object sender, MouseButtonEventArgs e)
-        {
-            Switcher.Switch(new LoginScreen());
+            Name.Focus();
         }
     }
 }

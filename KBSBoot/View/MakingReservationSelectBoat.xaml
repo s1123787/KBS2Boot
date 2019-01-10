@@ -2,11 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KBSBoot.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoaded">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="DidLoad">
 
     <Grid x:Name="GridMakingReservation">
         <materialDesign:ColorZone Padding="12" Mode="PrimaryMid" DockPanel.Dock="Top" Height="80">
@@ -26,12 +25,12 @@
                 <TextBlock x:Name="FullNameLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Boot selecteren</TextBlock>
             </DockPanel>
         </materialDesign:ColorZone>
-        <StackPanel Name="FilterStackPanel" Margin="222,113,180,591">
+        <StackPanel Name="FilterStackPanel" Margin="110,113,110,591" Background="#F8F8F8">
             <Canvas Background="White">
-                <Button x:Name="SelectionFilteren" Content="Filteren" Width="79" Canvas.Left="413" Canvas.Top="18" Click="SelectionFilteren_Click"/>
-                <Button x:Name="ResetSelection" Content="Reset" Width="79" Canvas.Left="517" Canvas.Top="18" Click="ResetSelection_Click"/>
-                <Label Content="Boot type" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootnamen" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="Bootnamen_SelectionChanged">
+                <Button x:Name="SelectionFilteren" Content="Filteren" Width="78" Canvas.Left="608" Canvas.Top="18" Click="FilterSelection_Click"/>
+                <Button x:Name="ResetSelection" Content="Reset" Width="78" Canvas.Left="701" Canvas.Top="18" Click="ResetSelection_Click"/>
+                <Label Content="Boottype" Canvas.Left="10" Canvas.Top="17" Width="91" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Boatnames" Canvas.Left="101" Canvas.Top="18" Width="54" SelectionChanged="BoatNames_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -41,7 +40,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Content="Aantal plekken" Canvas.Left="198" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
-                <ComboBox x:Name="Bootplekken" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="Bootplekken_SelectionChanged">
+                <ComboBox x:Name="Boatseats" Canvas.Left="304" Canvas.Top="17" Width="54" SelectionChanged="BoatSeats_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -50,13 +49,31 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <Label Content="Bootniveau" Canvas.Left="382" Canvas.Top="17" Width="101" HorizontalContentAlignment="Center" FontSize="14"></Label>
+                <ComboBox x:Name="Boatlevels" Canvas.Left="479" Canvas.Top="17" Width="93" SelectionChanged="BoatLevel_SelectionChanged">
+                    <ComboBoxItem>Beginner</ComboBoxItem>
+                    <ComboBoxItem>Amateur</ComboBoxItem>
+                    <ComboBoxItem>Gevorderd</ComboBoxItem>
+                    <ComboBoxItem>Professional</ComboBoxItem>
+                </ComboBox>
             </Canvas>
         </StackPanel>
-        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944">
+        <ScrollViewer x:Name="ScrollViewer" HorizontalAlignment="Left" MaxHeight="500" Height="auto" Margin="40,250,0,0" VerticalAlignment="Top" Width="944" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="BoatList_PreviewMouseWheel">
             <ListView ItemsSource="{Binding BoatList}" Name="BoatList" FontSize="16">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding boatName}" Header="Boot naam" Width="auto"/>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Boot naam" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap" Text="{Binding boatName}" MaxWidth="225"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeDescription}" Header="Boot Beschrijving" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatTypeName}" Header="Boot type" Width="auto"/>
                         <GridViewColumn DisplayMemberBinding="{Binding boatAmountSpaces}" Header="Hoeveelheid roeiers" Width="auto"/>
@@ -81,6 +98,6 @@
             </Hyperlink>
         </Label>
         <Label x:Name="label2" Content="om een reservering te annuleren." HorizontalAlignment="Left" Margin="315,240,0,0" VerticalAlignment="Top" FontSize="30"/>
-
+        <Label x:Name="NoBoatsLabel" Content="Er zijn geen boten gevonden!" Margin="314,384,314,335" FontSize="30" Visibility="Hidden"/>
     </Grid>
 </UserControl>

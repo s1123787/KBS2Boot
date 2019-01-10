@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,20 +19,18 @@ namespace KBSBoot.View
         public delegate void AddBoatD(object source, AddBoatEventArgs e);
         public event AddBoatD OnAddBoat;
 
-        List<String> boattypes = new List<String>();
+        private Image SelectedImageForConversion;
+        private int SelectedBoatTypeId;
 
-        System.Drawing.Image SelectedImageForConversion;
-        int SelectedBoatTypeId;
+        private readonly string FullName;
+        private readonly int AccessLevel;
+        private readonly int MemberId;
 
-        public string FullName;
-        public int AccessLevel;
-        private int MemberId;
-
-        public AddBoatMaterialCommissioner(string FullName, int AccessLevel, int MemberId)
+        public AddBoatMaterialCommissioner(string fullName, int accessLevel, int memberId)
         {
-            this.FullName = FullName;
-            this.AccessLevel = AccessLevel;
-            this.MemberId = MemberId;
+            FullName = fullName;
+            AccessLevel = accessLevel;
+            MemberId = memberId;
             InitializeComponent();
             BoatTypeBox.IsEnabled = false;
             OnAddBoat += Boat.OnAddBoatIsPressed;
@@ -41,24 +38,22 @@ namespace KBSBoot.View
         }
 
         //Adds the boat to the database when the ok button is pressed
-        protected virtual void OnAddBoatOkButtonIsPressed(string boatname, string boattype, string boatyoutubeurl, int boatoutofservice, Image boatImage, int boattypeid, string fullName, int accessLevel, int memberId)
+        protected virtual void OnAddBoatOkButtonIsPressed(string boatName, string boatType, string boatYoutubeUrl, Image boatImage, int boatTypeId, string fullName, int accessLevel, int memberId)
         {
-            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatname, boatoutofservice, boattype, boatyoutubeurl, boatImage, boattypeid, FullName, AccessLevel, MemberId));
+            OnAddBoat?.Invoke(this, new AddBoatEventArgs(boatName, boatType, boatYoutubeUrl, boatImage, boatTypeId, FullName, AccessLevel, MemberId));
         }
 
-            
-
-        //Pulls all boattype information needed for filling the comboboxes from the database
-        private List<BoatTypes> GetBoatTypes()
+        //Pulls all boatType information needed for filling the comboboxes from the database
+        private static IEnumerable<BoatTypes> GetBoatTypes()
         {
-            List<BoatTypes> boatTypes = new List<BoatTypes>();
+            var boatTypes = new List<BoatTypes>();
 
             using (var context = new BootDB())
             {
-                var typedata = from t in context.BoatTypes
+                var typeData = from t in context.BoatTypes
                                select t;
 
-                foreach (var b in typedata)
+                foreach (var b in typeData)
                 {
                     boatTypes.Add(new BoatTypes()
                     {
@@ -68,13 +63,12 @@ namespace KBSBoot.View
                 }
             }
             return boatTypes;
-
         }
 
-        //Fills the capacitybox with boatcapacity records from the database
+        //Fills the capacityBox with boat capacity records from the database
         private void FillCapacityBox()
         {
-            List<BoatTypes> boatTypes = GetBoatTypes();
+            var boatTypes = GetBoatTypes();
             foreach (var bt in boatTypes)
             {
                 if (!BoatCapacityBox.Items.Contains(bt.boatAmountSpaces))
@@ -82,16 +76,15 @@ namespace KBSBoot.View
             }
         }
 
-        //Changes options in the type selectionbox based on the selected capacity
+        //Changes options in the type selection box based on the selected capacity
         private void BoatCapacityBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!this.IsLoaded)
+            if (!IsLoaded)
                 return;
 
             BoatTypeBox.IsEnabled = true;
             BoatTypeBox.Items.Clear();
-            List<BoatTypes> boatTypes = GetBoatTypes();
-
+            var boatTypes = GetBoatTypes();
 
             foreach (var b in boatTypes)
             {
@@ -100,49 +93,47 @@ namespace KBSBoot.View
             }
         }
 
-        //Assigns the boattypeid to be inserted into the database
+        //Assigns the boatTypeId to be inserted into the database
         private void BoatTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedBoatTypeId = Boat.AssignSelectedType((string)BoatTypeBox.SelectedValue);
         }
 
-        //Calls the addboat event when the ok button is clicked
+        //Calls the AddBoat event when the ok button is clicked
         private void AddBoat_Click(object sender, RoutedEventArgs e)
         {
-            var boatnameinput = BoatNameBox.Text;
-            var boatcapacityinput = BoatCapacityBox.SelectedIndex;
-            var boattypeinput = BoatTypeBox.SelectedValue;
-            var boatyoutubeurlinput = YoutubeUrlBox.Text;
+            var boatNameInput = BoatNameBox.Text;
+            var boatTypeInput = (string)BoatTypeBox.SelectedValue;
+            var boatYouTubeUrlInput = YoutubeUrlBox.Text;
             var boatTypeIdInput = SelectedBoatTypeId;
 
-            OnAddBoatOkButtonIsPressed(boatnameinput, (string)BoatTypeBox.SelectedValue, boatyoutubeurlinput, 0, SelectedImageForConversion, boatTypeIdInput, FullName, AccessLevel, MemberId);
+            OnAddBoatOkButtonIsPressed(boatNameInput, boatTypeInput, boatYouTubeUrlInput, SelectedImageForConversion, boatTypeIdInput, FullName, AccessLevel, MemberId);
         }
 
         //Method that opens the file select dialog for selecting an image
         private void ImageSelect_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog op = new OpenFileDialog();
+            var op = new OpenFileDialog();
             op.Title = "Kies een afbeelding";
             op.Filter = "PNG| *.png";
 
             //Shows a preview for the selected image
-            if (op.ShowDialog() == true)
-            {
-                SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
-                ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
+            if (op.ShowDialog() != true) return;
 
-                SelectedImageForConversion = System.Drawing.Image.FromFile(op.FileName);
-            }
+            SelectedImage.Source = new BitmapImage(new Uri(op.FileName));
+            ImageFileName.Content = System.IO.Path.GetFileName(op.FileName);
+
+            SelectedImageForConversion = Image.FromFile(op.FileName);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new LoginScreen());
+            Switcher.Logout();
         }
 
         private void BackToHomePage(object sender, RoutedEventArgs e)
         {
-            Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
+            Switcher.BackToHomePage(AccessLevel, FullName, MemberId);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -151,7 +142,7 @@ namespace KBSBoot.View
             Switcher.Switch(new HomePageMaterialCommissioner(FullName, AccessLevel, MemberId));
         }
 
-        private void DidLoaded(object sender, RoutedEventArgs e)
+        private void DidLoad(object sender, RoutedEventArgs e)
         {
             if (AccessLevel == 1)
             {
