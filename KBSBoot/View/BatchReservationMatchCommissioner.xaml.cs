@@ -256,7 +256,7 @@ namespace KBSBoot.View
                     ErrorLabel.Content = "Geen geldige invoer";
                     return;
                 }
-                var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown);
+                var check = reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown, false);
 
                 //this will be executed when the selected times are not correct
                 if (!check)
@@ -298,7 +298,7 @@ namespace KBSBoot.View
                 }
             }
 
-            if (!reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown)) return;
+            if (!reservation.CheckTime(selectedBeginTime, selectedEndTime, beginTime, endTime, sunUp, sunDown, false)) return;
             //show message when reservation is added to screen
             MessageBox.Show("Reservering is gelukt!", "Gelukt", MessageBoxButton.OK, MessageBoxImage.Information);
 

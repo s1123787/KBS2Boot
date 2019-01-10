@@ -156,7 +156,7 @@ namespace KBSBoot.View
             var dateSunDown = DateTime.Parse(FindSunInfo.ReturnStringToFormatted(sunInfo.results.sunset));
 
             InformationSun.Content = $"Er kan van {dateSunUp.ToString(@"HH\:mm")} tot {dateSunDown.ToString(@"HH\:mm")} worden gereserveerd";
-            ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd";
+            ReservationMinHour.Content = "De boot moet minimaal een uur worden gereserveerd en mag maximaal twee uur gereserveerd worden";
             SunUp = dateSunUp.TimeOfDay;
             SunDown = dateSunDown.TimeOfDay;
 
@@ -226,7 +226,7 @@ namespace KBSBoot.View
                 return;
             }
             //check if selected times are possible
-            var check = Reservation.CheckTime(SelectedBeginTime, SelectedEndTime, BeginTime, EndTime, SunUp, SunDown);
+            var check = Reservation.CheckTime(SelectedBeginTime, SelectedEndTime, BeginTime, EndTime, SunUp, SunDown, true);
             //this will be executed when the selected times are not correct
             if (!check)
             {
